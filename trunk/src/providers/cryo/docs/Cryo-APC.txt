@@ -1,0 +1,288 @@
+=============================================================================
+	    Cryo Interactive APC Audio File Format Description	    5-01-2002
+=============================================================================
+
+By Valery V. Anisimovsky (samael@avn.mccme.ru)
+
+In this document I'll try to describe APC audio file format used in many
+Cryo Interactive games for music, sound effects, speech and movie soundtracks.
+Also described is the format of ZIK audio files used in Cryo game Chine.
+
+The games using these formats include: Atlantis: The Lost Tale, Atlantis 2,
+Aztec: The Curse in the Heart of the "City of Gold", Egypte 2, Odyssee, Chine.
+Maybe, some more.
+
+The files this document deals with have extensions: .APC, .HNM, .BF, .ZIK.
+
+Throughout this document I use C-like notation.
+
+All numbers in all structures described in this document are stored in files
+using little-endian (Intel) byte order.
+
+===================
+1. APC Audio Files
+===================
+
+The music, sfx, speech and video (.HNM) soundtracks in some Cryo Interactive
+games are .APC stand-alone files. APC file has the following header:
+
+struct APCHeader
+{
+  char	szID[8];
+  char	szVersion[4];
+  DWORD dwOutSize;
+  DWORD dwSampleRate;
+  LONG	lSampleLeft;
+  LONG	lSampleRight;
+  DWORD dwStereo;
+};
+
+szID -- ID string, which is "CRYO_APC".
+
+szVersion -- version ID string, all files in the mentioned games have this
+set to "1.20". Note that this field may, in principle, vary.
+
+dwOutSize -- number of samples in the file. May be used for song length
+(in seconds) calculation.
+
+dwSampleRate -- sample rate for the file.
+
+lSampleLeft -- the initial value for the left sample (see below).
+
+lSampleRight -- the initial value for the right sample (see below).
+
+dwStereo -- this seems to be boolean stereo flag: if this is not zero, the
+audio stream in the file is stereo (music and partly video soundtracks),
+otherwise it's mono (sfx, speech).
+
+The resolution is NOT specified in the header, so the default value (16-bit)
+should be used.
+
+After the APCHeader IMA ADPCM compressed sound data comes. You may find
+IMA ADPCM decompression scheme description further in this document.
+
+=====================================
+2. IMA ADPCM Decompression Algorithm
+=====================================
+
+During the decompression four LONG variables must be maintained for stereo
+stream: lIndexLeft, lIndexRight, lCurSampleLeft, lCurSampleRight and two --
+for mono stream: lIndex, lCurSample. At the beginning of the file you must
+initialize lCurSampleLeft/Right variables to the values from APCHeader while
+lIndexLeft/Right are initialized to zeroes.
+Note that LONG here is signed.
+
+Here's the code which decompresses one byte of IMA ADPCM compressed
+stereo stream. Other bytes are processed in the same way.
+
+BYTE Input; // current byte of compressed data
+BYTE Code;
+LONG Delta;
+
+Code=HINIBBLE(Input); // get HIGHER 4-bit nibble
+
+Delta=StepTable[lIndexLeft]>>3;
+if (Code & 4)
+   Delta+=StepTable[lIndexLeft];
+if (Code & 2)
+   Delta+=StepTable[lIndexLeft]>>1;
+if (Code & 1)
+   Delta+=StepTable[lIndexLeft]>>2;
+if (Code & 8) // sign bit
+   lCurSampleLeft-=Delta;
+else
+   lCurSampleLeft+=Delta;
+
+// clip sample
+if (lCurSampleLeft>32767)
+   lCurSampleLeft=32767;
+else if (lCurSampleLeft<-32768)
+   lCurSampleLeft=-32768;
+
+lIndexLeft+=IndexAdjust[Code]; // adjust index
+
+// clip index
+if (lIndexLeft<0)
+   lIndexLeft=0;
+else if (lIndexLeft>88)
+   lIndexLeft=88;
+
+Code=LONIBBLE(Input); // get LOWER 4-bit nibble
+
+Delta=StepTable[lIndexRight]>>3;
+if (Code & 4)
+   Delta+=StepTable[lIndexRight];
+if (Code & 2)
+   Delta+=StepTable[lIndexRight]>>1;
+if (Code & 1)
+   Delta+=StepTable[lIndexRight]>>2;
+if (Code & 8) // sign bit
+   lCurSampleRight-=Delta;
+else
+   lCurSampleRight+=Delta;
+
+// clip sample
+if (lCurSampleRight>32767)
+   lCurSampleRight=32767;
+else if (lCurSampleRight<-32768)
+   lCurSampleRight=-32768;
+
+lIndexRight+=IndexAdjust[Code]; // adjust index
+
+// clip index
+if (lIndexRight<0)
+   lIndexRight=0;
+else if (lIndexRight>88)
+   lIndexRight=88;
+
+// Now we've got lCurSampleLeft and lCurSampleRight which form one stereo
+// sample and all is set for the next input byte...
+Output((SHORT)lCurSampleLeft,(SHORT)lCurSampleRight); // send the sample to output
+
+HINIBBLE and LONIBBLE are higher and lower 4-bit nibbles:
+#define HINIBBLE(byte) ((byte) >> 4)
+#define LONIBBLE(byte) ((byte) & 0x0F)
+Note that depending on your compiler you may need to use additional nibble
+separation in these defines, e.g. (((byte) >> 4) & 0x0F).
+
+StepTable and IndexAdjust are the tables given in the next section of
+this document.
+
+Output() is just a placeholder for any action you would like to perform for
+decompressed sample value.
+
+Of course, this decompression routine may be greatly optimized.
+
+As to mono sound, it's just analoguous:
+
+Code=HINIBBLE(Input); // get HIGHER 4-bit nibble
+
+Delta=StepTable[lIndex]>>3;
+if (Code & 4)
+   Delta+=StepTable[lIndex];
+if (Code & 2)
+   Delta+=StepTable[lIndex]>>1;
+if (Code & 1)
+   Delta+=StepTable[lIndex]>>2;
+if (Code & 8) // sign bit
+   lCurSample-=Delta;
+else
+   lCurSample+=Delta;
+
+// clip sample
+if (lCurSample>32767)
+   lCurSample=32767;
+else if (lCurSample<-32768)
+   lCurSample=-32768;
+
+lIndex+=IndexAdjust[Code]; // adjust index
+
+// clip index
+if (lIndex<0)
+   lIndex=0;
+else if (lIndex>88)
+   lIndex=88;
+
+Output((SHORT)lCurSample); // send the sample to output
+
+Code=LONIBBLE(Input); // get LOWER 4-bit nibble
+// ...just the same as above for lower nibble
+
+Note that HIGHER nibble is processed first for mono sound and corresponds to
+LEFT channel for stereo.
+
+====================
+3. IMA ADPCM Tables
+====================
+
+LONG IndexAdjust[]=
+{
+    -1,
+    -1,
+    -1,
+    -1,
+     2,
+     4,
+     6,
+     8,
+    -1,
+    -1,
+    -1,
+    -1,
+     2,
+     4,
+     6,
+     8
+};
+
+LONG StepTable[]=
+{
+    7,	   8,	  9,	 10,	11,    12,     13,    14,    16,
+    17,    19,	  21,	 23,	25,    28,     31,    34,    37,
+    41,    45,	  50,	 55,	60,    66,     73,    80,    88,
+    97,    107,   118,	 130,	143,   157,    173,   190,   209,
+    230,   253,   279,	 307,	337,   371,    408,   449,   494,
+    544,   598,   658,	 724,	796,   876,    963,   1060,  1166,
+    1282,  1411,  1552,  1707,	1878,  2066,   2272,  2499,  2749,
+    3024,  3327,  3660,  4026,	4428,  4871,   5358,  5894,  6484,
+    7132,  7845,  8630,  9493,	10442, 11487,  12635, 13899, 15289,
+    16818, 18500, 20350, 22385, 24623, 27086,  29794, 32767
+};
+
+=========================
+4. HNM Movie Soundtracks
+=========================
+
+.HNM movie hasn't got soundtrack inside the HNM movie file itself.
+However the soundtrack for HNM movie is a stand-alone APC file, as a rule,
+with the same file title. The format of such APC soundtracks is just the
+same as described above.
+
+==================================
+5. APC Audio Files in BF Archives
+==================================
+
+When stored in .BF resources, APC audio files are stored "as is", without
+compression or encryption. That means if you want to play/extract APC
+file from the BF resource you just need to search for (szID) id-string
+("CRYO_APC") and read APC header starting at the beginning position of
+found id-string. This will give you starting point of the file and the size
+of the file will be the sum of APCHeader size and the compressed audio stream
+size correspondent to (dwOutSize) header field (that is, (dwOutSize) for
+stereo stream and (dwOutSize)/2 for mono stream).
+
+===================
+6. ZIK Audio Files
+===================
+
+In the game Chine music is in ZIK files. Most of them are simple RAW files:
+16-bit signed stereo 22050 Hz (no header), except for only one which is a
+regular WAV file. So, you can just load and play those ZIKs as RAWs (except
+for one which is WAV).
+
+===========
+7. Credits
+===========
+
+Peter Pawlowski (peterpw666@hotmail.com, piotrpw@polbox.com)
+http://members.fortunecity.com/pp666/
+http://pp666.cjb.net/
+http://www.geocities.com/pp_666/
+Pointed out corrections in IMA ADPCM decoder.
+
+Valentin Efimov (garden@postman.ru)
+http://qmusic.wciom.ru
+Provided me with Atlantis 2 decoding stuff thereby inspired
+me to decode the format and write the plug-in for GAP.
+
+-------------------------------------------
+
+Valery V. Anisimovsky (samael@avn.mccme.ru)
+http://bim.km.ru/gap/
+http://www.anxsoft.newmail.ru
+http://anx.da.ru
+On these sites you can find my GAP program which can search for APC audio
+files in game resources, extract them, convert them to WAV and play them back.
+There's also complete source code of GAP and all its plug-ins there,
+including APC plug-in, which could be used for further details on how you
+can deal with this format.
