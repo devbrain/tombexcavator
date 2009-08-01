@@ -17,10 +17,11 @@ namespace provider
     virtual ~archive_reader_c ();
     
     bool        open (const char* path);
-    std::size_t number_of_resouces () const;
+    std::size_t number_of_resources () const;
     
     bool describe_resource (std::size_t resource_number, resource_c& resource);
     char* load (const resource_c& resource);
+    bool load (char* buff, const resource_c& resource);
   protected:
     util::ssize_t _read (char* buff, std::size_t size);
     util::ssize_t _read (util::sint8_t& v);

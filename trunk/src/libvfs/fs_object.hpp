@@ -7,6 +7,8 @@
 
 namespace vfs
 {
+  class fs_c;
+
   class fs_object_c
   {
   public:
@@ -16,7 +18,7 @@ namespace vfs
 	eFILE
       };
   public:
-    fs_object_c ();
+    fs_object_c (fs_c* owner);
     virtual ~fs_object_c ();
 
     virtual inode_num_t    inode_num () const = 0;
@@ -25,6 +27,10 @@ namespace vfs
     virtual std::size_t    size      () const = 0;
     
     virtual fs_object_type type () const = 0;
+    fs_c*   owner ();
+    const fs_c* owner () const;
+  private:
+    fs_c* m_owner;
     
   };
 }

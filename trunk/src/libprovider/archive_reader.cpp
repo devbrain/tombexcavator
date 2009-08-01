@@ -67,14 +67,14 @@ namespace provider
     return true;
   }
   // ---------------------------------------------------------------------------------------
-  std::size_t archive_reader_c::number_of_resouces () const
+  std::size_t archive_reader_c::number_of_resources () const
   {
     return m_pimpl->m_resources.size ();
   }
   // ---------------------------------------------------------------------------------------
   bool archive_reader_c::describe_resource (std::size_t resource_number, resource_c& resource)
   {
-    if (resource_number < number_of_resouces ())
+    if (resource_number < number_of_resources ())
       {
 	resource = m_pimpl->m_resources [resource_number];
 	return true;
@@ -110,6 +110,33 @@ namespace provider
 	return 0;
       }
     return buff;
+  }
+  // ---------------------------------------------------------------------------------------
+  bool archive_reader_c::load (char* buff, const resource_c& resource)
+  {
+    if (!resource.valid ())
+      {
+	return false;
+      }
+    const util::file_size_t curr_pos = lseek (m_pimpl->m_file, 0, SEEK_CUR);
+    if (curr_pos == -1)
+      {
+	return false;
+      }
+    if (lseek (m_pimpl->m_file, resource.offset (), SEEK_SET) == -1)
+      {
+	return false;
+      }
+    const util::file_size_t sz = resource.size ();
+    if (this->_read (buff, sz) != sz)
+      {
+	return false;
+      }
+    if (lseek (m_pimpl->m_file, curr_pos, SEEK_SET) == -1)
+      {
+	return false;
+      }
+    return true;
   }
   // ---------------------------------------------------------------------------------------
   util::ssize_t archive_reader_c::_read (char* buff, std::size_t size)

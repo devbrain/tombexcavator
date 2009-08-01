@@ -38,6 +38,7 @@ set (build_modules
   libvfs
   libprovider
   providers/westwood/libwestwood
+  providers/westwood/dune2
 )
 
 foreach (mdl ${build_modules})
