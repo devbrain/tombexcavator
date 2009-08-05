@@ -77,6 +77,7 @@ bool directory_c::open (const char* path)
       m_pimpl->m_inodes.push_back (rinode);
       m_pimpl->m_resources.insert (val_t (rinode, resource));
     }
+	return true;
 }
 // -----------------------------------------------------------------------------------------
 vfs::inode_num_t directory_c::inode_num () const
