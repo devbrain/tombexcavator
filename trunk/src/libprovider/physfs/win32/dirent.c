@@ -13,6 +13,7 @@
  * Peters <colin@fu.is.saga-u.ac.jp>
  *	
  */
+#if (_MSC_VER)
 
 #include <stdlib.h>
 #include <errno.h>
@@ -339,3 +340,7 @@ _tseekdir (_TDIR * dirp, long lPos)
 	;
     }
 }
+#else
+static int DIRENT_DUMMY = 1;
+#endif
+
