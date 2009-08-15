@@ -11,6 +11,7 @@ namespace vfs
   {
   public:
     fs_file_c (fs_c* owner);
+    
     virtual fs_object_type type () const;
     virtual std::size_t read (char* buff, std::size_t size) = 0;
   };
