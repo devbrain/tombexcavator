@@ -1,0 +1,116 @@
+# Makefile for Keen 1-6 patch-loader utilities
+# Copyright (C) 2001-2003 Bryan Rodgers <rodgersb@ses.curtin.edu.au>
+
+# To build this project, you need Borland/Turbo Pascal 6.0+ and Netwide
+# Assembler (NASM), available from http://nasm.sourceforge.net
+
+# Name of Pascal compiler
+PC=tpc
+
+# Flags for Pascal compiler invocation
+PCFLAGS=
+
+# Name of assembler
+AS=nasm -f obj
+
+# Flags for assembler invocation
+ASFLAGS=
+
+# Zip archiver utility invocation
+ZIP=pkzip -exx
+
+# LZEXE utility invocation
+LZEXE=lzexe
+
+# Name of command to delete files
+RM=del
+
+# List of files to be included in the source distribution archive
+DIST_SRC_FILES=@distsrc.lst @distdoc.lst
+
+# List of files to be included in the binary distribution archives
+DIST_BIN_FILES=@distexec.lst @distdoc.lst
+
+# Object files and includes required for each executable
+OBJ=loader.tpu misc.tpu parser.tpu patcher.tpu redir.obj
+INC=ckxpatch.inc
+
+# Target executables
+EXEC=ck1patch.exe \
+	ck2patch.exe \
+	ck3patch.exe \
+	ck4patch.exe \
+	ck5patch.exe \
+	ck6patch.exe
+
+# Name of binary distribution archive
+DIST_BIN=ckpatch.zip
+
+# Name of source distribution archive
+DIST_SRC=ckpatchs.zip
+
+# Builds all six executables
+all: $(EXEC)
+
+ck1patch.exe: ck1patch.pas $(INC) $(OBJ)
+	$(PC) $(PCFLAGS) ck1patch.pas
+
+ck2patch.exe: ck2patch.pas $(INC) $(OBJ)
+	$(PC) $(PCFLAGS) ck2patch.pas
+
+ck3patch.exe: ck3patch.pas $(INC) $(OBJ)
+	$(PC) $(PCFLAGS) ck3patch.pas
+
+ck4patch.exe: ck4patch.pas $(INC) $(OBJ)
+	$(PC) $(PCFLAGS) ck4patch.pas
+
+ck5patch.exe: ck5patch.pas $(INC) $(OBJ)
+	$(PC) $(PCFLAGS) ck5patch.pas
+
+ck6patch.exe: ck6patch.pas $(INC) $(OBJ)
+	$(PC) $(PCFLAGS) ck6patch.pas
+
+loader.tpu: loader.pas
+	$(PC) $(PCFLAGS) loader.pas
+
+parser.tpu: parser.pas
+	$(PC) $(PCFLAGS) parser.pas
+
+patcher.tpu: patcher.pas
+	$(PC) $(PCFLAGS) patcher.pas
+
+misc.tpu: misc.pas
+	$(PC) $(PCFLAGS) misc.pas
+
+redir.obj: redir.asm
+	$(AS) $(ASFLAGS) redir.asm
+
+# Compresses all six executables
+lzexe: $(EXEC)
+	$(LZEXE) ck1patch.exe
+	$(LZEXE) ck2patch.exe
+	$(LZEXE) ck3patch.exe
+	$(LZEXE) ck4patch.exe
+	$(LZEXE) ck5patch.exe
+	$(LZEXE) ck6patch.exe
+	-$(RM) *.old
+
+# Creates both binary and source distribution archives
+dist: dist-bin dist-src
+
+# Creates binary distribution archive
+dist-bin:
+	-$(RM) $(DIST_BIN)
+	$(ZIP) $(DIST_BIN) $(DIST_BIN_FILES)
+
+# Creates source distribution archive
+dist-src:
+	-$(RM) $(DIST_SRC)
+	$(ZIP) $(DIST_SRC) $(DIST_SRC_FILES)
+
+# Removes all derived files
+clean:
+	-$(RM) *.tpu
+	-$(RM) *.obj
+	-$(RM) *.exe
+	-$(RM) *.zip
