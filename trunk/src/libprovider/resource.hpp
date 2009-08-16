@@ -2,7 +2,7 @@
 #define __LIBROVIDER_RESOURCE_HPP__
 
 #include <string>
-#include "libvfs/util/types.hpp"
+#include "abl/util/types.hpp"
 
 namespace provider
 {

@@ -2,8 +2,8 @@
 #define __LIBPROVIDER_ARCHIVE_READER_HPP__
 
 #include <string>
-#include "libvfs/util/types.hpp"
-#include "libvfs/util/non_copyable.hpp"
+#include "abl/util/types.hpp"
+#include "abl/util/non_copyable.hpp"
 
 namespace provider
 {

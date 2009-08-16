@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <sys/types.h>
 
-#include "libvfs/util/static_assert.hpp"
+#include "abl/util/static_assert.hpp"
 
 namespace util
 {

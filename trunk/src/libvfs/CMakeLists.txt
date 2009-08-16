@@ -12,9 +12,6 @@ set (libvfs_headers
   fs_object.hpp
   fs_file.hpp
   fs_dir.hpp
-  util/types.hpp 
-  util/static_assert.hpp 
-  util/non_copyable.hpp
 )
 
-add_library (vfs STATIC ${libvfs_sources} ${libfvs_headers})
+add_library (vfs SHARED ${libvfs_sources} ${libfvs_headers})
