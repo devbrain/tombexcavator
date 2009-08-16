@@ -1,16 +1,16 @@
 #ifndef __LIBFS_FS_HPP__
 #define __LIBFS_FS_HPP__
 
-
-#include "abl/util/non_copyable.hpp"
 #include "libvfs/inode_defs.hpp"
+#include "libvfs/vfs_export.hpp"
+#include "abl/util/non_copyable.hpp"
 
 namespace vfs
 {
   
   class fs_object_c;
   
-  class fs_c : public util::non_copyable_c
+  class VFS_API fs_c : public util::non_copyable_c
   {
   public:
     fs_c ();

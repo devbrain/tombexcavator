@@ -4,13 +4,14 @@
 #include <string>
 
 #include "libvfs/fs_object.hpp"
+#include "libvfs/vfs_export.hpp"
 
 namespace vfs
 {
   
   class fs_c;
 
-  class fs_dir_c : public fs_object_c
+  class VFS_API fs_dir_c : public fs_object_c
   {
   public:
     fs_dir_c (fs_c* owner);

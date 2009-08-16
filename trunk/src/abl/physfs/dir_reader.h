@@ -1,20 +1,17 @@
-#ifndef __LIBPROVIDER_DIR_READER_H__
-#define __LIBPROVIDER_DIR_READER_H__
+#ifndef __ABL_PHYSFS_DIR_READER_H__
+#define __ABL_PHYSFS_DIR_READER_H__
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#include "abl/abl_export.h"
 
-  typedef struct _directory_s directory_s;
+CPP_VISIBLE_BEGIN
+
+typedef struct _directory_s directory_s;
   
-  directory_s* directory_open      (const char* path);
-  const char*  directory_read_name (directory_s* dir);
-  void         directory_rewind    (directory_s* dir);
-  void         directory_close     (directory_s* dir);
+directory_s* directory_open      (const char* path);
+const char*  directory_read_name (directory_s* dir);
+void         directory_rewind    (directory_s* dir);
+void         directory_close     (directory_s* dir);
   
-#if defined(__cplusplus)
-}
-#endif
-
+CPP_VISIBLE_END
 
 #endif

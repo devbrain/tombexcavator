@@ -4,12 +4,13 @@
 #include "abl/util/types.hpp"
 
 #include "libvfs/inode_defs.hpp"
+#include "libvfs/vfs_export.hpp"
 
 namespace vfs
 {
   class fs_c;
 
-  class fs_object_c
+  class VFS_API fs_object_c
   {
   public:
     enum fs_object_type

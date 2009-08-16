@@ -12,6 +12,8 @@ set (libvfs_headers
   fs_object.hpp
   fs_file.hpp
   fs_dir.hpp
+  vfs_export.hpp
 )
 
 add_library (vfs SHARED ${libvfs_sources} ${libfvs_headers})
+set_target_properties (vfs PROPERTIES COMPILE_FLAGS "-DBUILD_VFS ") 

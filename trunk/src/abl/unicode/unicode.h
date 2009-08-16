@@ -1,33 +1,32 @@
-#ifndef __LIBPROVIDER_UNICODE_H__
-#define __LIBPROVIDER_UNICODE_H__
+#ifndef __ABL_UNICODE_H__
+#define __ABL_UNICODE_H__
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#include "abl/abl_export.h"
+#include "abl/util/c_types.h"
 
-  typedef unsigned short unichar2_t;
-  typedef unsigned int   unichar_t;
+CPP_VISIBLE_BEGIN
 
-unichar2_t* utf8_to_utf16 (const char* str , long len,            
-			   long* items_read, long* items_written);
+typedef te_uint16_t ucs16_t;
+typedef te_uint32_t ucs4_t;
 
-unichar_t*  utf8_to_ucs4  (const char* str , long len,            
-			   long* items_read, long* items_written);
+ABL_API ucs16_t* utf8_to_utf16 (const char* str , long len,            
+				long* items_read, long* items_written);
 
-unichar_t*  utf16_to_ucs4 (const unichar2_t* str, long len,            
-			   long* items_read     , long* items_written);  
+ABL_API ucs4_t* utf8_to_ucs4  (const char* str , long len,            
+			       long* items_read, long* items_written);
 
-char*       utf16_to_utf8 (const unichar2_t* str, long len,            
-			   long* items_read     , long* items_written);
+ABL_API ucs4_t* utf16_to_ucs4 (const ucs16_t* str, long len,            
+			       long* items_read     , long* items_written);  
 
-unichar2_t* ucs4_to_utf16 (const unichar_t* str, long len,            
-			   long* items_read    , long* items_written);  
+ABL_API char*  utf16_to_utf8 (const ucs16_t* str, long len,            
+			      long* items_read     , long* items_written);
 
-char*       ucs4_to_utf8 (const unichar_t* str,  long len,            
-			  long* items_read    ,  long *items_written);
+ABL_API ucs16_t* ucs4_to_utf16 (const ucs4_t* str, long len,            
+				long* items_read    , long* items_written);  
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+ABL_API char*  ucs4_to_utf8 (const ucs4_t* str,  long len,            
+			     long* items_read    ,  long *items_written);
+
+CPP_VISIBLE_END
 
 #endif

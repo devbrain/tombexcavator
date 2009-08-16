@@ -1,10 +1,13 @@
 #ifndef __LIBVFS_UTIL_NON_COPYABLE_HPP__
 #define __LIBVFS_UTIL_NON_COPYABLE_HPP__
 
+#if !defined(INLINE_API)
+#define INLINE_API
+#endif
+
 namespace util
 {
-
-  class non_copyable_c
+  class INLINE_API non_copyable_c
   {
   protected:
     non_copyable_c () {}

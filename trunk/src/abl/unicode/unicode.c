@@ -2,37 +2,37 @@
 #include "abl/unicode/unicode.h"
 
 static const char utf8_skip_data[256] = 
-{
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-  3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,5,5,5,5,6,6,1,1
-};
+  {
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+    3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,5,5,5,5,6,6,1,1
+  };
 
-const char * const g_utf8_skip = utf8_skip_data;
+const char * const s_utf8_skip = utf8_skip_data;
 
-#define g_utf8_next_char(p) (char *)((p) + g_utf8_skip[*(const unsigned char *)(p)]) 
+#define s_utf8_next_char(p) (char *)((p) + s_utf8_skip[*(const unsigned char *)(p)]) 
 
 #define SURROGATE_VALUE(h,l) (((h) - 0xd800) * 0x400 + (l) - 0xdc00 + 0x10000)
 
 
-#define UTF8_LENGTH(Char)              \
-  ((Char) < 0x80 ? 1 :                 \
-   ((Char) < 0x800 ? 2 :               \
-    ((Char) < 0x10000 ? 3 :            \
-     ((Char) < 0x200000 ? 4 :          \
+#define UTF8_LENGTH(Char)			\
+  ((Char) < 0x80 ? 1 :				\
+   ((Char) < 0x800 ? 2 :			\
+    ((Char) < 0x10000 ? 3 :			\
+     ((Char) < 0x200000 ? 4 :			\
       ((Char) < 0x4000000 ? 5 : 6)))))
 
-static unichar_t
-g_utf8_get_char_extended (const char *p,
+static ucs4_t
+s_utf8_get_char_extended (const char *p,
 			  unsigned long max_len)  
 {
   unsigned int i, len;
-  unichar_t wc = (unsigned char) *p;
+  ucs4_t wc = (unsigned char) *p;
 
   if (wc < 0x80)
     {
@@ -40,7 +40,7 @@ g_utf8_get_char_extended (const char *p,
     }
   else if (wc < 0xc0)
     {
-      return (unichar_t)-1;
+      return (ucs4_t)-1;
     }
   else if (wc < 0xe0)
     {
@@ -69,7 +69,7 @@ g_utf8_get_char_extended (const char *p,
     }
   else
     {
-      return (unichar_t)-1;
+      return (ucs4_t)-1;
     }
   
   if (max_len >= 0 && len > max_len)
@@ -77,21 +77,21 @@ g_utf8_get_char_extended (const char *p,
       for (i = 1; i < max_len; i++)
 	{
 	  if ((((unsigned char *)p)[i] & 0xc0) != 0x80)
-	    return (unichar_t)-1;
+	    return (ucs4_t)-1;
 	}
-      return (unichar_t)-2;
+      return (ucs4_t)-2;
     }
 
   for (i = 1; i < len; ++i)
     {
-      unichar_t ch = ((unsigned char *)p)[i];
+      ucs4_t ch = ((unsigned char *)p)[i];
       
       if ((ch & 0xc0) != 0x80)
 	{
 	  if (ch)
-	    return (unichar_t)-1;
+	    return (ucs4_t)-1;
 	  else
-	    return (unichar_t)-2;
+	    return (ucs4_t)-2;
 	}
 
       wc <<= 6;
@@ -99,76 +99,76 @@ g_utf8_get_char_extended (const char *p,
     }
 
   if (UTF8_LENGTH(wc) != len)
-    return (unichar_t)-1;
+    return (ucs4_t)-1;
   
   return wc;
 }
 
-#define UTF8_GET(Result, Chars, Count, Mask, Len)			      \
-  (Result) = (Chars)[0] & (Mask);					      \
-  for ((Count) = 1; (Count) < (Len); ++(Count))				      \
-    {									      \
-      if (((Chars)[(Count)] & 0xc0) != 0x80)				      \
-	{								      \
-	  (Result) = -1;						      \
-	  break;							      \
-	}								      \
-      (Result) <<= 6;							      \
-      (Result) |= ((Chars)[(Count)] & 0x3f);				      \
+#define UTF8_GET(Result, Chars, Count, Mask, Len)	\
+  (Result) = (Chars)[0] & (Mask);			\
+  for ((Count) = 1; (Count) < (Len); ++(Count))		\
+    {							\
+      if (((Chars)[(Count)] & 0xc0) != 0x80)		\
+	{						\
+	  (Result) = -1;				\
+	  break;					\
+	}						\
+      (Result) <<= 6;					\
+      (Result) |= ((Chars)[(Count)] & 0x3f);		\
     }
 
-#define UTF8_COMPUTE(Char, Mask, Len)					      \
-  if (Char < 128)							      \
-    {									      \
-      Len = 1;								      \
-      Mask = 0x7f;							      \
-    }									      \
-  else if ((Char & 0xe0) == 0xc0)					      \
-    {									      \
-      Len = 2;								      \
-      Mask = 0x1f;							      \
-    }									      \
-  else if ((Char & 0xf0) == 0xe0)					      \
-    {									      \
-      Len = 3;								      \
-      Mask = 0x0f;							      \
-    }									      \
-  else if ((Char & 0xf8) == 0xf0)					      \
-    {									      \
-      Len = 4;								      \
-      Mask = 0x07;							      \
-    }									      \
-  else if ((Char & 0xfc) == 0xf8)					      \
-    {									      \
-      Len = 5;								      \
-      Mask = 0x03;							      \
-    }									      \
-  else if ((Char & 0xfe) == 0xfc)					      \
-    {									      \
-      Len = 6;								      \
-      Mask = 0x01;							      \
-    }									      \
-  else									      \
+#define UTF8_COMPUTE(Char, Mask, Len)		\
+  if (Char < 128)				\
+    {						\
+      Len = 1;					\
+      Mask = 0x7f;				\
+    }						\
+  else if ((Char & 0xe0) == 0xc0)		\
+    {						\
+      Len = 2;					\
+      Mask = 0x1f;				\
+    }						\
+  else if ((Char & 0xf0) == 0xe0)		\
+    {						\
+      Len = 3;					\
+      Mask = 0x0f;				\
+    }						\
+  else if ((Char & 0xf8) == 0xf0)		\
+    {						\
+      Len = 4;					\
+      Mask = 0x07;				\
+    }						\
+  else if ((Char & 0xfc) == 0xf8)		\
+    {						\
+      Len = 5;					\
+      Mask = 0x03;				\
+    }						\
+  else if ((Char & 0xfe) == 0xfc)		\
+    {						\
+      Len = 6;					\
+      Mask = 0x01;				\
+    }						\
+  else						\
     Len = -1;
 
 
 /* --------------------------------------------------------------------------- */
-unichar_t g_utf8_get_char (const char *p)
+static ucs4_t s_utf8_get_char (const char *p)
 {
   int i, mask = 0, len;
-  unichar_t result;
+  ucs4_t result;
   unsigned char c = (unsigned char) *p;
 
   UTF8_COMPUTE (c, mask, len);
   if (len == -1)
-    return (unichar_t)-1;
+    return (ucs4_t)-1;
   UTF8_GET (result, p, i, mask, len);
 
   return result;
 }
 
 /* --------------------------------------------------------------------------- */
-int g_unichar_to_utf8 (unichar_t c, char  *outbuf)
+static int s_ucs4_to_utf8 (ucs4_t c, char  *outbuf)
 {
   /* If this gets modified, also update the copy in g_string_insert_unichar() */
   unsigned int len = 0;    
@@ -190,7 +190,7 @@ int g_unichar_to_utf8 (unichar_t c, char  *outbuf)
       first = 0xe0;
       len = 3;
     }
-   else if (c < 0x200000)
+  else if (c < 0x200000)
     {
       first = 0xf0;
       len = 4;
@@ -221,10 +221,10 @@ int g_unichar_to_utf8 (unichar_t c, char  *outbuf)
 
 /* --------------------------------------------------------------------------- */
 
-unichar2_t* utf8_to_utf16 (const char* str , long len,            
-			   long* items_read, long* items_written)
+ucs16_t* utf8_to_utf16 (const char* str , long len,            
+			long* items_read, long* items_written)
 {
-  unichar2_t *result = NULL;
+  ucs16_t *result = NULL;
   int n16;
   const char *in;
   int i;
@@ -238,10 +238,10 @@ unichar2_t* utf8_to_utf16 (const char* str , long len,
   n16 = 0;
   while ((len < 0 || str + len - in > 0) && *in)
     {
-      unichar_t wc = g_utf8_get_char_extended (in, len < 0 ? 6 : str + len - in);
+      ucs4_t wc = s_utf8_get_char_extended (in, len < 0 ? 6 : str + len - in);
       if (wc & 0x80000000)
 	{
-	  if (wc == (unichar_t)-2)
+	  if (wc == (ucs4_t)-2)
 	    {
 	      if (items_read)
 		break;
@@ -265,15 +265,15 @@ unichar2_t* utf8_to_utf16 (const char* str , long len,
 	  goto err_out;
 	}
       
-      in = g_utf8_next_char (in);
+      in = s_utf8_next_char (in);
     }
 
-  result = malloc (sizeof (unichar2_t) * (n16 + 1)) ;
+  result = malloc (sizeof (ucs16_t) * (n16 + 1)) ;
   
   in = str;
   for (i = 0; i < n16;)
     {
-      unichar_t wc = g_utf8_get_char (in);
+      ucs4_t wc = s_utf8_get_char (in);
 
       if (wc < 0x10000)
 	{
@@ -285,7 +285,7 @@ unichar2_t* utf8_to_utf16 (const char* str , long len,
 	  result[i++] = (wc - 0x10000) % 0x400 + 0xdc00;
 	}
       
-      in = g_utf8_next_char (in);
+      in = s_utf8_next_char (in);
     }
 
   result[i] = 0;
@@ -300,11 +300,11 @@ unichar2_t* utf8_to_utf16 (const char* str , long len,
   return result;
 }
 /* ------------------------------------------------------------------------ */
-unichar_t* utf8_to_ucs4  (const char* str , long len,            
-			  long* items_read, long* items_written)
+ucs4_t* utf8_to_ucs4  (const char* str , long len,            
+		       long* items_read, long* items_written)
 {
   int j, charlen;
-  unichar_t* result;
+  ucs4_t* result;
   int n_chars, i;
   const char *p;
 
@@ -319,7 +319,7 @@ unichar_t* utf8_to_ucs4  (const char* str , long len,
     {
       while (*p)
 	{
-	  p = g_utf8_next_char (p);
+	  p = s_utf8_next_char (p);
 	  ++n_chars;
 	}
     }
@@ -327,17 +327,17 @@ unichar_t* utf8_to_ucs4  (const char* str , long len,
     {
       while (p < str + len && *p)
 	{
-	  p = g_utf8_next_char (p);
+	  p = s_utf8_next_char (p);
 	  ++n_chars;
 	}
     }
   
-  result = malloc (sizeof (unichar_t) *( n_chars + 1));
+  result = malloc (sizeof (ucs4_t) *( n_chars + 1));
   
   p = str;
   for (i=0; i < n_chars; i++)
     {
-      unichar_t wc = ((unsigned char *)p)[0];
+      ucs4_t wc = ((unsigned char *)p)[0];
 
       if (wc < 0x80)
 	{
@@ -390,14 +390,14 @@ unichar_t* utf8_to_ucs4  (const char* str , long len,
   return result;
 }
 /* ------------------------------------------------------------------------ */
-unichar_t* utf16_to_ucs4 (const unichar2_t* str, long len,            
-			  long* items_read     , long* items_written)
+ucs4_t* utf16_to_ucs4 (const ucs16_t* str, long len,            
+		       long* items_read     , long* items_written)
 {
-  const unichar2_t *in;
+  const ucs16_t *in;
   char *out;
   char *result = NULL;
   int n_bytes;
-  unichar_t high_surrogate;
+  ucs4_t high_surrogate;
 
   if (!str)
     {
@@ -409,8 +409,8 @@ unichar_t* utf16_to_ucs4 (const unichar2_t* str, long len,
   high_surrogate = 0;
   while ((len < 0 || in - str < len) && *in)
     {
-      unichar2_t c = *in;
-      unichar_t wc;
+      ucs16_t c = *in;
+      ucs4_t wc;
 
       if (c >= 0xdc00 && c < 0xe000) /* low surrogate */
 	{
@@ -440,7 +440,7 @@ unichar_t* utf16_to_ucs4 (const unichar2_t* str, long len,
 	    wc = c;
 	}
 
-      n_bytes += sizeof (unichar_t);
+      n_bytes += sizeof (ucs4_t);
 
     next1:
       in++;
@@ -460,8 +460,8 @@ unichar_t* utf16_to_ucs4 (const unichar2_t* str, long len,
   in = str;
   while (out < result + n_bytes)
     {
-      unichar2_t c = *in;
-      unichar_t wc;
+      ucs16_t c = *in;
+      ucs4_t wc;
 
       if (c >= 0xdc00 && c < 0xe000) /* low surrogate */
 	{
@@ -476,33 +476,33 @@ unichar_t* utf16_to_ucs4 (const unichar2_t* str, long len,
       else
 	wc = c;
 
-      *(unichar_t *)out = wc;
-      out += sizeof (unichar_t);
+      *(ucs4_t *)out = wc;
+      out += sizeof (ucs4_t);
 
     next2:
       in++;
     }
 
-  *(unichar_t *)out = 0;
+  *(ucs4_t *)out = 0;
 
   if (items_written)
-    *items_written = (out - result) / sizeof (unichar_t);
+    *items_written = (out - result) / sizeof (ucs4_t);
 
  err_out:
   if (items_read)
     *items_read = in - str;
 
-  return (unichar_t *)result;
+  return (ucs4_t *)result;
 }
 /* ------------------------------------------------------------------------ */
-char* utf16_to_utf8 (const unichar2_t* str, long len,
+char* utf16_to_utf8 (const ucs16_t* str, long len,
 		     long* items_read     , long* items_written)
 {
-  const unichar2_t *in;
+  const ucs16_t *in;
   char *out;
   char *result = NULL;
   int n_bytes;
-  unichar_t high_surrogate;
+  ucs4_t high_surrogate;
 
   if (!str)
     {
@@ -514,8 +514,8 @@ char* utf16_to_utf8 (const unichar2_t* str, long len,
   high_surrogate = 0;
   while ((len < 0 || in - str < len) && *in)
     {
-      unichar2_t c = *in;
-      unichar_t wc;
+      ucs16_t c = *in;
+      ucs4_t wc;
 
       if (c >= 0xdc00 && c < 0xe000) /* low surrogate */
 	{
@@ -565,8 +565,8 @@ char* utf16_to_utf8 (const unichar2_t* str, long len,
   in = str;
   while (out < result + n_bytes)
     {
-      unichar2_t c = *in;
-      unichar_t wc;
+      ucs16_t c = *in;
+      ucs4_t wc;
 
       if (c >= 0xdc00 && c < 0xe000) /* low surrogate */
 	{
@@ -581,7 +581,7 @@ char* utf16_to_utf8 (const unichar2_t* str, long len,
       else
 	wc = c;
 
-      out += g_unichar_to_utf8 (wc, out);
+      out += s_ucs4_to_utf8 (wc, out);
 
     next2:
       in++;
@@ -599,18 +599,18 @@ char* utf16_to_utf8 (const unichar2_t* str, long len,
   return result;
 }
 /* ------------------------------------------------------------------------ */
-unichar2_t* ucs4_to_utf16 (const unichar_t* str, long len,            
-			   long* items_read    , long* items_written)
+ucs16_t* ucs4_to_utf16 (const ucs4_t* str, long len,            
+			long* items_read    , long* items_written)
 {
-   unichar2_t* result = NULL;
-   int n16;
-   int i, j;
+  ucs16_t* result = NULL;
+  int n16;
+  int i, j;
 
-   n16 = 0;
-   i = 0;
-   while ((len < 0 || i < len) && str[i])
-     {
-      unichar_t wc = str[i];
+  n16 = 0;
+  i = 0;
+  while ((len < 0 || i < len) && str[i])
+    {
+      ucs4_t wc = str[i];
 
       if (wc < 0xd800)
 	n16 += 1;
@@ -630,11 +630,11 @@ unichar2_t* ucs4_to_utf16 (const unichar_t* str, long len,
       i++;
     }
   
-   result = malloc (sizeof (unichar2_t) * (n16 + 1));
+  result = malloc (sizeof (ucs16_t) * (n16 + 1));
   
   for (i = 0, j = 0; j < n16; i++)
     {
-      unichar_t wc = str[i];
+      ucs4_t wc = str[i];
 
       if (wc < 0x10000)
 	{
@@ -659,7 +659,7 @@ unichar2_t* ucs4_to_utf16 (const unichar_t* str, long len,
 
 }
 /* ------------------------------------------------------------------------ */
-char* ucs4_to_utf8 (const unichar_t* str,  long len,            
+char* ucs4_to_utf8 (const ucs4_t* str,  long len,            
 		    long* items_read    ,  long *items_written)
 {
   int result_length;
@@ -691,7 +691,7 @@ char* ucs4_to_utf8 (const unichar_t* str,  long len,
 
   i = 0;
   while (p < result + result_length)
-    p += g_unichar_to_utf8 (str[i++], p);
+    p += s_ucs4_to_utf8 (str[i++], p);
   
   *p = '\0';
 

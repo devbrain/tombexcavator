@@ -3,11 +3,12 @@
 
 #include <string>
 #include "abl/util/types.hpp"
+#include "libprovider/provider_export.hpp"
 
 namespace provider
 {
   class archive_reader_c;
-  class resource_c
+  class LIBPROVIDER_API resource_c
   {
     friend class archive_reader_c;
   public:

@@ -7,7 +7,7 @@ namespace vfs
 {
   class fs_c;
 
-  class fs_file_c : public fs_object_c
+  class VFS_API fs_file_c : public fs_object_c
   {
   public:
     fs_file_c (fs_c* owner);

@@ -2,6 +2,7 @@
 #define __LIBPROVIDER_ARCHIVE_READER_HPP__
 
 #include <string>
+#include "libprovider/provider_export.hpp"
 #include "abl/util/types.hpp"
 #include "abl/util/non_copyable.hpp"
 
@@ -10,7 +11,7 @@ namespace provider
   class resource_c;
   struct archive_reader_impl_s;
 
-  class archive_reader_c : public util::non_copyable_c
+  class LIBPROVIDER_API archive_reader_c : public util::non_copyable_c
   {
   public:
     archive_reader_c ();
