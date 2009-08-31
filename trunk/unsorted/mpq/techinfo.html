@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- MPQ Archives - TechInfo --> 
+<html>
+<head>
+  <title>MPQ Archives - Fundamentals</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1250"/>
+  <script type="text/javascript" language="JavaScript" src="../../include/scripts.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../include/main.css"/>
+  <base target="_top"/>
+</head>
+
+<body>
+
+<!-- Title -->
+<p class="title">MPQ Archives</p>
+<p class="subtitle">Fundamentals</p>
+<hr/><br/>
+
+<!-- Page content -->
+<p>This article contains some basic fundamentals about MPQ file format. They were written by
+<a href="mailto:quantam@softhome.net">Quantam</a>.</p>
+
+<a name="Hashes"></a>
+<h3>Hash</h3>
+<p><b>Problem:</b> You have a very large array of strings. You have another
+string and need to know if it is already in the list. You would probably begin by comparing
+each string in the list with the string other, but when put into application, you would find
+that this method is far too slow for practical use. Something else must be done.
+But how can you know if the string exists without comparing it to all the other strings?</p>
+<p><b>Solution:</b> <i>Hashes</i>. <b>Hashes</b> are smaller data types (i.e. numbers) that
+represent other, larger, data types (usually strings). In this scenario, you could store
+hashes in the array with the strings. Then you could compute the hash of the other string
+and compare it to the stored hashes. If a hash in the array matches the new hash, the strings
+can be compared to verify the match. This method, called indexing, could speed things up by
+about 100 times, depending on the size of the array and the average length of the strings.</p>
+
+<pre>
+unsigned long HashString(char *lpszString)
+{ 
+    unsigned long ulHash = 0xf1e2d3c4;
+
+    while (*lpszString != 0)
+    { 
+        ulHash <<= 1;
+        ulHash += *lpszString++; 
+    }
+    return ulHash; 
+} 
+</pre>
+
+<p>The previous code function demonstrates a very simple hashing algorithm.
+The function sums the characters in the string, shifting the hash value left one bit before
+each character is added in. Using this algorithm, the string "arr\units.dat" would hash
+to 0x5A858026, and "unit\neutral\acritter.grp" would hash to 0x694CD020. Now, this is,
+admittedly, a very simple algorithm, and it isn't very useful, because it would generate
+a relatively predictable output, and a lot of collisions in the lower range of numbers.
+<i>Collisions</i> are what happen when more than one string hash to the same value.</p>
+<p>The MPQ format, on the other hand, uses a very complicated hash algorithm (shown below)
+to generate totally unpredictable hash values. In fact, the hashing algorithm is so effective
+that it is called a one-way hash. A one-way hash is a an algorithm that is constructed
+in such a way that deriving the original string (set of strings, actually) is virtually
+impossible. Using this particular algorithm, the filename "arr\units.dat" would hash
+to 0xF4E6C69D, and "unit\neutral\acritter.grp" would hash to 0xA26067F3.</p>
+
+<pre>
+unsigned long HashString(char *lpszFileName, unsigned long dwHashType)
+{ 
+    unsigned char *key = (unsigned char *)lpszFileName;
+    unsigned long seed1 = 0x7FED7FED, seed2 = 0xEEEEEEEE;
+    int ch;
+
+    while(*key != 0)
+    { 
+        ch = toupper(*key++);
+
+        seed1 = cryptTable[(dwHashType << 8) + ch] ^ (seed1 + seed2);
+        seed2 = ch + seed1 + seed2 + (seed2 << 5) + 3; 
+    }
+    return seed1; 
+}
+</pre>
+
+<a name="HashTables"></a>
+<h3>Hash Tables</h3>
+<p><b>Problem:</b> You tried using an index like in the previous sample,
+but your program absolutely demands break-neck speeds, and indexing just isn't fast enough.
+About the only thing you could do to make it faster is to not check all of the hashes
+in the array. Or, even better, if you could only make one comparison in order to be sure
+the string doesn't exist anywhere in the array. Sound too good to be true? It's not.</p>
+<p><b>Solution:</b> <i>Hash tables</i>. <b>Hash table</b> is a special type of array in which
+the offset of the desired string is the hash of that string. What I mean is this. Say that
+you make that string array use a separate array of fixed size (let's say 1024 entries,
+to make it an even power of 2) for the hash table. You want to see if the new string
+is in that table. To get the string's place in the hash table, you compute the hash
+of that string, then modulo (division remainder) that hash value by the size of that table.
+Thus, if you used the simple hash algorithm in the previous section, "arr\units.dat" would
+hash to 0x5A858026, making its offset 0x26 (0x5A858026 divided by 0x400 is 0x16A160, with
+a remainder of 0x26). The string at this location (if there was one) would then be compared
+to the string to add. If the string at 0x26 doesn't match or just plain doesn't exist, then
+the string to add doesn't exist in the array. The following code illustrates this:</p>
+
+<pre>
+int GetHashTablePos(char *lpszString, SOMESTRUCTURE *lpTable, int nTableSize)
+{ 
+    int nHash = HashString(lpszString), nHashPos = nHash % nTableSize;
+
+    if(lpTable[nHashPos].bExists &amp;&amp; !strcmp(lpTable[nHashPos].pString, lpszString))
+        return nHashPos; 
+
+    // Error value
+    return -1; 
+}
+</pre>
+
+<p>Now, there is one glaring flaw in that explanation. What do you think happens
+when a collision occurs (two different strings hash to the same value)? Obviously, they can't
+occupy the same entry in the hash table. Normally, this is solved by each entry in the hash
+table being a pointer to a linked list, and the linked list would hold all the entries that
+hash to that same value.</p>
+<p>MPQs use a hash table of filenames to keep track of the files inside, but the format of this
+table is somewhat different from the way hash tables are normally done. First of all, instead
+of using a hash as an offset, and storing the actually filename for verification, MPQs
+do not store the filename at all, but rather use three different hashes: one for the hash
+table offset, two for verification. These two verification hashes are used in place of the
+actual filename. Of course, this leaves the possibility that two different filenames would
+hash to the same three hashes, but the chances of this happening are, on average,
+1:18889465931478580854784, which should be safe enough for just about anyone.</p>
+<p>The other way that an MPQ's hash table differs from the conventional implementation
+is that instead of using a linked list for each entry, when a collision occurs, the entry
+will be shifted to the next slot, and the process repeated until a free space is found.
+Take a look at the following illustrational code, which is basically the way a file
+is located for reading in an MPQ:</p>
+
+<pre>
+int GetHashTablePos(char *lpszString, MPQHASHTABLE *lpTable, int nTableSize)
+{ 
+    const int HASH_OFFSET = 0, HASH_A = 1, HASH_B = 2;
+    int nHash = HashString(lpszString, HASH_OFFSET);
+	int nHashA = HashString(lpszString, HASH_A);
+	int nHashB = HashString(lpszString, HASH_B);
+	int nHashStart = nHash % nTableSize;
+	int nHashPos = nHashStart;
+
+    while (lpTable[nHashPos].bExists)
+    { 
+        if (lpTable[nHashPos].nHashA == nHashA &amp;&amp; lpTable[nHashPos].nHashB == nHashB) 
+            return nHashPos; 
+        else 
+            nHashPos = (nHashPos + 1) % nTableSize;
+  
+        if (nHashPos == nHashStart) 
+            break; 
+    }
+
+    // Error value 
+	return -1; 
+}
+</pre>
+
+<p>However convoluted that code may look, the theory behind it isn't difficult.
+It basically follows this process when looking to read a file:</p>
+<ol>
+  <li>Compute the three hashes (offset hash and two check hashes) and store them in variables.</li>
+  <li>Move to the entry of the offset hash</li>
+  <li>Is the entry unused? If so, stop the search and return 'file not found'.</li>
+  <li>Do the two check hashes match the check hashes of the file we're looking for? If so, stop the search and return the current entry.</li>
+  <li>Move to the next entry in the list, wrapping around to the beginning if we were on the last entry.</li>
+  <li>Go back to step 3.</li>
+</ol>
+<p>If you were paying attention, you might have noticed from my explanation and sample code
+is that the MPQ's hash table has to hold all the file entries in the MPQ. But what do you
+think happens when every hash-table entry gets filled? The answer might surprise you with
+its obviousness: you can't add any more files. Several people have asked me why there is
+a limit (called the file limit) on the number of files that can be put in an MPQ, and if
+there is any way around this limit. Well, you already have the answer to the first question.
+As for the second; no, you cannot get around the file limit. For that matter, hash tables
+cannot even be resized without remaking the entire MPQ from scratch. This is because the
+location of each entry in the hash table may well change due to the resizing, and we would
+not be able to derive the new position because the position is the hash of the file name,
+and we may not know the file name.</p>
+
+<a name="Compression"></a>
+<h3>Compression</h3>
+<p><b>Problem:</b> You have a large program (let's say 50 megs), that you want
+to distribute on the internet. But 50 megs is an awfully large download, and people might
+not be interested in waiting the four and a half hours to download this program.</p>
+<p><b>Solution:</b> <i>Compression</i>. Compression is the art of representing a given amount
+of data in a smaller space. There are literally hundreds of different compression algorithms,
+each working in different ways. The actual algorithm that MPQs use is the Data Compression
+Library, licensed from PKWare (one of the leaders in applied compression). To compress
+sound file, a different compression algorithm is used (probably developed by Blizzard itself).</p>
+
+<a name="Encryption"></a>
+<h3>Encryption</h3>
+<p>The need for a system of protecting information from prying eyes is timeless.
+People have been trying to privately pass information to others for thousands of years. From
+handwritten letters carried on foot by the couriers of ancient Greece, to Nazi submarine radio
+transmissions in World War 2, to credit card transactions over the internet today, the ability
+to assure that no unwanted people are reading your information is a necessity.</p>
+<p>This complex art of protection is called encryption, and, while we don't know when the first
+algorithm was devised, we do know that the number of algorithms is too numerous to count.
+Everything from simple scrambling of data, to transmutation, and even algorithms in which
+the decryption key (sometimes called a password) is different from the encryption key 
+in a method called asymmetric encryption), has been done time and time again.</p>
+<p>This article certainly never claims, nor expects, to be a comprehensive authority on encryption
+methods, but it is necessary that you understand encryption is you intend to work with
+the MPQ format directly.</p>
+<p>Let us start with a simple encryption algorithm that was published in Basic Lab Notes
+(adapted to C):
+</p>
+
+<pre>
+void EncryptBlock(void *lpvBlock, int nBlockLen, char *lpszPassword)
+{ 
+    int nPWLen = strlen(lpszPassword), nCount = 0;
+    char *lpsPassBuff = (char *)malloc(nPWLen);
+
+    memcpy(lpsPassBuff, lpszPassword, nPWLen);
+
+    for (int nChar = 0; nCount < nBlockLen; nCount++)
+    { 
+        char cPW = lpsPassBuff[nCount];
+
+        lpvBlock[nChar] ^= cPW;
+        lpsPassBuff[nCount] = cPW + 13;
+        nCount = (nCount + 1) % nPWLen; 
+    }
+
+	free(lpsPassBuff);
+    return; 
+}
+</pre>
+
+<p>Just like the demonstration hash code, this code is extremely simple, and
+shouldn't be used in an actual program where security is required. What it does is simple,
+even if the code is cryptic (no pun intended). It goes through the block to encrypt, XORing
+each byte with the corresponding byte of the password. It then modifies the byte in the
+password by adding 13 to it (13 was chosen because it is a prime number). This is done
+to make the code's pattern more difficult to recognize. Thus, with this algorithm, the string
+"encryption" (65 6E 63 72 79 70 74 69 6F 6E) encrypted with a password of "MPQ" (4D 50 51)
+would be an unreadable string (28 3E 32 28 24 2E 13 03 04 1A).<br/>
+Now, this algorithm is symmetrical. That means the key (or password) that is used to encrypt
+a block is the same as the key to decrypt it. In fact, because XOR is a symmetric operation,
+the exact same algorithm can be used to decrypt as to encrypt. Note that most symmetric
+encryption algorithms are not exactly symmetric, so they require the encrypt and decrypt
+functions to be different.</p>
+<p>Okay, this is where things get dirty. If you want to work with the MPQ format directly,
+you're gonna have to know the encryption algorithm, and that makes it my job to teach
+it to you. The MPQ encryption algorithm is an interesting hybrid of other encryption
+techniques. It creates an encryption table (which is also used in the hash function),
+and uses a file's encryption key to pick certain members out of the encryption table.
+It then XORs the data to be encrypted with the members from the table. Now, that's
+a pretty strange way to do things, so maybe some code will show you that it is
+overcomplicated :-p. The following code generates the cryptTable array of 0x500 longs:</p>
+
+<pre>
+void prepareCryptTable()
+{ 
+    unsigned long seed = 0x00100001, index1 = 0, index2 = 0, i;
+
+    for(index1 = 0; index1 < 0x100; index1++)
+    { 
+        for(index2 = index1, i = 0; i < 5; i++, index2 += 0x100)
+        { 
+            unsigned long temp1, temp2;
+
+            seed = (seed * 125 + 3) % 0x2AAAAB;
+            temp1 = (seed &amp; 0xFFFF) << 0x10;
+
+            seed = (seed * 125 + 3) % 0x2AAAAB;
+            temp2 = (seed &amp; 0xFFFF);
+
+            cryptTable[index2] = (temp1 | temp2); 
+        } 
+    } 
+}
+</pre>
+
+<p>Are you kinda getting the feeling that Blizzard hired a disgruntled
+calculus professor to write these algorithms? I know I am. Fortunately, it isn't
+a big problem if you don't understand this code. If you want to work directly with MPQs,
+you'll need these functions; you don't necessarily have to understand them. Anyway, after
+the cryptTable is initialized, we can decrypt MPQ data with the following function (don't
+expect me to explain it to you; I don't want to know how it works myself!):</p>
+
+<pre>
+void DecryptBlock(void *block, long length, unsigned long key)
+{ 
+    unsigned long seed = 0xEEEEEEEE, unsigned long ch;
+    unsigned long *castBlock = (unsigned long *)block;
+
+    // Round to longs
+    length >>= 2;
+
+    while(length-- > 0)
+    { 
+        seed += stormBuffer[0x400 + (key &amp; 0xFF)];
+        ch = *castBlock ^ (key + seed);
+
+        key = ((~key << 0x15) + 0x11111111) | (key >> 0x0B);
+        seed = ch + seed + (seed << 5) + 3;
+        *castBlock++ = ch; 
+    } 
+}
+</pre>
+
+
+
+
+<!-- Page footer -->
+<center><small>Copyright (c) Quantam &amp; Ladislav Zezula 2003 - 2006</small></center>
+<br/>
+</body>
+</html>
