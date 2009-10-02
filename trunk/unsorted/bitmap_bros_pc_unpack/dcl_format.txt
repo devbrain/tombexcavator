@@ -1,0 +1,529 @@
+
+comp.compression
+Groups Alerts Groups Alerts
+Create a group...
+Google Groups Home
+	Recently Visited Groups | Help | Sign in
+comp.compression
+	
+		
+Discussions
++ new post
+About this group
+Subscribe to this group
+This is a Usenet group - learn more
+Message from discussion Here's the PKWARE Data Compression Library format (and a request)
+The group you are posting to is a Usenet group. Messages posted to this group will make your email address visible to anyone on the Internet.
+Your reply message has not been sent.
+Your post was successful
+Cancel
+		
+		
+Send  Discard
+		
+		
+From: 	
+To: 	
+Cc: 	
+Followup To: 	
+	
+Add Cc | Add Followup-to | Edit Subject 	
+Subject: 	
+		
+Validation: 	
+For verification purposes please type the characters you see in the picture below or the numbers you hear by clicking the accessibility icon. Listen and type the numbers you hear
+Send  Discard
+	
+	
+		
+Ben Rudiak-Gould   	
+View profile
+	 More options Aug 13 2001, 2:38 pm
+Newsgroups: comp.compression
+From: j...@hotmail.com (Ben Rudiak-Gould)
+Date: 13 Aug 2001 11:38:30 -0700
+Local: Mon, Aug 13 2001 2:38 pm
+Subject: Here's the PKWARE Data Compression Library format (and a request)
+Reply to author | Forward | Print | View thread | Show original | Report this message | Find messages by this author
+I'm writing a utility which needs to support a third-party file format
+which happens to use the PKWARE Data Compression Library for
+compression. After discovering that no one knows how to decompress
+this library's compressed format, I decided to try reverse-engineering
+it. It turned out not to be too difficult.
+
+A complete description of the format is below, for the edification of
+anyone who's interested. The description is hereby placed in the
+public domain.
+
+I also have a request: could someone implement a decompression
+function for this format in ANSI C, and release it into the public
+domain or with a license which permits its inclusion in GPLed code?
+The reason I'm asking someone else to do this is that I would like a
+true clean-room implementation to avoid copyright problems. If you
+have any experience with Lempel-Ziv and Huffman decoding this should
+be easy, because as you'll see the format is nothing more than
+Lempel-Ziv-Huffman with static tables.
+
+-- Ben
+
+_____________________________ cut here _____________________________
+
+The following description assumes that the reader is familiar with
+Lempel-Ziv sliding dictionary compression.
+
+A PKWARE Data Compression Library compressed stream consists of a
+two-byte header followed by a bitstream of arbitrary length.
+
+The first byte of the header is either 0 or 1, and determines the way
+in which literal bytes are represented in the bitstream (see below).
+
+The second byte of the header is equal to 4, 5, or 6, and determines
+the size of the sliding-window dictionary: 4, 5, and 6 indicate a 1K,
+2K and 4K dictionary respectively.
+
+The bitstream is stored in little-endian order. For example, the bytes
+0F 15 represent the bitstream 1111000010101000.
+
+The bitstream consists of a sequence of standard Lempel-Ziv tokens,
+represented by a prefix-free code. That is, each code word represents
+either a literal byte or a (length,offset) pair. One code word is
+reserved to indicate end-of-stream.
+
+Tokens are represented as follows:
+
+If the first bit of the token's code word is 0, the token is a literal
+byte. If it is 1, the token is a (length,offset) pair or
+end-of-stream.
+
+Literal bytes are represented in one of two different ways. If the
+first byte of the header is equal to 0, the bytes are represented as
+eight-bit little-endian binary numbers in the obvious way. (The total
+code word length in this case is 9 bits, including the leading 0 bit.)
+
+If the first byte of the header is equal to 1, literal bytes are
+represented by the following bit sequences:
+
+byte  representation
+ 20   1111
+ 45   11101
+ 61   11100
+ 65   11011
+ 69   11010
+ 6c   11001
+ 6e   11000
+ 6f   10111
+ 72   10110
+ 73   10101
+ 74   10100
+ 75   10011
+ 2d   100101
+ 31   100100
+ 41   100011
+ 43   100010
+ 44   100001
+ 49   100000
+ 4c   011111
+ 4e   011110
+ 4f   011101
+ 52   011100
+ 53   011011
+ 54   011010
+ 62   011001
+ 63   011000
+ 64   010111
+ 66   010110
+ 67   010101
+ 68   010100
+ 6d   010011
+ 70   010010
+ 0a   0100011
+ 0d   0100010
+ 28   0100001
+ 29   0100000
+ 2c   0011111
+ 2e   0011110
+ 30   0011101
+ 32   0011100
+ 33   0011011
+ 34   0011010
+ 35   0011001
+ 37   0011000
+ 38   0010111
+ 3d   0010110
+ 42   0010101
+ 46   0010100
+ 4d   0010011
+ 50   0010010
+ 55   0010001
+ 6b   0010000
+ 77   0001111
+ 09   00011101
+ 22   00011100
+ 27   00011011
+ 2a   00011010
+ 2f   00011001
+ 36   00011000
+ 39   00010111
+ 3a   00010110
+ 47   00010101
+ 48   00010100
+ 57   00010011
+ 5b   00010010
+ 5f   00010001
+ 76   00010000
+ 78   00001111
+ 79   00001110
+ 2b   000011011
+ 3e   000011010
+ 4b   000011001
+ 56   000011000
+ 58   000010111
+ 59   000010110
+ 5d   000010101
+ 21   0000101001
+ 24   0000101000
+ 26   0000100111
+ 71   0000100110
+ 7a   0000100101
+ 00   00001001001
+ 3c   00001001000
+ 3f   00001000111
+ 4a   00001000110
+ 51   00001000101
+ 5a   00001000100
+ 5c   00001000011
+ 6a   00001000010
+ 7b   00001000001
+ 7c   00001000000
+ 01   000001111111
+ 02   000001111110
+ 03   000001111101
+ 04   000001111100
+ 05   000001111011
+ 06   000001111010
+ 07   000001111001
+ 08   000001111000
+ 0b   000001110111
+ 0c   000001110110
+ 0e   000001110101
+ 0f   000001110100
+ 10   000001110011
+ 11   000001110010
+ 12   000001110001
+ 13   000001110000
+ 14   000001101111
+ 15   000001101110
+ 16   000001101101
+ 17   000001101100
+ 18   000001101011
+ 19   000001101010
+ 1b   000001101001
+ 1c   000001101000
+ 1d   000001100111
+ 1e   000001100110
+ 1f   000001100101
+ 23   000001100100
+ 25   000001100011
+ 3b   000001100010
+ 40   000001100001
+ 5e   000001100000
+ 60   000001011111
+ 7d   000001011110
+ 7e   000001011101
+ 7f   000001011100
+ b0   000001011011
+ b1   000001011010
+ b2   000001011001
+ b3   000001011000
+ b4   000001010111
+ b5   000001010110
+ b6   000001010101
+ b7   000001010100
+ b8   000001010011
+ b9   000001010010
+ ba   000001010001
+ bb   000001010000
+ bc   000001001111
+ bd   000001001110
+ be   000001001101
+ bf   000001001100
+ c0   000001001011
+ c1   000001001010
+ c2   000001001001
+ c3   000001001000
+ c4   000001000111
+ c5   000001000110
+ c6   000001000101
+ c7   000001000100
+ c8   000001000011
+ c9   000001000010
+ ca   000001000001
+ cb   000001000000
+ cc   000000111111
+ cd   000000111110
+ ce   000000111101
+ cf   000000111100
+ d0   000000111011
+ d1   000000111010
+ d2   000000111001
+ d3   000000111000
+ d4   000000110111
+ d5   000000110110
+ d6   000000110101
+ d7   000000110100
+ d8   000000110011
+ d9   000000110010
+ da   000000110001
+ db   000000110000
+ dc   000000101111
+ dd   000000101110
+ de   000000101101
+ df   000000101100
+ e1   000000101011
+ e5   000000101010
+ e9   000000101001
+ ee   000000101000
+ f2   000000100111
+ f3   000000100110
+ f4   000000100101
+ 1a   0000001001001
+ 80   0000001001000
+ 81   0000001000111
+ 82   0000001000110
+ 83   0000001000101
+ 84   0000001000100
+ 85   0000001000011
+ 86   0000001000010
+ 87   0000001000001
+ 88   0000001000000
+ 89   0000000111111
+ 8a   0000000111110
+ 8b   0000000111101
+ 8c   0000000111100
+ 8d   0000000111011
+ 8e   0000000111010
+ 8f   0000000111001
+ 90   0000000111000
+ 91   0000000110111
+ 92   0000000110110
+ 93   0000000110101
+ 94   0000000110100
+ 95   0000000110011
+ 96   0000000110010
+ 97   0000000110001
+ 98   0000000110000
+ 99   0000000101111
+ 9a   0000000101110
+ 9b   0000000101101
+ 9c   0000000101100
+ 9d   0000000101011
+ 9e   0000000101010
+ 9f   0000000101001
+ a0   0000000101000
+ a1   0000000100111
+ a2   0000000100110
+ a3   0000000100101
+ a4   0000000100100
+ a5   0000000100011
+ a6   0000000100010
+ a7   0000000100001
+ a8   0000000100000
+ a9   0000000011111
+ aa   0000000011110
+ ab   0000000011101
+ ac   0000000011100
+ ad   0000000011011
+ ae   0000000011010
+ af   0000000011001
+ e0   0000000011000
+ e2   0000000010111
+ e3   0000000010110
+ e4   0000000010101
+ e6   0000000010100
+ e7   0000000010011
+ e8   0000000010010
+ ea   0000000010001
+ eb   0000000010000
+ ec   0000000001111
+ ed   0000000001110
+ ef   0000000001101
+ f0   0000000001100
+ f1   0000000001011
+ f5   0000000001010
+ f6   0000000001001
+ f7   0000000001000
+ f8   0000000000111
+ f9   0000000000110
+ fa   0000000000101
+ fb   0000000000100
+ fc   0000000000011
+ fd   0000000000010
+ fe   0000000000001
+ ff   0000000000000
+
+(length,offset) pairs are represented by a bit sequence for the
+length, followed by a bit sequence for the most significant six bits
+of the offset, followed by the remaining bits of the offset in
+little-endian order. (Note that the number of remaining bits is equal
+to the value in the second byte of the header.) There is one exception
+to this: if the copy length is equal to 2, then only two low-order
+offset bits are encoded instead of 4, 5, or 6, limiting the offset to
+the most recent 256 bytes regardless of dictionary size.
+
+The copy length is represented as follows:
+
+length    representation
+ 2        101
+ 3        11
+ 4        100
+ 5        011
+ 6        0101
+ 7        0100
+ 8        0011
+ 9        00101
+ 10-11    00100x
+ 12-15    00011xx
+ 16-23    00010xxx
+ 24-39    000011xxxx
+ 40-71    000010xxxxx
+ 72-135   000001xxxxxx
+ 136-263  0000001xxxxxxx
+ 264-518  0000000xxxxxxxx
+
+In this table the bits represented by 'x' contain the offset within
+the corresponding range, represented as a little-endian binary number.
+For example, the line reading:
+
+ 16-23    00010xxx
+
+is shorthand for this:
+
+ 16       00010000
+ 17       00010100
+ 18       00010010
+ 19       00010110
+ 20       00010001
+ 21       00010101
+ 22       00010011
+ 23       00010111
+
+The sequence 000000011111111, which would indicate a copy length of
+519 if the table above were extended in the natural way, instead
+indicates end-of-stream.
+
+The upper six bits of the copy offset are represented as follows:
+
+offset
+bits  representation
+ 00   11
+ 01   1011
+ 02   1010
+ 03   10011
+ 04   10010
+ 05   10001
+ 06   10000
+ 07   011111
+ 08   011110
+ 09   011101
+ 0a   011100
+ 0b   011011
+ 0c   011010
+ 0d   011001
+ 0e   011000
+ 0f   010111
+ 10   010110
+ 11   010101
+ 12   010100
+ 13   010011
+ 14   010010
+ 15   010001
+ 16   0100001
+ 17   0100000
+ 18   0011111
+ 19   0011110
+ 1a   0011101
+ 1b   0011100
+ 1c   0011011
+ 1d   0011010
+ 1e   0011001
+ 1f   0011000
+ 20   0010111
+ 21   0010110
+ 22   0010101
+ 23   0010100
+ 24   0010011
+ 25   0010010
+ 26   0010001
+ 27   0010000
+ 28   0001111
+ 29   0001110
+ 2a   0001101
+ 2b   0001100
+ 2c   0001011
+ 2d   0001010
+ 2e   0001001
+ 2f   0001000
+ 30   00001111
+ 31   00001110
+ 32   00001101
+ 33   00001100
+ 34   00001011
+ 35   00001010
+ 36   00001001
+ 37   00001000
+ 38   00000111
+ 39   00000110
+ 3a   00000101
+ 3b   00000100
+ 3c   00000011
+ 3d   00000010
+ 3e   00000001
+ 3f   00000000
+
+Once these bits are combined with the low-order bits, the resulting
+number is an index from the end of the dictionary. That is, 0
+represents the most-recently decoded byte, 1 the next-most-recently,
+and so on. The range to be copied begins at the indexed byte.
+
+The range to be copied can extend past the end of the dictionary. This
+is handled in the usual Lempel-Ziv way: the bytes within the
+dictionary are repeated cyclically as necessary to fill the rest of
+the range.
+
+The dictionary is not pre-initialized, so the range cannot extend past
+the beginning of the file.
+
+Here's a sample compressed stream and how it would be decoded.
+
+The stream is 00 04 82 24 25 c7 80 7f.
+
+The first byte of the header is 0, so the fixed-width representation
+is used for literal bytes.
+
+The second byte is 4, so the dictionary is 1K in size.
+
+The bitstream portion breaks down as follows:
+
+  0 10000010         literal byte 41 (ASCII 'A')
+  0 10010010         literal byte 49 (ASCII 'I')
+  1 001001 110001    copy 11 bytes starting at dictionary byte 1
+                     (counting from the end starting with 0)
+  1 000000011111111  end of stream
+  0                  padding to multiple of 8 bits (ignored)
+
+This stream would decompress to "AIAIAIAIAIAIA".
+
+_____________________________ cut here _____________________________
+
+    Reply to author    Forward  
+		
+		
+		
+You must Sign in before you can post messages.
+To post a message you must first join this group.
+Please update your nickname on the subscription settings page before posting.
+You do not have the permission required to post.
+
+	
+Create a group - Google Groups - Google Home - Terms of Service - Privacy Policy
+©2009 Google

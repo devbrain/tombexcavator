@@ -1,0 +1,123 @@
+#
+# An unexpected error has been detected by Java Runtime Environment:
+#
+# java.lang.OutOfMemoryError: requested 32756 bytes for ChunkPool::allocate. Out of swap space?
+#
+#  Internal Error (414C4C4F434154494F4E0E4350500065), pid=5292, tid=3656
+#
+# Java VM: Java HotSpot(TM) Client VM (1.6.0-b105 mixed mode, sharing)
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x02a7b800):  JavaThread "CompilerThread0" daemon [_thread_in_native, id=3656]
+
+Stack: [0x02ce0000,0x02d30000)
+[error occurred during error reporting, step 110, id 0xc0000005]
+
+
+Current CompileTask:
+C1:193      java.awt.image.DirectColorModel.getDataElements(ILjava/lang/Object;)Ljava/lang/Object; (951 bytes)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0322cc00 JavaThread "TimerQueue" daemon [_thread_blocked, id=3976]
+  0x00396400 JavaThread "DestroyJavaVM" [_thread_blocked, id=4940]
+  0x031fdc00 JavaThread "AWT-EventQueue-0" [_thread_in_vm, id=2512]
+  0x02b4b000 JavaThread "AWT-Shutdown" [_thread_blocked, id=4576]
+  0x02af6400 JavaThread "AWT-Windows" daemon [_thread_in_native, id=5460]
+  0x02adcc00 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=616]
+  0x02a7cc00 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=5252]
+=>0x02a7b800 JavaThread "CompilerThread0" daemon [_thread_in_native, id=3656]
+  0x02a77000 JavaThread "Attach Listener" daemon [_thread_blocked, id=2644]
+  0x02a76000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=6056]
+  0x02a71800 JavaThread "Finalizer" daemon [_thread_blocked, id=5400]
+  0x02a6d400 JavaThread "Reference Handler" daemon [_thread_blocked, id=5424]
+
+Other Threads:
+  0x02a64000 VMThread [id=5044]
+  0x02a7e400 WatcherThread [id=5360]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 960K, used 768K [0x20560000, 0x20660000, 0x20d10000)
+  eden space 896K,  78% used [0x20560000, 0x206102a0, 0x20640000)
+  from space 64K,  99% used [0x20650000, 0x2065ffe0, 0x20660000)
+  to   space 64K,   0% used [0x20640000, 0x20640000, 0x20650000)
+ tenured generation   total 4096K, used 2008K [0x20d10000, 0x21110000, 0x26960000)
+   the space 4096K,  49% used [0x20d10000, 0x20f060d8, 0x20f06200, 0x21110000)
+ compacting perm gen  total 12288K, used 1048K [0x26960000, 0x27560000, 0x2a960000)
+   the space 12288K,   8% used [0x26960000, 0x26a660b8, 0x26a66200, 0x27560000)
+    ro space 8192K,  62% used [0x2a960000, 0x2ae5b9c8, 0x2ae5ba00, 0x2b160000)
+    rw space 12288K,  52% used [0x2b160000, 0x2b79e348, 0x2b79e400, 0x2bd60000)
+
+Dynamic libraries:
+0x00400000 - 0x00423000 	C:\Program Files\Java\jre1.6.0\bin\javaw.exe
+0x7c910000 - 0x7c9c6000 	C:\WINDOWS\system32\ntdll.dll
+0x7c800000 - 0x7c906000 	C:\WINDOWS\system32\kernel32.dll
+0x77da0000 - 0x77e4c000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77e50000 - 0x77ee2000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77fc0000 - 0x77fd1000 	C:\WINDOWS\system32\Secur32.dll
+0x7e390000 - 0x7e421000 	C:\WINDOWS\system32\USER32.dll
+0x77ef0000 - 0x77f39000 	C:\WINDOWS\system32\GDI32.dll
+0x76320000 - 0x7633d000 	C:\WINDOWS\system32\IMM32.DLL
+0x7c340000 - 0x7c396000 	C:\Program Files\Java\jre1.6.0\bin\msvcr71.dll
+0x6d7c0000 - 0x6da07000 	C:\Program Files\Java\jre1.6.0\bin\client\jvm.dll
+0x76ae0000 - 0x76b0f000 	C:\WINDOWS\system32\WINMM.dll
+0x6d310000 - 0x6d318000 	C:\Program Files\Java\jre1.6.0\bin\hpi.dll
+0x76ba0000 - 0x76bab000 	C:\WINDOWS\system32\PSAPI.DLL
+0x6d770000 - 0x6d77c000 	C:\Program Files\Java\jre1.6.0\bin\verify.dll
+0x6d3b0000 - 0x6d3cf000 	C:\Program Files\Java\jre1.6.0\bin\java.dll
+0x6d7b0000 - 0x6d7bf000 	C:\Program Files\Java\jre1.6.0\bin\zip.dll
+0x6d000000 - 0x6d1c3000 	C:\Program Files\Java\jre1.6.0\bin\awt.dll
+0x72f50000 - 0x72f76000 	C:\WINDOWS\system32\WINSPOOL.DRV
+0x77be0000 - 0x77c38000 	C:\WINDOWS\system32\msvcrt.dll
+0x774a0000 - 0x775dd000 	C:\WINDOWS\system32\ole32.dll
+0x736b0000 - 0x736fb000 	C:\WINDOWS\system32\ddraw.dll
+0x73b10000 - 0x73b16000 	C:\WINDOWS\system32\DCIMAN32.dll
+0x74690000 - 0x746dc000 	C:\WINDOWS\system32\MSCTF.dll
+0x75140000 - 0x7516e000 	C:\WINDOWS\system32\msctfime.ime
+0x7c9d0000 - 0x7d1f5000 	C:\WINDOWS\system32\shell32.dll
+0x77f40000 - 0x77fb6000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x77390000 - 0x77493000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.5512_x-ww_35d4ce83\comctl32.dll
+0x58b50000 - 0x58bea000 	C:\WINDOWS\system32\comctl32.dll
+0x6d2b0000 - 0x6d303000 	C:\Program Files\Java\jre1.6.0\bin\fontmanager.dll
+0x6d570000 - 0x6d583000 	C:\Program Files\Java\jre1.6.0\bin\net.dll
+0x719f0000 - 0x71a07000 	C:\WINDOWS\system32\WS2_32.dll
+0x719e0000 - 0x719e8000 	C:\WINDOWS\system32\WS2HELP.dll
+0x6d590000 - 0x6d599000 	C:\Program Files\Java\jre1.6.0\bin\nio.dll
+0x770e0000 - 0x7716b000 	C:\WINDOWS\system32\OLEAUT32.DLL
+0x6d1f0000 - 0x6d21f000 	C:\Program Files\Java\jre1.6.0\bin\cmm.dll
+0x6d450000 - 0x6d474000 	C:\Program Files\Java\jre1.6.0\bin\jpeg.dll
+
+VM Arguments:
+jvm_args: -DROOT_DIR=D:\jff\data\ChaosEngine\editor -Xmx100m -Dfile.encoding=Cp1252
+java_command: editor.level.ChaosEngineLevelEditor
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+CLASSPATH=.;C:\Program Files\Java\jre1.6.0_07\lib\ext\QTJava.zip
+PATH=C:/Program Files/Java/jre6/bin/client;C:/Program Files/Java/jre6/bin;D:\progs\devkitpro\msys\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Fichiers communs\GTK\2.0\bin;D:\jff_data\msys\1.0\bin;C:\Program Files\QuickTime Alternative\QTSystem\;C:\Program Files\Java\jdk1.6.0\bin;C:\python25;C:\Program Files\insight\bin;C:\Program Files\frhed;C:\Program Files\XEmacs\XEmacs-21.4.13\i586-pc-win32;c:\Program Files\tkdiff
+USERNAME=jffabre
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 14 Stepping 8, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows XP Build 2600 Service Pack 3
+
+CPU:total 2 family 6, cmov, cx8, fxsr, mmx, sse, sse2
+
+Memory: 4k page, physical 1046636k(79620k free), swap 946724k(5136k free)
+
+vm_info: Java HotSpot(TM) Client VM (1.6.0-b105) for windows-x86, built on Nov 29 2006 00:48:48 by "java_re" with unknown MS VC++:1310
+

@@ -1,0 +1,174 @@
+#
+# An unexpected error has been detected by Java Runtime Environment:
+#
+# java.lang.OutOfMemoryError: requested 274474 bytes for jbyte in C:\BUILD_AREA\jdk6\hotspot\src\share\vm\prims\jni.cpp. Out of swap space?
+#
+#  Internal Error (414C4C4F434154494F4E0E494E4C494E450E4850500017), pid=6096, tid=5216
+#
+# Java VM: Java HotSpot(TM) Client VM (1.6.0-b105 mixed mode, sharing)
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x02b37000):  JavaThread "AWT-EventQueue-0" [_thread_in_vm, id=5216]
+
+Stack: [0x031f0000,0x03240000)
+[error occurred during error reporting, step 110, id 0xc0000005]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  sun.awt.color.CMM.cmmLoadProfile([B[J)I+0
+j  java.awt.color.ICC_Profile.getInstance([B)Ljava/awt/color/ICC_Profile;+15
+j  java.awt.color.ICC_Profile.getInstance(Ljava/io/InputStream;)Ljava/awt/color/ICC_Profile;+35
+j  java.awt.color.ICC_Profile.getInstance(Ljava/lang/String;)Ljava/awt/color/ICC_Profile;+50
+j  java.awt.color.ICC_Profile$2.run()Ljava/lang/Object;+6
+v  ~StubRoutines::call_stub
+j  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;)Ljava/lang/Object;+0
+j  java.awt.color.ICC_Profile.getStandardProfile(Ljava/lang/String;)Ljava/awt/color/ICC_Profile;+8
+j  java.awt.color.ICC_Profile.getInstance(I)Ljava/awt/color/ICC_Profile;+153
+j  java.awt.color.ColorSpace.getInstance(I)Ljava/awt/color/ColorSpace;+149
+j  com.sun.imageio.plugins.jpeg.JPEG.<clinit>()V+161
+v  ~StubRoutines::call_stub
+j  com.sun.imageio.plugins.jpeg.JPEGImageReaderSpi.<init>()V+5
+j  javax.imageio.spi.IIORegistry.registerStandardSpis()V+93
+j  javax.imageio.spi.IIORegistry.<init>()V+11
+j  javax.imageio.spi.IIORegistry.getDefaultInstance()Ljavax/imageio/spi/IIORegistry;+23
+j  javax.imageio.ImageIO.<clinit>()V+0
+v  ~StubRoutines::call_stub
+j  sys.ImageLoadSave.load(Ljava/lang/String;)Ljava/awt/image/BufferedImage;+12
+j  sys.ImageLoadSave.load(Ljava/lang/String;Ljava/awt/Color;)Ljava/awt/image/BufferedImage;+1
+j  sys.ImageLoadSave.load_png(Ljava/lang/String;Ljava/awt/Color;)Ljava/awt/image/BufferedImage;+20
+j  base.GfxPalette.get_1x_image()Ljava/awt/image/BufferedImage;+41
+j  base.GfxPalette.load(Ljava/lang/String;)V+62
+j  editor.ChaosEngineEditor.load_project(Ljava/lang/String;)V+7
+j  editor.ChaosEngineEditor.load_project_with_modify_check(Ljava/lang/String;)V+33
+j  editor.ChaosEngineEditor.access$0(Leditor/ChaosEngineEditor;Ljava/lang/String;)V+2
+j  editor.ChaosEngineEditor$RecentActionListener.actionPerformed(Ljava/awt/event/ActionEvent;)V+8
+j  javax.swing.AbstractButton.fireActionPerformed(Ljava/awt/event/ActionEvent;)V+84
+j  javax.swing.AbstractButton$Handler.actionPerformed(Ljava/awt/event/ActionEvent;)V+5
+j  javax.swing.DefaultButtonModel.fireActionPerformed(Ljava/awt/event/ActionEvent;)V+35
+j  javax.swing.DefaultButtonModel.setPressed(Z)V+117
+j  javax.swing.AbstractButton.doClick(I)V+64
+j  javax.swing.plaf.basic.BasicMenuItemUI.doClick(Ljavax/swing/MenuSelectionManager;)V+53
+j  javax.swing.plaf.basic.BasicMenuItemUI$Handler.mouseReleased(Ljava/awt/event/MouseEvent;)V+62
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+64
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+562
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+42
+j  java.awt.Component.dispatchEvent(Ljava/awt/AWTEvent;)V+2
+j  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V+320
+j  java.awt.LightweightDispatcher.processMouseEvent(Ljava/awt/event/MouseEvent;)Z+139
+j  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z+50
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+12
+j  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V+19
+j  java.awt.Component.dispatchEvent(Ljava/awt/AWTEvent;)V+2
+j  java.awt.EventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V+46
+j  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z+156
+j  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V+30
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x02a80800 JavaThread "TimerQueue" daemon [_thread_blocked, id=3496]
+  0x00396400 JavaThread "DestroyJavaVM" [_thread_blocked, id=5876]
+=>0x02b37000 JavaThread "AWT-EventQueue-0" [_thread_in_vm, id=5216]
+  0x02b36800 JavaThread "AWT-Shutdown" [_thread_blocked, id=5972]
+  0x02aa4000 JavaThread "AWT-Windows" daemon [_thread_in_native, id=2140]
+  0x02a91000 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=3880]
+  0x02a7cc00 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=4728]
+  0x02a79000 JavaThread "CompilerThread0" daemon [_thread_blocked, id=5992]
+  0x02a77000 JavaThread "Attach Listener" daemon [_thread_blocked, id=1404]
+  0x02a76000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=5116]
+  0x02a71800 JavaThread "Finalizer" daemon [_thread_blocked, id=3976]
+  0x02a6d400 JavaThread "Reference Handler" daemon [_thread_blocked, id=5236]
+
+Other Threads:
+  0x02a64000 VMThread [id=6060]
+  0x02a7e400 WatcherThread [id=6000]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 960K, used 361K [0x20560000, 0x20660000, 0x20d10000)
+  eden space 896K,  33% used [0x20560000, 0x205aa5d8, 0x20640000)
+  from space 64K, 100% used [0x20650000, 0x20660000, 0x20660000)
+  to   space 64K,   0% used [0x20640000, 0x20640000, 0x20650000)
+ tenured generation   total 4096K, used 816K [0x20d10000, 0x21110000, 0x26960000)
+   the space 4096K,  19% used [0x20d10000, 0x20ddc028, 0x20ddc200, 0x21110000)
+ compacting perm gen  total 12288K, used 527K [0x26960000, 0x27560000, 0x2a960000)
+   the space 12288K,   4% used [0x26960000, 0x269e3dd8, 0x269e3e00, 0x27560000)
+    ro space 8192K,  62% used [0x2a960000, 0x2ae5b9c8, 0x2ae5ba00, 0x2b160000)
+    rw space 12288K,  52% used [0x2b160000, 0x2b79e348, 0x2b79e400, 0x2bd60000)
+
+Dynamic libraries:
+0x00400000 - 0x00423000 	C:\Program Files\Java\jre1.6.0\bin\javaw.exe
+0x7c910000 - 0x7c9c6000 	C:\WINDOWS\system32\ntdll.dll
+0x7c800000 - 0x7c906000 	C:\WINDOWS\system32\kernel32.dll
+0x77da0000 - 0x77e4c000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77e50000 - 0x77ee2000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77fc0000 - 0x77fd1000 	C:\WINDOWS\system32\Secur32.dll
+0x7e390000 - 0x7e421000 	C:\WINDOWS\system32\USER32.dll
+0x77ef0000 - 0x77f39000 	C:\WINDOWS\system32\GDI32.dll
+0x76320000 - 0x7633d000 	C:\WINDOWS\system32\IMM32.DLL
+0x7c340000 - 0x7c396000 	C:\Program Files\Java\jre1.6.0\bin\msvcr71.dll
+0x6d7c0000 - 0x6da07000 	C:\Program Files\Java\jre1.6.0\bin\client\jvm.dll
+0x76ae0000 - 0x76b0f000 	C:\WINDOWS\system32\WINMM.dll
+0x6d310000 - 0x6d318000 	C:\Program Files\Java\jre1.6.0\bin\hpi.dll
+0x76ba0000 - 0x76bab000 	C:\WINDOWS\system32\PSAPI.DLL
+0x6d770000 - 0x6d77c000 	C:\Program Files\Java\jre1.6.0\bin\verify.dll
+0x6d3b0000 - 0x6d3cf000 	C:\Program Files\Java\jre1.6.0\bin\java.dll
+0x6d7b0000 - 0x6d7bf000 	C:\Program Files\Java\jre1.6.0\bin\zip.dll
+0x6d000000 - 0x6d1c3000 	C:\Program Files\Java\jre1.6.0\bin\awt.dll
+0x72f50000 - 0x72f76000 	C:\WINDOWS\system32\WINSPOOL.DRV
+0x77be0000 - 0x77c38000 	C:\WINDOWS\system32\msvcrt.dll
+0x774a0000 - 0x775dd000 	C:\WINDOWS\system32\ole32.dll
+0x736b0000 - 0x736fb000 	C:\WINDOWS\system32\ddraw.dll
+0x73b10000 - 0x73b16000 	C:\WINDOWS\system32\DCIMAN32.dll
+0x74690000 - 0x746dc000 	C:\WINDOWS\system32\MSCTF.dll
+0x75140000 - 0x7516e000 	C:\WINDOWS\system32\msctfime.ime
+0x7c9d0000 - 0x7d1f5000 	C:\WINDOWS\system32\shell32.dll
+0x77f40000 - 0x77fb6000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x77390000 - 0x77493000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.5512_x-ww_35d4ce83\comctl32.dll
+0x58b50000 - 0x58bea000 	C:\WINDOWS\system32\comctl32.dll
+0x6d2b0000 - 0x6d303000 	C:\Program Files\Java\jre1.6.0\bin\fontmanager.dll
+0x6d570000 - 0x6d583000 	C:\Program Files\Java\jre1.6.0\bin\net.dll
+0x719f0000 - 0x71a07000 	C:\WINDOWS\system32\WS2_32.dll
+0x719e0000 - 0x719e8000 	C:\WINDOWS\system32\WS2HELP.dll
+0x6d590000 - 0x6d599000 	C:\Program Files\Java\jre1.6.0\bin\nio.dll
+0x770e0000 - 0x7716b000 	C:\WINDOWS\system32\OLEAUT32.DLL
+0x6d1f0000 - 0x6d21f000 	C:\Program Files\Java\jre1.6.0\bin\cmm.dll
+
+VM Arguments:
+jvm_args: -DROOT_DIR=D:\jff\data\ChaosEngine\editor -Xmx100m -Dfile.encoding=Cp1252
+java_command: editor.palette.ChaosEnginePaletteEditor
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+CLASSPATH=.;C:\Program Files\Java\jre1.6.0_07\lib\ext\QTJava.zip
+PATH=C:/Program Files/Java/jre6/bin/client;C:/Program Files/Java/jre6/bin;D:\progs\devkitpro\msys\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Fichiers communs\GTK\2.0\bin;D:\jff_data\msys\1.0\bin;C:\Program Files\QuickTime Alternative\QTSystem\;C:\Program Files\Java\jdk1.6.0\bin;C:\python25;C:\Program Files\insight\bin;C:\Program Files\frhed;C:\Program Files\XEmacs\XEmacs-21.4.13\i586-pc-win32;c:\Program Files\tkdiff
+USERNAME=jffabre
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 14 Stepping 8, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows XP Build 2600 Service Pack 3
+
+CPU:total 2 family 6, cmov, cx8, fxsr, mmx, sse, sse2
+
+Memory: 4k page, physical 1046636k(83876k free), swap 946724k(5368k free)
+
+vm_info: Java HotSpot(TM) Client VM (1.6.0-b105) for windows-x86, built on Nov 29 2006 00:48:48 by "java_re" with unknown MS VC++:1310
+

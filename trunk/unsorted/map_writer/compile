@@ -1,0 +1,12 @@
+#!/bin/sh
+
+function f_sdl_compile
+{
+  g++ -g $1.cpp -o $1 -I/mingw/SDL/include -I/mingw/SDL/include/SDL -L/mingw/SDL/lib -lSDL_Image -lSDL
+}
+function f_compile
+{
+  g++ -g $1.cpp -o $1
+}
+
+f_sdl_compile map_writer
