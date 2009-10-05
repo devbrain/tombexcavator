@@ -1,5 +1,5 @@
-#ifndef __ABL_MUTEX_HPP__
-#define __ABL_MUTEX_HPP__
+#ifndef __ABL_MT_MUTEX_HPP__
+#define __ABL_MT_MUTEX_HPP__
 
 #include "abl/abl_export.h"
 #include "abl/throw_spec.hpp"

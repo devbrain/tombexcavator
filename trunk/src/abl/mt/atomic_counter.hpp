@@ -1,5 +1,5 @@
-#ifndef __ABL_ATOMIC_COUNTER_HPP__
-#define __ABL_ATOMIC_COUNTER_HPP__
+#ifndef __ABL_MT_ATOMIC_COUNTER_HPP__
+#define __ABL_MT_ATOMIC_COUNTER_HPP__
 
 
 #include "abl/abl_export.h"

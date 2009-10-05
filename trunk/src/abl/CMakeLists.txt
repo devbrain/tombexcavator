@@ -4,8 +4,8 @@ set (abl_sources
   platform/physfs/win32/dirent.c
   platform/physfs/dir_reader.c
   unicode/unicode.c
-  mutex.cpp
-  null_mutex.cpp
+  mt/mutex.cpp
+  mt/null_mutex.cpp
 )
 
 set (abl_headers
@@ -17,8 +17,10 @@ set (abl_headers
   util/types.hpp 
   util/static_assert.hpp 
   util/non_copyable.hpp
-  mutex.hpp
-  null_mutex.hpp
+  mt/mutex.hpp
+  mt/null_mutex.hpp
+  mt/atomic_counter.hpp
+  mt/guard.hpp
   throw_spec.hpp
 )
 
