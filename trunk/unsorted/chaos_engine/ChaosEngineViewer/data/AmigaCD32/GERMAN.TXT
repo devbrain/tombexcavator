@@ -1,0 +1,289 @@
+#MITWIRKENDE
+Design - Simon Knight & Eric Matthews
+Originalprogrammcode - Steve Cargill & Mike Montgomery
+CD32-Konversion und Zus„tze -  Mike Montgomery
+Grafisches Design - Dan Malone & Herman Serrano
+Musik & Toneffekte im Spiel - Richard Joseph
+Projektmanagement - Graeme Boxall
+
+{} 1993, 1994 The Bitmap Brothers
+
+@WILLKOMMEN!
+Willkommen bei The Chaos Engine. Diese Anleitung soll Ihnen dabei
+helfen, optimal von diesem Produkt zu profitieren. Sollten Sie
+irgendwelche Probleme mit diesem Produkt haben, setzen Sie sich
+bitte mit unserem Kundensupport in Verbindung: -
+
+Customer Support TCE CD32,
+Renegade,
+Unit C1L Metropolitan Wharf,
+Wapping Wall,
+London E1 9SS.
+
+@DER OPTIONS SCREEN (OPTIONENBILDSCHIRM)
+Zuerst sehen Sie eine kurze Einleitungssequenz. Danach wird der
+Optionenbildschirm eingeblendet.
+
+SELECT NEW GAME (NEUES SPIEL AUSW„HLEN)
+Sie k”nnen allein oder mit einem Freund spielen. Eine einzelne
+spielergesteuerte Figur ist im Kampf nicht allein - darum
+kmmert sich ihr computergesteuerter Gef„hrte. Ihr
+Konkurrenzgefhl ist zwar wahrscheinlich weniger stark, wenn
+Sie keinen menschlichen Gegner haben, doch die Handlung ist
+deshalb nicht weniger hektisch.
+
+@ENTER PASSWORD (PASSWORT EINGEBEN)
+Es enth„lt Einzelheiten ber Ihre Leistung mit einer computer-
+oder spielergesteuerten Figur und erspart Ihnen die Mhe,
+nochmals die frhen Spielstadien durchlaufen zu mssen
+(natrlich liegt die Entscheidung bei Ihnen - Sie k”nnten ja
+einige amsante Details verpasst haben). Wenn Sie ein gltiges
+Passwort eingeben, k”nnen Sie dort weiterspielen, wo Sie das
+Passwort erhalten haben.  Markieren Sie mit der Richtungstaste
+des Controllers einen Buchstaben, eine Zahl oder ein Symbol. Dann
+drcken Sie die Feuertaste, um das Markierte zu w„hlen.
+
+@SPIELFIGUREN ANWERBEN
+Aus sechs Figuren k”nnen Sie zwei fr Ihr Team anwerben. Lesen
+Sie die Beschreibungen, bevor Sie sich fr jemanden entscheiden.
+Spieler 1 darf zuerst w„hlen. Wenn nur ein Spieler spielt, muss
+dieser auch die computergesteuerte Figur w„hlen. Andernfalls
+wird die zweite Figur von Spieler 2 gew„hlt.  Drcken Sie die
+Richtungstaste in eine beliebige Richtung, um den
+Markierungsbalken von einer Figur auf die n„chste zu bewegen.
+Auf der linken Bildschirmh„lfte sehen Sie genaue Informationen
+ber die markierte Figur.
+
+@Drcken Sie die Feuertaste, um diese Figur auszusuchen (darauf
+verschwindet ihr Bild und erscheint ineinem der Fenster oben am
+Bildschirm).  Wenn beide Figuren gew„hlt sind, wird automatisch
+das Feld `EXIT' (Beenden) markiert. Zum Verlassen dieses
+Bildschirms und Beginn des Spiels drcken Sie die Feuertaste.
+
+MERKMALE DER FIGUREN
+Jede Figur verfgt ber ihre eigenen besonderen F„higkeiten und
+Waffen. Ihre kennzeichnenden Merkmale werden von vier variablenGr”ssen bestimmt: Skill (Geschicklichkeit), Stamina (Ausdauer),
+Speed (Schnelligkeit) und Wisdom (Intelligenz).
+
+@Zur Verbesserung der Merkmale mssen Sie auf dem Character EquipScreen (Ausrstungsbildschirm) Cash (Geld) investieren.
+Ausdauer (in Form von Nahrungsmitteln) kann auch w„hrend des
+Spiels erworben werden.
+Wie ausgepr„gt die einzelnen Merkmale einer Figur sind, ist in
+Balken ersichtlich. Ihr aktuelles Potential h„ngt von der
+Geschicklichkeitsbewertung ab. Das aktuelle Potential einer Figurkann nie ber einen ausgefllten Balken hinausgehen.
+
+@SKILL (GESCHICKLICHKEIT) ist vielleicht das wichtigste Merkmal.
+Es ist eine Art Gesamtbewertung, die alle Merkmale beeinflusst
+und die bestimmt, wann Power-Ups (Kraftzuschsse) und besondereF„higkeiten verfgbar werden.
+
+STAMINA (AUSDAUER) ist die Lebenskraft der Figur. Wenn ihr diese
+ausgeht, stirbt sie.
+
+SPEED (SCHNELLIGKEIT) ist, wie schnell sich eine Figur bewegt.
+
+INTELLIGENCE (INTELLIGENZ) bestimmt die Intelligenz der
+computergesteuerten Spielfiguren.
+
+@STEUERUNG DER SPIELFIGUREN
+Es ist ganz einfach: die Figuren werden mit der Richtungstaste in
+eine der acht Himmelsrichtungen bewegt. Mit dem Links- oder
+Rechtsbalken k”nnen Sie eine Figur nur einen Schritt nach links
+oder rechts bewegen. Wenn Sie die Feuertaste drcken, schiesst dieFigur ihre Waffe nach vorne ab. Wenn Sie die blaue Taste drcken,
+wird die besondere F„higkeit der Figur aktiviert, falls Sie ber
+Spezialkr„fte verfgen. Gleichzeitig ert”nt die Meldung "SPECIAL
+ACTIVATED!~ (besondere F„higkeit aktiviert).
+
+@WAFFEN
+Jede Figur hat eine andere Waffe mit anderen Merkmalen. Diese
+Merkmale k”nnen Sie durch das Sammeln oder Kaufen von Power-Ups„ndern. Je nach Figur k”nnen sie die Zahl der abgefeuerten Schsse,den Schaden, den sie anrichten, ihre F„higkeit, durch Monster
+hindurchzuschiessen und den Feuerradius erh”hen. Wenn dies
+geschieht ver„ndert sich die Farbe der Schsse, damit Sie sehen
+k”nnen, dass die Schusskraft gewachsen ist. Versuchen Sie, so vieleSchsse wie m”glich rot zu f„rben.
+
+@BESONDERE F„HIGKEITEN
+Diese Ausrstungsgegenst„nde verleihen Ihnen einzigartige
+F„higkeiten. In The Chaos Engine k”nnen Sie viele verschiedene
+besondere F„higkeiten kaufen, doch keine Figur erh„lt die
+Gelegenheit, sie alle zu verwenden.
+Wenn sich mehrere besondere F„higkeiten im Inventar einer Figur
+befinden, k”nnen Sie diese durch Drcken der grnen Taste
+nacheinander anzeigen lassen.  Wenn Spieler 2 vom Computer
+gesteuert wird, k”nnen seine besonderen F„higkeiten von Spieler 1
+benutzt werden.
+
+@Dazu mssen Sie die grne und die gelbe Taste gleichzeitig
+drcken, um auf die besonderen F„higkeiten des Computerspielers
+umzuschalten, die Sie sich dann durch.
+Drcken Sie die gelbe Taste, um sich die besonderen F„higkeiten
+des Computerspielers im einzelnen anzusehen.  W„hrend des Spiels
+tauchen manchmal besondere F„higkeiten auf - laufen Sie direkt
+"in sie hinein~, um sie zu aktivieren. Machen Sie sich keine
+Sorgen, wenn Sie versehentlich auf eine schiessen - sie sind
+unzerst”rbar.
+
+@SPEZIALKR„FTE$6160005
+Mit diesen k”nnen Sie die besondere F„higkeit Ihrer Figur
+ausnutzen. Zu einem beliebigen Zeitpunkt k”nnen Sie sechs
+Spezialkr„fte auf sich tragen.
+
+Sie k”nnen entweder im Ausrstungsbildschirm der Figuren oder
+w„hrend des Spiels, indem Sie "ber sie hinweggehen~, erstanden
+werden.  Wenn Sie allein spielen, steht Ihnen auch der
+Vorratsraum von Spieler 2 - also 6 zus„tzliche Pl„tze - zur
+Verfgung.
+
+@SO SIEHT DAS SPIEL AUS
+SPIELFELD
+Dieses ist mit einer Scrollfunktion ausgerstet, d.h. das Bild
+folgt den Spielern, w„hrend sie sich im Spiel herumbewegen. Wenn
+eine computergesteuerte Figur abseits vom Bildschirm ger„t, wirdsie etwa drei Sekunden sp„ter in die N„he der Figur von Spieler 1
+teleportiert. Wenn beide Figuren spielergesteuert sind, wird die
+Rollfunktion von beiden Seiten her abgeglichen, weshalb eine
+gewisse Kooperation erforderlich ist, wenn Sie sich
+weiterbewegen wollen.
+
+@KNOTEN (UND WIE MAN SIE AKTIVIERT)$4340007
+
+
+
+
+Schiessen Sie auf den Knoten, bis sein Geh„use explodiert, dann ist
+er aktiviert. Gleichzeitig h”ren Sie die Mitteilung "NODE
+ACTIVATED!~. Wenn Sie gengend Knoten aktiviert haben (auf der
+ersten Ebene gibt es drei), ”ffnet sich der Ausgang zur n„chsten
+Ebene. (Sie h”ren die Mitteilung "EXIT OPEN!~).  Nutzen Sie diese
+Gelegenheit, wenn Sie sich einem weiteren Erforschen der Ebene
+nicht gewachsen fhlen.
+
+@Wenn Sie durch den Ausgang gehen, ert”nt "LEVEL COMPLETE!~.
+Einige Ebenen verfgen ber mehrere Ausg„nge. Der Knotenz„hler
+auf der Statusanzeige unten am Bildschirm zeigt die Zahl der
+Knoten, die zum ”ffnen eines Ausgangs aktiviert werden mssen.
+
+Wenn ein Ausgang ge”ffnet ist und trotzdem noch inaktive
+Knoten vorhanden sind, gibt es noch weitere Ausg„nge.  Diese
+finden Sie durch Aktivieren der brigen Knoten. Es lohnt sich,
+denn Sie gelangen so auf der n„chsten Ebene an einen gnstigeren
+Ort.
+
+@SCHATZ$1100010
+
+
+Oder Geld. Tote Monster lassen zwei verschiedene Mnzenarten
+fallen, und oft befinden sich ungef„hr ein halbes Dutzend
+verschiedene Formen von Sch„tzen auf eine Ebene verstreut. Heben
+Sie diese schnell auf, bevor sie verschwinden. Der Schatz wird in
+der Teamkasse aufbewahrt, und diese wird am Ende einer Ebene
+zwischen den Figuren aufgeteilt.
+
+@SILBERSCHLSSEL$5182006
+Sie helfen Ihnen, in der Landschaft voranzukommen, indem sie zum
+Beispiel B„ume f„llen, Stufen bauen sowie Gegenst„nde oder
+Sch„tze sichtbar machen. Ohne Silberschlssel k”nnen Sie keine
+Ebene erfolgreich abschliessen.
+
+GOLDSCHLSSEL$3170090
+Sie zeigen Ihnen mit Sch„tzen gefllte Verstecke in der Landschaftoder andere Gegenst„nde. Der erfolgreiche Abschluss einer Ebene
+ohne Goldschlssel ist zwar m”glich, doch Gierh„lse werden wohl
+nicht ohne sie auskommen. Ich spreche aus Erfahrung.
+
+@NAHRUNGSMITTEL$2190006
+
+Sie werden in Bchsen aufbewahrt und verleihen dem Esser
+zus„tzliche Ausdauer.
+
+KENNZEICHEN EINER TODESZONE$0295075
+Wenn dieses von einer Figur berhrt wird, verschwindet es (die
+Mitteilung "PLAYERS SAVED!~ (Spieler gespeichert) ert”nt).  Der
+Status beider Spielfiguren an diesem Punkt ist gespeichert. Wenn
+nun die Figur eines Spielers stirbt, kann sie mit dem gespeichertenStatus ins Spiel zurckkehren - doch erst, wenn die lebende Figur
+ein anderes Kennzeichen einer Todeszone gefunden hat oder wenn
+sie stirbt oder die Ebene beendet.
+
+@MONSTER
+"Sie alle besitzen Sch„tze, die sie zurcklassen, wenn sie
+get”tet werden.  Heben sie diese auf, um die Teamkasse zu
+fllen.~ In einer Welt gibt es ungef„hr sieben oder acht
+verschiedene Arten von Monstern, und oft brauchen Sie mehr als
+einen Schuss, um die Kerle zu t”ten.  Einige Monster speien oder
+feuern t”dliche Wurfgeschosse - mit unterschiedlicher
+Treffsicherheit. Einige Monster laufen den Spielfiguren nach.
+Einige Monster beschtzen interessante Gegenst„nde. Einige
+Monster werden unaufh”rlich von Generatoren erzeugt (mit
+einigen wohlgezielten Schssen oder Schlsseln k”nnen Sie
+Generatoren ausser Betrieb setzen).
+
+@DER BONUSBILDSCHIRM
+Der Bonusbildschirm erscheint nach Beendigung einer Ebene. Hier
+erfahren Sie, ob Sie alle M”glichkeiten der Ebene voll ausgesch”pft
+haben. Und die Teamkasse - all die Sch„tze, die Sie auf der Ebene
+gesammelt haben... - wird gem„ss ihrer Leistung an die
+Teammitglieder verteilt.
+Im Spiel mit einem Spieler wird das gesammelte Geld automatisch
+zwischen den beiden Figuren aufgeteilt.
+In der Spalte in der Bildschirmmitte sind kleine Bilder (Symbole)
+aufgefhrt.  Sie verk”rpern die sechs wichtigsten Elemente einer
+Ebene. Die Gesamtpunktzahl der Ebene steht ganz links. Sie k”nnen
+die individuelle und die gemeinsame Leistung der beiden Figuren
+ablesen.
+
+@Das Feld EXIT (beenden) ist bereits markiert, Sie brauchen daher
+zum Verlassen dieses Bildschirms nur die Feuertaste zu drcken.
+Wenn eine der Spielfiguren alle Leben verbraucht hat, erh„lt der
+zweite Spieler nach jedem Bonusbildschirm die M”glichkeit, ihr
+ein neues Leben zu kaufen. Wenn die tote Figur gengend Geld hat,
+muss sie fr das Leben bezahlen, sonst muss die noch lebende
+Figur fr die Differenz aufkommen. In einem Spiel fr zwei
+Spieler k”nnen Sie den Kauf eines Lebens fr Ihren Partner
+ablehnen. Drcken Sie die Richtungstaste links oder rechts, um
+YES oder NO zu w„hlen, und best„tigen Sie die Wahl mit der
+Feuertaste. In einem Spiel fr einen Spieler sind Sie zum Kaufen
+eines Lebens fr die computergesteuerte Figur VERPFLICHTET.
+
+@AUSRSTEN DER FIGUREN
+Nach jeder zweiten und vierten Ebene einer Welt erscheint der
+Ausrstungsbildschirm. Hier k”nnen Sie mit dem im Spiel
+erworbenen Geld Ausrstungsmaterial kaufen und die Merkmale
+einer Figur verbessern. Rechts am Bildschirm sind die
+Verkaufsartikel aufgefhrt, links der aktuelle Status der Figur.
+Spieler 1 darf sein Geld zuerst ausgeben. Wenn Figur 2 nicht
+spielergesteuert ist, muss Spieler 1 auch die computergesteuerte
+Figur ausrsten.  Andernfalls wird die zweite Figur vom zweiten
+Spieler ausgerstet.  Geben Sie Ihr Geld nicht leichtsinnig aus,
+denn Sie mssen noch etwas fr die computergesteuerte Figur
+brig haben.
+
+@Drcken Sie die Richtungstaste in eine beliebige Richtung, um den
+Markierungsbalken rechts am Bildschirm von Artikel zu Artikel
+und links am Bildschirm von Funktion zu Funktion zu bewegen.
+Drcken Sie die Feuertaste, um den markierten Artikel zu kaufen
+(Ihr Geldvorrat verringert sich dabei entsprechend). Wenn Sie
+eine besondere F„higkeit gekauft haben, wird diese in Ihr
+Inventar links am Bildschirm bernommen. Wenn Sie auf der
+n„chsten Ebene eine F„higkeit verwenden wollen, markieren Sie
+diese und drcken die Feuertaste. Wenn Ihre Figur fertig
+ausgerstet ist, verschieben Sie den Markierungsbalken auf das
+Feld EXIT und drcken die Feuertaste.
+
+@Mit der Funktion ALL (alles) berprft der Computer, wieviel Geld
+Ihrer Figur zur Verfgung steht und w„hlt dann die besten
+Merkmale fr sie aus. Er kauft jedoch keine Power-Ups, besondere
+F„higkeiten oder Spezialkr„fte.
+Skill (Geschicklichkeit) entscheidet darber, was zu einer
+bestimmten Zeit fr Ihre Figur gekauft werden kann. Mit dem
+Wachstum Ihrer Geschicklichkeitsmenge w„chst auch die Zahl der
+Gegenst„nde, die Sie kaufen k”nnen. Das aktuelle Maximun (braunerBalken) Ihrer anderen Merkmale wird erh”ht, und somit k”nnen Sie
+auch deren aktuelle Menge (grner Balken) vergr”ssern. Von einer
+bestimmten Geschicklichkeitsebene an haben Sie auch Power-Ups
+und verschiedene besondere F„higkeiten zur Verfgung.
+
+@Am endes jedes Welt, wenn das Team fertig ausgerstet ist,
+erscheint ein Passwort.  Schreiben Sie es auf, da es Einzelheiten
+ber die Leistung des Teams enth„lt. Beim n„chsten Laden von The
+Chaos Engine k”nnen Sie dieses Passwort eingeben und dort
+weiterspielen, wo Sie das Passwort erhalten haben.  Beachten Sie
+dabei, dass ein w„hrend einem Spiel mit einem Spieler erhaltenes
+Passwort nur diesen Spieltyp wiederherstellen kann und
+umgekehrt.
+
+                                                              --ooOoo--%

@@ -1,0 +1,13 @@
+Echo Chaos Engine: copying data files to distribution disk #1...
+copy FROM Chaos:ramer TO df0:
+copy FROM Chaos:achaos TO df0:
+copy FROM Chaos:am_back.bin TO df0:
+copy FROM Chaos:am_itext.bin TO df0:
+copy FROM Chaos:sngarc.bin TO df0:
+copy FROM Chaos:static.bin TO df0:
+copy FROM Chaos:levsdat.bin TO df0:
+copy FROM Chaos:shop.ins TO df0:
+copy FROM Chaos:sngarc2.bin TO df0:
+copy FROM Chaos:title.mod TO df0:
+copy FROM Chaos:lev9.ins TO df0:
+copy FROM Chaos:am_font.bin TO df0:

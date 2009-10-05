@@ -1,0 +1,289 @@
+#TITOLI
+Ideazione -  Simon Knight e Eric Matthews
+Codice originale - Steve Cargill
+Conversione Cd32 e aggiunte - Mike Montgomery
+Grafica - Dan Malone & Herman Serrano
+Musica ed effetti sonori del gioco - Richard Joseph
+Direzione del progetto - Graeme Boxall
+
+{} 1993, 1994 The Bitmap Brothers
+
+@BENVENUTI!
+Benvenuti nel mondo di The Chaos Engine. Questo manuale ä stato
+creato per assicurare all'utente un prodotto di ottima qualitÖ.
+Nel caso si riscontrino problemi di qualsiasi genere con il
+prodotto, si prega di rivolgersi a:-
+
+Customer Support TCE CD32,
+Renegade,
+Unit C1L Metropolitan Wharf,
+Wapping Wall,
+LONDON E1 9SS.
+
+@GLI SCHERMI DELLE OPZIONI
+Una breve sequenza introduttiva imposterÖ la scena. Una volta
+mostrata, viene presentato lo schermo delle opzioni.
+
+SELECT NEW GAME (Seleziona nuovo gioco)
+Il vostro gruppo puï essere formato da uno o due giocatori umani.
+Un singolo personaggio controllato da un giocatore umano non
+combatterÖ da solo, il compagno controllato dal computer lo
+aiuterÖ. Senza un secondo giocatore umano l'azione ä forse meno
+competitiva, ma non per questo meno frenetica.
+
+@ENTER PASSWORD (Immetti la parola d'ordine)
+Le parole d'ordine vengono date durante i momenti cruciali del
+gioco.  Contengono dettagli sulla prestazione e posizione del
+vostro personaggio e vi risparmiano la fatica di eseguire di
+nuovo i livelli iniziali del gioco (potreste aver perso alcuni
+dei piaceri nascosti, quindi, sta a voi decidere).  Quando
+registrate una parola d'ordine valida, il gioco inizierÖ di nuovo
+dal momento in cui la parola ä stata data.
+Spostate l'evidenziazione sulla lettera, il numero o il simbolo
+desiderati mediante il pulsante direzionale dell'unitÖ di
+controllo del gioco. Premere il pulsante del fuoco per
+selezionare la lettera, il numero o il simbolo evidenziato.
+
+@INGAGGIO DI PERSONAGGI
+Vi sono sei personaggi disponibili per l'ingaggio, ma solo due
+possono unirsi al gruppo. Prima di ingaggiare un personaggio,
+controllate i rapporti. Il giocatore 1 sceglie per primo i suoi
+personaggi. Se non ä coinvolto un secondo giocatore umano, il
+giocatore 1 deve scegliere anche il personaggio che verrÖ
+controllato dal computer. Altrimenti, il giocatore 2 puï
+scegliere il personaggio con cui giocare.
+Spostate il pulsante direzionale in una direzione qualsiasi per
+spostare l'evidenziazione da un personaggio all'altro. La parte
+sinistra dello schermo mostra i dettagli del personaggio
+evidenziato.
+@Premete il pulsante del fuoco per ingaggiare il personaggio
+evidenziato (il suo ritratto sparirÖ dalla selezione e apparirÖ
+in una delle finestre in alto).  Una volta scelti entrambi i
+personaggi, verrÖ evidenziato il pulsante `EXIT' (Esci). Premete
+il pulsante del fuoco per abbandonare questo schermo ed iniziare
+a giocare.
+
+ATTRIBUTI DEL PERSONAGGIO
+I personaggi dispongono di loro armi ed abilitÖ speciali. Le loro
+caratteristiche sono determinate da quattro attributi variabili:CapacitÖ, Resistenza, VelocitÖ e Saggezza. Gli attributi vengono
+incrementati spendendo denaro nello schermo
+dell'equipaggiamento del personaggio.
+
+@La Resistenza (sotto forma di cibo) puï essere acquisita anche
+durante il gioco.  Il grado degli attributi di un personaggio
+viene rappresentato sotto forma di barra. Il potenziale corrente
+viene determinato dal grado di CapacitÖ. Il potenziale corrente di
+un personaggio non puï mai eccedere il potenziale assoluto
+mostrato.
+
+SKILL (CapacitÖ) ä probabilmente l'attributo pió importante. E
+una forma di grado generale che influisce su tutti gli attributi
+e determina quando le abilitÖ speciali e gli incrementi di
+potenza diventano disponibili.
+@STAMINA (Resistenza) ä la forza vitale del personaggio; quando
+questa finisce il personaggio muore.
+
+SPEED (VelocitÖ) indica la velocitÖ di movimento del personaggio.
+Sorpresi?
+
+WISDOM (SAGGEZZA) si riferisce solo ai personaggi controllati dal
+computer poichÇ determina le loro abilitÖ nel gioco.
+
+@CONTROLLO DEL PERSONAGGIO
+La procedura ä semplicissima: usate il pulsante direzionale per
+spostare il personaggio in una qualsiasi delle otto direzioni.
+Per un controllo pió accurato, le barre delle caratteristiche
+speciali sinistra e destra possono essere usate per far avanzare
+il personaggio di un passo verso sinistra o verso destra. Una
+singola pressione del pulsante del fuoco fa sç che l'arma del
+personaggio spari nella direzione in cui questo ä rivolto.
+Premendo il pulsante blu si attiverÖ l'abilitÖ speciale
+posseduta, purchÇ abbiate un potere speciale. Quando ciï avviene,
+sentirete il messaggio "Special activated!~ (Speciale attivata).
+
+@ARMI
+Ogni personaggio ha una diversa arma con diversi attributi.
+Questi ultimi possono essere cambiati raccogliendo o acquistando
+incrementi di potenza. A seconda del personaggio, tali incrementi
+possono aumentare il numero di colpi tirati, il danno che questi
+causano e se attraversano mostri e fuoco. Man mano che vengono
+incrementati, i tiri dei personaggi cambieranno colore ad
+indicare che sono cresciuti in potenza. Lo scopo ä quello di far
+diventare tutti i tiri dei vostri personaggi rossi.
+
+@ABILITÖ SPECIALI
+Equipaggiamento con qualitÖ eccezionali. Vi sono molte abilitÖ
+speciali da comprare nel Chaos Engine, ma nessuno dei personaggi
+puï usarle tutte insieme.
+Quando un personaggio ha pió di un'abilitÖ speciale nel suo
+inventario, potete passare da una all'altra premendo il pulsante
+verde per scorrere le abilitÖ speciali disponibili. Quando il
+giocatore 2 ä controllato dal computer, le sue abilitÖ speciali
+possono essere usate dal giocatore 1. Per fare ciï il giocatore
+deve premere contemporaneamente i pulsanti verde e giallo per
+scambiare l'abilitÖ speciale con il CCP (giocatore controllato dal
+computer).  Premendo il pulsante giallo si possono scorrere le
+abilitÖ speciali possedute dal CCP.
+@Le abilitÖ speciali appaiono anche durante il gioco; basta
+camminare su una di esse per attivarla. E non preoccupatevi se le
+colpite per sbaglio: sono indistruttibili!
+
+POTERI SPECIALI$6172062
+Permettono di usare l'abilitÖ speciale dei vostri personaggi.
+Potete trasportarne fino a 6 per volta. Possono essere acquistati
+nello schermo dell'equipaggiamento del personaggio o raccolti nel
+corso del gioco camminandovi sopra.
+
+@Nel gioco a un giocatore potreste voler usare la riserva di
+potere speciale del giocatore 2, che vi fornirÖ un rifornimento
+supplementare di 6.
+
+ELEMENTI DEL GIOCO
+CAMPO DI GIOCO
+E un campo a scorrimento: lo schermo segue i personaggi mentre
+questi si muovono nello scenario. Quando un personaggio
+controllato dal computer viene lasciato indietro, cioä fuori
+dallo schermo, sarÖ teletrasportato vicino al personaggio del
+giocatore 1 circa tre secondi dopo. Quando vi sono due giocatori
+umani, lo scorrimento viene diviso tra i due, il che significa
+che per andare avanti ä necessaria una collaborazione. Capito?
+@NODI (e loro attivazione)$4255005
+
+
+
+
+Colpite il nodo finchÇ il suo rivestimento non esplode e viene
+attivato.  Sentirete il messaggio "NODE ACTIVATED!~ (Nodo
+attivato!). Quando sono stati attivati abbastanza nodi (nel primo
+livello ve ne sono tre), si aprirÖ l'uscita al livello successivo
+(sentirete il messaggio "EXIT OPEN!~, cioä "Uscita aperta!~).
+Andate avanti, a meno che non vi sentiate abbastanza forti da
+rimanere in quel livello ed esplorarlo ulteriormente. Quando
+attraversate l'uscita sentirete il messaggio "LEVEL COMPLETE!~.
+
+@Alcuni livelli hanno pió di un'uscita. Il contatore dei nodi sul
+pannello di stato in fondo allo schermo mostra il numero di nodi daattivare prima che un'uscita possa aprirsi. Se un'uscita ä aperta e
+vi sono ancora dei nodi da attivare, significa che esiste un'uscita
+alternativa. Attivate i nodi rimanenti e cercate questa uscita: viporterÖ ad una posizione pió vantaggiosa nel livello successivo.
+
+TESORO$1100092
+O denaro. I mostri morti lasciano cadere due diversi tipi di monete;in ogni livello vi sono spesso diversi tipi di tesori.
+Raccoglieteli velocemente prima che spariscano. Il tesoro viene
+aggiunto alla cassa comune del gruppo, pronto per essere
+distribuito tra i vari personaggi quando il livello ä completato.
+
+@CHIAVI D'ARGENTO$5185008
+Influenzano lo scenario permettendo di progredire (ad esempio,
+distruggendo alberi o creando degli scalini). Inoltre, possono
+rivelare oggetti e tesori.  Le chiavi d'argento sono fondamentali
+al completamento dei livelli.
+
+CHIAVI D'ORO$3147092
+Influenzano in parte lo scenario permettendo di rivelare oggetti
+o aree segrete nascoste piene di tesori. Le chiavi d'oro non sono
+fondamentali al completamento dei livelli, ma i pió avidi non
+possono farne a meno.  Sapete com'ä_
+@CIBO$2075001
+
+Si trova in scatolette e fornisce resistenza supplementare a
+chiunque ne faccia uso.
+
+SIMBOLO DI ZONA MORTALE$0250076
+Quando un personaggio tocca questo simbolo, esso sparisce
+(sentirete il messaggio "PLAYERS SAVED!~, cioä "Giocatori
+salvati!~). A questo punto, verrÖ registrato lo stato di ambedue i
+personaggi.  Se il personaggio di un giocatore muore, ritornerÖ
+all'azione con lo stato registrato in quel momento, ma solo dopo
+che il personaggio vivo trova un altro simbolo di zona mortale,
+muore o raggiunge la fine del livello.
+
+@MOSTRI
+"Tutti i mostri hanno dei tesori che lasciano cadere dietro di
+loro quando sono uccisi. Raccoglieteli per arricchire la cassa
+comune del gruppo~. Vi sono circa sette o otto diversi tipi di
+mostri in un mondo, e spesso ci vuole pió di un tiro singolo per
+ucciderli.
+Alcuni mostri sputano o tirano proiettili mortali con vari gradi
+di precisione; altri inseguono i personaggi; altri proteggono
+oggetti di un certo valore e altri ancora scaturiscono dai
+generatori (alcuni tiri o chiavi ben piazzati impediranno al
+generatore di creare mostri).
+
+@SCHERMO DEI BONUS
+Lo schermo dei bonus viene visualizzato quando si completa un
+livello. Qui potrete osservare se avete fatto tutto ciï che era in
+vostro potere mentre eravate in quel livello. La cassa comune, con
+tutto il tesoro raccolto nel livello, viene divisa tra i personaggi
+del gruppo a seconda della loro prestazione.  Nel gioco ad un
+giocatore, tutto il denaro raccolto viene diviso in parti uguali e
+viene distribuito automaticamente tra i due personaggi.  La
+colonna al centro dello schermo mostra delle piccole immagini
+(icone) rappresentanti i sei elementi pió importanti di un livello,
+con il totale del livello all'estrema sinistra dello schermo. Qui
+potete osservare la prestazione individuale dei due personaggi e laloro prestazione come membri di un gruppo.
+
+@Il pulsante EXIT (Esci) ä giÖ evidenziato, quindi basta premere il
+pulsante del fuoco per abbandonare questo schermo.
+Se uno dei due personaggi ha terminato le sue vite, l'altro
+membro del gruppo ha la possibilitÖ di comprargliene una dopo
+ogni schermo dei bonus. Il personaggio morto pagherÖ, a patto che
+abbia abbastanza denaro; in caso contrario, il personaggio
+rimanente dovrÖ aggiungere la differenza. Nel gioco a due avete
+l'opportunitÖ di rispondere NO; spostate il pulsante direzionale
+a sinistra o a destra per evidenziare l'opzione desiderata e
+quindi premete il pulsante del fuoco per selezionarla. Nel gioco
+a un giocatore, DOVETE necessariamente comprare una vita
+all'altro giocatore.
+
+@EQUIPAGGIAMENTO DEI PERSONAGGI
+Lo schermo dell'equipaggiamento del personaggio appare dopo ogni
+secondo e quarto livello di un mondo. Qui potete usare il denaro
+acquisito durante il gioco per acquistare equipaggiamento ed
+incrementare gli attributi di un personaggio. Sulla destra dello
+schermo sono illustrati gli oggetti in vendita e sulla sinistra
+lo stato corrente del personaggio. Il personaggio del giocatore 1
+spende per primo il suo denaro. Se vi ä un solo giocatore umano
+questo dovrÖ equipaggiare anche il personaggio controllato dal
+computer.  Altrimenti, il personaggio del giocatore 2 viene
+equipaggiato dal secondo giocatore.
+
+@Spostate il pulsante direzionale in una direzione qualsiasi per
+spostare l'evidenziazione da un elemento all'altro. Premete il
+pulsante del fuoco per comprare l'elemento evidenziato (il vostro
+saldo attivo verrÖ ridotto di conseguenza). Quando acquistate
+un'abilitÖ speciale, questa viene spostata nell'inventario sulla
+sinistra dello schermo; evidenziatela e premete il pulsante del
+fuoco per selezionarla ed usarla nel livello successivo. Una
+volta finito di equipaggiare il personaggio, spostate
+l'evidenziazione sul pulsante EXIT (Esci) e premete il pulsante
+del fuoco.
+
+@Se scegliete la funzione ALL (Tutti), il computer darÖ
+un'occhiata alla situazione finanziaria del vostro personaggio e
+selezionerÖ gli attributi preferibili per lui, ma non acquisterÖ
+incrementi di potenza, abilitÖ speciali o poteri speciali.
+La CapacitÖ controlla gli acquisti che il vostro personaggio puï
+effettuare in qualsiasi momento. Una volta acquistata la
+CapacitÖ, noterete che altri elementi diventano disponibili. Il
+valore massimo corrente (barra marrone) degli altri attributi di
+cui disponete aumenterÖ permettendovi di aumentare il vostro
+livello corrente (barra verde). Gli incrementi di potenza e le
+diverse abilitÖ speciali possono diventare disponibili ad alcuni
+livelli di CapacitÖ.
+
+@Notate che poichÇ la CapacitÖ ä un grado generale per il vostro
+personaggio, questo livello puï essere aumentato solo quando
+avrete aumentato tutti gli altri attributi e acquistato
+incrementi di potenza e abilitÖ.
+
+Alla fine di ogmi mondo, quando il gruppo ha finito di acquistare
+l'equipaggiamento, vi sarÖ data una parola d'ordine.  Annotatela
+poichÇ contiene dettagli sulla prestazione del gruppo.  La
+prossima volta che caricate The Chaos Engine, potrete registare
+questa parola d'ordine e iniziare a giocare dal momento in cui la
+parola ä stata data.
+
+@Ricordate che una parola d'ordine data duranteun gioco ad un
+giocatore ripristinerÖ solo un gioco ad un giocatore e viceversa.
+
+                                                              --ooOoo--%

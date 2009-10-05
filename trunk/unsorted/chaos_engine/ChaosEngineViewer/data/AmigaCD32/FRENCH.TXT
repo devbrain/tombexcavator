@@ -1,0 +1,260 @@
+#ONT PARTICIPE A LA CREATION DE CE JEU :
+
+Conception - Simon Knight & Eric Matthews
+Codage original - Steve Cargill et Mike Montgomery
+Conversion et ajouts pour le CD32 - Mike Montgomery
+Conception des graphiques - Dan Malone & Herman Serrano
+Musique et effets sonores - Richard Joseph
+Gestion du projet - Graeme Boxall
+
+{} 1993, 1994 The Bitmap Brothers
+@BIENVENUE !
+Bienvenue dans The Chaos Engine. Ce manuel a ‚t‚ con‡u pour vous
+permettre de profiter pleinement de ce produit. Si vous n'ˆtes pas
+entiŠrement satisfait, contactez-nous … l'adresse suivante : -
+
+Customer Support TCE CD32,
+Renegade,
+Unit C1L Metropolitan Wharf,
+Wapping Wall,
+London E1 9SS,
+Grande-Bretagne.
+
+@ECRANS D'OPTIONS
+Une courte s‚quence d'introduction pose le d‚cor. Les ‚crans
+d'options apparaissent ensuite.
+
+SELECT NEW GAME (SELECTIONNER NOUVEAU JEU)
+Vous pouvez jouer avec un ami ou seul. Si vous jouez seul, vous
+serez automatiquement assist‚ d'un compagnon contr“l‚ par
+l'ordinateur. Sans ce deuxiŠme joueur, l'action n'est pas aussi
+empreinte de comp‚tition, mais elle ne perd rien en intensit‚.
+
+@ENTER PASSWORD (ENTRER MOT DE PASSE)
+Les mots de passe vous sont communiqu‚s aux endroits-cl‚ du jeu.
+Ils renferment des informations sur les performances et la
+position de vos personnages et vous ‚vitent d'avoir … rejouer les
+premiŠres sections du jeu (encore que vous ayez pu passer … c“t‚ de
+certains de ses plaisirs cach‚s). Enregistrer un mot de passe validevous permet de reprendre le jeu … l'endroit o— vous entrez le mot depasse.  Mettez la lettre, le chiffre ou le symbole souhait‚ en
+surbrillance… l'aide des flŠches directionnelles. Appuyez sur le
+bouton de tir pour s‚lectionner l'‚l‚ment en question.
+
+@PERSONNAGES A ENGAGER
+Il existe six personnages que vous pouvez engager, mais dont deux
+seulement peuvent se joindre … l'‚quipe. Avant d'engager un
+personnage, examinez son dossier. Le joueur 1 a la priorit‚ pour
+choisir des personnages. S'il n'y a pas de deuxiŠme joueur humain,
+le joueur 1 doit ‚galement choisir le personnage contr“l‚ par
+l'ordinateur. Dans le cas inverse, le joueur 2 peut choisir un
+personnage pour jouer.
+Appuyez sur les flŠches directionnelles pour d‚placer la barre de
+mise en surbrillance d'un personnage … l'autre. Des informations
+sur le personnage choisi s'affichent dans la partie gauche de
+l'‚cran.
+@Appuyez sur le bouton de tir pour engager le personnage
+mis en surbrillance (son portrait disparaŒtra de la liste et
+r‚apparaŒtra dans l'une des fenˆtres ci-dessus).
+Lorsque les deux personnages ont ‚t‚ choisis, le bouton "EXIT~
+(Quitter) est mis en surbrillance. Appuyez sur le bouton de tir pourquitter cet ‚cran et commencer … jouer.
+
+ATTRIBUTS DES PERSONNAGES
+Les personnages possŠdent chacun leurs comp‚tences sp‚ciales et
+leurs armes.  Leurs caract‚ristiques sont d‚termin‚es par quatre
+attributs variables :  adresse, endurance, rapidit‚ et intelligence.
+@Ces attributs augmentent grƒce aux liquidit‚s d‚pens‚es …
+l'‚cranEquipement des personnages.  L'endurance (sous forme de
+nourriture) s'acquiert par ailleurs au cours du jeu. Une estimationdes attributs des personnages est indiqu‚e sous forme de barre.  Le
+potentiel actuel d'un personnage est d‚termin‚ par son niveau
+d'adresse et ne peut exc‚der le potentiel maximum affich‚.
+
+SKILL (ADRESSE) repr‚sente peut-ˆtre l'attribut le plus important.Il s'agit d'une sorte de niveau g‚n‚ral qui affecte tous les
+attributs et d‚termine le moment o— les bons de pouvoir et les
+comp‚tences sp‚ciales deviennent disponibles.
+@STAMINA (ENDURANCE) est la source de vie d'un personnage. Si elle
+s'‚puise, c'est la mort.
+
+SPEED (RAPIDITE) est la vitesse … laquelle le personnage se d‚place
+(sans blague ?).
+
+INTELLIGENCE (INTELLIGENCE) ne concerne que les personnages
+contr“l‚s par l'ordinateur, car elle d‚termine leur aptitude …
+jouer.
+@CONTROLE D'UN PERSONNAGE
+C'est simple. Vous d‚placez le personnage … l'aide des flŠches
+directionnelles dans l'une des huit directions possibles. Pour plus
+de pr‚cision, utilisez les barres droite et gauche r‚serv‚es … cet
+effet pour que le personnage se d‚place d'un pas vers la droite ou
+la gauche. Pour le faire tirer avec son arme dans la direction …
+laquelle il fait face, appuyez une fois sur le bouton de tir.
+Appuyez sur le bouton bleu pour activer la comp‚tence sp‚ciale
+fix‚e pour ce personnage, s'il est dot‚ d'un pouvoir sp‚cial. Si
+c'est le cas, vous entendez "SPECIAL ACTIVATED !~ (Pouvoir sp‚cial
+activ‚).
+@ARMES
+Chaque personnage dispose d'une arme particuliŠre dot‚e de
+diff‚rents attributs. Vous pouvez modifier ces attributs en
+ramassant ou en achetant des bons de pouvoir. Ces bons accroissent,en fonction de chaque personnage, le nombre de coups tir‚s,
+l'importance des d‚gƒts occasionn‚s, la facult‚ des tirs …
+transpercer les monstres et l'‚tendue des incendies qu'ils
+d‚clenchent.  Les tirs d'un personnage prennent une couleur
+diff‚rente lorsque leur pouvoir augmente. L'objectif … atteindre
+est la couleur rouge pour tous les tirs de vos personnages.
+@COMPETENCES SPECIALES
+Il s'agit d'un ‚quipement dot‚ de qualit‚s uniques. Vous pouvez
+acheter de nombreuses comp‚tences sp‚ciales diff‚rentes, mais
+aucun des personnages ne les utilisera toutes au cours du jeu.
+Lorsqu'un personnage possŠde plusieurs comp‚tences sp‚ciales, vouspouvez les permuter en appuyant sur le bouton vert. Lorsque le
+joueur 2 est contr“l‚ par l'ordinateur, ses comp‚tences sp‚ciales
+peuvent ˆtre utilis‚es par le joueur 1. Vous devez pour cela
+… la fois sur les boutons vert et jaune pour intervertir les
+comp‚tences sp‚ciales.
+@Appuyez sur le bouton jaune pour faire d‚filer les comp‚tences
+sp‚ciales du personnage contr“l‚ par l'ordinateur.  Les comp‚tencessp‚ciales apparaissent ‚galement pendant le jeu.  Marchez
+simplement vers l'une d'elles pour l'activer. N'ayez pas peur de
+d‚truire des comp‚tences sp‚ciales par erreur : elles sont
+indestructibles.
+$6180102
+POUVOIR SPECIAL
+Les pouvoirs sp‚ciaux vous permettent d'utiliser les comp‚tences
+sp‚ciales de votre personnage. Vous pouvez en transporter six … la
+fois.
+@Les comp‚tences sp‚ciales s'acquiŠrent … l'‚cran Character equip
+(Equipement des personnages) ; vous pouvez aussi les ramasser au
+cours du jeu en posant le pied dessus.  Lorsque vous jouez seul,
+vous pouvez puiser dans la r‚serve de pouvoirs sp‚ciaux du joueur 2et b‚n‚ficier ainsi de 6 pouvoirs sp‚ciaux de plus.
+
+CE QUE LE JEU VOUS RESERVE
+CHAMP DE JEU
+Le champ de jeu d‚file, c'est-…-dire que l'‚cran suit la progressiondes personnages … mesure qu'ils se d‚placent.
+@Lorsqu'un personnage contr“l‚ par ordinateur est laiss‚ en
+arriŠre, en dehors de l'‚cran, il est t‚l‚port‚ … proximit‚ du
+personnage du joueur 1 environ 3 secondes aprŠs avoir ‚t‚ perdu.  Si
+les deux joueurs sont "humains~, l'‚cran se positionne entre les
+deux et un acte de coop‚ration quelconque est alors n‚cessaire pouravancer dans le jeu.  OK ?
+
+NIUDS (FONCTIONNEMENT)
+$4260077
+
+Pour activer un nIud, tirez dessus pour faire exploser son boŒtier.
+Vous entendrez alors "NODE ACTIVATED!~ (Niud activ‚ !).
+@Lorsque suffisamment de nIuds ont ‚t‚ activ‚s (le tout premier
+niveau en compte trois), la sortie vers le niveau suivant s'ouvre etvous entendez "EXIT OPEN!~ (Sortie ouverte !).
+Avancez, … moins que vous ne vous sentiez le courage d'explorer le
+premier niveau plus avant.  "LEVEL COMPLETE!~ (Niveau termin‚ !)
+vous est annonc‚ quand vous passez la porte pour sortir.
+Certains niveaux comportent plus d'une porte de sortie. Le
+compteur de nIuds du panneau d'‚tat en bas de l'‚cran affiche le
+nombre de nIuds … activer avant que l'une des portes de sortie ne
+s'ouvre. Si l'une des portes est d‚j… ouverte alors qu'il reste des
+nIuds … activer, cela indique la pr‚sence d'une autre sortie.
+Activez les autres nIuds et trouvez la sortie : vous b‚n‚ficierez
+ainsi d'un avantage pour le niveau sup‚rieur.
+@TRESOR$1100008
+
+
+Ou liquidit‚s. Les monstres morts laissent tomber des piŠces
+d'argent de deux valeurs diff‚rentes, et il existe souvent … chaqueniveau une demi-douzaine de types de tr‚sors diff‚rents
+abandonn‚s.  Ramassez ces tr‚sors avant qu'ils ne disparaissent.
+Chaque nouveau tr‚sor est ajout‚ … la cagnotte de l'‚quipe, prˆt …
+ˆtre distribu‚ aux diff‚rents personnages une fois le niveau
+termin‚.
+@CLES ARGENTEES$5175007
+Elles affectent le paysage de fa‡on … permettre la progression de
+l'‚quipe, par exemple par la destruction d'arbres ou la cr‚ation de
+marches. Elles permettent aussi de r‚v‚ler des objets et le tr‚sor.
+Les cl‚s argent‚es sont essentielles pour terminer les niveaux.
+
+CLES DOREES$3140089
+Elles affectent le paysage en r‚v‚lant des r‚gions cach‚es
+renfermant de multiples tr‚sors ou en r‚v‚lant des objets. Les cl‚sdor‚es ne sont pas indispensables pour terminer les niveaux, mais
+les gourmands ne peuvent s'en passer. Eh oui !
+@NOURRITURE$2145005
+
+Elle se pr‚sente sous forme de boŒtes de conserve et fournit une
+endurance suppl‚mentaire … celui qui la consomme.
+
+JETON DE ZONE MORTE$0210074
+Lorsqu'un personnage le touche, il disparaŒt (et vous entendez
+"PLAYERS SAVED!~ : JOUEURS SAUVES !). A ce stade, l'‚tat des deux
+personnages a ‚t‚ enregistr‚. D‚sormais, si le personnage de l'un
+des joueurs meurt, il reprend l'action avec son ‚tat enregistr‚ -
+mais seulement si le personnage vivant trouve un autre jeton de
+zone morte, ou s'il meurt ou parvient … la fin du niveau. Et, bien
+s–r, s'il reste des vies aux personnages.
+@MONSTRES
+Ils d‚tiennent tous des tr‚sors laiss‚s … l'abandon quand ils sont
+tu‚s.  Ramassez ces tr‚sors pour enrichir la cagnotte de l'‚quipe.
+Il existe environ sept ou huit types de monstres dans un monde, et
+un seul coup tir‚ ne suffit souvent pas pour tuer ces bˆtes-l….
+Certains monstres crachent ou tirent, avec plus ou moins de
+pr‚cision, des projectiles mortels. Certains se lancent … la
+poursuite des personnages ; d'autres gardent jalousement des
+objets int‚ressants. Certains monstres sont engendr‚s par des
+g‚n‚rateurs.  Vous pouvez mettre fin … l'activit‚ d'un g‚n‚rateur
+… l'aide de quelques tirs ou cl‚s bien plac‚s.
+@ECRAN DE BONUS
+L'‚cran de bonus apparaŒt … la fin d'un niveau. Vous savez alors si
+vous avez vraiment fait le maximum au cours de ce niveau. La
+cagnotte de l'‚quipe - tout ce tr‚sor que vous avez amass‚ au coursdu niveau - est r‚partie entre les personnages en fonction de leur
+m‚rite.
+Dans un jeu … un seul joueur, tout l'argent amass‚ est r‚parti
+‚galement entre les deux personnages.
+La colonne au centre de l'‚cran fait apparaŒtre de petites images
+(ic“nes) qui repr‚sentent les six ‚l‚ments les plus importants d'unniveau, le total du niveau ‚tant indiqu‚ … l'extrˆme gauche de
+l'‚cran. Vous y trouverez ‚galement les performances
+
+@individuelles des deux personnages ainsi que les performances
+collectives de l'‚quipe. Le bouton EXIT (Quitter) est d‚j… mis en
+surbrillance; appuyez sur le bouton de tir pour quitter cet ‚cran.
+Si l'un des personnages est … court de vies, le membre restant de
+l'‚quipe peut lui acheter une nouvelle vie aprŠs chaque ‚cran de
+bonus. Le personnage mort doit payer, s'il lui reste assez d'argent,
+sinon le personnage restant doit r‚gler la diff‚rence. Dans un jeu …deux joueurs, vous avez le droit de refuser en mettant en
+surbrillance l'option requise … l'aide des flŠches directionnelles
+gauche ou droite, puis en appuyant sur le bouton de tir pour la
+s‚lectionner. Dans un jeu … un seul joueur, vous AVEZ L'OBLIGATION
+d'acheter une vie … l'autre joueur.
+@EQUIPEMENT DES PERSONNAGES
+L'‚cran Character Equip (Equipement des personnages) vous est
+pr‚sent‚ aprŠs chaque deuxiŠme et quatriŠme niveau d'un monde.
+C'est le moment o— vous pouvez utiliser les liquidit‚s amass‚es au
+cours du jeu pour acheter des ‚quipements et am‚liorer les
+attributs des personnages. Le c“t‚ droit de l'‚cran vous montre lesarticles … vendre. A gauche apparaŒt l'‚tat actuel du personnage.
+Le personnage du joueur 1 doit commencer par d‚penser son salaire
+personnel.  Si aucun autre joueur humain n'est impliqu‚, le joueur 1 doit ‚galement ‚quiper le personnage contr“l‚ par l'ordinateur.
+Sinon, le personnage du joueur 2 est ‚quip‚ par le deuxiŠme joueur.
+@Appuyez sur les flŠches directionnelles pour d‚placer la barre de
+mise en surbrillance d'un objet … l'autre. Appuyez sur le bouton de
+tir pour acheter l'article mis en surbrillance. Vos liquidit‚s sont
+r‚duites en cons‚quence.  Une fois une comp‚tence sp‚ciale achet‚e
+elle est incorpor‚e … votre stock … gauche de l'‚cran. Pour
+l'utiliser au niveau suivant, mettez-la en surbrillance, puis
+appuyez sur le bouton de tir pour la s‚lectionner. Lorsque vous aveztermin‚ d'‚quiper votre personnage, placez la barre de mise en
+surbrillance sur le bouton EXIT (Quitter) et appuyez sur le bouton
+de tir.
+@Si vous choisissez la fonction ALL (Tout), l'ordinateur jette un
+coup d'Iil sur l'‚tat des liquidit‚s de votre personnage, puis lui
+s‚lectionne les meilleurs attributs. Il n'achŠtera pas de bons de
+pouvoir, de comp‚tences sp‚ciales ou de pouvoir sp‚cial.
+L'adresse contr“le en permanence ce que vous pouvez acheter pour
+votre personnage. En achetant de l'adresse, vous remarquerez que
+diff‚rentes choses deviennent disponibles. Le maximum actuel
+(barre marron) de vos autres attributs augmente, vous permettantd'accroŒtre … son tour leur niveau actuel (barre verte). Les bons de
+pouvoir des diff‚rentes comp‚tences sp‚ciales deviennent
+‚galement disponibles … certains niveaux d'adresse.
+
+@Notez que l'adresse, repr‚sentant une estimation g‚n‚rale de
+votre personnage, ne peut ˆtre accrue que si tous les autres
+attributs ont ‚t‚ eux-mˆmes augment‚s et si vous avez achet‚ desbons de pouvoir et des comp‚tences.
+
+Au finale de chaque monde, lorsque l'‚quipe a termin‚ d'acheter
+des ‚quipements, un mot de passe vous est communiqu‚.  Notez-le,
+il contient des informations sur les performances de l'‚quipe. La
+prochaine fois que vous chargerez The Chaos Engine, vous pourrez
+enregistrer ce mot de passe et reprendre le jeu … l'endroit o— le
+mot de passe vous a ‚t‚ donn‚.
+
+@Un mot de passe communiqu‚ au cours d'un jeu … un seul joueur ne
+restaure qu'un jeu … un seul joueur, etc.
+
+                                                              --ooOoo--%

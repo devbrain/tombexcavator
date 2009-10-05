@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<infos>
+  <!-- Palette 3, 0, 4 & 9 -->
+  <info id="Hero - World 1 - brigand"                     com=""              file="brigand.bin"  offset="0x000000" nb="48"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="8" />
+  <info id="Hero - World 1 - mercenry"                    com=""              file="mercenry.bin" offset="0x000000" nb="48"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="8" />
+  <info id="Hero - World 1 - gentlman"                    com=""              file="gentlman.bin" offset="0x000000" nb="48"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="8" />
+  <info id="Hero - World 1 - navvie"                      com=""              file="navvie.bin"   offset="0x000000" nb="48"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="8" />
+  <info id="Hero - World 1 - thug"                        com=""              file="thug.bin"     offset="0x000000" nb="48"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="8" />
+  <info id="Hero - World 1 - preacher"                    com=""              file="preacher.bin" offset="0x000000" nb="48"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="8" />
+
+  <!-- Enemies -->
+  <info id="Enemy - World 1 - rockman"                    com=""              file="rockman.bin"  offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 1 - beetle"                     com=""              file="beetle.bin"   offset="0x000000" nb="25"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="25" />
+  <info id="Enemy - World 1 - compost"                    com=""              file="compost.bin"  offset="0x000000" nb="4"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" />
+  <info id="Enemy - World 1 - frogger"                    com=""              file="frogger.bin"  offset="0x000000" nb="40"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="5" />
+  <info id="Enemy - World 1 - lizman"                     com=""              file="lizman.bin"   offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 1 - thumper 1"                  com=""              file="thumper.bin"  offset="0x000000" nb="11"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 2 - blob"                       com=""              file="blob.bin"     offset="0x000000" nb="9"   width="16"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" />
+  <info id="Enemy - World 2 - guard"                      com=""              file="guard.bin"    offset="0x000000" nb="28"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="7" />
+  <info id="Enemy - World 2 - thumper"                    com=""              file="thumper.bin"  offset="0x000000" nb="11"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 2 - dustdevl"                   com=""              file="dustdevl.bin" offset="0x000000" nb="20"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 2 - beast"                      com=""              file="beast.bin"    offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 2 - dhturret"                   com=""              file="dhturret.bin" offset="0x000000" nb="2"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" />
+  <info id="Enemy - World 2 - sewer"                      com=""              file="sewer.bin"    offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 2 - steamjet"                   com=""              file="steamjet.bin" offset="0x000000" nb="28"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 2 - fire_man"                   com=""              file="fire_man.bin" offset="0x000000" nb="32"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 2 - kangaroo"                   com=""              file="kangaroo.bin" offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 3 - hand"                       com=""              file="hand.bin"     offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 3 - stonewat"                   com=""              file="stonewat.bin" offset="0x000000" nb="9"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" cols="3" />
+  <info id="Enemy - World 3 - cocoon"                     com=""              file="cocoon.bin"   offset="0x000000" nb="5"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" />
+  <info id="Enemy - World 3 - spider"                     com=""              file="spider.bin"   offset="0x000000" nb="25"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" cols="25" />
+  <info id="Enemy - World 3 - lobber"                     com=""              file="lobber.bin"   offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 3 - misslink"                   com=""              file="misslink.bin" offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 3 - slug"                       com=""              file="slug.bin"     offset="0x000000" nb="32"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 3 - mace"                       com=""              file="mace.bin"     offset="0x000000" nb="16"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 4 - emplacmt"                   com=""              file="emplacmt.bin" offset="0x000000" nb="16"  width="32"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="8" />
+  <info id="Enemy - World 4 - emplgun"                    com=""              file="emplgun.bin"  offset="0x000000" nb="24"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="12" />
+  <info id="Enemy - World 4 - gyro_big"                   com=""              file="gyro_big.bin" offset="0x000000" nb="16"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 4 - revdome"                    com=""              file="revdome.bin"  offset="0x000000" nb="15"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="15" />
+  <info id="Enemy - World 4 - robot"                      com=""              file="robot.bin"    offset="0x000000" nb="40"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="5" />
+  <info id="Enemy - World 4 - rat"                        com=""              file="rat.bin"      offset="0x000000" nb="32"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 4 - halftrak"                   com=""              file="halftrak.bin" offset="0x000000" nb="32"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 4 - mechanic"                   com=""              file="mechanic.bin" offset="0x000000" nb="32"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 4 - engyball"                   com=""              file="engyball.bin" offset="0x000000" nb="17"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="4" />
+  <info id="Enemy - World 4 - thebaron"                   com=""              file="thebaron.bin" offset="0x000000" nb="10"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" cols="3" />
+  <info id="Enemy - World 4 - barongun"                   com=""              file="barongun.bin" offset="0x000000" nb="20"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Transparent" />
+
+  <!-- Panel -->
+  <info id="Panel - Background"                           com="static 06"     file="static.bin"   offset="0x008200" nb="12"  width="16"  height="24"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Opaque" />
+  <info id="Panel - Portrait - brigand"                   com=""              file="brigand.bin"  offset="0x006000" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Opaque" />
+  <info id="Panel - Portrait - mercenry"                  com=""              file="mercenry.bin" offset="0x006000" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Opaque" />
+  <info id="Panel - Portrait - gentlman"                  com=""              file="gentlman.bin" offset="0x006000" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Opaque" />
+  <info id="Panel - Portrait - navvie"                    com=""              file="navvie.bin"   offset="0x006000" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Opaque" />
+  <info id="Panel - Portrait - thug"                      com=""              file="thug.bin"     offset="0x006000" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Opaque" />
+  <info id="Panel - Portrait - preacher"                  com=""              file="preacher.bin" offset="0x006000" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Opaque" />
+  <info id="Panel - Power background"                     com="static 07"     file="static.bin"   offset="0x008B00" nb="2"   width="32"  height="24"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Transparent" />
+  <info id="Panel - Numbers (small)"                      com="static 08"     file="static.bin"   offset="0x008E00" nb="10"  width="16"  height="7"   bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Transparent" />
+  <info id="Panel - Power bars"                           com="static 09"     file="static.bin"   offset="0x009030" nb="2"   width="16"  height="2"   bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Transparent" />
+  <info id="Panel - Numbers (medium)"                     com="static 10"     file="static.bin"   offset="0x009068" nb="10"  width="16"  height="9"   bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Transparent" />
+  <info id="Panel - Powers"                               com="static 11"     file="static.bin"   offset="0x009338" nb="14"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="5"  mask="Transparent" />
+
+  <!-- Backgrounds -->
+  <info id="Background - World 1"                         com=""              file="lev1bak.bin"  offset="0x000000" nb="380" width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Opaque"      cols="20" />
+  <info id="Background - World 2"                         com=""              file="lev2bak.bin"  offset="0x000000" nb="380" width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Opaque"      cols="20" />
+  <info id="Background - World 3"                         com=""              file="lev3bak.bin"  offset="0x000000" nb="380" width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Opaque"      cols="20" />
+  <info id="Background - World 4a"                        com=""              file="lev4bak.bin"  offset="0x000000" nb="240" width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Opaque"      cols="20" />
+  <info id="Background - World 4b"                        com=""              file="lev5bak.bin"  offset="0x000000" nb="140" width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Opaque"      cols="20" />
+  <info id="Background - World 4c"                        com=""              file="lev6bak.bin"  offset="0x000000" nb="140" width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Opaque"      cols="20" />
+
+  <!-- Items -->
+  <info id="Items - World 1"                              com=""              file="tokens_1.bin" offset="0x000000" nb="40"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Opaque"      cols="20" />
+  <info id="Items - World 2"                              com=""              file="tokens_2.bin" offset="0x000000" nb="40"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="0"  mask="Opaque"      cols="20" />
+  <info id="Items - World 3"                              com=""              file="tokens_3.bin" offset="0x000000" nb="40"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="4"  mask="Opaque"      cols="20" />
+  <info id="Items - World 4"                              com=""              file="tokens_4.bin" offset="0x000000" nb="40"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="9"  mask="Opaque"      cols="20" />
+
+  <!-- Screens -->
+  <info id="Screen (2a) - Background"                     com=""              file="st_back.bin"  offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="11" mask="Opaque" />
+  <info id="Screen (2b) - Hire"                           com=""              file="st_hire.bin"  offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen (2c) - Equip"                          com=""              file="st_equip.bin" offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen (2d) - Bonus"                          com=""              file="st_bonus.bin" offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen (2e) - Dead"                           com=""              file="st_dead.bin"  offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Powers"                        com="st_chrmb 01a"  file="st_chrmb.bin" offset="0x000000" nb="19"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Numbers (top left)"            com="st_chrmb 01b"  file="st_chrmb.bin" offset="0x000980" nb="10"  width="16"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Buttons (small)"               com="st_chrmb 01c"  file="st_chrmb.bin" offset="0x000C00" nb="3"   width="16"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Arrows"                        com="st_chrmb 01d"  file="st_chrmb.bin" offset="0x000CC0" nb="6"   width="16"  height="19"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" cols="3" />
+  <info id="Screen parts - Potions (enabled)"             com="st_chrmb 01e"  file="st_chrmb.bin" offset="0x001050" nb="4"   width="64"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Weapons"                       com="st_chrmb 01f"  file="st_chrmb.bin" offset="0x001450" nb="6"   width="80"  height="24"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Ammo (specials)"               com="st_chrmb 01g0" file="st_chrmb.bin" offset="0x002AD0" nb="1"   width="48"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Ammo (powers)"                 com="st_chrmb 01g1" file="st_chrmb.bin" offset="0x002B90" nb="1"   width="48"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Bonus bar"                     com="st_chrmb 01g2" file="st_chrmb.bin" offset="0x002C50" nb="1"   width="48"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Golden font"                   com="st_chrmb 01h"  file="st_chrmb.bin" offset="0x002D10" nb="41"  width="16"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Buttons"                       com="st_chrmb 01i"  file="st_chrmb.bin" offset="0x003750" nb="6"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Powers (lighted)"              com="st_chrmb 01j"  file="st_chrmb.bin" offset="0x004350" nb="28"  width="16"  height="18"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" cols="14" />
+  <info id="Screen parts - Potions (bonus)"               com="st_chrmb 01k0" file="st_chrmb.bin" offset="0x005310" nb="4"   width="64"  height="12"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Potions (disabled)"            com="st_chrmb 01k1" file="st_chrmb.bin" offset="0x005910" nb="1"   width="64"  height="12"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Numbers (rolling)"             com="st_chrmb 01l"  file="st_chrmb.bin" offset="0x005A90" nb="40"  width="16"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" cols="20" />
+  <info id="Screen parts - Portraits (big) - brigand"     com="st_chrmb 01n0" file="st_chrmb.bin" offset="0x006490" nb="1"   width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (big) - mercenary"   com="st_chrmb 01n1" file="st_chrmb.bin" offset="0x006910" nb="1"   width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (big) - gentleman"   com="st_chrmb 01n2" file="st_chrmb.bin" offset="0x006D90" nb="1"   width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (big) - navvie"      com="st_chrmb 01n3" file="st_chrmb.bin" offset="0x007210" nb="1"   width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (big) - thug"        com="st_chrmb 01n4" file="st_chrmb.bin" offset="0x007690" nb="1"   width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (big) - preacher"    com="st_chrmb 01n5" file="st_chrmb.bin" offset="0x007B10" nb="1"   width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (big) - Empty"       com="st_chrmb 01n6" file="st_chrmb.bin" offset="0x007F90" nb="1"   width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (small) - brigand"   com="st_chrmb 01o0" file="st_chrmb.bin" offset="0x008410" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (small) - mercenary" com="st_chrmb 01o1" file="st_chrmb.bin" offset="0x008610" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (small) - gentleman" com="st_chrmb 01o2" file="st_chrmb.bin" offset="0x008810" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (small) - navvie"    com="st_chrmb 01o3" file="st_chrmb.bin" offset="0x008A10" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (small) - thug"      com="st_chrmb 01o4" file="st_chrmb.bin" offset="0x008C10" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (small) - preacher"  com="st_chrmb 01o5" file="st_chrmb.bin" offset="0x008E10" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Portraits (small) - Empty"     com="st_chrmb 01o6" file="st_chrmb.bin" offset="0x009010" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Cell"                          com="st_chrmb 01p"  file="st_chrmb.bin" offset="0x009210" nb="1"   width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Bulbs"                         com="st_chrmb 01q"  file="st_chrmb.bin" offset="0x009410" nb="18"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque"      cols="3" />
+  <info id="Screen parts - Ammo empty (powers)"           com="st_chrmb 01r"  file="st_chrmb.bin" offset="0x009D10" nb="1"   width="48"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Opaque" />
+  <info id="Screen parts - Heroes name (1)"               com="st_chrmb 01s"  file="st_chrmb.bin" offset="0x009DD0" nb="6"   width="64"  height="9"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" />
+  <info id="Screen parts - Heroes name (2)"               com="st_chrmb 01t"  file="st_chrmb.bin" offset="0x00A490" nb="12"  width="48"  height="8"   bp="4" mode="Interleaved" interleave="2" palIndex="13" mask="Transparent" cols="2" />
+
+  <!-- Font -->
+  <info id="Font - Menu (big)"                            com=""              file="st_font.bin"  offset="0x000000" nb="86"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="11" mask="Transparent" cols="43" />
+  <info id="Font - Menu (small)"                          com=""              file="st_itext.bin" offset="0x0004A0" nb="62"  width="8"   height="8"   bp="4" mode="Interleaved" interleave="1" palIndex="11" mask="Transparent" cols="31" />
+  <info id="Font - White (small shaded)"                  com=""              file="st_itext.bin" offset="0x000000" nb="37"  width="8"   height="8"   bp="4" mode="Interleaved" interleave="1" palIndex="8"  mask="Transparent" cols="37" />
+  <info id="Font - White (small)"                         com=""              file="st_itext.bin" offset="0x000C60" nb="35"  width="8"   height="8"   bp="4" mode="Interleaved" interleave="1" palIndex="8"  mask="Transparent" cols="35" />
+
+  <!-- Misc -->
+  <info id="Misc - Golden message (1)"                    com=""              file="st_font.bin"  offset="0x002B00" nb="19"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="11" mask="Transparent" />
+  <!-- Palette 3, 0, 4 & 9 -->
+  <info id="Misc - Golden message (2)"                    com="static 01"     file="static.bin"   offset="0x000000" nb="7"   width="32"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" />
+  <info id="Misc - nodes"                                 com="static 03"     file="static.bin"   offset="0x004B00" nb="10"  width="16"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" />
+  <info id="Misc - tranmask"                              com="static 05"     file="static.bin"   offset="0x007E00" nb="8"   width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" />
+  <info id="Misc - sp8x8"                                 com="static 12"     file="static.bin"   offset="0x009A38" nb="164" width="8"   height="8"   bp="4" mode="Interleaved" interleave="1" palIndex="3"  mask="Transparent" cols="8" />
+  <info id="Misc - expl1616"                              com="static 02"     file="static.bin"   offset="0x001500" nb="108" width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="20" />
+  <info id="Misc - expl3232"                              com="static 04"     file="static.bin"   offset="0x005A00" nb="18"  width="32"  height="32"  bp="4" mode="Interleaved" interleave="2" palIndex="3"  mask="Transparent" cols="10" />
+
+  <!-- Boot -->
+  <info id="Boot (3) - the chaos engine"                  com=""              file="st_title.bin" offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="15" mask="Opaque" />
+
+  <!-- Outro -->
+  <info id="Outro (1)"                                    com=""              file="st_outr0.bin" offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="16" mask="Opaque" />
+  <info id="Outro (2)"                                    com=""              file="st_outr1.bin" offset="0x000000" nb="1"   width="320" height="200" bp="4" mode="Interleaved" interleave="2" palIndex="18" mask="Opaque" />
+  <info id="Outro (3)"                                    com=""              file="st_outr2.bin" offset="0x000000" nb="10"  width="48"  height="48"  bp="4" mode="Interleaved" interleave="2" palIndex="18" mask="Opaque" />
+  <info id="Outro (4)"                                    com=""              file="st_outr2.bin" offset="0x002D00" nb="6"   width="48"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="18" mask="Opaque" />
+  <info id="Outro - Font"                                 com=""              file="st_outxt.bin" offset="0x000000" nb="28"  width="16"  height="16"  bp="4" mode="Interleaved" interleave="2" palIndex="17" mask="Transparent" cols="28" />
+</infos>
