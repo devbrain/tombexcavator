@@ -1,5 +1,5 @@
-#ifndef __LIBVFS_UTIL_NON_COPYABLE_HPP__
-#define __LIBVFS_UTIL_NON_COPYABLE_HPP__
+#ifndef __ABL_UTIL_NON_COPYABLE_HPP__
+#define __ABL_UTIL_NON_COPYABLE_HPP__
 
 #if !defined(INLINE_API)
 #define INLINE_API
