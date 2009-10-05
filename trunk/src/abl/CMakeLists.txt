@@ -1,5 +1,6 @@
 set (abl_sources 
   dl/dl.c
+  mutex/mutex.c
   physfs/win32/dirent.c
   physfs/dir_reader.c
   unicode/unicode.c
@@ -7,6 +8,7 @@ set (abl_sources
 
 set (abl_headers
   dl/dl.h
+  mutex/mutex.h
   physfs/win32/dirent.h
   physfs/dir_reader.h
   unicode/unicode.h
