@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
-#include "abl/physfs/dir_reader.h"
+#include "abl/platform/physfs/dir_reader.h"
 #include "abl/unicode/unicode.h"
 #include "thirdparty/predef/predef.h"
 
@@ -20,8 +20,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #else
-#include "abl/physfs/win32/dirent.h"
-#include "abl/physfs/win32/wdirent.c"
+#include "abl/platfrom/physfs/win32/dirent.h"
+#include "abl/platform/physfs/win32/wdirent.c"
 #endif
 
 

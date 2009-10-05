@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "abl/mutex/mutex.h"
+#include "abl/platform/mutex/mutex.h"
 #include "thirdparty/predef/predef.h"
 
 #if defined(PREDEF_PLATFORM_WIN32)

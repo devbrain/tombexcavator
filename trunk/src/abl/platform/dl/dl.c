@@ -1,7 +1,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#include "abl/dl/dl.h"
+#include "abl/platform/dl/dl.h"
 
 #include "thirdparty/predef/predef.h"
 
