@@ -20,7 +20,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #else
-#include "abl/platfrom/physfs/win32/dirent.h"
+#include "abl/platform/physfs/win32/dirent.h"
 #include "abl/platform/physfs/win32/wdirent.c"
 #endif
 

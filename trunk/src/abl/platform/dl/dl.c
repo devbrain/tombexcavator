@@ -12,16 +12,16 @@
 #endif
 
 #if defined(PREDEF_PLATFORM_WIN32)
-typedef HMODULE handle_t;
+typedef HMODULE shared_object_handle_t;
 #else
-typedef void*  handle_t;
+typedef void*  shared_object_handle_t;
 #endif
 
 /* --------------------------------------------------------- */
 
 struct _shared_object_s
 {
-  handle_t handle;
+  shared_object_handle_t handle;
 };
 
 /* --------------------------------------------------------- */
@@ -29,7 +29,7 @@ struct _shared_object_s
 shared_object_s* shared_object_open (const char* path)
 {
   shared_object_s* result = 0;
-  handle_t         h;
+  shared_object_handle_t         h;
   if (!path)
     {
       return 0;
