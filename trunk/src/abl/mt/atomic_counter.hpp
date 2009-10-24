@@ -1,7 +1,7 @@
 #ifndef __ABL_MT_ATOMIC_COUNTER_HPP__
 #define __ABL_MT_ATOMIC_COUNTER_HPP__
 
-
+#include "abl/platform.h"
 #include "abl/abl_export.h"
 #include "abl/util/non_copyable.hpp"
 
@@ -19,7 +19,12 @@ namespace abl
     { 
     }
     // ------------------------------------------------------------
-    value_t operator++() 
+    __te_explicit__ atomic_counter_c (value_t v)
+      : m_counter (v)
+    {
+    }
+    // ------------------------------------------------------------
+    value_t operator++ () 
     { 
       m_mutex.lock();
       value_t r = ++m_counter;
@@ -53,14 +58,22 @@ namespace abl
     // ------------------------------------------------------------
     value_t value () const
     {
+#if defined (TE_HAS_MUTABLE)
       m_mutex.lock();
+#else
+      (const_cast <atomic_counter_c <Value>* >(this))->m_mutex.lock ();
+#endif
       value_t r = m_counter;
+#if defined (TE_HAS_MUTABLE)
       m_mutex.unlock();
+#else
+      (const_cast <atomic_counter_c <Value>* >(this))->m_mutex.unlock ();
+#endif
       return r;
     }
   private:
-    mutable Lock  m_mutex;
-    Value         m_counter;
+    __te_mutable__ Lock m_mutex;
+    Value               m_counter;
   };
 } // ns abl
 

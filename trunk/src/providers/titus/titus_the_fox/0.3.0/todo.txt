@@ -1,0 +1,14 @@
+replace char with unsigned char (
+replace int with long int where neccessary (to easier debug 16bit compile attempts)
+(convert out_len and in_len from signed to unsigned ing in sqz.c) no need
+viewimage for 16bit colours
+remove "done:" if unneeded
+check if there is not enough memory during SDL_CreateRGBSurface
+check if included files are needed
+replace malloc with SDL_malloc
+remove stdio.h and string.h and equal files which is included in sdl
+move spritesizes and palettes to a "original-game-data-headerfile"
+free in loadlevel if not enough memory
+initialize level->object[i].animcycle
+replace integers specifying counts with size_t (TITUS_level structure)
+"Bit 0..12: enemy type (bits 13..15 used internally, should be 0 in the file)", what is bit 13..15?

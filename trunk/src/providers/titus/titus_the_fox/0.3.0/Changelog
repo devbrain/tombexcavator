@@ -1,0 +1,20 @@
+0.3.0
+24.12.08
+This version successfully loads the level in a TITUS_level structure and displays the levels by reading from this structure. It is also possible to move titus "noclip" style to examine the levels. What's left is animation and the movement engine, and music. The "levelviewer" executable is not compatible with the new functions, and is simply skipped in the makefile. This will be the first version on Sourceforge. This version also contains Jesses' documentations.
+
+0.2.1
+29.11.08
+Jesse modified the makefile to compile all, and he confirmed that the project still compiled in MinGW in windows, by using the makefile.
+
+0.2
+27.11.08
+A snapshot. This is not a separate version because of an achieved goal, but to show the progress. What's new is the "opentitus" executable. The source have a better structure now, and the main functions should be easier to understand and debug. I have written a new function that extracts the font used in the game, and correctly prints it on the screen. After some playing with alpha (or transparency) settings and keyboard handling routines, I have successfully cloned the intro of the game and the menu. To be specific: Intro text, titus logo, game image, menu, password prompting and the pre-level screen. This game is now also fully functional with Moktar (by modifying the titus.conf setting file). This snapshot also includes a level structure, which should make the game quite configurable (extendable enemy-, object-, gate-, elevator- and bonus records count, and extendable level width and height, and possibility to use custom sprites and background tiles with custom size and bit depth). What the program misses now is the game engine and music. I haven't made anything new regarding the level viewer, except cleaning the source file by moving functions in separate source files. As usual, I have only compiled the source in Linux, so I can't guarantee any windows functionality; however, Jesse told me that version 0.1 did compile successfully in MinGW.
+
+0.1
+16.11.08
+First "official" version. The project isn't released to the public yet.
+This version includes a program that extracts SQZ files, and a level viewer. This is not interactive; only the upper left part of the level is displayed (read prior 0.1). The project also have a simple config file, with possibilities to change resolution and video mode, and the location of the original data files. This version is only compatible with Titus the Fox (Moktar doesn't work yet) in a Linux environment.
+
+Prior 0.1
+22.09.08 - 15.11.08
+The project starts with a function that extracts the SQZ files. Functions that extracts background tiles, bonuses, elevators, enemies, objects and Titus himself is made, one by one, and finally this is displayed on the screen using SDL, which results in version 0.1.

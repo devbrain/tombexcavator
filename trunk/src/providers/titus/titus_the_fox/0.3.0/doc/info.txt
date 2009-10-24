@@ -1,0 +1,48 @@
+SQZ files are compressed with either LZW or Huffman; the COMPRESS.TXT file explains how to uncompress them. Then, the FORMAT.TXT deals with the uncompressed versions of LEVEL*.SQZ files (except LEVELA.SQZ). The 'x' in LEVELx.SQZ signifies which level it contains naturally, but they are out of order: the order of the levels as they appear in the game is '0J123456789BCEFG' for Moktar; TTF lacks level F so has only 15 levels (including the ending).
+ 
+As for the remaining files:
+    FONTS.SQZ - never touched it, but i suppose its purpose is clear :-)
+    LEVELA.SQZ - holds no level, but the photo seen when completing the game. It is stored in 16-color planar format, i.e. first a 320*200 monochrome image for plane 0, then three additional ones for planes 1, 2, 3. Palette is simply grayscale.
+    MENU.SQZ - The menu. First 3*256 bytes are the palette, followed by a 256-color 320*200 image.
+    MENUEGA.SQZ - The menu, in 16-color planar format.
+    TITRE(EGA).SQZ - Title screen, in 16 and 256 color versions.
+    TITUS.SQZ - Titus company logo, 256 colors.
+    SPREXP.SQZ - This holds the sprites used in-game. Each sprite is stored in 16-color planar format; however, the sizes of each sprite vary and they are not stored in the file. You need the sprite size table (which is stored inside the game's executable) to view sprites. The attached SPREXP.SIZ contains this table; it has two bytes per sprite, respectively the width and height in pixels.
+Besides the above-mentioned 256-color bitmaps, the entire game is in 16 colors. All used 16-color palettes are again only stored inside the executable. For the level files, there is a basic 15-color palette (actually only 14 are used, due to two blacks) with a 16th color that changes per level. Sprites just use the current level's palette, with the exception of color 0 being transparent.
+ 
+Here is a table with the 16 RGB triples in a level palette, values ranging 0..63:
+    0, 0, 0
+    60, 60, 60
+    0 , 0 , 0
+    24, 8 , 0
+    28, 16, 0
+    40, 24, 16
+    48, 40, 24
+    60, 48, 32
+    16, 8 , 0
+    28, 20, 20
+    40, 32, 32
+    12, 12, 28
+    24, 24, 40
+    32, 32, 48
+    varies between levels!
+    8 , 8 , 24
+As colors 0 and 2 are the same, I made MTF change all colors 0 in the original LEVELx.SQZ files to 2 when loading them, so color 0 is available for other funny tricks (none played yet). Meaning, if you end up making some code that produces a new level, do the 0->2 conversion as well ;-).
+ 
+The varying color, #14, has the following palette in the 16 levels, ordered as they appear in-game:
+    0,16,0
+    0,16,0
+    0,16,0
+    20,12,12
+    40,12,4
+    20,12,12
+    20,12,12
+    0,16,0
+    40,28,12
+    0,20,16
+    40,28,12
+    40,28,12
+    40,28,12
+    40,28,12
+    40,28,12
+    48,8,0

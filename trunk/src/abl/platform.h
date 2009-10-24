@@ -56,4 +56,30 @@
 #define TE_OS_SOLARIS
 #endif
 
+/* ========================================================= */
+/* C++                                                        */
+/* ========================================================= */
+
+
+#if defined(TE_NO_MEMBER_TEMPLATES)
+#undef TE_NO_MEMBER_TEMPLATES 
+#endif
+
+#if !defined(TE_HAS_MUTABLE)
+#define TE_HAS_MUTABLE
+#endif
+
+#if !defined(TE_HAS_EXPLICIT)
+#define TE_HAS_EXPLICIT
+#endif
+
+#if defined(TE_HAS_MUTABLE)
+#define __te_mutable__ mutable
+#endif
+
+#if defined(TE_HAS_EXPLICIT)
+#define __te_explicit__ explicit
+#endif
+
+
 #endif
