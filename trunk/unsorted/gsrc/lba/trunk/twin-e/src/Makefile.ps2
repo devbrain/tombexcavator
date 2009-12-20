@@ -1,0 +1,81 @@
+EE_BIN = ../twin-e.elf
+EE_OBJS = \
+actors.o \
+actorScript.o \
+angle.o \
+angleTable.o \
+animAction.o \
+anim.o \
+body.o \
+cdrom.o \
+comportementMenu.o \
+costume.o \
+cube.o \
+debug.o \
+decomp.o \
+expand.o \
+extra.o \
+fichePerso.o \
+file.o \
+fireEffect.o \
+flaplayer.o \
+font.o \
+fullRedraw.o \
+global.o \
+grid.o \
+HQMGlobal.o \
+HQMLib.o \
+hqr.o \
+HQRlib.o \
+images.o \
+init.o \
+input.o \
+inventory.o \
+life_ascii.o \
+life_binary.o \
+life_common.o \
+main.o \
+mainLoop.o \
+mainMenu.o \
+mainSDL.o \
+mainSDLGL.o \
+memHandler.o \
+memory.o \
+moveActor.o \
+music.o \
+object.o \
+overlay.o \
+renderer.o \
+room.o \
+samples.o \
+save.o \
+shadow.o \
+streamReader.o \
+sys.o \
+text.o \
+threadCode.o \
+time.o \
+timer.o \
+vars.o \
+video.o \
+vox.o \
+zones.o \
+
+EE_LIBS += -ldebug -lsdl -lsdlmain -lm -lgskit -ldmakit -lpad -lmouse -lkbd
+
+EE_CXXFLAGS += -fno-exceptions -fno-rtti
+
+EE_CFLAGS += -O2
+
+EE_INCS += -I$(PS2SDK)/common/include -I$(PS2SDK)/ee/include -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL
+
+EE_LDFLAGS += -L$(PS2SDK)/ee/lib -L$(PS2SDK)/ports/lib -L$(PS2DEV)/gsKit/lib
+
+all: $(EE_BIN)
+
+clean:
+	rm -f *.o *.a *.s 
+
+include $(PS2SDK)/samples/Makefile.pref
+include $(PS2SDK)/samples/Makefile.eeglobal
+

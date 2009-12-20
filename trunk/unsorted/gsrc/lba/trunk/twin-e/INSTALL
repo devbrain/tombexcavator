@@ -1,0 +1,13 @@
+debian/ubuntu build-deps (from Ubuntu Edgy):
+autoconf
+automake1.7
+libsdl1.2-dev
+libsdl-mixer1.2-dev
+- libaal-dev
+- libx11-dev
+- libxau-dev
+- libxdmcp-dev
+- libxext-dev
+- libxt-dev
+- mesa-common-dev
+- x-dev

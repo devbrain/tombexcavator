@@ -100,11 +100,29 @@ typedef te_qword_t       te_int64_t;
 typedef size_t te_size_t;     /**< represents size in bytes */
 
 #else
-
-typedef te_word_t te_size_t;
-
+#if (TE_PLATFORM_WORD_SIZE == 16)       /* 16 bit architecture */
+typedef te_uint16_t te_size_t;
+#elif (TE_PLATFORM_WORD_SIZE == 32)       /* 32 bit architecture */
+typedef te_uint32_t te_size_t;
+#elif (TE_PLATFORM_WORD_SIZE == 64)       /* 64 bit architecture */
+typedef te_uint64_t te_size_t;
+#endif
 #endif
 
+#if defined(TE_HAVE_SSIZE_T)
+#include <stddef.h>
+
+typedef ssize_t te_ssize_t;     /**< represents size in bytes */
+
+#else
+#if (TE_PLATFORM_WORD_SIZE == 16)       /* 16 bit architecture */
+typedef te_int16_t te_ssize_t;
+#elif (TE_PLATFORM_WORD_SIZE == 32)       /* 32 bit architecture */
+typedef te_int32_t te_ssize_t;
+#elif (TE_PLATFORM_WORD_SIZE == 64)       /* 64 bit architecture */
+typedef te_int64_t te_ssize_t;
+#endif
+#endif
 
 /* ------------------------------------------------------------ */
 
@@ -187,5 +205,9 @@ C_STATIC_ASSERT (sizeof_umax  , sizeof (TE_MAX_uint_t) == 8);
 C_STATIC_ASSERT (sizeof_imax  , sizeof (TE_MAX_int_t ) == 4);
 C_STATIC_ASSERT (sizeof_umax  , sizeof (TE_MAX_uint_t) == 4);
 #endif
+
+C_STATIC_ASSERT (sizeof_size_t , 8*sizeof (te_size_t) == TE_PLATFORM_WORD_SIZE);
+C_STATIC_ASSERT (sizeof_ssize_t, 8*sizeof (te_ssize_t) == TE_PLATFORM_WORD_SIZE);
+
 
 #endif
