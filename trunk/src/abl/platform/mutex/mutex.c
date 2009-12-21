@@ -6,6 +6,8 @@
 #if defined(PREDEF_PLATFORM_WIN32)
 #include <windows.h>
 #else
+#include <unistd.h>
+#include <sys/time.h>
 #include <pthread.h>
 #endif
 
@@ -43,6 +45,55 @@ mutex_s* mutex_create (void)
 }
 
 /* ------------------------------------------------- */
+
+te_bool_t mutex_try_lock (mutex_s* mutex)
+{
+  int rc;
+  if (!mutex)
+    {
+      return 0;
+    }
+#if !defined(PREDEF_PLATFORM_WIN32)
+  rc = pthread_mutex_trylock (&mutex->m_mutex);
+  if (rc == 0)
+    return true;
+  return false; 
+#else
+  rc = WaitForSingleObject(mutex->m_mutex, 0);
+  return (rc == WAIT_OBJECT_0);
+#endif
+}
+
+/* ------------------------------------------------- */
+
+te_bool_t mutex_try_lock_timeout (mutex_s* mutex, int msecs)
+{
+  int rc;
+  if (!mutex)
+    {
+      return 0;
+    }
+#if !defined(PREDEF_PLATFORM_WIN32)
+  struct timespec abstime;
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  abstime.tv_sec  = tv.tv_sec + milliseconds / 1000;
+  abstime.tv_nsec = tv.tv_usec*1000 + (milliseconds % 1000)*1000000;
+  if (abstime.tv_nsec >= 1000000000)
+    {
+      abstime.tv_nsec -= 1000000000;
+      abstime.tv_sec++;
+    }
+  rc = pthread_mutex_timedlock(&_mutex, &abstime);
+  if (rc == 0)
+    return true;
+  
+  return false;
+#else
+  rc = WaitForSingleObject(mutex->m_mutex, msecs);
+  return (rc == WAIT_OBJECT_0);
+#endif
+}
 
 void mutex_lock (mutex_s* mutex)
 {
@@ -94,3 +145,4 @@ void mutex_destroy (mutex_s* mutex)
   pthread_mutex_destroy (&mutex->m_mutex);
 #endif
 }
+

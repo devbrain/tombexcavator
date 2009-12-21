@@ -2,10 +2,12 @@
 #define __ABL_MUTEX_MUTEX_H__
 
 #include "abl/abl_export.h"
+#include "abl/util/c_types.h"
 
 CPP_VISIBLE_BEGIN
 
 typedef struct _mutex_s mutex_s;
+
 /** 
  * Creates new mutex.
  * 
@@ -20,7 +22,19 @@ mutex_s* mutex_create (void);
  * @param mutex - mutex to lock
  */
 void mutex_lock (mutex_s* mutex);
+/** 
+ * Locks the mutex
+ * 
+ * @param mutex - mutex to lock
+ */
+te_bool_t mutex_try_lock (mutex_s* mutex);
 
+/** 
+ * Locks the mutex
+ * 
+ * @param mutex - mutex to lock
+ */
+te_bool_t mutex_try_lock_timeout (mutex_s* mutex, int msecs);
 /** 
  * Unlocks the mutex
  * 
