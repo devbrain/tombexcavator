@@ -25,11 +25,13 @@ typedef signed   char te_int8_t;
 #if defined (TE_COMPILER_MSVC) || defined (TE_COMPILER_BORLAND) 
 typedef __int64          te_qword_t;
 typedef unsigned __int64 te_quword_t;
+#define TE_HAVE_INT64w
 #endif
 
 #if defined (TE_COMPILER_MINGW) || defined (TE_COMPILER_GCC) || defined (TE_COMPILER_SUNCC)
 typedef long long          te_qword_t;
 typedef unsigned long long te_quword_t;
+#define TE_HAVE_INT64
 #endif
 
 #endif

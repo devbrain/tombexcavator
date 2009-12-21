@@ -14,6 +14,17 @@ set (abl_sources
   unicode/pcre_newline.c       unicode/pcre_ord2utf8.c      unicode/pcre_study.c
   unicode/pcre_tables.c        unicode/pcre_try_flipped.c   unicode/pcre_ucd.c
   unicode/pcre_valid_utf8.c    unicode/pcre_xclass.c
+
+  exception.cpp
+
+  string/encoding/ascii.cpp
+  string/encoding/latin1.cpp
+  string/encoding/latin9.cpp
+  string/encoding/win1252.cpp
+  string/encoding/utf8.cpp
+  string/encoding/utf16.cpp
+
+  string/text_encoding.cpp
 )
 
 set (abl_headers
@@ -35,6 +46,18 @@ set (abl_headers
   mt/guard.hpp
   unicode/pcre.h unicode/pcre_config.h unicode/pcre_internal.h unicode/ucp.h
   throw_spec.hpp
+  exception.hpp
+
+  string/encoding/ascii.hpp
+  string/encoding/latin1.hpp
+  string/encoding/latin9.hpp
+  string/encoding/win1252.hpp
+  string/encoding/utf8.hpp
+  string/encoding/utf16.hpp
+
+  string/text_encoding.hpp
+
+  byte_order.hpp
 )
 
 add_library (abl SHARED ${abl_sources} ${abl_headers})
