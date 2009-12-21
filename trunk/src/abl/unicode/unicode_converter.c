@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include "abl/unicode/unicode.h"
+#include "abl/unicode/unicode_converter.h"
 
-static const char utf8_skip_data[256] = 
+static const char utf8_skip_data [256] = 
   {
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,

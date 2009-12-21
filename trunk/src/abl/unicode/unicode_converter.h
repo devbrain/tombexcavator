@@ -2,12 +2,11 @@
 #define __ABL_UNICODE_H__
 
 #include "abl/abl_export.h"
-#include "abl/util/c_types.h"
+#include "abl/unicode/unicode_types.h"
 
 CPP_VISIBLE_BEGIN
 
-typedef te_uint16_t ucs16_t;
-typedef te_uint32_t ucs4_t;
+
 
 ABL_API ucs16_t* utf8_to_utf16 (const char* str , long len,            
 				long* items_read, long* items_written);

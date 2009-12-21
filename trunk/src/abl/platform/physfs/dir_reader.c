@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 
 #include "abl/platform/physfs/dir_reader.h"
-#include "abl/unicode/unicode.h"
+#include "abl/unicode/unicode_converter.h"
 #include "thirdparty/predef/predef.h"
 
 #if defined(PREDEF_PLATFORM_WIN32)
