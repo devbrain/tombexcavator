@@ -154,25 +154,26 @@ typedef struct character_properties_ character_properties_t;
 
 /// Return the Unicode character properties for the
 /// character with the given Unicode value.
-ABL_API void properties (ucs4_t ch, character_properties_t*);
+ABL_API void unicode_properties (ucs4_t ch, character_properties_t*);
 
 /// Returns true iff the given character is a lowercase
 /// character.
-ABL_API te_bool_t is_lower (ucs4_t ch);
+ABL_API te_bool_t unicode_is_lower (ucs4_t ch);
 
 /// Returns true iff the given character is an uppercase
 /// character.
-ABL_API te_bool_t is_upper (ucs4_t ch);
+ABL_API te_bool_t unicode_is_upper (ucs4_t ch);
 		
 /// If the given character is an uppercase character,
 /// return its lowercase counterpart, otherwise return
 /// the character.		
-ABL_API ucs4_t to_lower (ucs4_t ch);
+ABL_API ucs4_t unicode_to_lower (ucs4_t ch);
 
 /// If the given character is a lowercase character,
 /// return its uppercase counterpart, otherwise return
 /// the character.
-ABL_API ucs4_t to_upper (ucs4_t ch);
+ABL_API ucs4_t unicode_to_upper (ucs4_t ch);
 		
 CPP_VISIBLE_END
+
 #endif 

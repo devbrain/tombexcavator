@@ -1,6 +1,10 @@
 #include "abl/string/text_iterator.hpp"
 #include "abl/string/text_encoding.hpp"
 #include <algorithm> 
+#include <assert.h>
+
+#define poco_check_ptr assert
+#define poco_assert assert
 
 namespace abl 
 {
@@ -10,14 +14,14 @@ namespace abl
   }
 
 
-  text_iterator_c::text_iterator_c(const std::string& str, const TextEncoding& encoding):
+  text_iterator_c::text_iterator_c(const std::string& str, const text_encoding_c& encoding):
     _pEncoding(&encoding),
     _it(str.begin()),
     _end(str.end())
   {
   }
 
-  text_iterator_c::text_iterator_c(const std::string::const_iterator& begin, const std::string::const_iterator& end, const TextEncoding& encoding):
+  text_iterator_c::text_iterator_c(const std::string::const_iterator& begin, const std::string::const_iterator& end, const text_encoding_c& encoding):
     _pEncoding(&encoding),
     _it(begin),
     _end(end)
@@ -80,7 +84,7 @@ namespace abl
     poco_assert (_it != _end);
     std::string::const_iterator it = _it;
 	
-    unsigned char buffer[TextEncoding::MAX_SEQUENCE_LENGTH];
+    unsigned char buffer[text_encoding_c::MAX_SEQUENCE_LENGTH];
     unsigned char* p = buffer;
 
     if (it != _end)
@@ -117,7 +121,7 @@ namespace abl
     poco_check_ptr (_pEncoding);
     poco_assert (_it != _end);
 	
-    unsigned char buffer[TextEncoding::MAX_SEQUENCE_LENGTH];
+    unsigned char buffer[text_encoding_c::MAX_SEQUENCE_LENGTH];
     unsigned char* p = buffer;
 
     if (_it != _end)

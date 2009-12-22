@@ -3,7 +3,7 @@
 #include "pcre_config.h"
 #include "pcre_internal.h" 
 
-void properties (ucs4_t ch, character_properties_t* props)
+void unicode_properties (ucs4_t ch, character_properties_t* props)
 {
   const ucd_record* ucd = GET_UCD(ch);
   props->category = _pcre_ucp_gentype [ucd->chartype];
@@ -11,25 +11,25 @@ void properties (ucs4_t ch, character_properties_t* props)
   props->script   = ucd->script; 
 }
 /* ============================================================ */
-te_bool_t is_lower (ucs4_t ch)
+te_bool_t unicode_is_lower (ucs4_t ch)
 {
   character_properties_t props;
-  properties (ch, &props);
+  unicode_properties (ch, &props);
   return props.category == UCP_LETTER && props.type == UCP_LOWER_CASE_LETTER; 
 }
 
 /* ============================================================ */
-te_bool_t is_upper (ucs4_t ch)
+te_bool_t unicode_is_upper (ucs4_t ch)
 {
   character_properties_t props;
-  properties (ch, &props);
+  unicode_properties (ch, &props);
   return props.category == UCP_LETTER && props.type == UCP_UPPER_CASE_LETTER; 
 }
 		
 /* ============================================================ */
-ucs4_t to_lower (ucs4_t ch)
+ucs4_t unicode_to_lower (ucs4_t ch)
 {
-  if (is_upper (ch))
+  if (unicode_is_upper (ch))
     {
       return UCD_OTHERCASE(ch);
     }
@@ -37,9 +37,9 @@ ucs4_t to_lower (ucs4_t ch)
 }
 
 /* ============================================================ */
-ucs4_t to_upper (ucs4_t ch)
+ucs4_t unicode_to_upper (ucs4_t ch)
 {
-  if (is_lower (ch))
+  if (unicode_is_lower (ch))
     {
       return UCD_OTHERCASE (ch);
     }

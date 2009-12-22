@@ -27,6 +27,10 @@ set (abl_sources
   string/encoding/utf16.cpp
 
   string/text_encoding.cpp
+  string/text_iterator.cpp
+  string/tokenizer.cpp
+  string/unicode_converter.cpp
+  string/text_converter.cpp
 )
 
 set (abl_headers
@@ -60,7 +64,10 @@ set (abl_headers
   string/encoding/utf16.hpp
 
   string/text_encoding.hpp
-
+  string/text_iterator.hpp
+  string/tokenizer.hpp
+  string/text_converter.hpp
+  string/unicode_converter.hpp
   byte_order.hpp
 )
 
