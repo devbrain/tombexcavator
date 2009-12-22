@@ -1,5 +1,5 @@
-#ifndef __LIBVFS_UTIL_TYPES_HPP__
-#define __LIBVFS_UTIL_TYPES_HPP__
+#ifndef __ABL_UTIL_TYPES_HPP__
+#define __ABL_UTIL_TYPES_HPP__
 
 #include <cstddef>
 #include <sys/types.h>
@@ -12,7 +12,7 @@
 #error "Undefined TE_PLATFORM_WORD_SIZE"
 #endif
 
-namespace util
+namespace types
 {
   typedef te_int8_t   sint8_t; /**< signed 8 bit integer */
   typedef te_uint8_t  uint8_t; /**< unsigned 8 bit integer */
@@ -43,16 +43,16 @@ namespace util
 }
 
 
-STATIC_ASSERT (sizeof (util::sint8_t) == 1);
-STATIC_ASSERT (sizeof (util::uint8_t) == 1);
+STATIC_ASSERT (sizeof (types::sint8_t) == 1);
+STATIC_ASSERT (sizeof (types::uint8_t) == 1);
 
-STATIC_ASSERT (sizeof (util::sint16_t) == 2);
-STATIC_ASSERT (sizeof (util::uint16_t) == 2);
+STATIC_ASSERT (sizeof (types::sint16_t) == 2);
+STATIC_ASSERT (sizeof (types::uint16_t) == 2);
 
-STATIC_ASSERT (sizeof (util::sint32_t) == 4);
-STATIC_ASSERT (sizeof (util::uint32_t) == 4);
+STATIC_ASSERT (sizeof (types::sint32_t) == 4);
+STATIC_ASSERT (sizeof (types::uint32_t) == 4);
 
-STATIC_ASSERT (sizeof (util::sint64_t) == 8);
-STATIC_ASSERT (sizeof (util::uint64_t) == 8);
+STATIC_ASSERT (sizeof (types::sint64_t) == 8);
+STATIC_ASSERT (sizeof (types::uint64_t) == 8);
 
 #endif

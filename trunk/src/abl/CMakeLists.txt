@@ -31,6 +31,10 @@ set (abl_sources
   string/tokenizer.cpp
   string/unicode_converter.cpp
   string/text_converter.cpp
+
+  date_time/time_stamp.cpp
+  date_time/time_span.cpp
+  date_time/time_zone.cpp
 )
 
 set (abl_headers
@@ -69,6 +73,10 @@ set (abl_headers
   string/text_converter.hpp
   string/unicode_converter.hpp
   byte_order.hpp
+
+  date_time/time_stamp.hpp
+  date_time/time_span.hpp
+  date_time/time_zone.hpp
 )
 
 add_library (abl SHARED ${abl_sources} ${abl_headers})
