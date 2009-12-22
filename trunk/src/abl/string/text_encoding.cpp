@@ -7,8 +7,11 @@
 #include "abl/string/encoding/utf16.hpp"
 #include "abl/string/encoding/utf8.hpp"
 #include "abl/string/encoding/win1252.hpp"
-#include "abl/mt/rw_lock.h"
-#include "abl/SingletonHolder.h"
+#include "abl/mt/rw_lock.hpp"
+#include "abl/mt/fast_mutex.hpp"
+#include "abl/mt/guard.hpp"
+#include "abl/singleton_holder.hpp"
+
 #include <map>
 
 
@@ -17,23 +20,23 @@ namespace abl
   //
   // text_encodig_manager_c
   //
-  class text_encodig_manager_c
+  class text_encoding_manager_c
   {
   public:
-    text_encodig_manager_c()
+    text_encoding_manager_c()
     {
-      text_encoding_c::ptr_t pUtf8Encoding(new UTF8Encoding);
+      text_encoding_c::ptr_t pUtf8Encoding (new utf8_encoding_c);
       add(pUtf8Encoding, text_encoding_c::GLOBAL); 
 
-      add(new ASCIIEncoding);
-      add(new Latin1Encoding);
-      add(new Latin9Encoding);
+      add(new ascii_encoding_c);
+      add(new latin1_encoding_c);
+      add(new latin9_encoding_c);
       add(pUtf8Encoding);
-      add(new UTF16Encoding);
-      add(new Windows1252Encoding);
+      add(new utf16_encoding_c);
+      add(new win1252_encoding_c);
     }
 	
-    ~text_encodig_manager_c()
+    ~text_encoding_manager_c()
     {
     }
 	
@@ -44,21 +47,21 @@ namespace abl
 	
     void add(text_encoding_c::ptr_t pEncoding, const std::string& name)
     {
-      RWLock::ScopedLock lock(_lock, true);
+      writers_guard_c <rw_lock_c> lock (_lock);
 	
       _encodings[name] = pEncoding;
     }
 	
     void remove(const std::string& name)
     {
-      RWLock::ScopedLock lock(_lock, true);
+      writers_guard_c <rw_lock_c> lock (_lock);
 	
       _encodings.erase(name);
     }
 	
     text_encoding_c::ptr_t find(const std::string& name) const
     {
-      RWLock::ScopedLock lock(_lock);
+      readers_guard_c <rw_lock_c> lock (_lock);
 		
       EncodingMap::const_iterator it = _encodings.find(name);
       if (it != _encodings.end())
@@ -73,8 +76,8 @@ namespace abl
     }
 
   private:
-    text_encodig_manager_c(const text_encodig_manager_c&);
-    text_encodig_manager_c& operator = (const text_encodig_manager_c&);
+    text_encoding_manager_c(const text_encoding_manager_c&);
+    text_encoding_manager_c& operator = (const text_encoding_manager_c&);
 	
     struct ILT
     {
@@ -87,7 +90,7 @@ namespace abl
     typedef std::map<std::string, text_encoding_c::ptr_t, ILT> EncodingMap;
 	
     EncodingMap    _encodings;
-    mutable RWLock _lock;
+    mutable rw_lock_c _lock;
   };
 
 
@@ -134,7 +137,7 @@ namespace abl
     if (pEncoding)
       return *pEncoding;
     else
-      throw NotFoundException(encodingName);
+      throw not_found_exception_c (encodingName);
   }
 
 	
@@ -176,9 +179,9 @@ namespace abl
   }
 
 
-  text_encodig_manager_c& text_encoding_c::manager()
+  text_encoding_manager_c& text_encoding_c::manager()
   {
-    static SingletonHolder<text_encodig_manager_c> sh;
+    static singleton_holder_c <text_encoding_manager_c, fast_mutex_c> sh;
     return *sh.get();
   }
 

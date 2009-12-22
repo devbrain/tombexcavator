@@ -1,11 +1,13 @@
 set (abl_sources 
   platform/dl/dl.c
   platform/mutex/mutex.c
+  platform/mutex/rwlock.c
   platform/physfs/win32/dirent.c
   platform/physfs/dir_reader.c
   unicode/unicode_converter.c
   unicode/unicode.c
   mt/mutex.cpp
+  mt/rw_lock.cpp
   mt/null_mutex.cpp
 
 
@@ -30,6 +32,7 @@ set (abl_sources
 set (abl_headers
   platform/dl/dl.h
   platform/mutex/mutex.h
+  platform/mutex/rwlock.h
   platform/physfs/win32/dirent.h
   platform/physfs/dir_reader.h
   unicode/unicode_converter.h
@@ -41,6 +44,7 @@ set (abl_headers
   util/static_assert.hpp 
   util/non_copyable.hpp
   mt/mutex.hpp
+  mt/rw_lock.hpp
   mt/null_mutex.hpp
   mt/atomic_counter.hpp
   mt/guard.hpp

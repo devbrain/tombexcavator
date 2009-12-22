@@ -7,7 +7,7 @@ namespace abl
 {
 
 
-  const char* utf16_encoding_C::_names[] =
+  const char* utf16_encoding_c::_names[] =
     {
       "UTF-16",
       "UTF16",
@@ -15,7 +15,7 @@ namespace abl
     };
 
 
-  const text_encoding_c::CharacterMap utf16_encoding_C::_charMap = 
+  const text_encoding_c::CharacterMap utf16_encoding_c::_charMap = 
     {
       /* 00 */	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 
       /* 10 */	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 
@@ -36,24 +36,24 @@ namespace abl
     };
 
 
-  utf16_encoding_C::utf16_encoding_C(ByteOrderType byteOrder)
+  utf16_encoding_c::utf16_encoding_c(ByteOrderType byteOrder)
   {
     setByteOrder (byteOrder);
   }
 
 	
-  utf16_encoding_C::utf16_encoding_C(int byteOrderMark)
+  utf16_encoding_c::utf16_encoding_c(int byteOrderMark)
   {
     setByteOrder (byteOrderMark);
   }
 
 	
-  utf16_encoding_C::~utf16_encoding_C()
+  utf16_encoding_c::~utf16_encoding_c()
   {
   }
 
 
-  utf16_encoding_C::ByteOrderType utf16_encoding_C::getByteOrder () const
+  utf16_encoding_c::ByteOrderType utf16_encoding_c::getByteOrder () const
   {
 #if defined(TE_ARCH_BIG_ENDIAN)
     return _flipBytes ? LITTLE_ENDIAN_BYTE_ORDER : BIG_ENDIAN_BYTE_ORDER;
@@ -63,7 +63,7 @@ namespace abl
   }
 
 	
-  void utf16_encoding_C::setByteOrder (ByteOrderType byteOrder)
+  void utf16_encoding_c::setByteOrder (ByteOrderType byteOrder)
   {
 #if defined(TE_ARCH_BIG_ENDIAN)
     _flipBytes = byteOrder == LITTLE_ENDIAN_BYTE_ORDER;
@@ -73,19 +73,19 @@ namespace abl
   }
 
 	
-  void utf16_encoding_C::setByteOrder (int byteOrderMark)
+  void utf16_encoding_c::setByteOrder (int byteOrderMark)
   {
     _flipBytes = byteOrderMark != 0xFEFF;
   }
 
 
-  const char* utf16_encoding_C::canonicalName() const
+  const char* utf16_encoding_c::canonicalName() const
   {
     return _names[0];
   }
 
 
-  bool utf16_encoding_C::isA(const std::string& encodingName) const
+  bool utf16_encoding_c::isA(const std::string& encodingName) const
   {
     for (const char** name = _names; *name; ++name)
       {
@@ -96,13 +96,13 @@ namespace abl
   }
 
 
-  const text_encoding_c::CharacterMap& utf16_encoding_C::characterMap() const
+  const text_encoding_c::CharacterMap& utf16_encoding_c::characterMap() const
   {
     return _charMap;
   }
 
 
-  int utf16_encoding_C::convert(const unsigned char* bytes) const
+  int utf16_encoding_c::convert(const unsigned char* bytes) const
   {
     te_uint16_t uc;
     unsigned char* p = (unsigned char*) &uc;
@@ -141,7 +141,7 @@ namespace abl
   }
 
 
-  int utf16_encoding_C::convert(int ch, unsigned char* bytes, int length) const
+  int utf16_encoding_c::convert(int ch, unsigned char* bytes, int length) const
   {
     if (ch <= 0xFFFF)
       {
@@ -178,7 +178,7 @@ namespace abl
   }
 
 
-  int utf16_encoding_C::queryConvert(const unsigned char* bytes, int length) const
+  int utf16_encoding_c::queryConvert(const unsigned char* bytes, int length) const
   {
     int ret = -2;
 
@@ -224,7 +224,7 @@ namespace abl
   }
 
 
-  int utf16_encoding_C::sequenceLength(const unsigned char* bytes, int length) const
+  int utf16_encoding_c::sequenceLength(const unsigned char* bytes, int length) const
   {
     int ret = -2;
 

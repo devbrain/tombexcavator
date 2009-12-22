@@ -17,7 +17,7 @@ namespace abl
 /// When converting from Unicode to UTF-16, however, characters
 /// outside the 16-bit range are converted into a low and
 /// high surrogate.
-  class ABL_API utf16_encoding_C: public text_encoding_c
+  class ABL_API utf16_encoding_c: public text_encoding_c
   {
   public:
     enum ByteOrderType
@@ -27,15 +27,15 @@ namespace abl
 	NATIVE_BYTE_ORDER
       };
 	
-    utf16_encoding_C(ByteOrderType byteOrder = NATIVE_BYTE_ORDER);
+    utf16_encoding_c(ByteOrderType byteOrder = NATIVE_BYTE_ORDER);
     /// Creates and initializes the encoding for the given byte order.
 		
-    utf16_encoding_C(int byteOrderMark);
+    utf16_encoding_c(int byteOrderMark);
     /// Creates and initializes the encoding for the byte-order
     /// indicated by the given byte-order mark, which is the Unicode
     /// character 0xFEFF.
 		
-    ~utf16_encoding_C();
+    ~utf16_encoding_c();
 	
     ByteOrderType getByteOrder() const;
     /// Returns the byte-order currently in use.
