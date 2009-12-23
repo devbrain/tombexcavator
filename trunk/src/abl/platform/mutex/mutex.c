@@ -56,8 +56,8 @@ te_bool_t mutex_try_lock (mutex_s* mutex)
 #if !defined(PREDEF_PLATFORM_WIN32)
   rc = pthread_mutex_trylock (&mutex->m_mutex);
   if (rc == 0)
-    return true;
-  return false; 
+    return TE_TRUE;
+  return TE_FALSE; 
 #else
   rc = WaitForSingleObject(mutex->m_mutex, 0);
   return (rc == WAIT_OBJECT_0);
@@ -77,18 +77,18 @@ te_bool_t mutex_try_lock_timeout (mutex_s* mutex, int msecs)
   struct timespec abstime;
   struct timeval tv;
   gettimeofday(&tv, NULL);
-  abstime.tv_sec  = tv.tv_sec + milliseconds / 1000;
-  abstime.tv_nsec = tv.tv_usec*1000 + (milliseconds % 1000)*1000000;
+  abstime.tv_sec  = tv.tv_sec + msecs / 1000;
+  abstime.tv_nsec = tv.tv_usec*1000 + (msecs % 1000)*1000000;
   if (abstime.tv_nsec >= 1000000000)
     {
       abstime.tv_nsec -= 1000000000;
       abstime.tv_sec++;
     }
-  rc = pthread_mutex_timedlock(&_mutex, &abstime);
+  rc = pthread_mutex_timedlock(&mutex->m_mutex, &abstime);
   if (rc == 0)
-    return true;
+    return TE_TRUE;
   
-  return false;
+  return TE_FALSE;
 #else
   rc = WaitForSingleObject(mutex->m_mutex, msecs);
   return (rc == WAIT_OBJECT_0);

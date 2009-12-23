@@ -83,6 +83,9 @@ typedef signed   int        te_int32_t;
 typedef te_quword_t      te_uint64_t;
 typedef te_qword_t       te_int64_t;
 
+typedef te_uint64_t      TE_MAX_uint_t;
+typedef te_int64_t       TE_MAX_int_t;
+
 #else
 #error "TE_PLATFORM_WORD_SIZE not handeled"
 #endif

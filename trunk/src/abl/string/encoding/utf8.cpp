@@ -118,7 +118,9 @@ namespace abl
 	    *bytes++ = (unsigned char) (((ch >> 6) & 0x1F) | 0xC0);
 	    *bytes   = (unsigned char) ((ch & 0x3F) | 0x80);
 	  }
+#ifdef _DEBUG
 	assert (isLegal(lb, 2));
+#endif
 	return 2;
       }
     else if (ch <= 0xFFFF)
@@ -129,7 +131,9 @@ namespace abl
 	    *bytes++ = (unsigned char) (((ch >> 6) & 0x3F) | 0x80);
 	    *bytes   = (unsigned char) ((ch & 0x3F) | 0x80);
 	  }
+#ifdef _DEBUG
 	assert (isLegal(lb, 3));
+#endif
 	return 3;
       }
     else if (ch <= 0x10FFFF)
@@ -141,7 +145,9 @@ namespace abl
 	    *bytes++ = (unsigned char) (((ch >> 6) & 0x3F) | 0x80);
 	    *bytes   = (unsigned char) ((ch & 0x3F) | 0x80);
 	  }
+#ifdef _DEBUG
 	assert (isLegal(lb, 4));
+#endif
 	return 4;
       }
     else return 0;

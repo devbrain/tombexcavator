@@ -4,7 +4,14 @@
 #include "thirdparty/predef/predef.h"
 
 #define TE_PLATFORM_BYTE_SIZE 8  /* in bits */
+
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_X64)\
+  || defined(__ia64__) || defined(__IA64__) || defined(__IA64) || defined(_M_IA64) || defined(__ia64)
+
+#define TE_PLATFORM_WORD_SIZE 64 /* in bits */
+#else
 #define TE_PLATFORM_WORD_SIZE 32 /* in bits */
+#endif
 
 #define TE_HAVE_MEMSET        1
 #define TE_HAVE_SIZE_T        1
