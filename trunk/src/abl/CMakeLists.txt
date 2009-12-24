@@ -40,6 +40,7 @@ set (abl_sources
   date_time/local_date_time.cpp
   date_time/date_time_format.cpp
   date_time/date_time_parser.cpp
+  date_time/date_time_formatter.cpp
 )
 
 set (abl_headers
@@ -88,6 +89,7 @@ set (abl_headers
   date_time/local_date_time.hpp
   date_time/date_time_format.hpp
   date_time/date_time_parser.hpp
+  date_time/date_time_formatter.hpp
 )
 
 add_library (abl SHARED ${abl_sources} ${abl_headers})
