@@ -18,7 +18,8 @@ set (abl_sources
   unicode/pcre_valid_utf8.c    unicode/pcre_xclass.c
 
   exception.cpp
-
+  number_formatter.cpp
+  number_parser.cpp
   string/encoding/ascii.cpp
   string/encoding/latin1.cpp
   string/encoding/latin9.cpp
@@ -51,7 +52,7 @@ set (abl_headers
   unicode/unicode_types.h
   unicode/pcre_config.h
   unicode/pcre_internal.h
-  util/types.hpp 
+  types/types.hpp 
   util/static_assert.hpp 
   util/non_copyable.hpp
   mt/mutex.hpp
@@ -62,6 +63,8 @@ set (abl_headers
   unicode/pcre.h unicode/pcre_config.h unicode/pcre_internal.h unicode/ucp.h
   throw_spec.hpp
   exception.hpp
+  number_formatter.hpp
+  number_parser.hpp
 
   string/encoding/ascii.hpp
   string/encoding/latin1.hpp

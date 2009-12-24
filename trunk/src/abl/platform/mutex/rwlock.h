@@ -2,7 +2,7 @@
 #define __ABL_PLATFORM_MUTEX_RWLOCK_H__
 
 #include "abl/abl_export.h"
-#include "abl/util/c_types.h"
+#include "abl/types/c_types.h"
 
 CPP_VISIBLE_BEGIN
 

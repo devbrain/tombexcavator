@@ -2,7 +2,7 @@
 #define __ABL_MUTEX_MUTEX_H__
 
 #include "abl/abl_export.h"
-#include "abl/util/c_types.h"
+#include "abl/types/c_types.h"
 
 CPP_VISIBLE_BEGIN
 

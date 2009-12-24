@@ -5,7 +5,7 @@
 #include <sys/types.h>
 
 #include "abl/platform.h"
-#include "abl/util/c_types.h"
+#include "abl/types/c_types.h"
 #include "abl/util/static_assert.hpp"
 
 #if !defined (TE_PLATFORM_WORD_SIZE)

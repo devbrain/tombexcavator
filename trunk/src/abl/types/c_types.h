@@ -25,7 +25,7 @@ typedef signed   char te_int8_t;
 #if defined (TE_COMPILER_MSVC) || defined (TE_COMPILER_BORLAND) 
 typedef __int64          te_qword_t;
 typedef unsigned __int64 te_quword_t;
-#define TE_HAVE_INT64w
+#define TE_HAVE_INT64
 #endif
 
 #if defined (TE_COMPILER_MINGW) || defined (TE_COMPILER_GCC) || defined (TE_COMPILER_SUNCC)
@@ -167,8 +167,8 @@ typedef unsigned te_bool_t;
 #   define INT64_LITERAL(n) n ## ll
 # endif /* ! WIN32  */
 
-#define TE_INT8_MAX			0x7F
-#define TE_INT8_MIN			(-(TE_INT8_MAX)-1)
+#define TE_INT8_MAX		0x7F
+#define TE_INT8_MIN		(-(TE_INT8_MAX)-1)
 #define TE_UINT8_MAX		0xFF
 #define TE_INT16_MAX		0x7FFF
 #define TE_INT16_MIN		(-(TE_INT16_MAX)-1)
@@ -185,7 +185,7 @@ typedef unsigned te_bool_t;
 /* -------------------------------------------------- */
 
 C_STATIC_ASSERT (sizeof_ptr   , sizeof (void*) == sizeof (te_size_t));
-C_STATIC_ASSERT (te_word_t , TE_PLATFORM_BYTE_SIZE*sizeof (te_word_t) == TE_PLATFORM_WORD_SIZE);
+C_STATIC_ASSERT (te_word_t    , TE_PLATFORM_BYTE_SIZE*sizeof (te_word_t) == TE_PLATFORM_WORD_SIZE);
 C_STATIC_ASSERT (sizeof_ulong , TE_PLATFORM_BYTE_SIZE*sizeof (unsigned long) >= 32);
 C_STATIC_ASSERT (sizeof_quword, TE_PLATFORM_BYTE_SIZE*sizeof (te_quword_t) == 64);
 
