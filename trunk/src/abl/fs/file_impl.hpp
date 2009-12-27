@@ -76,7 +76,7 @@ namespace abl
     bool canReadImpl() const;
     bool canWriteImpl() const;
     bool canExecuteImpl() const;
-    bool isfile_impl_c() const;
+    bool isFileImpl() const;
     bool isDirectoryImpl() const;
     bool isLinkImpl() const;
     bool isDeviceImpl() const;
@@ -91,7 +91,7 @@ namespace abl
     void copyToImpl(const std::string& path) const;
     void renameToImpl(const std::string& path);
     void removeImpl();
-    bool createfile_impl_c();
+    bool createFileImpl();
     bool createDirectoryImpl();
     static void handleLastErrorImpl(const std::string& path);
 	

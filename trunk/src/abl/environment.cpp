@@ -5,6 +5,7 @@
 
 #if !defined(_WIN32)
 #include "abl/mt/fast_mutex.hpp"
+#include "abl/mt/guard.hpp"
 #include <cstring>
 #include <unistd.h>
 #include <stdlib.h>
@@ -61,7 +62,7 @@ namespace abl
 
   std::string environment_impl_c::getImpl(const std::string& name)
   {
-    FastMutex::ScopedLock lock(_mutex);
+    guard_c<fast_mutex_c> lock(_mutex);
 	
     const char* val = getenv(name.c_str());
     if (val)
@@ -73,16 +74,15 @@ namespace abl
 
   bool environment_impl_c::hasImpl(const std::string& name)
   {
-    FastMutex::ScopedLock lock(_mutex);
-
+    
+    guard_c<fast_mutex_c> lock(_mutex);
     return getenv(name.c_str()) != 0;
   }
 
 
   void environment_impl_c::setImpl(const std::string& name, const std::string& value)
   {
-    FastMutex::ScopedLock lock(_mutex);
-	
+    guard_c<fast_mutex_c> lock(_mutex);
     std::string var = name;
     var.append("=");
     var.append(value);

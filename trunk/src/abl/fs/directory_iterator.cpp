@@ -138,11 +138,11 @@ namespace abl
     : _pDir (0), 
       _rc (1)
   {
-    Path p (path);
-    p.makeFile ();
+    path_c p (path);
+    p.make_file ();
 
-    _pDir = opendir (p.toString ().c_str ());
-    if  (!_pDir) File::handleLastError (path);
+    _pDir = opendir (p.to_string ().c_str ());
+    if  (!_pDir) file_c::handle_last_error (path);
 
     next ();
   }

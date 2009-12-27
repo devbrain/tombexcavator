@@ -575,10 +575,10 @@ namespace abl
     bool file_impl_c::isHiddenImpl () const
     {
       poco_assert  (!_path.empty ());
-      Path p (_path);
-      p.makeFile ();
+      path_c p (_path);
+      p.make_file ();
 
-      return p.getFileName ()[0] == '.';
+      return p.get_file_name ()[0] == '.';
     }
 
 
@@ -589,15 +589,15 @@ namespace abl
 #if defined (__APPLE__) && defined (st_birthtime) && !defined (POCO_NO_STAT64) // st_birthtime is available only on 10.5
       struct stat64 st;
       if  (stat64 (_path.c_str (), &st) == 0)
-	return time_stamp_c::fromEpochTime (st.st_birthtime);
+	return time_stamp_c::from_epoch_time (st.st_birthtime);
 #elif defined (__FreeBSD__)
       struct stat st;
       if  (stat (_path.c_str (), &st) == 0)
-	return time_stamp_c::fromEpochTime (st.st_birthtime);
+	return time_stamp_c::from_epoch_time (st.st_birthtime);
 #else
       struct stat st;
       if  (stat (_path.c_str (), &st) == 0)
-	return time_stamp_c::fromEpochTime (st.st_ctime);
+	return time_stamp_c::from_epoch_time (st.st_ctime);
 #endif 
       else
 	handleLastErrorImpl (_path);
@@ -611,7 +611,7 @@ namespace abl
 
       struct stat st;
       if  (stat (_path.c_str (), &st) == 0)
-	return time_stamp_c::fromEpochTime (st.st_mtime);
+	return time_stamp_c::from_epoch_time (st.st_mtime);
       else
 	handleLastErrorImpl (_path);
       return 0;
@@ -623,8 +623,8 @@ namespace abl
       poco_assert  (!_path.empty ());
 
       struct utimbuf tb;
-      tb.actime  = ts.epochTime ();
-      tb.modtime = ts.epochTime ();
+      tb.actime  = ts.epoch_time ();
+      tb.modtime = ts.epoch_time ();
       if  (utime (_path.c_str (), &tb) != 0)
 	handleLastErrorImpl (_path);
     }
@@ -717,7 +717,7 @@ namespace abl
 	  close (sd);
 	  handleLastErrorImpl (path);
 	}
-      Buffer<char> buffer (blockSize);
+      buffer_c <char> buffer (blockSize);
       try
 	{
 	  int n;
@@ -803,7 +803,7 @@ namespace abl
       switch  (errno)
 	{
 	case EIO:
-	  throw IO_exception_c (path);
+	  throw io_exception_c (path);
 	case EPERM:
 	  throw file_access_denied_exception_c ("insufficient permissions", path);
 	case EACCES:
@@ -836,6 +836,6 @@ namespace abl
 	}
     }
  
-
+  } // ns abl
 #endif
 
