@@ -13,13 +13,13 @@
 #include "abl/abl_export.h"
 #include "abl/string/text_iterator.hpp"
 #include <set>
-
+#include <string>
 
 namespace abl 
 {
 
 
-  class Path;
+  class path_c;
 
   /**
    * @class glob_c
@@ -117,7 +117,7 @@ namespace abl
      * Directories that for whatever reason cannot be traversed are
      * ignored.
      */
-    static void glob (const Path& pathPattern, std::set <std::string>& files, int options = 0);
+    static void glob (const path_c& pathPattern, std::set <std::string>& files, int options = 0);
 		
 
   protected:
@@ -128,10 +128,10 @@ namespace abl
   
     bool match_set(text_iterator_c& itp, const text_iterator_c& endp, int c);
   
-    static void collect (const Path& pathPattern, const Path& base, 
-			 const Path& current    , const std::string& pattern, 
+    static void collect (const path_c& pathPattern, const path_c& base, 
+			 const path_c& current    , const std::string& pattern, 
 			 std::set <std::string>& files, int options);
-    static bool is_directory (const Path& path, bool followSymlink);
+    static bool is_directory (const path_c& path, bool followSymlink);
 	
   private:
     std::string m_pattern;

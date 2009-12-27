@@ -3,7 +3,7 @@
 
 #include <string>
 #include "libprovider/provider_export.hpp"
-#include "abl/util/types.hpp"
+#include "abl/types/types.hpp"
 #include "abl/util/non_copyable.hpp"
 
 namespace provider

@@ -19,12 +19,12 @@ namespace abl
   /**
    * This class represents filesystem paths in a 
    * platform-independent manner.
-   * Unix, Windows and OpenVMS all use a different
+   * Unix and Windows all use a different
    * syntax for filesystem paths.
    * This class can work with all three formats.
    * A path is made up of an optional node name
-   * (only Windows and OpenVMS), an optional
-   * device name (also only Windows and OpenVMS),
+   * (only Windows), an optional
+   * device name (also only Windows),
    * a list of directory names and an optional
    * filename.
    */
@@ -36,7 +36,6 @@ namespace abl
       {
 	PATH_UNIX,    /**< Unix-style path */
 	PATH_WINDOWS, /**< Windows-style path */
-	PATH_VMS,     /**< VMS-style path */
 	PATH_NATIVE,  /**< The current platform's native style */
 	PATH_GUESS    /**< Guess the style by examining the path */
       };
@@ -49,7 +48,7 @@ namespace abl
 		
     /**
      * Creates an empty absolute or relative path.
-     *
+     */
      path_c(bool absolute);
 		
      /**
@@ -121,7 +120,7 @@ namespace abl
     /**
      * Swaps the path with another one.
      */
-    void swap(path_c& path);
+    void swap (path_c& path);
 		
     /**
      * Assigns a string containing a path in native format.
@@ -340,11 +339,6 @@ namespace abl
     std::string get_extension () const;
 		
     /**
-     * Returns the file version. VMS only.
-     */
-    const std::string& version () const;
-		
-    /**
      * Clears all components.
      */
     void clear ();
@@ -382,8 +376,7 @@ namespace abl
      * the components (names) in a path. 
      *
      * On Unix systems, this is the slash '/'. On Windows systems, 
-     * this is the backslash '\'. On OpenVMS systems, this is the
-     * period '.'.
+     * this is the backslash '\'. 
      */
     static char separator ();
 		
@@ -392,8 +385,7 @@ namespace abl
      * single paths in a list of paths.
      *
      * On Unix systems, this is the colon ':'. On Windows systems,
-     * this is the semicolon ';'. On OpenVMS systems, this is the
-     * comma ','.
+     * this is the semicolon ';'. 
      */
     static char path_separator ();
 		
@@ -428,7 +420,6 @@ namespace abl
      * Fills the vector with all filesystem roots available on the
      * system. On Unix, there is exactly one root, "/".
      * On Windows, the roots are the drive letters.
-     * On OpenVMS, the roots are the mounted disks.
      */
     static void list_roots (std::vector<std::string>& roots);
 		
@@ -472,12 +463,10 @@ namespace abl
   protected:
     void _parse_unix    (const std::string& path);
     void _parse_windows (const std::string& path);
-    void _parse_vms     (const std::string& path);
     void _parse_guess   (const std::string& path);
 
     std::string _build_unix    () const;
     std::string _build_windows () const;
-    std::string _build_vms     () const;
 
   private:
     std::string  m_node;
@@ -488,120 +477,8 @@ namespace abl
     bool         m_absolute;
   };
 
-
-  //
-  // inlines
-  //
-  inline bool path_c::isAbsolute() const
-  {
-    return _absolute;
-  }
-
-	
-  inline bool path_c::isRelative() const
-  {
-    return !_absolute;
-  }
-
-
-  inline bool path_c::isDirectory() const
-  {
-    return _name.empty();
-  }
-
-
-  inline bool path_c::isFile() const
-  {
-    return !_name.empty();
-  }
-
-
-  inline path_c& path_c::parse(const std::string& path)
-  {
-    return assign(path);
-  }
-
-
-  inline path_c& path_c::parse(const std::string& path, style_t style)
-  {
-    return assign(path, style);
-  }
-
-
-  inline const std::string& path_c::getNode() const
-  {
-    return _node;
-  }
-
-
-  inline const std::string& path_c::getDevice() const
-  {
-    return _device;
-  }
-
-
-  inline const std::string& path_c::getFileName() const
-  {
-    return _name;
-  }
-
-
-  inline int path_c::depth() const
-  {
-    return int(_dirs.size());
-  }
-
-
-  inline const std::string& path_c::version() const
-  {
-    return _version;
-  }
-
-
-  inline path_c path_c::forDirectory(const std::string& path)
-  {
-    path_c p;
-    return p.parseDirectory(path);
-  }
-	
-
-  inline path_c path_c::forDirectory(const std::string& path, style_t style)
-  {
-    path_c p;
-    return p.parseDirectory(path, style);
-  }
-
-
-  inline char path_c::separator()
-  {
-#if defined(POCO_OS_FAMILY_VMS)
-    return '.';
-#elif defined(POCO_OS_FAMILY_WINDOWS)
-    return '\\';
-#else
-    return '/';
-#endif
-  }
-
-
-  inline char path_c::pathSeparator()
-  {
-#if defined(POCO_OS_FAMILY_VMS)
-    return ',';
-#elif defined(POCO_OS_FAMILY_WINDOWS)
-    return ';';
-#else
-    return ':';
-#endif
-  }
-
-
-  inline void swap(path_c& p1, path_c& p2)
-  {
-    p1.swap(p2);
-  }
-
-
+  void swap(path_c& p1, path_c& p2);
+  
 } 
 
 

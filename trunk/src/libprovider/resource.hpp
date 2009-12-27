@@ -2,7 +2,7 @@
 #define __LIBROVIDER_RESOURCE_HPP__
 
 #include <string>
-#include "abl/util/types.hpp"
+#include "abl/types/types.hpp"
 #include "libprovider/provider_export.hpp"
 
 namespace provider

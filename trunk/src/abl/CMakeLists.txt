@@ -18,6 +18,7 @@ set (abl_sources
   unicode/pcre_valid_utf8.c    unicode/pcre_xclass.c
 
   exception.cpp
+  environment.cpp
   number_formatter.cpp
   number_parser.cpp
   string/encoding/ascii.cpp
@@ -41,6 +42,12 @@ set (abl_sources
   date_time/date_time_format.cpp
   date_time/date_time_parser.cpp
   date_time/date_time_formatter.cpp
+
+  fs/directory_iterator.cpp
+  fs/file_impl.cpp
+  fs/file.cpp
+  fs/path.cpp
+  fs/glob.cpp
 )
 
 set (abl_headers
@@ -67,6 +74,7 @@ set (abl_headers
   exception.hpp
   number_formatter.hpp
   number_parser.hpp
+  environment.hpp
 
   string/encoding/ascii.hpp
   string/encoding/latin1.hpp
@@ -90,6 +98,12 @@ set (abl_headers
   date_time/date_time_format.hpp
   date_time/date_time_parser.hpp
   date_time/date_time_formatter.hpp
+
+  fs/directory_iterator.hpp
+  fs/file_impl.hpp
+  fs/file.hpp
+  fs/path.hpp
+  fs/glob.hpp
 )
 
 add_library (abl SHARED ${abl_sources} ${abl_headers})

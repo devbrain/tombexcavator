@@ -7,8 +7,8 @@
  * 
  */
 
-#ifndef __ABL_TYPES_HPP__
-#define __ABL_TYPES_HPP__
+#ifndef __ABL_BASIC_TYPES_HPP__
+#define __ABL_BASIC_TYPES_HPP__
 
 #if defined(_MSC_VER)
 	/*

@@ -1,7 +1,7 @@
 #ifndef __LIBVFS_FS_OBJECT_HPP__
 #define __LIBVFS_FS_OBJECT_HPP__
 
-#include "abl/util/types.hpp"
+#include "abl/types/types.hpp"
 
 #include "libvfs/inode_defs.hpp"
 #include "libvfs/vfs_export.hpp"

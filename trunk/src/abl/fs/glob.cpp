@@ -2,7 +2,7 @@
 #include "abl/fs/path.hpp"
 #include "abl/exception.hpp"
 #include "abl/fs/directory_iterator.hpp"
-#include "abl/file.hpp"
+#include "abl/fs/file.hpp"
 #include "abl/string/encoding/utf8.hpp"
 #include "abl/unicode/unicode.h"
 
@@ -15,7 +15,7 @@ namespace abl
     : m_pattern(pattern),
       m_options(options)
   {
-    poco_assert (!_pattern.empty());
+    poco_assert (!m_pattern.empty());
   }
   // -----------------------------------------------------------------------------
   glob_c::~glob_c ()
@@ -39,31 +39,31 @@ namespace abl
   // -----------------------------------------------------------------------------
   void glob_c::glob (const std::string& path_pattern, std::set <std::string>& files, int options)
   {
-    glob (Path (Path::expand(path_pattern), Path::PATH_GUESS), files, options);
+    glob (path_c (path_c::expand(path_pattern), path_c::PATH_GUESS), files, options);
   }
   // -----------------------------------------------------------------------------
-  void glob_c::glob (const char* pathPattern, std::set<std::string>& files, int options)
+  void glob_c::glob (const char* path_pattern, std::set<std::string>& files, int options)
   {
-    glob (Path (Path::expand(path_pattern), Path::PATH_GUESS), files, options);
+    glob (path_c (path_c::expand(path_pattern), path_c::PATH_GUESS), files, options);
   }
   // -----------------------------------------------------------------------------
-  void glob_c::glob (const Path& path_pattern, std::set <std::string>& files, int options)
+  void glob_c::glob (const path_c& path_pattern, std::set <std::string>& files, int options)
   {
-    Path pattern (path_pattern);
-    pattern.makeDirectory(); // to simplify pattern handling later on
-    Path base     (pattern);
-    Path abs_base (base);
-    abs_base.makeAbsolute ();
+    path_c pattern (path_pattern);
+    pattern.make_directory(); // to simplify pattern handling later on
+    path_c base     (pattern);
+    path_c abs_base (base);
+    abs_base.make_absolute ();
     while (base.depth () > 0 && base [base.depth () - 1] != "..") 
       {
-	base.popDirectory ();
-	absBase.popDirectory ();
+	base.pop_directory ();
+	abs_base.pop_directory ();
       }
     if (path_pattern.is_directory ()) 
       {
 	options |= GLOB_DIRS_ONLY;
       }
-    collect (pattern, absBase, base, path_pattern [base.depth ()], files, options);		
+    collect (pattern, abs_base, base, path_pattern [base.depth ()], files, options);		
   }
   // -----------------------------------------------------------------------------
   bool glob_c::match (text_iterator_c& itp, const text_iterator_c& endp, 
@@ -204,40 +204,40 @@ namespace abl
 
   // ----------------------------------------------------------------------------
 
-  void glob_c::collect (const Path& pathPattern, const Path& base, 
-			const Path& current    , const std::string& pattern, 
+  void glob_c::collect (const path_c& pathPattern, const path_c& base, 
+			const path_c& current    , const std::string& pattern, 
 			std::set <std::string>& files, int options)
   {
     try
       {
-	std::string pp = pathPattern.toString();
-	std::string basep = base.toString();
-	std::string curp  = current.toString();
-	Glob g(pattern, options);
-	DirectoryIterator it(base);
-	DirectoryIterator end;
+	std::string pp = pathPattern.to_string();
+	std::string basep = base.to_string();
+	std::string curp  = current.to_string();
+	glob_c g(pattern, options);
+	directory_iterator_c it(base);
+	directory_iterator_c end;
 	while (it != end)
 	  {
 	    const std::string& name = it.name();
 	    if (g.match(name))
 	      {
-		Path p(current);
+		path_c p(current);
 		if (p.depth() < pathPattern.depth() - 1)
 		  {
-		    p.pushDirectory(name);
+		    p.push_directory(name);
 		    collect(pathPattern, it.path(), p, pathPattern[p.depth()], files, options);
 		  }
 		else
 		  {
-		    p.setFileName(name);
-		    if (isDirectory(p, (options & GLOB_FOLLOW_SYMLINKS) != 0))
+		    p.set_file_name(name);
+		    if (is_directory(p, (options & GLOB_FOLLOW_SYMLINKS) != 0))
 		      {
-			p.makeDirectory();
-			files.insert(p.toString());
+			p.make_directory();
+			files.insert(p.to_string());
 		      }
 		    else if (!(options & GLOB_DIRS_ONLY))
 		      {
-			files.insert(p.toString());
+			files.insert(p.to_string());
 		      }
 		  }
 	      }
@@ -249,9 +249,9 @@ namespace abl
       }
   }
   // ---------------------------------------------------------------------------------
-  bool glob_c::is_directory (const Path& path, bool follow_symlink)
+  bool glob_c::is_directory (const path_c& path, bool follow_symlink)
   {
-    File f(path);
+    file_c f(path);
     if (f.is_directory())
       {
 	return true;
@@ -261,7 +261,7 @@ namespace abl
 	try
 	  {
 	    // Test if link resolves to a directory.
-	    DirectoryIterator it(f);
+	    directory_iterator_c it(f);
 	    return true;
 	  }
 	catch (exception_c&)
