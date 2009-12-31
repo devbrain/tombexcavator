@@ -30,6 +30,7 @@ public:
     
   virtual std::size_t size () const;
   virtual std::size_t read (char* buff, std::size_t size);
+  virtual std::string name () const;
 private:
   file_impl_s* m_pimpl;
 

@@ -1,6 +1,8 @@
 #ifndef __LIBVFS_FS_OBJECT_HPP__
 #define __LIBVFS_FS_OBJECT_HPP__
 
+#include <string>
+
 #include "abl/types/types.hpp"
 
 #include "libvfs/inode_defs.hpp"
@@ -28,8 +30,9 @@ namespace vfs
     virtual std::size_t    size      () const = 0;
     
     virtual fs_object_type type () const = 0;
-    fs_c*   owner ();
-    const fs_c* owner () const;
+    fs_c*                  owner ();
+    const fs_c*            owner () const;
+    virtual std::string    name () const = 0;
   private:
     fs_c* m_owner;
     

@@ -16,13 +16,15 @@ public:
   directory_c (vfs::fs_c* owner, vfs::inode_num_t parent_inode);
   ~directory_c ();
   
-  bool open (const char* path);
+  bool open (const char* path, const std::string& name);
   
   virtual vfs::fs_object_c*   load_object (vfs::inode_num_t ino);
   virtual vfs::inode_num_t    inode_num () const;
   virtual vfs::inode_num_t    parent_inode_num () const;
   virtual std::size_t         size      () const;
-  virtual std::size_t read (std::size_t entry_num, std::string& name, vfs::inode_num_t& inode_num);
+  virtual std::size_t read (std::size_t entry_num, std::string& name, 
+			    vfs::inode_num_t& inode_num);
+  virtual std::string name () const;
 private:
   directory_impl_s* m_pimpl;
 };

@@ -6,8 +6,10 @@ namespace westwood
     : m_last_offset (0)
   {
   }
-  // ----------------------------------------------------------------------------
-  bool pak_file_c::_get_next_resource (std::string& name, file_size_t& size, file_size_t& offset)
+  // ------------------------------------------------------------------------
+  bool pak_file_c::_get_next_resource (std::string& name, 
+				       file_size_t& size, 
+				       file_size_t& offset)
   {
     uint32_t offs;
     this->_read (offs);
