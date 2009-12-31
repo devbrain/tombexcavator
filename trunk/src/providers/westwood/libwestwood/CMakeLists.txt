@@ -7,4 +7,6 @@ set (libwestwood_headers
 )
 
 add_library (westwood ${libwestwood_sources} ${libwestwood_headers})
+set_target_properties (westwood PROPERTIES COMPILE_FLAGS
+"-DBUILD_WESTWOOD ")
 

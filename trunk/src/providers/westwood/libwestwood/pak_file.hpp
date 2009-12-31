@@ -3,10 +3,12 @@
 
 #include "libprovider/archive_reader.hpp"
 
+#include "providers/westwood/libwestwood/westwood_export.hpp"
+
 namespace westwood
 {
   
-  class pak_file_c : public provider::archive_reader_c
+  class WESTWOOD_API pak_file_c : public provider::archive_reader_c
   {
   public:
     pak_file_c ();

@@ -34,6 +34,12 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${myBIN_OUTPUT})
 
 include_directories (${BK_SRC_ROOT} ${BK_INCLUDE_PATH})
 
+if (${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+set (TE_SYS_LIBS pthread dl)
+else ()
+set (TE_SYS_LIBS)
+endif ()
+
 set (build_modules 
   abl
   demos

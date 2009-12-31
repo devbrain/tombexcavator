@@ -7,6 +7,9 @@
 #include "abl/platform.h"
 #include "abl/util/static_assert.hpp"
 
+#define __INCLUDE_BASIC_TYPES__
+#include "abl/types/basic_types.hpp"
+
 #if defined(_MSC_VER)
 #undef ABL_HAVE_INT8_T
 #undef ABL_HAVE_UINT8_T
@@ -17,9 +20,18 @@
 #undef ABL_HAVE_INT64_T
 #undef ABL_HAVE_UINT64_T
 #undef ABL_HAVE_SSIZE_T
-#define __INCLUDE_BASIC_TYPES__
-#include "abl/types/basic_types.hpp"
+
 #else
+// GCC
+#define ABL_HAVE_INT8_T
+#define ABL_HAVE_UINT8_T
+#define ABL_HAVE_INT16_T
+#define ABL_HAVE_UINT16_T
+#define ABL_HAVE_INT32_T
+#define ABL_HAVE_UINT32_T
+#define ABL_HAVE_INT64_T
+#define ABL_HAVE_UINT64_T
+#define ABL_HAVE_SSIZE_T
 #include <stdint.h>
 #endif
 
@@ -64,6 +76,7 @@ typedef int64_t ssize_t;
 
 #endif
 
+
 STATIC_ASSERT (sizeof (int8_t) == 1);
 STATIC_ASSERT (sizeof (uint8_t) == 1);
 
@@ -75,5 +88,6 @@ STATIC_ASSERT (sizeof (uint32_t) == 4);
 
 STATIC_ASSERT (sizeof (int64_t) == 8);
 STATIC_ASSERT (sizeof (uint64_t) == 8);
+
 
 #endif

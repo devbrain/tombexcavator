@@ -109,3 +109,4 @@ set (abl_headers
 
 add_library (abl SHARED ${abl_sources} ${abl_headers})
 set_target_properties (abl PROPERTIES COMPILE_FLAGS "-DBUILD_ABL ")  
+target_link_libraries (abl ${TE_SYS_LIBS})

@@ -6,9 +6,11 @@
 #include "libvfs/fs_dir.hpp"
 #include "libvfs/inode_defs.hpp"
 
+#include "providers/westwood/dune2/dune2_export.hpp"
+
 struct directory_impl_s;
 
-class directory_c : vfs::fs_dir_c
+class DUNE2_API directory_c : vfs::fs_dir_c
 {
 public:
   directory_c (vfs::fs_c* owner, vfs::inode_num_t parent_inode);

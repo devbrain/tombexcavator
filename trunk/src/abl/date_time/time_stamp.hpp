@@ -34,7 +34,6 @@ namespace abl
    * in effect on the system.
    */
   class ABL_API time_stamp_c
-	
   {
   public:
     typedef int64_t time_val_t;     /**< monotonic UTC time value in microsecond resolution */

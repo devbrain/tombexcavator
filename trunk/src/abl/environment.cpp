@@ -38,7 +38,7 @@ namespace abl
   class environment_impl_c
   {
   public:
-    typedef node_id_t node_id_t; /// Ethernet address.
+    typedef environment_c::node_id_t node_id_t; /// Ethernet address.
 
     static std::string getImpl(const std::string& name);	
     static bool hasImpl(const std::string& name);	

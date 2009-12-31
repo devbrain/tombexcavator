@@ -3,6 +3,8 @@
 
 #include "libvfs/fs_file.hpp"
 
+#include "providers/westwood/dune2/dune2_export.hpp"
+
 namespace westwood
 {
   class pak_file_c;
@@ -15,7 +17,7 @@ namespace provider
 
 struct file_impl_s;
 
-class file_c : public vfs::fs_file_c
+class DUNE2_API file_c : public vfs::fs_file_c
 {
 public:
   file_c (vfs::fs_c*            owner       , vfs::inode_num_t      my_inode,
