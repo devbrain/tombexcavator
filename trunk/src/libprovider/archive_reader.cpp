@@ -19,7 +19,7 @@ namespace provider
     ~archive_reader_impl_s (); 
 
     int                      m_file;
-    util::file_size_t        m_fsize;
+    file_size_t        m_fsize;
     std::vector <resource_c> m_resources;
   };
   // ---------------------------------------------------------------------------------------
@@ -59,8 +59,8 @@ namespace provider
     while (true)
       {
 	std::string       name;
-	util::file_size_t size;
-	util::file_size_t offset;
+	file_size_t size;
+	file_size_t offset;
 	bool rc = this->_get_next_resource (name, size, offset);
 	if (!rc)
 	  {
@@ -92,7 +92,7 @@ namespace provider
       {
 	return 0;
       }
-    const util::file_size_t curr_pos = lseek (m_pimpl->m_file, 0, SEEK_CUR);
+    const file_size_t curr_pos = lseek (m_pimpl->m_file, 0, SEEK_CUR);
     if (curr_pos == -1)
       {
 	return 0;
@@ -101,7 +101,7 @@ namespace provider
       {
 	return 0;
       }
-    const util::file_size_t sz = resource.size ();
+    const file_size_t sz = resource.size ();
     char* buff = new char [sz];
     if (this->_read (buff, sz) != sz)
       {
@@ -122,7 +122,7 @@ namespace provider
       {
 	return false;
       }
-    const util::file_size_t curr_pos = lseek (m_pimpl->m_file, 0, SEEK_CUR);
+    const file_size_t curr_pos = lseek (m_pimpl->m_file, 0, SEEK_CUR);
     if (curr_pos == -1)
       {
 	return false;
@@ -131,7 +131,7 @@ namespace provider
       {
 	return false;
       }
-    const util::file_size_t sz = resource.size ();
+    const file_size_t sz = resource.size ();
     if (this->_read (buff, sz) != sz)
       {
 	return false;
@@ -143,47 +143,47 @@ namespace provider
     return true;
   }
   // ---------------------------------------------------------------------------------------
-  util::ssize_t archive_reader_c::_read (char* buff, std::size_t size)
+  ssize_t archive_reader_c::_read (char* buff, std::size_t size)
   {
     return ::read (m_pimpl->m_file, buff, size);
   }
   // ---------------------------------------------------------------------------------------
-  util::ssize_t archive_reader_c::_read (util::sint8_t& v)
+  ssize_t archive_reader_c::_read (int8_t& v)
   {
     return ::read (m_pimpl->m_file, (char*)&v, sizeof (v));
   }
   // ---------------------------------------------------------------------------------------
-  util::ssize_t archive_reader_c::_read (util::uint8_t& v)
+  ssize_t archive_reader_c::_read (uint8_t& v)
   {
     return ::read (m_pimpl->m_file, (char*)&v, sizeof (v));
   }
   // ---------------------------------------------------------------------------------------
-  util::ssize_t archive_reader_c::_read (util::sint16_t& v)
+  ssize_t archive_reader_c::_read (int16_t& v)
   {
     return ::read (m_pimpl->m_file, (char*)&v, sizeof (v));
   }
   // ---------------------------------------------------------------------------------------
-  util::ssize_t archive_reader_c::_read (util::uint16_t& v)
+  ssize_t archive_reader_c::_read (uint16_t& v)
   {
     return ::read (m_pimpl->m_file, (char*)&v, sizeof (v));
   }
   // ---------------------------------------------------------------------------------------
-  util::ssize_t archive_reader_c::_read (util::sint32_t& v)
+  ssize_t archive_reader_c::_read (int32_t& v)
   {
     return ::read (m_pimpl->m_file, (char*)&v, sizeof (v));
   }
   // ---------------------------------------------------------------------------------------
-  util::ssize_t archive_reader_c::_read (util::uint32_t& v)
+  ssize_t archive_reader_c::_read (uint32_t& v)
   {
     return ::read (m_pimpl->m_file, (char*)&v, sizeof (v));
   }
   // ---------------------------------------------------------------------------------------
-  util::file_size_t archive_reader_c::_file_size () const
+  file_size_t archive_reader_c::_file_size () const
   {
     return m_pimpl->m_fsize;
   }
   // ---------------------------------------------------------------------------------------
-  util::file_size_t archive_reader_c::_seek (util::file_size_t pos)
+  file_size_t archive_reader_c::_seek (file_size_t pos)
   {
     return lseek (m_pimpl->m_file, pos, SEEK_SET);
   }

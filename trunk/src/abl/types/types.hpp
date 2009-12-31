@@ -5,54 +5,75 @@
 #include <sys/types.h>
 
 #include "abl/platform.h"
-#include "abl/types/c_types.h"
 #include "abl/util/static_assert.hpp"
 
-#if !defined (TE_PLATFORM_WORD_SIZE)
-#error "Undefined TE_PLATFORM_WORD_SIZE"
+#if defined(_MSC_VER)
+#undef ABL_HAVE_INT8_T
+#undef ABL_HAVE_UINT8_T
+#undef ABL_HAVE_INT16_T
+#undef ABL_HAVE_UINT16_T
+#undef ABL_HAVE_INT32_T
+#undef ABL_HAVE_UINT32_T
+#undef ABL_HAVE_INT64_T
+#undef ABL_HAVE_UINT64_T
+#undef ABL_HAVE_SSIZE_T
+#define __INCLUDE_BASIC_TYPES__
+#include "abl/types/basic_types.hpp"
+#else
+#include <stdint.h>
 #endif
 
-namespace types
-{
-  typedef te_int8_t   sint8_t; /**< signed 8 bit integer */
-  typedef te_uint8_t  uint8_t; /**< unsigned 8 bit integer */
-  
-  typedef te_int16_t  sint16_t; /**< signed 16 bit integer */
-  typedef te_uint16_t uint16_t; /**< unsigned 16 bit integer */
-
-  typedef te_int32_t   sint32_t; /**< signed 32 bit integer */
-  typedef te_uint32_t  uint32_t; /**< unsigned 32 bit integer */
-  
-  typedef te_int64_t   sint64_t; /**< signed 64 bit integer */
-  typedef te_uint64_t  uint64_t; /**< unsigned 64 bit integer */
-  
-  typedef off_t          file_size_t;
-  
-#if (TE_PLATFORM_WORD_SIZE == 8)
-  typedef sint8_t  ssize_t;
-#endif
-  
-#if (TE_PLATFORM_WORD_SIZE == 16)
-  typedef sint16_t  ssize_t;
-#endif
-  
-#if (TE_PLATFORM_WORD_SIZE == 32)
-  typedef sint32_t  ssize_t;
+#if !defined (ABL_HAVE_INT8_T) && !defined(_CHAR_IS_SIGNED)
+typedef Int8	int8_t;
 #endif
 
-}
+#if !defined (ABL_HAVE_UINT8_T)
+typedef UInt8	uint8_t;
+#endif
 
+#if !defined (ABL_HAVE_INT16_T)
+typedef Int16	int16_t;
+#endif
 
-STATIC_ASSERT (sizeof (types::sint8_t) == 1);
-STATIC_ASSERT (sizeof (types::uint8_t) == 1);
+#if !defined (ABL_HAVE_UINT16_T)
+typedef UInt16	uint16_t;
+#endif
 
-STATIC_ASSERT (sizeof (types::sint16_t) == 2);
-STATIC_ASSERT (sizeof (types::uint16_t) == 2);
+#if !defined (ABL_HAVE_INT32_T)
+typedef Int32	int32_t;
+#endif
 
-STATIC_ASSERT (sizeof (types::sint32_t) == 4);
-STATIC_ASSERT (sizeof (types::uint32_t) == 4);
+#if !defined (ABL_HAVE_UINT32_T)
+typedef UInt32	uint32_t;
+#endif
 
-STATIC_ASSERT (sizeof (types::sint64_t) == 8);
-STATIC_ASSERT (sizeof (types::uint64_t) == 8);
+#if !defined (ABL_HAVE_INT64_T)
+typedef Int64	int64_t;
+#endif
+
+#if !defined (ABL_HAVE_UINT64_T)
+typedef UInt64	uint64_t;
+#endif
+
+#if !defined (ABL_HAVE_SSIZE_T)
+#if defined(_WIN32)
+typedef int32_t ssize_t;
+#elif defined(_WIN64)
+typedef int64_t ssize_t;
+#endif
+
+#endif
+
+STATIC_ASSERT (sizeof (int8_t) == 1);
+STATIC_ASSERT (sizeof (uint8_t) == 1);
+
+STATIC_ASSERT (sizeof (int16_t) == 2);
+STATIC_ASSERT (sizeof (uint16_t) == 2);
+
+STATIC_ASSERT (sizeof (int32_t) == 4);
+STATIC_ASSERT (sizeof (uint32_t) == 4);
+
+STATIC_ASSERT (sizeof (int64_t) == 8);
+STATIC_ASSERT (sizeof (uint64_t) == 8);
 
 #endif

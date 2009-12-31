@@ -37,9 +37,9 @@ namespace abl
 	
   {
   public:
-    typedef types::sint64_t time_val_t;     /**< monotonic UTC time value in microsecond resolution */
-    typedef types::sint64_t utc_time_val_t; /**< monotonic UTC time value in 100 nanosecond resolution */
-    typedef types::sint64_t time_diff_t;    /**< difference between two timestamps in microseconds */
+    typedef int64_t time_val_t;     /**< monotonic UTC time value in microsecond resolution */
+    typedef int64_t utc_time_val_t; /**< monotonic UTC time value in 100 nanosecond resolution */
+    typedef int64_t time_diff_t;    /**< difference between two timestamps in microseconds */
     /**
      * Creates a timestamp with the current time.
      */
@@ -122,8 +122,8 @@ namespace abl
 		
 
 #if defined(_WIN32)
-    static time_stamp_c from_file_time_np (types::uint32_t fileTimeLow, types::uint32_t fileTimeHigh);
-    void to_file_time_np (types::uint32_t& fileTimeLow, types::uint32_t& fileTimeHigh) const;
+    static time_stamp_c from_file_time_np (uint32_t fileTimeLow, uint32_t fileTimeHigh);
+    void to_file_time_np (uint32_t& fileTimeLow, uint32_t& fileTimeHigh) const;
 #endif
 
   private:

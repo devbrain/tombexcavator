@@ -11,7 +11,7 @@
 #define __ABL_ENVIRONMENT_HPP__
 
 #include "abl/abl_export.h"
-#include "abl/types/basic_types.hpp"
+#include "abl/types/types.hpp"
 
 #include <string>
 
@@ -25,7 +25,7 @@ namespace abl
 
   {
   public:
-    typedef UInt8 node_id_t [6]; /**< Ethernet address. */
+    typedef int8_t node_id_t [6]; /**< Ethernet address. */
     /**
      * Returns the value of the environment variable
      * with the given name. Throws a NotFoundException

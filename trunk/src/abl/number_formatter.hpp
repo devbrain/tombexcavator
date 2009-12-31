@@ -13,7 +13,6 @@
 #include <string>
 
 #include "abl/abl_export.h"
-#include "abl/types/basic_types.hpp"
 #include "abl/types/types.hpp"
 
 namespace abl 
@@ -149,55 +148,55 @@ namespace abl
     /**
      * Formats a 64-bit integer value in decimal notation.
      */
-    static std::string format (Int64 value);
+    static std::string format (int64_t value);
     /**
      * Formats a 64-bit integer value in decimal notation,
      * right justified in a field having at least the specified width.
      */
-    static std::string format (Int64 value, int width);
+    static std::string format (int64_t value, int width);
     /**
      * Formats a 64-bit integer value in decimal notation, 
      * right justified and zero-padded in a field having at least 
      * the specified width.
      */
-    static std::string format0 (Int64 value, int width);
+    static std::string format0 (int64_t value, int width);
     /**
      * Formats a 64-bit integer value in hexadecimal notation.
      * The value is treated as unsigned.
      */
-    static std::string format_hex (Int64 value);
+    static std::string format_hex (int64_t value);
     /**
      * Formats a 64-bit integer value in hexadecimal notation,
      * right justified and zero-padded in a field having at least 
      * the specified width.
      * The value is treated as unsigned.
      */
-    static std::string format_hex (Int64 value, int width);
+    static std::string format_hex (int64_t value, int width);
     /**
      * Formats an unsigned 64-bit integer value in decimal notation.
      */
-    static std::string format (UInt64 value);
+    static std::string format (uint64_t value);
     /**
      * Formats an unsigned 64-bit integer value in decimal notation,
      * right justified in a field having at least the specified width.
      */
-    static std::string format (UInt64 value, int width);
+    static std::string format (uint64_t value, int width);
     /**
      * Formats an unsigned 64-bit integer value in decimal notation, 
      * right justified and zero-padded in a field having at least the 
      * specified width.
      */
-    static std::string format0 (UInt64 value, int width);
+    static std::string format0 (uint64_t value, int width);
     /**
      * Formats a 64-bit integer value in hexadecimal notation.
      */
-    static std::string format_hex (UInt64 value);
+    static std::string format_hex (uint64_t value);
     /**
      * Formats a 64-bit integer value in hexadecimal notation,
      * right justified and zero-padded in a field having at least 
      * the specified width.
      */
-    static std::string format_hex (UInt64 value, int width);
+    static std::string format_hex (uint64_t value, int width);
 
 
 #endif // defined (ABL_HAVE_INT64) && !defined (ABL_LONG_IS_64_BIT)

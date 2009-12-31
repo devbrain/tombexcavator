@@ -3,6 +3,7 @@
 
 #include <string>
 #include "abl/types/types.hpp"
+#include "abl/fs/file.hpp"
 #include "libprovider/provider_export.hpp"
 
 namespace provider
@@ -14,18 +15,18 @@ namespace provider
   public:
     resource_c ();
 
-    std::string       name () const;
-    util::file_size_t size () const;
-    util::file_size_t offset () const;
+    std::string name () const;
+    file_size_t size () const;
+    file_size_t offset () const;
 
     bool valid () const;
   private:
-    resource_c (const std::string& name, util::file_size_t size, util::file_size_t offset);
+    resource_c (const std::string& name, file_size_t size, file_size_t offset);
   private:
-    std::string       m_name;
-    util::file_size_t m_size;
-    util::file_size_t m_offset;
-    bool              m_valid;
+    std::string m_name;
+    file_size_t m_size;
+    file_size_t m_offset;
+    bool        m_valid;
   };
 }
 

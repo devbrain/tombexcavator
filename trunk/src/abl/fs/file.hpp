@@ -18,11 +18,8 @@
 #include <vector>
 #include <string>
 
-
 namespace abl 
 {
-
-
   class path_c;
   /**
    * The file_c class provides methods for working with a file.
@@ -251,9 +248,9 @@ namespace abl
 
   };
   void swap (file_c& f1, file_c& f2);
-
-
 } 
+
+typedef abl::file_c::file_size_t file_size_t;
 
 
 #endif 

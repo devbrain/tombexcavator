@@ -10,7 +10,7 @@ namespace provider
   {
   }
   // ----------------------------------------------------------------------------------------------
-  resource_c::resource_c (const std::string& name, util::file_size_t size, util::file_size_t offset)
+  resource_c::resource_c (const std::string& name, file_size_t size, file_size_t offset)
     : m_name   (name),
       m_size   (size),
       m_offset (offset),
@@ -23,12 +23,12 @@ namespace provider
     return m_name;
   }
   // ----------------------------------------------------------------------------------------------
-  util::file_size_t resource_c::size () const
+  file_size_t resource_c::size () const
   {
     return m_size;
   }
   // ----------------------------------------------------------------------------------------------
-  util::file_size_t resource_c::offset () const
+  file_size_t resource_c::offset () const
   {
     return m_offset;
   }

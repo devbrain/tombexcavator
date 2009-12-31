@@ -10,6 +10,10 @@
 #ifndef __ABL_BASIC_TYPES_HPP__
 #define __ABL_BASIC_TYPES_HPP__
 
+#if !defined(__INCLUDE_BASIC_TYPES__)
+#error "BugBug"
+#endif
+
 #if defined(_MSC_VER)
 	/*
 	* Windows/Visual C++

@@ -38,7 +38,7 @@ namespace abl
   class environment_impl_c
   {
   public:
-    typedef UInt8 node_id_t[6]; /// Ethernet address.
+    typedef node_id_t node_id_t; /// Ethernet address.
 
     static std::string getImpl(const std::string& name);	
     static bool hasImpl(const std::string& name);	
@@ -294,7 +294,7 @@ namespace abl
   class environment_impl_c
   {
   public:
-    typedef UInt8 node_id_t[6]; /// Ethernet address.
+    typedef environment_c::node_id_t node_id_t; /// Ethernet address.
 
     static std::string getImpl(const std::string& name);	
     static bool hasImpl(const std::string& name);	
@@ -554,7 +554,7 @@ namespace abl
 
   void environment_c::node_id(node_id_t& id)
   {
-    return environment_impl_c::nodeIdImpl(id);
+    return environment_impl_c::nodeIdImpl (id);
   }
 
 

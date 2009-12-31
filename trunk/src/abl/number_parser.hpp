@@ -12,7 +12,7 @@
 
 
 #include "abl/abl_export.h"
-#include "abl/types/basic_types.hpp"
+#include "abl/types/types.hpp"
 #include <string>
 
 namespace abl 
@@ -62,32 +62,32 @@ namespace abl
      * Parses a 64-bit integer value in decimal notation from the given string.
      * Throws a SyntaxException if the string does not hold a number in decimal notation.
      */
-    static Int64 parse64 (const std::string& s);
+    static int64_t parse64 (const std::string& s);
     /**
      * Parses a 64-bit integer value in decimal notation from the given string.
      * Returns true if a valid integer has been found, false otherwise. 
      */
-    static bool try_parse64 (const std::string& s, Int64& value);
+    static bool try_parse64 (const std::string& s, int64_t& value);
     /**
      * Parses an unsigned 64-bit integer value in decimal notation from the given string.
      * Throws a SyntaxException if the string does not hold a number in decimal notation.
      */
-    static UInt64 parse_unsigned64 (const std::string& s);
+    static uint64_t parse_unsigned64 (const std::string& s);
     /**
      * Parses an unsigned 64-bit integer value in decimal notation from the given string.
      * Returns true if a valid integer has been found, false otherwise. 
      */
-    static bool try_parse_unsigned64 (const std::string& s, UInt64& value);
+    static bool try_parse_unsigned64 (const std::string& s, uint64_t& value);
     /**
      * Parses a 64 bit-integer value in hexadecimal notation from the given string.
      * Throws a SyntaxException if the string does not hold a number in hexadecimal notation.
      */
-    static UInt64 parse_hex64 (const std::string& s);
+    static uint64_t parse_hex64 (const std::string& s);
     /**
      * Parses an unsigned 64-bit integer value in hexadecimal notation from the given string.
      * Returns true if a valid integer has been found, false otherwise. 
      */
-    static bool try_parse_hex64 (const std::string& s, UInt64& value);
+    static bool try_parse_hex64 (const std::string& s, uint64_t& value);
 
 #endif // defined (ABL_HAVE_INT64)
     /**

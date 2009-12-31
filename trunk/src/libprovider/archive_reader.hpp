@@ -4,6 +4,7 @@
 #include <string>
 #include "libprovider/provider_export.hpp"
 #include "abl/types/types.hpp"
+#include "abl/fs/file.hpp"
 #include "abl/util/non_copyable.hpp"
 
 namespace provider
@@ -24,18 +25,18 @@ namespace provider
     char* load (const resource_c& resource);
     bool load (char* buff, const resource_c& resource);
   protected:
-    util::ssize_t _read (char* buff, std::size_t size);
-    util::ssize_t _read (util::sint8_t& v);
-    util::ssize_t _read (util::uint8_t& v);
-    util::ssize_t _read (util::sint16_t& v);
-    util::ssize_t _read (util::uint16_t& v);
-    util::ssize_t _read (util::sint32_t& v);
-    util::ssize_t _read (util::uint32_t& v);
+    ssize_t _read (char* buff, std::size_t size);
+    ssize_t _read (int8_t& v);
+    ssize_t _read (uint8_t& v);
+    ssize_t _read (int16_t& v);
+    ssize_t _read (uint16_t& v);
+    ssize_t _read (int32_t& v);
+    ssize_t _read (uint32_t& v);
 
-    util::file_size_t _file_size () const;
-    util::file_size_t _seek (util::file_size_t pos);
+    file_size_t _file_size () const;
+    file_size_t _seek (file_size_t pos);
     
-    virtual bool _get_next_resource (std::string& name, util::file_size_t& size, util::file_size_t& offset) = 0;
+    virtual bool _get_next_resource (std::string& name, file_size_t& size, file_size_t& offset) = 0;
   private:
     archive_reader_impl_s* m_pimpl;
   };

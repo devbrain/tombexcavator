@@ -11,9 +11,9 @@ namespace westwood
   public:
     pak_file_c ();
   private:
-    virtual bool _get_next_resource (std::string& name, util::file_size_t& size, util::file_size_t& offset);
+    virtual bool _get_next_resource (std::string& name, file_size_t& size, file_size_t& offset);
   private:
-    util::file_size_t m_last_offset;
+    file_size_t m_last_offset;
   };
 }
 

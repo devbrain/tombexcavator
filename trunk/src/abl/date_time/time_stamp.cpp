@@ -88,7 +88,7 @@ namespace abl
 
 
 #if defined(_WIN32)
-  time_stamp_c time_stamp_c::from_file_time_np (types::uint32_t fileTimeLow, types::uint32_t fileTimeHigh)
+  time_stamp_c time_stamp_c::from_file_time_np (uint32_t fileTimeLow, uint32_t fileTimeHigh)
   {
     ULARGE_INTEGER epoch; // UNIX epoch (1970-01-01 00:00:00) expressed in Windows NT FILETIME
     epoch.LowPart  = 0xD53E8000;
@@ -102,7 +102,7 @@ namespace abl
     return time_stamp_c(ts.QuadPart/10);
   }
   // ---------------------------------------------------------------------------------
-  void time_stamp_c::to_file_time_np (types::uint32_t& fileTimeLow, types::uint32_t& fileTimeHigh) const
+  void time_stamp_c::to_file_time_np (uint32_t& fileTimeLow, uint32_t& fileTimeHigh) const
   {
     ULARGE_INTEGER epoch; // UNIX epoch (1970-01-01 00:00:00) expressed in Windows NT FILETIME
     epoch.LowPart  = 0xD53E8000;

@@ -7,9 +7,9 @@ namespace westwood
   {
   }
   // ----------------------------------------------------------------------------
-  bool pak_file_c::_get_next_resource (std::string& name, util::file_size_t& size, util::file_size_t& offset)
+  bool pak_file_c::_get_next_resource (std::string& name, file_size_t& size, file_size_t& offset)
   {
-    util::uint32_t offs;
+    uint32_t offs;
     this->_read (offs);
     offset = offs;
     if (offset >= this->_file_size ())
@@ -28,7 +28,7 @@ namespace westwood
     name = "";
     while (true)
       {
-	util::sint8_t ch;
+	int8_t ch;
 	this->_read (ch);
 	if (ch == 0)
 	  {
