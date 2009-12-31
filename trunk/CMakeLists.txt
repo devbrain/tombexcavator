@@ -35,7 +35,8 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${myBIN_OUTPUT})
 include_directories (${BK_SRC_ROOT} ${BK_INCLUDE_PATH})
 
 set (build_modules 
-  abl	
+  abl
+  demos
   libvfs
   libprovider
   providers/westwood/libwestwood
