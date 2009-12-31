@@ -33,6 +33,7 @@ set (abl_sources
   string/tokenizer.cpp
   string/unicode_converter.cpp
   string/text_converter.cpp
+  string/regular_expression.cpp
 
   date_time/time_stamp.cpp
   date_time/time_span.cpp
@@ -88,6 +89,7 @@ set (abl_headers
   string/tokenizer.hpp
   string/text_converter.hpp
   string/unicode_converter.hpp
+  string/regular_expression.hpp
   byte_order.hpp
 
   date_time/time_stamp.hpp
