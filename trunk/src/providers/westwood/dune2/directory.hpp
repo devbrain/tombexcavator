@@ -5,26 +5,25 @@
 
 #include "libvfs/fs_dir.hpp"
 #include "libvfs/inode_defs.hpp"
+#include "libprovider/simple_dir.hpp"
+
 
 #include "providers/westwood/dune2/dune2_export.hpp"
 
 struct directory_impl_s;
 
-class DUNE2_API directory_c : vfs::fs_dir_c
+class DUNE2_API directory_c : provider::simple_dir_c
 {
 public:
-  directory_c (vfs::fs_c* owner, vfs::inode_num_t parent_inode);
+  directory_c (vfs::fs_c* owner, 
+	       vfs::inode_num_t parent_inode,
+	       const std::string& name,
+	       const vfs::inode_num_t self_inode);
   ~directory_c ();
   
-  bool open (const char* path, const std::string& name);
+  bool open (const char* path);
   
-  virtual vfs::fs_object_c*   load_object (vfs::inode_num_t ino);
   virtual vfs::inode_num_t    inode_num () const;
-  virtual vfs::inode_num_t    parent_inode_num () const;
-  virtual std::size_t         size      () const;
-  virtual std::size_t read (std::size_t entry_num, std::string& name, 
-			    vfs::inode_num_t& inode_num);
-  virtual std::string name () const;
 private:
   directory_impl_s* m_pimpl;
 };

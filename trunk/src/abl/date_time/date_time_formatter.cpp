@@ -7,7 +7,7 @@
 namespace abl 
 {
   void date_time_formatter_c::append (std::string& str, const date_time_c& dateTime, 
-				     const std::string& fmt, int timeZoneDifferential)
+				      const std::string& fmt, int timeZoneDifferential)
   {
     std::string::const_iterator it  = fmt.begin ();
     std::string::const_iterator end = fmt.end ();
@@ -81,7 +81,7 @@ namespace abl
 		    break;
 		  case 'F': 
 		    number_formatter_c::append0 (str, 
-						dateTime.millisecond ()*1000 + dateTime.microsecond (), 6); 
+						 dateTime.millisecond ()*1000 + dateTime.microsecond (), 6); 
 		    break;
 		  case 'z': 
 		    tzd_iso (str, timeZoneDifferential); 
@@ -99,8 +99,8 @@ namespace abl
   }
   // -----------------------------------------------------------------------------------
   void date_time_formatter_c::append (std::string& str, const 
-				     time_span_c& timespan, 
-				     const std::string& fmt)
+				      time_span_c& timespan, 
+				      const std::string& fmt)
   {
     std::string::const_iterator it  = fmt.begin ();
     std::string::const_iterator end = fmt.end ();
@@ -141,7 +141,7 @@ namespace abl
 		    break;
 		  case 'F': 
 		    number_formatter_c::append0 (str, 
-						timespan.milliseconds ()*1000 + timespan.microseconds (), 6);
+						 timespan.milliseconds ()*1000 + timespan.microseconds (), 6);
 
 		    break;
 		  default:  str += *it;
@@ -196,14 +196,14 @@ namespace abl
   }
   // -----------------------------------------------------------------------------------
   std::string date_time_formatter_c::format (const time_stamp_c& timestamp, const std::string& fmt, 
-					    int timeZoneDifferential)
+					     int timeZoneDifferential)
   {
     date_time_c dateTime (timestamp);
     return format (dateTime, fmt, timeZoneDifferential);
   }
   // -----------------------------------------------------------------------------------
   std::string date_time_formatter_c::format (const date_time_c& dateTime, const std::string& fmt, 
-					    int timeZoneDifferential)
+					     int timeZoneDifferential)
   {
     std::string result;
     result.reserve (64);
@@ -217,7 +217,7 @@ namespace abl
   }
   // -----------------------------------------------------------------------------------
   std::string date_time_formatter_c::format (const time_span_c& timespan, 
-					    const std::string& fmt)
+					     const std::string& fmt)
   {
     std::string result;
     result.reserve (32);
@@ -226,7 +226,7 @@ namespace abl
   }
   // -----------------------------------------------------------------------------------
   void date_time_formatter_c::append (std::string& str, const time_stamp_c& timestamp, 
-				     const std::string& fmt, int timeZoneDifferential)
+				      const std::string& fmt, int timeZoneDifferential)
   {
     date_time_c dateTime (timestamp);
     append (str, dateTime, fmt, timeZoneDifferential);

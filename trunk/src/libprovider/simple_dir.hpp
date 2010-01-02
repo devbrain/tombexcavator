@@ -8,7 +8,8 @@
 
 namespace provider
 {
-  struct simple_dir_impl_s*;
+  struct simple_dir_impl_s;
+
   class LIBPROVIDER_API simple_dir_c : public vfs::fs_dir_c
   {
   public:
@@ -16,14 +17,14 @@ namespace provider
 		  const std::string& name);
     virtual ~simple_dir_c ();
     virtual vfs::fs_object_c*   load_object (vfs::inode_num_t ino);
-    virtual vfs::inode_num_t    inode_num () const;
     virtual vfs::inode_num_t    parent_inode_num () const;
     virtual std::size_t         size      () const;
     virtual std::size_t read (std::size_t entry_num, std::string& name, 
 			      vfs::inode_num_t& inode_num);
+    virtual vfs::inode_num_t   lookup (const std::string& name) const;
     virtual std::string name () const;
   protected:
-    void _add_fs_object (vfs::fs_object_c* fs_obj);
+    bool _add_fs_object (vfs::fs_object_c* fs_obj);
   private:
     simple_dir_impl_s* m_pimpl;
   };
