@@ -12,6 +12,7 @@
 
 
 #include "abl/abl_export.h"
+#include "abl/unicode/unicode_types.h"
 #include <string>
 
 namespace abl 
@@ -25,7 +26,7 @@ namespace abl
   {
   public:
     
-    typedef int (*transform_t)(int); /*< transform_t function for convert. */
+    typedef ucs4_t (*transform_t)(ucs4_t); /*< transform_t function for convert. */
     /**
      * Creates the text_converter_c. The encoding objects must not be deleted while the
      * text_converter_c is in use.

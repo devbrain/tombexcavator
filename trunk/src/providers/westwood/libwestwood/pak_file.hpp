@@ -12,6 +12,7 @@ namespace westwood
   {
   public:
     pak_file_c ();
+	virtual ~pak_file_c ();
   private:
     virtual bool _get_next_resource (std::string& name, 
 				     file_size_t& size, 

@@ -1,8 +1,8 @@
-#ifndef __LIBFS_FS_HPP__
-#define __LIBFS_FS_HPP__
+#ifndef __LIBVFS_FS_HPP__
+#define __LIBVFS_FS_HPP__
 
-#include "libvfs/inode_defs.hpp"
 #include "libvfs/vfs_export.hpp"
+#include "libvfs/inode_defs.hpp"
 #include "abl/util/non_copyable.hpp"
 
 namespace vfs
@@ -17,8 +17,7 @@ namespace vfs
     virtual ~fs_c ();
     
     virtual bool         open           (const char* path) = 0;
-    virtual inode_num_t  root_inode_num () const = 0; 
-    virtual fs_object_c* load_object    (inode_num_t ino) = 0;
+    virtual fs_object_c* root_object    () = 0;
     virtual inode_num_t  new_inode_num  () const = 0;
   };
 }

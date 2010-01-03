@@ -1,6 +1,7 @@
 #ifndef __ABL_STRING_UTF8_STRING_HPP__
 #define __ABL_STRING_UTF8_STRING_HPP__
 
+#include <string>
 #include "abl/abl_export.h" 
 
 namespace abl 

@@ -29,9 +29,8 @@ directory_impl_s::~directory_impl_s ()
 // ========================================================================
 directory_c::directory_c (vfs::fs_c* owner, 
 			  vfs::inode_num_t parent_inode,
-			  const std::string& name,
 			  const vfs::inode_num_t self_inode)
-  : provider::simple_dir_c (owner, parent_inode, name)
+  : provider::simple_dir_c (owner, parent_inode)
 {
   m_pimpl = new directory_impl_s;
   m_pimpl->m_my_inode = self_inode;
@@ -68,7 +67,7 @@ bool directory_c::open (const char* path)
 				 m_pimpl->m_pak_file, 
 				 resource);
 
-      if (!this->_add_fs_object (file))
+      if (!this->_add_fs_object (file, resource.name ()))
 	{
 	  return false;
 	}

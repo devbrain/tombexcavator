@@ -32,7 +32,6 @@ namespace vfs
     virtual fs_object_type type () const = 0;
     fs_c*                  owner ();
     const fs_c*            owner () const;
-    virtual std::string    name () const = 0;
   private:
     fs_c* m_owner;
     

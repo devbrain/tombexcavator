@@ -32,6 +32,7 @@ set (abl_sources
   string/unicode_converter.cpp
   string/text_converter.cpp
   string/regular_expression.cpp
+  string/utf8_string.cpp
 
   date_time/time_stamp.cpp
   date_time/time_span.cpp
@@ -47,6 +48,8 @@ set (abl_sources
   fs/file.cpp
   fs/path.cpp
   fs/glob.cpp
+
+  object/manifest.cpp
 )
 
 set (abl_headers
@@ -85,6 +88,7 @@ set (abl_headers
 
   string/text_encoding.hpp
   string/text_iterator.hpp
+  string/utf8_string.hpp
   string/tokenizer.hpp
   string/text_converter.hpp
   string/unicode_converter.hpp
@@ -105,6 +109,10 @@ set (abl_headers
   fs/file.hpp
   fs/path.hpp
   fs/glob.hpp
+
+  object/manifest.hpp
+  object/meta_object.hpp
+  
 )
 
 add_library (abl SHARED ${abl_sources} ${abl_headers})

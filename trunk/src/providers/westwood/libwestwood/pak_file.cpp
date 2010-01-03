@@ -7,6 +7,10 @@ namespace westwood
   {
   }
   // ------------------------------------------------------------------------
+  pak_file_c::~pak_file_c ()
+  {
+  }
+  // ------------------------------------------------------------------------
   bool pak_file_c::_get_next_resource (std::string& name, 
 				       file_size_t& size, 
 				       file_size_t& offset)

@@ -13,8 +13,7 @@ namespace provider
   class LIBPROVIDER_API simple_dir_c : public vfs::fs_dir_c
   {
   public:
-    simple_dir_c (vfs::fs_c* owner, vfs::inode_num_t parent_ino, 
-		  const std::string& name);
+    simple_dir_c (vfs::fs_c* owner, vfs::inode_num_t parent_ino); 
     virtual ~simple_dir_c ();
     virtual vfs::fs_object_c*   load_object (vfs::inode_num_t ino);
     virtual vfs::inode_num_t    parent_inode_num () const;
@@ -22,9 +21,8 @@ namespace provider
     virtual std::size_t read (std::size_t entry_num, std::string& name, 
 			      vfs::inode_num_t& inode_num);
     virtual vfs::inode_num_t   lookup (const std::string& name) const;
-    virtual std::string name () const;
   protected:
-    bool _add_fs_object (vfs::fs_object_c* fs_obj);
+    bool _add_fs_object (vfs::fs_object_c* fs_obj, const std::string& name);
   private:
     simple_dir_impl_s* m_pimpl;
   };

@@ -2,9 +2,12 @@
 #define __ABL_DYNAMIC_LOADER_HPP__
 
 #include <string>
+#include "abl/abl_export.h"
 
 namespace abl
 {
+  class path_c;
+
   class dynamic_loader_c;
   
   struct dynamic_library_impl_s;
@@ -15,6 +18,11 @@ namespace abl
   {
     friend class dynamic_loader_c;
   public:
+    dynamic_library_c ();
+
+    ~dynamic_library_c ();
+
+    bool load (const path_c& path, const std::string& name);
     /** 
      * returns the name of the library. For example, for /a/libX.so it returns X
      * 
@@ -44,10 +52,7 @@ namespace abl
      * 
      * @return pointer to the loaded symbol or NULL in case of failure
      */
-    void* load (const std::string& symbol);
-    
-    unsigned int ref_count () const;
-    bool release ();
+    void* load_symbol (const std::string& symbol);
   private:
     dynamic_library_c ();
     ~dynamic_library_c ();
@@ -55,7 +60,6 @@ namespace abl
     dynamic_library_impl_s* m_pimpl;
   };
 }
-
 
 #endif
 

@@ -6,7 +6,7 @@
 #if defined(WESTWOOD_AS_STATIC_LIB)
 #   define VFS_API
 #else
-#   if defined(WESTWOOD_DUNE2)
+#   if defined(BUILD_WESTWOOD)
 #      define WESTWOOD_API te__api_export__ 
 #   else
 #      define WESTWOOD_API te__api_import__ 

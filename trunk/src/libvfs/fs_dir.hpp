@@ -20,6 +20,7 @@ namespace vfs
 			      std::string& name, 
 			      inode_num_t& inode_num) = 0;
     virtual fs_object_c* load_object (inode_num_t ino) = 0;
+    virtual vfs::inode_num_t   lookup (const std::string& name) const = 0;
   };
 }
 

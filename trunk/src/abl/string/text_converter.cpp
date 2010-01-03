@@ -8,7 +8,7 @@
 
 namespace 
 {
-  int null_transform(int ch)
+  ucs4_t null_transform (ucs4_t ch)
   {
     return ch;
   }
@@ -17,8 +17,6 @@ namespace
 
 namespace abl 
 {
-
-
   text_converter_c::text_converter_c (const text_encoding_c& inencoding, 
 				      const text_encoding_c& outencoding, 
 				      int default_char)
