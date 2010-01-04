@@ -1,4 +1,5 @@
 #include <map>
+#include "abl/exception.hpp"
 #include "libvfs/fs_object.hpp"
 #include "libvfs/fs.hpp"
 #include "libprovider/simple_dir.hpp"
@@ -111,13 +112,17 @@ namespace provider
   bool simple_dir_c::_add_fs_object (vfs::fs_object_c* fs_obj, 
 				     const std::string& name)
   {
-    if (fs_obj)
+    if (!fs_obj)
       {
+	throw abl::file_not_found_exception_c ("file not found", name);
 	return false;
       }
+    std::string the_name = name;
     if (vfs::BAD_INODE_NUM != lookup (name))
       {
-	return false;
+	//	throw abl::file_exists_exception_c ("file already exists", name);
+	//	return false;
+	the_name += ":1";
       }
     vfs::inode_num_t ino = fs_obj->inode_num ();
     std::size_t      sz  = m_pimpl->m_fs_map.size ();
