@@ -50,6 +50,10 @@ set (abl_sources
   fs/glob.cpp
 
   object/manifest.cpp
+  object/ref_counted_object.cpp
+
+  dynamic_library.cpp
+  dynamic_loader.cpp
 )
 
 set (abl_headers
@@ -112,7 +116,10 @@ set (abl_headers
 
   object/manifest.hpp
   object/meta_object.hpp
-  
+  object/ref_counted_object.hpp
+
+  dynamic_library.hpp
+  dynamic_loader.hpp
 )
 
 add_library (abl SHARED ${abl_sources} ${abl_headers})
