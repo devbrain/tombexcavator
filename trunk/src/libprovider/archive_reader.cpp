@@ -56,6 +56,10 @@ namespace provider
       }
     m_pimpl->m_fsize = lseek (m_pimpl->m_file, 0, SEEK_END);
     lseek (m_pimpl->m_file, 0, SEEK_SET);
+    if (!this->_read_archive_header ())
+      {
+	return false;
+      }
     while (true)
       {
 	std::string name;

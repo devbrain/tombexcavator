@@ -14,6 +14,7 @@ namespace westwood
     pak_file_c ();
 	virtual ~pak_file_c ();
   private:
+    virtual bool _read_archive_header ();
     virtual bool _get_next_resource (std::string& name, 
 				     file_size_t& size, 
 				     file_size_t& offset);

@@ -11,6 +11,11 @@ namespace westwood
   {
   }
   // ------------------------------------------------------------------------
+  bool pak_file_c::_read_archive_header ()
+  {
+    return true;
+  }
+  // ------------------------------------------------------------------------
   bool pak_file_c::_get_next_resource (std::string& name, 
 				       file_size_t& size, 
 				       file_size_t& offset)

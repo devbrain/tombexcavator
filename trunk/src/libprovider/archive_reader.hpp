@@ -37,6 +37,7 @@ namespace provider
     file_size_t _seek (file_size_t pos);
     file_size_t _offset (); 
     
+    virtual bool _read_archive_header () = 0;
     virtual bool _get_next_resource (std::string& name, file_size_t& size, file_size_t& offset) = 0;
   private:
     archive_reader_impl_s* m_pimpl;
