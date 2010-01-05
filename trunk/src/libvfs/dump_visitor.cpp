@@ -43,6 +43,7 @@ namespace vfs
     file->read (buff.begin (), fl_size);
     fwrite (buff.begin (), fl_size, 1, f);
     fclose (f);
+    return true;
   }
-
+  
 }
