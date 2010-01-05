@@ -22,7 +22,9 @@ public:
 };
 // ----------------------------------------------------
 dune2_root_c::dune2_root_c (vfs::fs_c* owner)
-  : simple_dir_c (owner, vfs::BAD_INODE_NUM)
+  : simple_dir_c (owner, 
+		  vfs::BAD_INODE_NUM, 
+		  provider::simple_dir_c::NO_DUBLICATES)
 {
 }
 // ----------------------------------------------------

@@ -144,5 +144,6 @@ void mutex_destroy (mutex_s* mutex)
 #else
   pthread_mutex_destroy (&mutex->m_mutex);
 #endif
+  free (mutex);
 }
 

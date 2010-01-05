@@ -77,4 +77,5 @@ void shared_object_close (shared_object_s* so)
 #else
   dlclose (so->handle);
 #endif
+  free (so);
 }

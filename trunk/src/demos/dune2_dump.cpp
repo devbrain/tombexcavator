@@ -5,10 +5,15 @@
 #include "libvfs/fs.hpp"
 #include "libvfs/fs_dir.hpp"
 #include "libvfs/fs_file.hpp"
+#include "libvfs/dump_visitor.hpp"
+#include "libvfs/print_visitor.hpp"
+#include "libvfs/for_each.hpp"
+
 
 #include "abl/dynamic_loader.hpp"
 #include "abl/dynamic_library.hpp"
 #include "abl/exception.hpp"
+#include "abl/fs/path.hpp"
 
 int main (int argc, char* argv [])
 {
@@ -41,6 +46,9 @@ int main (int argc, char* argv [])
 	  std::cerr << "Failed to open DUNE ][" << std::endl;
 	  return 1;
 	}
+      vfs::dump_visitor_c v (abl::path_c ("dune_2"));
+      vfs::for_each (fs, &v);
+      delete fs;
     }
   catch (abl::exception_c& e)
     {

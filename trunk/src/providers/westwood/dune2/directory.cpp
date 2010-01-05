@@ -1,4 +1,3 @@
-#include <iostream>
 #include <map>
 #include <vector>
 
@@ -31,7 +30,7 @@ directory_impl_s::~directory_impl_s ()
 directory_c::directory_c (vfs::fs_c* owner, 
 			  vfs::inode_num_t parent_inode,
 			  const vfs::inode_num_t self_inode)
-  : provider::simple_dir_c (owner, parent_inode)
+  : provider::simple_dir_c (owner, parent_inode, provider::simple_dir_c::IGNORE_DUBLICATES)
 {
   m_pimpl = new directory_impl_s;
   m_pimpl->m_my_inode = self_inode;
@@ -44,7 +43,6 @@ directory_c::~directory_c ()
 // ------------------------------------------------------------------------
 bool directory_c::open (const char* path)
 {
-  std::cout << "PATH = " << path << std::endl;
   if (!m_pimpl->m_pak_file->open (path))
     {
       return false;
@@ -62,7 +60,6 @@ bool directory_c::open (const char* path)
 	{
 	  return false;
 	}
-      std::cout << i << " " << resource.name () << std::endl;
       const vfs::inode_num_t ino = owner ()->new_inode_num ();
       file_c* file = new file_c (this->owner (), 
 				 ino, 

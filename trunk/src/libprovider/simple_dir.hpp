@@ -13,7 +13,16 @@ namespace provider
   class LIBPROVIDER_API simple_dir_c : public vfs::fs_dir_c
   {
   public:
-    simple_dir_c (vfs::fs_c* owner, vfs::inode_num_t parent_ino); 
+    enum operation_t
+      {
+	NO_DUBLICATES,
+	ALLOW_DUBLICATES,
+	IGNORE_DUBLICATES
+      };
+  public:
+    simple_dir_c (vfs::fs_c* owner, 
+		  vfs::inode_num_t parent_ino,
+		  operation_t op); 
     virtual ~simple_dir_c ();
     virtual vfs::fs_object_c*   load_object (vfs::inode_num_t ino);
     virtual vfs::inode_num_t    parent_inode_num () const;

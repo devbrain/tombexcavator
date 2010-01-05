@@ -1,4 +1,6 @@
 #include <map>
+#include <sstream>
+
 #include "abl/exception.hpp"
 #include "libvfs/fs_object.hpp"
 #include "libvfs/fs.hpp"
@@ -26,6 +28,11 @@ typedef rn_map_t::const_iterator                 const_rn_iterator_t;
 typedef rn_map_t::value_type                     rn_val_t;
 
 
+typedef std::map <std::string, int> rc_map_t;
+typedef rc_map_t::iterator          rc_iterator_t;
+typedef rc_map_t::const_iterator    const_rc_iterator_t;
+typedef rc_map_t::value_type        rc_val_t;
+
 namespace provider 
 {
   struct simple_dir_impl_s
@@ -39,19 +46,23 @@ namespace provider
 	}
     }
 
-    vfs::inode_num_t m_parent;
-
-    fs_map_t         m_fs_map;
-    nm_map_t         m_nm_map;
-    sz_map_t         m_sz_map;
-    rn_map_t         m_rn_map;
+    vfs::inode_num_t          m_parent;
+    simple_dir_c::operation_t m_op;
+    fs_map_t                  m_fs_map;
+    nm_map_t                  m_nm_map;
+    sz_map_t                  m_sz_map;
+    rn_map_t                  m_rn_map;
+    rc_map_t                  m_rc_map;
   };
   // ======================================================================
-  simple_dir_c::simple_dir_c (vfs::fs_c* owner, vfs::inode_num_t parent_ino)
+  simple_dir_c::simple_dir_c (vfs::fs_c* owner, 
+			      vfs::inode_num_t parent_ino,
+			      operation_t op)
     : vfs::fs_dir_c (owner)
   {
-    m_pimpl = new simple_dir_impl_s;
+    m_pimpl           = new simple_dir_impl_s;
     m_pimpl->m_parent = parent_ino;
+    m_pimpl->m_op     = op;
   }
   // -----------------------------------------------------------------------
   simple_dir_c::~simple_dir_c ()
@@ -115,21 +126,36 @@ namespace provider
     if (!fs_obj)
       {
 	throw abl::file_not_found_exception_c ("file not found", name);
-	return false;
       }
     std::string the_name = name;
+    int rc = 1;
     if (vfs::BAD_INODE_NUM != lookup (name))
       {
-	//	throw abl::file_exists_exception_c ("file already exists", name);
-	//	return false;
-	the_name += ":1";
+	if (m_pimpl->m_op == NO_DUBLICATES)
+	  {
+	    throw abl::file_exists_exception_c ("file already exists", name);
+	  }
+	if (m_pimpl->m_op == IGNORE_DUBLICATES)
+	  {
+	    return true;
+	  }
+	rc_iterator_t rci = m_pimpl->m_rc_map.find (name);
+	rc = rci->second++;
+	std::ostringstream os;
+	os << name << ";" << rc;
+	the_name = os.str ();
       }
     vfs::inode_num_t ino = fs_obj->inode_num ();
     std::size_t      sz  = m_pimpl->m_fs_map.size ();
-    m_pimpl->m_fs_map.insert (fs_val_t (ino , fs_obj));
-    m_pimpl->m_nm_map.insert (nm_val_t (name, ino));
-    m_pimpl->m_sz_map.insert (sz_val_t (sz  , ino));
-    m_pimpl->m_rn_map.insert (rn_val_t (ino , name));
+    m_pimpl->m_fs_map.insert (fs_val_t (ino     , fs_obj));
+    m_pimpl->m_nm_map.insert (nm_val_t (the_name, ino));
+    m_pimpl->m_sz_map.insert (sz_val_t (sz      , ino));
+    m_pimpl->m_rn_map.insert (rn_val_t (ino     , the_name));
+    m_pimpl->m_rn_map.insert (rn_val_t (ino     , the_name));
+    if (rc == 1)
+      {
+	m_pimpl->m_rc_map.insert (rc_val_t (the_name, rc));
+      }
     return true;
   }
 }

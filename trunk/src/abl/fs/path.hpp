@@ -29,7 +29,6 @@ namespace abl
    * filename.
    */
   class ABL_API path_c
-	
   {
   public:
     enum style_t

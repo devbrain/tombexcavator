@@ -30,7 +30,7 @@ namespace westwood
       {
 	return false;
       }
-    size = m_last_offset - offset;
+    size = offset - m_last_offset;
     name = "";
     while (true)
       {
