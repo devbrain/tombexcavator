@@ -21,7 +21,7 @@ namespace abl
    * platform-independent manner.
    * Unix and Windows all use a different
    * syntax for filesystem paths.
-   * This class can work with all three formats.
+   * This class can work with all these formats.
    * A path is made up of an optional node name
    * (only Windows), an optional
    * device name (also only Windows),
