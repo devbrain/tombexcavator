@@ -37,6 +37,7 @@ namespace vfs
   bool dump_visitor_c::_handle_file (fs_file_c* file, const abl::path_c& path)
   {
     std::string full_path = path.to_string ();
+    
     FILE* f = fopen (full_path.c_str (), "wb");
     std::size_t fl_size = file->size ();
     abl::buffer_c <char> buff (fl_size);

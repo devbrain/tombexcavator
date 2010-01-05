@@ -35,6 +35,7 @@ namespace provider
 
     file_size_t _file_size () const;
     file_size_t _seek (file_size_t pos);
+    file_size_t _offset (); 
     
     virtual bool _get_next_resource (std::string& name, file_size_t& size, file_size_t& offset) = 0;
   private:

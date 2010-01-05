@@ -30,7 +30,6 @@ namespace westwood
       {
 	return false;
       }
-    size = offset - m_last_offset;
     name = "";
     while (true)
       {
@@ -43,6 +42,17 @@ namespace westwood
 	name += ch;
       }
     m_last_offset = offset;
+    file_size_t current = this->_offset ();
+    this->_read (offs);
+    if (offs >= this->_file_size () || offs == 0 || name.empty ())
+      {
+	size = this->_file_size () - offset;
+      }
+    else
+      {
+	size = offs - offset;
+      }
+    this->_seek (current);
     return true;
   }
 }

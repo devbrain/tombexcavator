@@ -87,6 +87,11 @@ namespace provider
     return false;
   }
   // ------------------------------------------------------------------------
+  file_size_t archive_reader_c::_offset ()
+  {
+    return lseek (m_pimpl->m_file, 0, SEEK_CUR);
+  }
+  // ------------------------------------------------------------------------
   char* archive_reader_c::load (const resource_c& resource)
   {
     if (!resource.valid ())
