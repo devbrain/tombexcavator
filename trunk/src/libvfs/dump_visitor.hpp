@@ -1,11 +1,12 @@
 #ifndef __LIBVFS_DUMP_VISITOR_HPP__
 #define __LIBVFS_DUMP_VISITOR_HPP__
 
+#include "libvfs/vfs_export.hpp"
 #include "libvfs/extractor_visitor.hpp"
 
 namespace vfs
 {
-  class dump_visitor_c : public extractor_visitor_c
+  class VFS_API dump_visitor_c : public extractor_visitor_c
   {
   public:
     dump_visitor_c (const abl::path_c& root);

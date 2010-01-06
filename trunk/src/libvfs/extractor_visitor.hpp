@@ -1,7 +1,9 @@
 #ifndef __LIBVFS_EXTRACTOR_VISITOR_HPP__
 #define __LIBVFS_EXTRACTOR_VISITOR_HPP__
 
+#include "libvfs/vfs_export.hpp"
 #include "libvfs/visitor.hpp"
+
 
 namespace vfs
 {
@@ -10,7 +12,7 @@ namespace vfs
 
   struct extractor_visitor_impl_s;
 
-  class extractor_visitor_c : public visitor_c
+  class VFS_API extractor_visitor_c : public visitor_c
   {
   public:
     extractor_visitor_c (const abl::path_c& root);

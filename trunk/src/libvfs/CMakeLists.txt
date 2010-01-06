@@ -30,4 +30,5 @@ set (libvfs_headers
 )
 
 add_library (vfs SHARED ${libvfs_sources} ${libfvs_headers})
+target_link_libraries (vfs abl)
 set_target_properties (vfs PROPERTIES COMPILE_FLAGS "-DBUILD_VFS ") 
