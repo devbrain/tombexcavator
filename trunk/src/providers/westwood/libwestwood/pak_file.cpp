@@ -44,6 +44,7 @@ namespace westwood
 	  {
 	    break;
 	  }
+	  
 	name += ch;
       }
     m_last_offset = offset;

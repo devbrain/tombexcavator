@@ -49,7 +49,11 @@ namespace provider
   // ------------------------------------------------------------------------
   bool archive_reader_c::open (const char* path)
   {
+#ifndef WIN32
     m_pimpl->m_file = ::open (path, O_RDONLY);
+#else
+	  m_pimpl->m_file = ::open (path, O_RDONLY | O_BINARY);
+#endif
     if (m_pimpl->m_file == -1)
       {
 	return false;
