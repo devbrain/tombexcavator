@@ -1,0 +1,18 @@
+The enclosed ShowANIM ver 4.30 has two major additions:
+
+1 - It will display ANIMs which are spread across multiple files.  To do
+    this, simply list the files in sequence.  ShowANIM will append the second
+    and subsequent files, ignoring the first two frames.  It assumes that
+    the first two frames match the last two frames that already exist
+    in memory.  This will permit the generation of large ANIMs by generating
+    them piecewise on separate floppies.  Then, provided you have sufficient
+    memory, they can be appended together and played as a unit.  Each file is,
+    incidently, a valid ANIM in it's own right, allowing you to view any
+    segment separately, or edit it or re-generate it (so long as you maintain
+    the end frame pairs for matching with other ANIM files).
+
+2 - ShowANIM now maintains a master color map and updates it whenever it finds
+    a CMAP chunk with a frame.  This permits varying color palette across
+    an animation.
+
+... Gary Bonham, SPARTA Inc., 21 March 1988 ...

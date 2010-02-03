@@ -1,0 +1,64 @@
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* |_o_o|\\  The Software Distillery					*
+* |. o.| || Made available to the Amiga development community		*
+* | .  | || the author: 				     BBS:	*
+* | o  | ||   Jim Cooper				(919)-471-6436  *
+* |  . |//								*
+* ======								*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+There are four extras which can be done with the catcher, none of which are
+required.
+
+If you want the catcher to clean up after you, use the _ONEXIT function in
+Lattice.
+
+If you wish to write a section of your own data to the SnapShot file, use
+the following format:
+
+---in your initialization,
+
+_ONGURU = (APTR)<function name>;
+
+---in your data definition,
+
+extern APTR _ONGURU;
+
+---and---
+
+void <function name>(fp)
+long fp;
+
+or, in other words, create a void function which takes a single parameter
+-- an AmigaDOS File Handle.  Use the AmigaDOS 'Write' call to write
+anything you wish to this file; the catcher will handle padding to long
+word boundaries and closing the SnapShot file.
+
+If you wish the catcher to report the memory usage at the time of the
+crash, include the following:
+
+extern long _FMEM;
+
+and in your initialization,
+
+_FMEM = 1;	/* or any non-zero value */
+
+
+The last option is to include the following:
+
+extern ULONG _STAKOffset;
+
+and in your initialization,
+
+_STAKOffset = n 	/* n is the # of bytes of stack you want reported */
+
+If n is larger than the amount of stack used, you will only get a whole
+stack dump.  This is only necessary if you wish to have more than 8K bytes
+of stack dumped, otherwise the default STAK format will dump the entire
+stack anyway.
+
+
+These options are only necessary if the default data will not supply the
+information you require, although using the _ONEXIT function is recommended if
+you wish to be nice to the system and clean up after yourself.
+

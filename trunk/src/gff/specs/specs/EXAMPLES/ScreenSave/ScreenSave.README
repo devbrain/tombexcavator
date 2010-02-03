@@ -1,0 +1,17 @@
+
+ScreenSave.c v1.06   C. Scheppner  CBM
+
+Saves the front screen as an ILBM and creates an icon for the file.
+
+Requires linkage with standard IFF modules as specified in the comments.
+IFF include files and standard modules are available on the iff disk
+(or Fish Disk 64).
+
+NOTE that the a ilbm.h containing CAMG, CRNG, and CCRT definitions
+is required.  It is supplied on this disk.  Formerly, these chunks and
+the macros for reading and writing them were defined in the application
+source or includes.  The new ilbm.h will appear in the next release of
+the IFF disk.
+
+
+

@@ -1,0 +1,42 @@
+/*--------------------------------------------------------------*/
+/*  GIOCall.c:  An example of calling the Generic I/O Speed-up. */
+/* 		    1/23/86 					*/
+/*                                                              */
+/* By Jerry Morrison and Steve Shaw, Electronic Arts.           */
+/* This software is in the public domain.                       */
+/*                                                              */
+/* This version for the Commodore-Amiga computer.               */
+/*                                                              */
+/*--------------------------------------------------------------*/
+    main(...) {
+    LONG file;
+    int success;
+    ...
+    success = (0 != (file = GOpen(...)));
+    /* A TmpRas is a good buffer to use for a variety of short-term uses.*/
+    if (success)
+	success = PutObject(file, ob, tmpRas.RasPtr, tmpRas.Size);
+    success &= (0 <= GClose(file));
+    }
+
+/*----- PutObject writes a DVCS object out as a disk file.-----*/
+BOOL PutObject(file, ob, buffer, bufsize)
+    LONG file;  struct Object *ob;  BYTE *buffer;  LONG bufsize; {
+    int success = TRUE;
+
+    if (bufsize > 2*BODY_BUFSIZE) {
+	/* Give buffer to speed-up writing.*/
+	GWriteDeclare(file, buffer+BODY_BUFSIZE, bufsize-BODY_BUFSIZE);
+	bufsize = BODY_BUFSIZE;  /* Used by PutObject for other purposes.*/
+	}
+    ...
+	/* Use GWrite and GSeek instead of Write and Seek.*/
+    success &= (0 <= GWrite(file, address, length));
+    ...
+    success &= (0 <= GWriteUndeclare(file));
+		/* Release the speed-up buffer.*/
+		/* This is not necessary if GClose is used to close the file,
+		 * but it can't hurt.*/
+    return( (BOOL)success );
+    }
+

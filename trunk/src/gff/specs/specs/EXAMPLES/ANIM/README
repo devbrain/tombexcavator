@@ -1,0 +1,24 @@
+
+These versions of GrabANIM and DisplayANIM have been provided as an example of
+ANIM creation and playback.  These programs provide examples of vertical byte
+run length compression.  The two routines involved in the compression and
+decompression (skip.c and unvscomp.asm) were written by Jim Kent and were
+released by him to public domain.  Thanks go to Jim for his contribution
+to these programs and to the success of the ANIM format.
+
+The basic IFF read/write code came from the EA IFF routines.  There have been
+some modifications made to these routines and these mods have not always 
+been in the same vein as the original code.  Most notably, there have been
+some global variables added which may render the code non-reentrant.
+
+In the case of DisplayANIM, this version (1.0) does NOT do all the things
+that the versions of ShowANIM do.  First of all it will only play
+vertical byte style compression.  Second, there is no timing code so
+all ANIMs played with this DisplayANIM will just run as fast as possible.
+The intent was not to give away the full source to ShowANIM, but to only
+provide a working example of ANIM playback.
+
+This sample code compiles under Aztec 3.4.
+
+Gary Bonham, SPARTA Inc.
+24 March 1988
