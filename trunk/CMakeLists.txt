@@ -32,7 +32,7 @@ set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${myLIB_OUTPUT})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${myBIN_OUTPUT})
 
 
-include_directories (${BK_SRC_ROOT} ${BK_INCLUDE_PATH})
+include_directories (${BK_SRC_ROOT} ${BK_INCLUDE_PATH} "${myOBJ_OUTPUT}/${myQualification}")
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL Linux)
 set (TE_SYS_LIBS pthread dl)
@@ -47,6 +47,7 @@ set (build_modules
   libprovider
   providers/westwood/libwestwood
   providers/westwood/dune2
+  gui
 )
 
 foreach (mdl ${build_modules})
