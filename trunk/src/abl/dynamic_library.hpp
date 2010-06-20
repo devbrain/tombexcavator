@@ -8,6 +8,7 @@
 namespace abl
 {
   class dynamic_loader_c;
+  class path_c;
   struct dynamic_library_impl_s;
 
   class ABL_API dynamic_library_c : private ref_counted_object_c
@@ -18,7 +19,9 @@ namespace abl
     std::string name () const;
     void unload ();
   private:
-    dynamic_library_c (const std::string& dir, const std::string& name);
+    dynamic_library_c (const std::string& dir, 
+		       const std::string& name);
+    dynamic_library_c (const path_c& so_path); 
     virtual ~dynamic_library_c ();
     void _duplicate ();
   private:

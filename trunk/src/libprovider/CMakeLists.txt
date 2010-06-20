@@ -2,12 +2,16 @@ set (provider_sources
   resource.cpp
   archive_reader.cpp
   simple_dir.cpp
+  abstract_provider.cpp
+  provider_loader.cpp
 )
 
 set (provide_headers
   resource.hpp
   archive_reader.hpp
   simple_dir.hpp
+  abstract_provider.hpp
+  provider_loader.hpp
 )
 
 add_library (provider SHARED ${provider_sources} ${provider_headers})
