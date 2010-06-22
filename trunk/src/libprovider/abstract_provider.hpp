@@ -23,6 +23,9 @@ namespace vfs
   class fs_c;
 } // ns vfs
 
+extern "C" te__api_export__ 
+void internal_provider_unregister_ (provider::abstract_provider_c* x);
+
 namespace provider
 {
   class loader_c;
@@ -30,15 +33,19 @@ namespace provider
   class LIBPROVIDER_API abstract_provider_c
   {
     friend class loader_c;
+    friend void ::internal_provider_unregister_ (abstract_provider_c* x);
   public:
     abstract_provider_c ();
-    virtual ~abstract_provider_c ();
+    
+    void release ();
 
     virtual const std::string name () const = 0;
     virtual const std::string description () const = 0;
     virtual void  version (int& major, int& minor) const = 0;
 
     virtual vfs::fs_c* get_vfs () = 0;
+  protected:
+    virtual ~abstract_provider_c ();
   private:
     provider_unregister_func_t m_destroy_functor;
     abl::dynamic_library_c*    m_dl;

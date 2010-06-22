@@ -2,12 +2,14 @@ set (sources
   directory.cpp
   file.cpp
   dune2_fs.cpp
+  dune2_provider.cpp
 )
 
 set (headers
   directory.hpp
   file.hpp
   dune2_fs.hpp
+  dune2_provider.hpp
 ) 
 
 add_library (provider_dune2 SHARED ${sources} ${headers})

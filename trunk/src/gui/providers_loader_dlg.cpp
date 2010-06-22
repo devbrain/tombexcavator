@@ -7,6 +7,10 @@
 #include "gui/providers_loader_dlg.hpp"
 #include "gui/ui_providers_loader.h"
 #include "gui/settings.hpp"
+#include "gui/providers_registry.hpp"
+
+#include "libprovider/provider_loader.hpp"
+#include "libprovider/abstract_provider.hpp"
 
 providers_loader_dlg_c::providers_loader_dlg_c (QWidget* parent)
   : QDialog (parent)
@@ -35,19 +39,20 @@ providers_loader_dlg_c::providers_loader_dlg_c (QWidget* parent)
   for (QStringList::iterator i = providers.begin ();
        i != providers.end (); i++)
     {
-      QLibrary lib (dir.absoluteFilePath (*i));
-      if (lib.load ())
+      QString qt_so_path = dir.absoluteFilePath (*i);
+      const char* so_path = qt_so_path.toUtf8 ().constData ();
+      provider::abstract_provider_c* ap = 
+	provider::loader_c::instance ()->load (so_path);
+      if (ap)
 	{
-	  void* d = lib.resolve ("internal_vfs_register_fs");
-	  if (d)
-	    {
-	      QTableWidgetItem* prov = new QTableWidgetItem (*i);
-	      QTableWidgetItem* desc = new QTableWidgetItem ("Zopa");
-	      m_ui->table->setRowCount (row+1);
-	      m_ui->table->setItem (row, 0, prov);
-	      m_ui->table->setItem (row, 1, desc);
-	      row ++;
-	    }
+	  providers_registry_c::instance ()->add_provider (qt_so_path, ap);
+	  QString str_desc (ap->description ().c_str ());
+	  QTableWidgetItem* prov = new QTableWidgetItem (*i);
+	  QTableWidgetItem* desc = new QTableWidgetItem (str_desc);
+	  m_ui->table->setRowCount (row+1);
+	  m_ui->table->setItem (row, 0, prov);
+	  m_ui->table->setItem (row, 1, desc);
+	  row ++;
 	}
     }
   m_ui->pushButton->setEnabled (true);

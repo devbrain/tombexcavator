@@ -2,7 +2,37 @@
 #include <QtCore/QVariant>
 
 #include "gui/settings.hpp"
-
+// ==============================================================
+provider_options_c::provider_options_c ()
+  : m_path ("")
+{
+}
+// --------------------------------------------------------------
+provider_options_c::~provider_options_c ()
+{
+}
+// --------------------------------------------------------------
+QString provider_options_c::path () const
+{
+  return m_path;
+}
+// --------------------------------------------------------------
+void provider_options_c::path (const QString& v)
+{
+  m_path = v;
+}
+// --------------------------------------------------------------
+void provider_options_c::_write (QSettings& settings) const
+{
+  settings.setValue ("path", m_path);
+}
+// --------------------------------------------------------------
+void provider_options_c::_read  (QSettings& settings)
+{
+  QString v = settings.value ("path", "").toString ();
+  m_path = v;
+}
+// ==============================================================
 struct settings_impl_s
 {
   settings_impl_s ();
@@ -70,4 +100,25 @@ void settings_c::providers_path (const QString& path)
 void settings_c::write ()
 {
   m_pimpl->write ();
+}
+// --------------------------------------------------------
+provider_options_c settings_c::provider_options (const QString& prov_name)
+{
+  QString grp ("provider_");
+  grp += prov_name;
+  m_pimpl->m_settings.beginGroup (grp);
+  provider_options_c result;
+  result._read (m_pimpl->m_settings);
+  m_pimpl->m_settings.endGroup ();
+  return result;
+}
+// --------------------------------------------------------
+void  settings_c::provider_options (const QString& prov_name, 
+				    const provider_options_c& options)
+{
+  QString grp ("provider_");
+  grp += prov_name;
+  m_pimpl->m_settings.beginGroup (grp);
+  options._write (m_pimpl->m_settings);
+  m_pimpl->m_settings.endGroup ();
 }

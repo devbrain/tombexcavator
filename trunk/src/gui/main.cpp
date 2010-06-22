@@ -3,6 +3,7 @@
 #include "gui/settings.hpp"
 #include "gui/specify_providers_dlg.hpp"
 #include "gui/providers_loader_dlg.hpp"
+#include "gui/main_window.hpp"
 
 void load_settings ()
 {
@@ -22,6 +23,10 @@ int main(int argc, char *argv[])
   providers_loader_dlg_c pl;
 
   pl.exec ();
+
+  main_window_c main_window;
+
+  main_window.show ();
 
   return app.exec();
 }
