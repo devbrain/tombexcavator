@@ -7,6 +7,8 @@ SET (GUI_QT_SRC
   specify_providers_dlg.hpp
   main_window.hpp
   providers_properties_dlg.hpp
+  vfs_browser.hpp
+  models/vfs_model.hpp
 )
 
 SET (GUI_QT_UI 
@@ -31,6 +33,9 @@ SET (GUI_SRC
   main_window.cpp
   providers_registry.cpp
   providers_properties_dlg.cpp
+  vfs_browser.cpp
+
+  models/vfs_model.cpp
 
   ${GUI_MOC_CPP}
   ${GUI_UI_CPP}
@@ -43,6 +48,8 @@ SET (GUI_HDR
   providers_loader_dlg.hpp
   main_window.hpp
   providers_registry.hpp
+  vfs_browser.hpp
+  models/vfs_model.hpp
 )
  
 SET (GUI_LIB

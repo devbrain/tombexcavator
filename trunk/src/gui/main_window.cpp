@@ -9,6 +9,8 @@
 #include "gui/providers_registry.hpp"
 #include "gui/settings.hpp"
 
+#include "gui/models/vfs_model.hpp"
+
 #include "libprovider/abstract_provider.hpp"
 #include "libvfs/fs.hpp"
 
@@ -62,8 +64,11 @@ void main_window_c::_add_fs (size_t prov_id)
       return;
     }
   vfs::fs_c* fs = providers_registry_c::instance ()->file_system (prov_id);
-  QWidget* w = new QTreeWidget;
-  m_ui->fstab->addTab (w, prov_name);
+  QAbstractItemModel* model = new vfs_model_c (fs);
+  QTreeView* tree = new QTreeView;
+  tree->setModel(model);
+  
+  m_ui->fstab->addTab (tree, prov_name);
 }
 // ----------------------------------------------------------
 void main_window_c::_request_exit ()
