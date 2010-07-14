@@ -1,0 +1,32 @@
+
+Display    v1.06 - 11/88  C. Scheppner   CBM
+
+Requires linkage with standard IFF modules as specified in Display.with.
+IFF include files and standard modules are available on the iff disk
+(or Fish Disk 64).
+
+NOTE that the a ilbm.h containing CAMG, CRNG, and CCRT definitions
+is required.  It is supplied on this disk.  Formerly, these chunks and
+the macros for reading and writing them were defined in the application
+source or includes.  The new ilbm.h will appear in the next release of
+the IFF disk.
+
+
+This version of Display supports (via command line opt or WB Tooltype)
+cycling, timed display, backsreen, and printing.  Printing can also
+be started by preesing "p" during a display.  Cycling can be toggled
+with TAB.  Exit either by click in upper left, CTRL/C, CTRL/D, or
+BREAK if started from a CLI.  CTRL/D will break a script of Displays.
+For printing multiple pictures, a script can be set up such as:
+
+   display picture1 opt p t=0
+   display picture2 opt p t=0
+   etc.
+
+If you wish to run the script while you are working, add the "b"
+option.  This will cause the display screen to come up as the backscreen
+and not activate its window.
+   display picture1 opt bp t=0
+
+
+   

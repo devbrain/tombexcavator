@@ -1,0 +1,21 @@
+#ifndef __LIBVFS_FS_FILE_HPP__
+#define __LIBVFS_FS_FILE_HPP__
+
+#include "libvfs/fs_object.hpp"
+
+namespace vfs
+{
+  class fs_c;
+
+  class VFS_API fs_file_c : public fs_object_c
+  {
+  public:
+    fs_file_c (fs_c* owner);
+    
+    virtual fs_object_type type () const;
+    virtual std::size_t read (char* buff, std::size_t size) = 0;
+  };
+}
+
+
+#endif

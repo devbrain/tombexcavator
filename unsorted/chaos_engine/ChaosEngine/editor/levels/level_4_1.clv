@@ -1,0 +1,6 @@
+< CHAOS_ENGINE_LEVEL
+ < tile_image level_4a_tiles >
+ < bin_info M1CHAOS >
+  < palette_set level_4 >
+ >
+

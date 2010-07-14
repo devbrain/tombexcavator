@@ -1,0 +1,113 @@
+< GFX_PALETTE
+ < default_tile_width 16 >
+ < default_tile_height 16 >
+ < nb_frame_sets 6 >
+ < FRAME_SET
+  < PROPERTIES
+   < name party_power >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x80 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 64 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name molotov >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x7F >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 16 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name dynamite >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x7D >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 0 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name multidir_shoot >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x86 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 48 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name bomb >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x97 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 32 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name extra_life >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x8F >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 80 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+>

@@ -1,0 +1,7 @@
+Prehistorik 2 Sprite dumper by Frenkel, 20 Feb 2007.
+
+Copy Pre2SprD.exe, Pre2.pal and Diet.exe into the directory where Sprites.sqz
+is. This is probably your Prehistorik 2 directory. Then run Pre2SprD.exe
+
+frenkel_smeijers@hotmail.com
+www.sfprod.tk

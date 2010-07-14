@@ -1,0 +1,5 @@
+FROM     LIB:AStartup.obj,Display.o,myreadpict.o,dump.o,iffmsgs.o*
+         iffr.o,ilbmr.o,unpacker.o
+TO       Display
+LIBRARY  LIB:Amiga.lib, LIB:LC.lib
+

@@ -1,0 +1,40 @@
+
+This directory contains the C source for the standard EA IFF reader and
+writer modules, and all of the EA examples.  See the LINKER_INFO
+directory of this disk for information on which IFF modules must
+be linked with each example.
+
+Amiga file I/O can be greatly sped up by use of a RAM buffer. So we now have
+a layer of software that provides optional buffering. The "option" is
+controlled by changing a "#define" inside the header file GIO.H, adding
+GIO.O to your link file, recompiling, and recompiling. When turned off,
+this layer becomes just a layer of macro calls between the IFFR and IFFW
+modules and the AmigaDOS routines they call.
+
+This RAM buffer speeds things up when you're doing numerous small Writes
+and/or Seeks while writing. The general IFF writer IFFW.C tends to do this.
+It should be extended to optimize reading, too.
+
+If you are not using IFF, and already Write in chunks of 256 bytes or more,
+don't bother using GIO.
+
+
+
+*** Commodore-Amiga has modified the SOURCE/showilbm.c to allow it to
+be linked with the STANDARD Lstartup.obj found on the Amiga C disk.  If
+compiled without using -dTINY, it allows the status information, if any,
+to be redirected to the little window that the Lattice startup code
+automatically opens in the workbench.   The lines that changed are:
+
+   added a line:
+
+      extern struct WBStartup *WBBenchMsg;
+
+   changed a line:
+
+      from:     wbStartup = (struct WBStartup *)argv;
+      to:       wbStartup = WBenchMsg;
+
+   changed references from PrintS to printf throughout.
+
+

@@ -1,0 +1,1 @@
+gcc -Wall -O2 -g  -I../lib -o dynamite.exe dynamite.c ../lib/libdynamite.c

@@ -1,0 +1,16 @@
+The WARGAME.DIR file has directory entries at the start of the
+file which are 44 bytes long each. The format of these is:
+
+Name	-	32 chars (actually 8.3 but they're null terminated with some padding after)
+type	-	byte
+		0x01 is a directory marker
+		0xFF is an end of directory marker
+		anything else seems to be a file.
+padding -	3 bytes just ignore
+size	-	unsigned long
+		the size of the file (should be 0 for directories and 0xFFFF
+		for end of directory markers)
+offset	-	unsigned long
+		files: the offset from the start of the file to the specified file
+		directories: offset to the first entry in the directory
+		end of directory: should be 0xFFFF

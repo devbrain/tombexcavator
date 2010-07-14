@@ -1,0 +1,40 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(lib/libdynamite.h)
+
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
+
+AM_INIT_AUTOMAKE(libdynamite, 0.1.1)
+AM_CONFIG_HEADER(config.h)
+
+CFLAGS="-Wall -Wsign-compare -Wno-long-long $CFLAGS"
+
+case $target in
+
+	powerpc-apple-*)
+		dnl Prevent "Undefined Macro argument list" error.
+		CFLAGS="-no-cpp-precomp $CFLAGS"
+		;;
+
+esac
+
+dnl Checks for programs.
+AC_PROG_AWK
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_LIBTOOL
+AC_PROG_MAKE_SET
+dnl AM_PATH_CHECK()
+
+dnl Checks for libraries.
+AC_LIB_RPATH
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+
+AC_OUTPUT([libdynamite.pc
+           Makefile
+           lib/Makefile
+           man/Makefile
+           src/Makefile])

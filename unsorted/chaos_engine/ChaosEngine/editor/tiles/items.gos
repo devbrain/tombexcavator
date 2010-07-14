@@ -1,0 +1,311 @@
+< GFX_PALETTE
+ < default_tile_width 16 >
+ < default_tile_height 16 >
+ < nb_frame_sets 17 >
+ < FRAME_SET
+  < PROPERTIES
+   < name special_power >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x87,0x9B >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 112 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name power_up >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x88,0x9C >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 0 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name food_can >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x89,0x9D >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 16 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name silver_coin >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x8B,0x9F >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 48 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name double_silver_coin >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x8C,0xA0 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 64 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name freeze >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code ? >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 80 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name gold_key >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x82,0x96 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 32 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name silver_key >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x84,0x98 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 96 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name triple_silver_coin >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x8D,0xA1 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 80 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name big_food_can >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x8A,0x9E >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 32 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name gold%20ring >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x90,0xA3 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 64 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name first%20aid >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x7c >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 0 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name diamond >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x8F >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 48 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name double_gold_ring >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x8E >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 96 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name player_saved >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x7E,0x92 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 16 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name triple_gold_ring >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0xA2 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 112 >
+   < source_y 16 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+ < FRAME_SET
+  < PROPERTIES
+   < name dynamite >
+   < type bonus >
+   < points 0 >
+   < update_rate 0 >
+   < code 0x7D,0x91 >
+   < description ? >
+   < animation_type CUSTOM >
+  >
+  < nb_frames 1 >
+  < GFX_FRAME
+   < source_x 128 >
+   < source_y 0 >
+   < width 16 >
+   < height 16 >
+  >
+ >
+>

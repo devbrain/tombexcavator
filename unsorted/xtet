@@ -1,0 +1,19 @@
+General Layout :
+
+header - 256 bytes
+u0 - header.chunks * 32 bytes
+u1 - 556 bytes
+data
+
+header : 256 bytes
+   magic           : 4 bytes : 0x53 0x46 0x53 0x00 ("SFS")
+   version         : 4 bytes : 0xC8 0x00 0x00 0x00
+   header checksum : 4 bytes : 0x04 0x10 0x00 0x00 (4100)
+   chunks          : 4 bytes : number of 32 byte chunks in the next u0 block
+   header size     : 4 bytes : 0x00 0x01 0x00 0x00 (256)
+   start of u1     : 4 bytes : 0x00 0x0D 0x00 0x00 (3328)
+   start of data   : 4 bytes : 0x2C 0x0F 0x00 0x00 (3884) 
+   unknown 3       : 4 bytes : 0xB6 0xFD 0x44 0x00 
+   unknown 4       : 2 bytes : 0x0C 0x00 (12)
+   Copyright       : 222 bytes : NULL terminated string
+

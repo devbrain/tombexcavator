@@ -1,0 +1,379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- MPQ Archives - MPQ format --> 
+<html>
+<head>
+  <title>MPQ Archivy - MPQ file format</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1250"/>
+  <script type="text/javascript" language="JavaScript" src="../../include/scripts.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../include/main.css"/>
+  <base target="_top"/>
+</head>
+
+<body>
+
+<!-- Title -->
+<p class="title">MPQ Archives</p>
+<p class="subtitle">MPQ file format</p>
+<hr/><br/>
+
+<!-- Page content -->
+<h3>Format of files stored in MPQs</h3>
+<p>Before I will descript the MPQ format itself, I will shortly describe the format of archived
+files</p>
+<p><b>Images</b> used in games from the Blizzard are either in the PCX format (startup
+screens, large areas like Diablo II Inventory). These images can be viewed with any image viewer
+(IrfanView, ACDSee32) or editor (Painbrush, Microsoft Proto Editor, ...).
+Spell icons, character images and other little images are stored in internal Blizzard formats,
+like CEL, CL2, GRP, DC6. A guy named himself <a href="http://user.cs.tu-berlin.de/~mickyk/cv.html">TeLAMoN</a>
+deals with these file formats and also has published some descriptions. He also wrote a tool
+which allows to view these images.</p>
+<p><b>Music, speach sequences and sounds</b> are in all currently released games
+in the WAVE or MP3 (Since Warcraft III) format. This can be played in every sound player,
+e.g. Winamp. It is no problem to extract the sound file(s) and use them.</p>
+<p><b>Movies</b> (incl. StarCraft animated portraits) are stored in the format of Smacker
+Video or Bink Video. Standard movie player cannot play this format (yet). For playing them,
+you have to install the software from <a href="http://www.smacker.com">Rad Game Tools</A>,
+which is available at their web pages. Beginning with Warcraft III, Blizzard decided
+to buy a licence for the DivX encoder and release their game videon in the DivX format.
+For playing these videos, you have to install the <a href="http://www.divx.com/">DivX</a>
+codec.</p>
+<p><b>Textures</b> for 3D games (Warcraft III and newer) are stored in BLP format.</p>
+
+
+<!-- MPQ header -->
+<a name="MPQHeader"></a>
+<h3>MPQ File Header and MPQ File Shunt</h3>
+<p>Great majority of file format begins with a header and MPQ format is no exception.
+Size of MPQ header is at least 32 bytes (0x20). When processing MPQ, the application looks
+at every offsets 0, 0x200, 0x400, 0x600, and so on, until the header has been found or until
+the end of the file has been reached. This feature allows to store the MPQ archives
+into other file types, e.g. into EXE files. Install.exe on StarCraft or BroodWar
+installation CD are actually MPQ archives. At this offset, there may either be MPQ header
+or a MPQ shunt. This is determined by the 32-bit ID:</p>
+<ul type ="circle">
+  <li>'MPQ\x1A' means there's MPQ header at that offset</li>
+  <li>'MPQ\x1B' means there's MPQ shunt structure at that offset</li>
+</ul>
+
+Both structures, written as C++ data types are here:
+
+<pre>// MPQ file shunt
+struct <b>TMPQShunt</b>
+{
+    // The ID_MPQ_SHUNT ('MPQ\x1B') signature
+    DWORD dwID;
+
+    DWORD dwUnknown;
+
+    // Position of the MPQ header, relative to the begin of the shunt
+    DWORD dwHeaderPos;
+};
+</pre>
+
+<pre>// MPQ file header
+struct <b>TMPQHeader</b>
+{
+    // The ID_MPQ ('MPQ\x1A') signature
+    DWORD dwID;                         
+
+    // Size of the archive header
+    DWORD dwHeaderSize;                   
+
+    // Size of MPQ archive
+    // This field is deprecated in the Burning Crusade MoPaQ format, and the size of the archive
+    // is calculated as the size from the beginning of the archive to the end of the hash table,
+    // block table, or extended block table (whichever is largest).
+    DWORD dwArchiveSize;
+
+    // 0 = Original format
+    // 1 = Extended format (The Burning Crusade and newer)
+    USHORT wFormatVersion;
+
+    // Power of two exponent specifying the number of 512-byte disk sectors in each logical sector
+    // in the archive. The size of each logical sector in the archive is 512 * 2^wBlockSize.
+    // Bugs in the Storm library dictate that this should always be 3 (4096 byte sectors).
+    USHORT wBlockSize;
+
+    // Offset to the beginning of the hash table, relative to the beginning of the archive.
+    DWORD dwHashTablePos;
+    
+    // Offset to the beginning of the block table, relative to the beginning of the archive.
+    DWORD dwBlockTablePos;
+    
+    // Number of entries in the hash table. Must be a power of two, and must be less than 2^16 for
+    // the original MoPaQ format, or less than 2^20 for the Burning Crusade format.
+    DWORD dwHashTableSize;
+    
+    // Number of entries in the block table
+    DWORD dwBlockTableSize;
+};</pre>
+
+<pre>// Extended MPQ file header. Valid only if wFormatVersion is 1 or higher
+struct <b>TMPQHeader2</b> : public <b>TMPQHeader</b>
+{
+    // Offset to the beginning of the extended block table, relative to the beginning of the archive.
+    LARGE_INTEGER ExtBlockTablePos;
+
+    // High 16 bits of the hash table offset for large archives.
+    USHORT wHashTablePosHigh;
+
+    // High 16 bits of the block table offset for large archives.
+    USHORT wBlockTablePosHigh;
+};</pre>
+
+<hr/>
+
+<!-- Hash table -->
+<a name="HashTable"></a>
+<h3>Hash Table</h3>
+<p>When searching large array of strings, it is necessary to do large number of string comparisons,
+which slows the application. To prevent this, MPQ archives contain so called <i>hash table</i>.
+<i>Hash</i> is a data type (integer), which represents larger data, e.g. string.
+Searched string is recalculated into <I>hash value</I> (32-bit integer), which is the compared.
+This means that there are no file names stored in the MPQ archives. And because the hashing
+algorithm is one way (it's impossible to get back the original string value), it is also no way
+to search the file names in the archive. Hash table in the MPQ contains also two control hash
+values as test for the file name, one control value and a offset info <I>block</I> table.
+Size of one entry of hash table is 16 bytes. The structure of hash table is the following:</p>
+
+<pre>// Hash entry. All files in the archive are searched by their hashes.
+struct <b>TMPQHash</b>
+{
+    // The hash of the file path, using method A.
+    DWORD dwName1;
+    
+    // The hash of the file path, using method B.
+    DWORD dwName2;
+    
+    // The language of the file. This is a Windows LANGID data type, and uses the same values.
+    // 0 indicates the default language (American English), or that the file is language-neutral.
+    USHORT lcLocale;
+
+    // The platform the file is used for. 0 indicates the default platform.
+    // No other values have been observed.
+    USHORT wPlatform;
+
+    // If the hash table entry is valid, this is the index into the block table of the file.
+    // Otherwise, one of the following two values:
+    //  - FFFFFFFFh: Hash table entry is empty, and has always been empty.
+    //               Terminates searches for a given file.
+    //  - FFFFFFFEh: Hash table entry is empty, but was valid at some point (a deleted file).
+    //               Does not terminate searches for a given file.
+    DWORD dwBlockIndex;
+};</pre>
+
+<p>When more language versions of the same file exist in the archive, its <i>hash</i> entries follow
+and they differ only by value of <i>lcLocale</i>. Language versions are shown in this table:</p>
+
+<table summary="" cellpadding="1" cellspacing="1" border="1" width="90%">
+<tr>
+  <th width="20%">Value</th>
+  <th width="30%">Language version</th>
+  <th width="20%">Value</th>
+  <th width="30%">Language version</th>
+</tr>
+<tr>
+  <td align="center">0</td><td>Neutral/English (American)</td>
+  <td align="center">0x404</td><td>Chinese (Taiwan)</td>
+</tr>
+<tr>
+  <td align="center">0x405</td><td>Czech</td>
+  <td align="center">0x407</td><td>German</td>
+</tr>
+<tr>               
+  <td align="center">0x409</td><td>English</td>
+  <td align="center">0x40a</td><td>Spanish</td>
+</tr>
+<tr>
+  <td align="center">0x40c</td><td>French</td>
+  <td align="center">0x410</td><td>Italian</td>
+</tr>
+<tr>
+  <td align="center">0x411</td><td>Japanese</td>
+  <td align="center">0x412</td><td>Korean</td>
+</tr>
+<tr>
+  <td align="center">0x415</td><td>Polish</td>
+  <td align="center">0x416</td><td>Portuguese</td>
+</tr>
+<tr>
+  <td align="center">0x419</td><td>Russsian</td>
+  <td align="center">0x809</td><td>English (UK)</td>
+</tr>
+</table>
+
+<p>The hash table is encrypted, so it is not possible to recognize in the archive. Number of entries
+in this table is stored in the MPQ archive header. More informations about hash theory are described
+in the <a href="techinfo.html#hashes" target=_self>fundamentals</a> chapter.</p>
+<hr/>
+
+<!-- Block table -->
+<a name="BlockTable"></a>
+<h3>Block Table</h3>
+<p><i>Block table</i> contains informations about file sizes and way of their storage within
+the archive. It also contains the position of file content in the archive. Size of block table 
+entry is (like hash table entry). The block table is also encrypted. The entry in the block table
+has the following structure:</p>
+
+<pre>// File description block contains informations about the file
+struct TMPQBlock
+{
+    // Offset of the beginning of the file data, relative to the beginning of the archive.
+    DWORD dwFilePos;
+    
+    // Compressed file size
+    DWORD dwCSize;
+    
+    // Size of uncompressed file
+    DWORD dwFSize;                      
+    
+    // Flags for the file. See the table below for more informations
+    DWORD dwFlags;                      
+};</pre>
+
+<p>Meanings of the <b>dwFlags</b> value:</p>
+
+<table summary="" cellpadding="5" cellspacing="1" border="1" width="90%">
+<tr>
+  <th width="30%">Flag name</th>
+  <th width="20%">Value</th>
+  <th width="50%">Meaning</th>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_COMPRESS_PKWARE</td>
+  <td align="center">0x00000100</td>
+  <td align="left">File is compressed using PKWARE Data compression library</td>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_COMPRESS_MULTI</td>
+  <td align="center">0x00000200</td>
+  <td align="left">File is compressed using combination of compression methods</td>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_ENCRYPTED</td>
+  <td align="center">0x00010000</td>
+  <td align="left">The file is encrypted</td>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_FIXSEED</td>
+  <td align="center">0x00020000</td>
+  <td align="left">The decryption key for the file is altered according to the position of the file in the archive</td>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_SINGLE_UNIT</td>
+  <td align="center">0x01000000</td>
+  <td align="left">Instead of being divided to 0x1000-bytes blocks, the file is stored as single unit</td>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_DUMMY_FILE</td>
+  <td align="center">0x02000000</td>
+  <td align="left">The file has length of 0 or 1 byte and its name is a hash</td>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_HAS_EXTRA</td>
+  <td align="center">0x04000000</td>
+  <td align="left">The file has extra data appended after regular data. Must be a compressed file</td>
+</tr>
+<tr>
+  <td align="left">MPQ_FILE_EXISTS</td>
+  <td align="center">0x80000000</td>
+  <td align="left">Set if file exists, reset when the file was deleted</td>
+</tr>
+</table>
+<br />
+
+<!-- Extended block table -->
+<a name="ExtBlockTable"></a>
+<h3>Extended Block Table</h3>
+<p>Since World of Warcraft, Blizzard extended the MPQ format to support archives larger than 4GB.
+The Extended block table hold the higher 16-bits of the file position in the MPQ. Extended block
+table is plain array of 16-bit values. This table is not encrypted.</p>
+
+<!-- Storage -->
+<a name="Storage"></a>
+<h3>Storage of files in the archive</h3>
+<p>Every file, stored in the archive, is cutted to blocks. Size of one uncompressed block
+can be found in the MPQ header, usually 4 KB. If a file is compressed, the blocks are stored
+as compressed with the variable length. In this case, a table of block offsets (relative to
+the begin of the file in the MPQ is stored at the begin of the file data. Number of these
+entries is 1 greater that number of blockc in the file. The last one is used for getting
+last block size. One entry has 4 bytes (32bit value). Every block is compressed and encrypted
+separately (when the right bits are set in file's block table. Most the files are encrypted,
+except for e.g. videos (SMK file types). More information about compression and encryption
+can be found in the chapter <a href="techinfo.html" target=_self>Fundamentals</a>.</P>
+<hr/>
+
+<!-- Example -->
+<a name="Example"></a>
+<h3>Example</h3>
+<p align=left>Here is an example of a function, which extracts one file from the archive.</p>
+<pre>
+//-----------------------------------------------------------------------------
+// Extracts one of the archived files and saves it to the disk.
+//
+// Parameters :
+//
+//   char * szArchiveName  - Archive file name
+//   char * szArchivedFile - Name/number of archived file.
+//   char * szFileName     - Name of the target disk file.
+
+static int ExtractFile(char * szArchiveName, char * szArchivedFile, char * szFileName)
+{
+    HANDLE hMpq   = NULL;          // Open archive handle
+    HANDLE hFile  = NULL;          // Archived file handle
+    HANDLE handle = NULL;          // Disk file handle
+    int    nError = ERROR_SUCCESS; // Result value
+
+    // Open an archive, e.g. "d2music.mpq"
+    if(nError == ERROR_SUCCESS)
+    {
+        if(!SFileOpenArchive(szArchiveName, 0, 0, &amp;hMpq))
+            nError = GetLastError();
+    }
+    
+    // Open a file in the archive, e.g. "data\global\music\Act1\tristram.wav"
+    if(nError == ERROR_SUCCESS)            
+    {
+        if(!SFileOpenFileEx(hMpq, szArchivedFile, 0, &amp;hFile))
+            nError = GetLastError()
+    }
+
+    // Create the target file
+    if(nError == ERROR_SUCCESS)
+    {
+        handle = CreateFile(szFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+        if(handle == INVALID_HANDLE_VALUE)
+            nError = GetLastError();
+    }
+
+    // Read the file from the archive
+    if(nError == ERROR_SUCCESS)
+    {
+        char  szBuffer[0x10000];
+        DWORD dwBytes = 1;
+
+        while(dwBytes > 0)
+        {
+            SFileReadFile(hFile, szBuffer, sizeof(szBuffer), &amp;dwBytes, NULL);
+            if(dwBytes > 0)
+                WriteFile(handle, szBuffer, dwBytes, &amp;dwBytes, NULL);
+        }
+    }        
+
+    // Cleanup and exit
+    if(handle != NULL)
+        CloseHandle(handle);
+    if(hFile != NULL)
+        SFileCloseFile(hFile);
+    if(hMpq != NULL)
+        SFileCloseArchive(hMpq);
+
+    return nError;
+}
+</pre>
+<br/>
+
+<!-- Page footer -->
+<center><small>Copyright (c) Ladislav Zezula 2003 - 2006</small></center>
+</body>
+</html>

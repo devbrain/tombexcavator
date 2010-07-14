@@ -1,0 +1,68 @@
+0.94
+Please note that there is a new maintainer of this project now (me, Per Øyvind
+Karlsen <peroyvind@sintrax.net>).
+
+Changes for this release:
+* Makefile is fixed so things will be built correctly and also you can do
+  rebuild without having to rebuild *everything*
+* Work on reducing the data size has been started, most bitmaps has been
+  converted to png, and wav files to ogg
+* Cutscenes has been dropped from the data package for now to reduce space
+  used and also playing of those are broken.
+* Various minor fixes has been done to the data package, removed redundant
+files, unused files, fixed file name casing etc.
+* Name of config file has been changed
+* New artwork by George/mrfibble has been merged in the data package which
+  will give C&C style icons on the sidebar
+* get rid of warnings related to no newline at end of file, '/*' inside
+  comments, etc..
+* fix typo (s/Sardukar/Sardaukar/)
+* fix music on non-windows platforms (will also play mp3)
+* changed name of binary
+
+TODO:
+* Reduce size of data even more:
+	o Convert cutscenes to other format to make them a lot smaller
+	o Maybe use speex as sound format to reduce file size even more
+* Rather use the data extractor to extract most of the data
+
+0.93b3
+Updated CVS:
+IMPORTANT:
+please recognize that you can't use your 0.93b2 savegames anymore
+the same will happen with savegames of 0.93b3 and the next version
+
+changes:
+new:FogOfWar(80% complete, some bugs left, not all AI affected)
+    press f to switch it on and off
+new:RepairButton
+new:UpgradeBotton (graphical)
+new:MessageBar
+new: Radarstatic animation if radar turns on or off.
+
+fixed: tech tree issues
+fixed: Fast animation of sand from harvester, fast animation while smoking
+fixed: Gamespeed is saved in savegames, so old savegames won't work anymore =(
+fixed: bug which caused "exit to menu" crashing sometimes
+fixed: number of units in build queue now displayed in red or black
+
+discovered bug:
+if you play a game with double buffer or fullscreen disabled and then load a savegame (of this game) with double buffer AND fullscreen, your color must no be the right one. (i saved atreides and got harkonnen)
+but the radar points have the right color.
+
+Workaround: Play, save and load with same settings of fullscreen and double buffer.
+
+another bug:
+prices aren't shown in linux
+
+hint: play in 640x480 and single buffering, higher resolutions are senseless at the moment
+
+TODO:
+1.savegames aren't very useful in campaign mode and make problems with fog (turn it on and off once to get rid of  graphical problems)
+2.mentat texts have to be completed
+3.missions have to be completed
+4.map selection screen is missing
+5.debriefing is missing
+6.data size is too large (wether native .pak support or switching to .gif)
+
+

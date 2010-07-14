@@ -1,0 +1,462 @@
+=============================================================================
+	      Electronic Arts Audio File Formats Description	    5-01-2002
+=============================================================================
+
+By Valery V. Anisimovsky (samael@avn.mccme.ru)
+
+In this document I'll try to describe audio file formats used in many (older)
+Electronic Arts games. Described are formats for music, sound effects, speech
+and movie soundtracks.
+
+The games using these formats include: NBA Live'96, NHL'96, FIFA'96, The Need
+For Speed, NHL'97. Maybe many more, e.g.: NHL'95.
+
+The files this document deals with have extensions: .ASF, .AS4, .KSF, .EAS,
+.SPH, .BNK, .CRD, .TGV. Note that the files described here may have other
+extensions (and the same structure!): Electronic Arts tends to change
+extensions from game to game.
+
+Throughout this document I use C-like notation.
+
+All numbers in all structures described in this document are stored in files
+using little-endian (Intel) byte order.
+
+=======================
+1. ASF/AS4 Music Files
+=======================
+
+The music in many Electronic Arts games is in .ASF/.AS4 stand-alone files.
+These files have the block structure analoguous to RIFF. Namely, these files
+are divided into blocks (without any global file header like RIFFs have).
+Each block has the following header:
+
+struct ASFBlockHeader
+{
+  char	szBlockID[4];
+  DWORD dwSize;
+};
+
+szBlockID -- string ID for the block.
+
+dwSize -- size of the block (in bytes) INCLUDING this header.
+
+Further I'll describe the contents of blocks of all block types in ASF/AS4
+files. When I say "block begins with..." that means "the contents of that
+block (which begin just after ASFBlockHeader) begin with...".
+Quoted strings are block IDs.
+
+"1SNh": header block. This is the first block in ASF/AS4.
+This block begins with the structure describing the audio stream:
+
+struct EACSHeader
+{
+  char	szID[4];
+  DWORD dwSampleRate;
+  BYTE	bBits;
+  BYTE	bChannels;
+  BYTE	bCompression;
+  BYTE	bType;
+  DWORD dwNumSamples;
+  DWORD dwLoopStart;
+  DWORD dwLoopLength;
+  DWORD dwDataStart;
+  DWORD dwUnknown;
+};
+
+szID -- ID string, always "EACS".
+
+dwSampleRate -- sample rate for the file.
+
+bBits -- if multiplied by 8 gives the resolution of (decompressed) sound
+data, that is 1 means 8-bit and 2 means 16-bit.
+
+bChannels -- channels number: 1 for mono, 2 for stereo.
+
+bCompression -- if 0x00, the data in the file is not compressed: signed 8-bit
+PCM or signed 16-bit PCM. If this byte is 0x02, the audio data is compressed
+with IMA ADPCM. Note that non-compressed 8-bit files use SIGNED format!
+Signed 16-bit data may be sent to the wave output without any additional
+conversions, while signed 8-bit data should be converted to unsigned format.
+For example you can do that so: unsigned8Bit=signed8Bit+0x80
+or, just the same: unsigned8Bit=signed8Bit^0x80 (this's a bit faster).
+
+bType -- type of file: always 0x00 for ASF/AS4 (multi-block) files.
+
+dwNumSamples -- number of samples in the file. May be used for song length
+(in seconds) calculation.
+
+dwLoopStart -- beginning of the repeat loop (in samples). 0xFFFFFFFF means
+no loop.
+
+dwLoopLength -- length of the repeat loop (in samples). Zero for no loop.
+
+dwDataStart -- in ASF/AS4 files this is not used (equal to 0).
+
+After the EACSHeader the first chunk of sound data comes. If the data isn't
+compressed, it's just signed 8/16-bit PCM. If the data is compressed, it
+starts with a small chunk header:
+
+struct ASFChunkHeader
+{
+  DWORD dwOutSize;
+  LONG	lIndexLeft;
+  LONG	lIndexRight;
+  LONG	lCurSampleLeft;
+  LONG	lCurSampleRight;
+};
+
+dwOutSize -- size of uncompressed audio data in this chunk (in samples).
+
+lIndexLeft, lIndexRight, lCurSampleLeft, lCurSampleRight are initial
+values for IMA ADPCM decompression routine for this chunk (for left and right
+channels respectively). I'll describe the usage of these further when I get to
+IMA ADPCM decompression scheme.
+
+Note that the structure above is ONLY for stereo files. For mono there're
+just no lIndexRight and lCurSampleRight fields.
+
+After this chunk header the compressed data comes. You may find IMA ADPCM
+decompression scheme description further in this document.
+
+Hereafter by "chunk" I mean the audio data in the "1SNd" data block, that is,
+compressed data which starts after ASFChunkHeader.
+
+"1SNd": data block. If no compression is used these blocks contain just
+signed 8/16-bit PCM audio data. Otherwise the data in each of these blocks
+begins with the same ASFChunkHeader described above and after that comes
+compressed data.
+Note that the first chunk of audio data is in "1SNh" block, along with the
+global EACS header!
+
+"1SNl": loop block. This block defines looping point for the song. It
+contains only DWORD value, which is the looping jump position (in samples)
+relative to the start of the song. Note that you should make the jump NOT
+when you encounter this block but when you come across the "1SNe" block
+which may appear some "1SNd" data blocks after this block!
+
+"1SNe": end block. This block indicate the end of audio stream. Make looping
+jump when you encounter it. It contains no data and its size is 8 bytes that
+is the size of ASFBlockHeader.
+Interesting that some AS4 files contain audio data beyond this block. This
+should be considered as non-standard feature not worth to support.
+
+===================
+2. KSF Music Files
+===================
+
+Some EA games use other format for music/speech files: .KSF.
+These files begin with "KWK`" ID string. Following this ID, comes PATl header.
+It begins with "PATl" ID string and its size is 56 bytes (always?) including
+its ID string. After PATl header comes TMpl header:
+
+struct TMplHeader
+{
+  char	szID[4];
+  BYTE	bUnknown1;
+  BYTE	bBits;
+  BYTE	bChannels;
+  BYTE	bCompression;
+  WORD	wUnknown2;
+  WORD	wSampleRate;
+  DWORD dwNumSamples; // ???
+  BYTE	bUnknown3[20];
+};
+
+szID -- string ID, always "TMpl".
+
+bBits -- resolution of sound data (0x10 for 16-bit, 0x8 for 8-bit).
+
+bChannels -- channels number: 1 for mono, 2 for stereo.
+
+bCompression -- if 0x00, the data in the file is not compressed: signed 8-bit
+PCM or signed 16-bit PCM. If this byte is 0x02, the audio data is compressed
+with IMA ADPCM. See the note for EACS header above.
+
+wSampleRate -- sample rate for the file.
+
+dwNumSamples -- number of samples in the file. May be used for song length
+(in seconds) calculation. Should be divided by 2 for mono sound.
+
+After TMpl header comes sound data. For compressed files, IMA ADPCM compression
+is used (see below).
+
+=====================================
+3. IMA ADPCM Decompression Algorithm
+=====================================
+
+During the decompression four LONG variables must be maintained for stereo
+stream: lIndexLeft, lIndexRight, lCurSampleLeft, lCurSampleRight and two --
+for mono stream: lIndex, lCurSample. At the beginning of each "1SNd" data
+block and at the beginning of the file -- when processing "1SNh" block --
+you must initialize these variables using the values in ASFChunkHeader.
+Note that LONG here is signed.
+
+Here's the code which decompresses one byte of IMA ADPCM compressed
+stereo stream. Other bytes are processed in the same way.
+
+BYTE Input; // current byte of compressed data
+BYTE Code;
+LONG Delta;
+
+Code=HINIBBLE(Input); // get HIGHER 4-bit nibble
+
+Delta=StepTable[lIndexLeft]>>3;
+if (Code & 4)
+   Delta+=StepTable[lIndexLeft];
+if (Code & 2)
+   Delta+=StepTable[lIndexLeft]>>1;
+if (Code & 1)
+   Delta+=StepTable[lIndexLeft]>>2;
+if (Code & 8) // sign bit
+   lCurSampleLeft-=Delta;
+else
+   lCurSampleLeft+=Delta;
+
+// clip sample
+if (lCurSampleLeft>32767)
+   lCurSampleLeft=32767;
+else if (lCurSampleLeft<-32768)
+   lCurSampleLeft=-32768;
+
+lIndexLeft+=IndexAdjust[Code]; // adjust index
+
+// clip index
+if (lIndexLeft<0)
+   lIndexLeft=0;
+else if (lIndexLeft>88)
+   lIndexLeft=88;
+
+Code=LONIBBLE(Input); // get LOWER 4-bit nibble
+
+Delta=StepTable[lIndexRight]>>3;
+if (Code & 4)
+   Delta+=StepTable[lIndexRight];
+if (Code & 2)
+   Delta+=StepTable[lIndexRight]>>1;
+if (Code & 1)
+   Delta+=StepTable[lIndexRight]>>2;
+if (Code & 8) // sign bit
+   lCurSampleRight-=Delta;
+else
+   lCurSampleRight+=Delta;
+
+// clip sample
+if (lCurSampleRight>32767)
+   lCurSampleRight=32767;
+else if (lCurSampleRight<-32768)
+   lCurSampleRight=-32768;
+
+lIndexRight+=IndexAdjust[Code]; // adjust index
+
+// clip index
+if (lIndexRight<0)
+   lIndexRight=0;
+else if (lIndexRight>88)
+   lIndexRight=88;
+
+// Now we've got lCurSampleLeft and lCurSampleRight which form one stereo
+// sample and all is set for the next input byte...
+Output((SHORT)lCurSampleLeft,(SHORT)lCurSampleRight); // send the sample to output
+
+HINIBBLE and LONIBBLE are higher and lower 4-bit nibbles:
+#define HINIBBLE(byte) ((byte) >> 4)
+#define LONIBBLE(byte) ((byte) & 0x0F)
+Note that depending on your compiler you may need to use additional nibble
+separation in these defines, e.g. (((byte) >> 4) & 0x0F).
+
+StepTable and IndexAdjust are the tables given in the next section of
+this document.
+
+Output() is just a placeholder for any action you would like to perform for
+decompressed sample value.
+
+Of course, this decompression routine may be greatly optimized.
+
+As to mono sound, it's just analoguous:
+
+Code=HINIBBLE(Input); // get HIGHER 4-bit nibble
+
+Delta=StepTable[lIndex]>>3;
+if (Code & 4)
+   Delta+=StepTable[lIndex];
+if (Code & 2)
+   Delta+=StepTable[lIndex]>>1;
+if (Code & 1)
+   Delta+=StepTable[lIndex]>>2;
+if (Code & 8) // sign bit
+   lCurSample-=Delta;
+else
+   lCurSample+=Delta;
+
+// clip sample
+if (lCurSample>32767)
+   lCurSample=32767;
+else if (lCurSample<-32768)
+   lCurSample=-32768;
+
+lIndex+=IndexAdjust[Code]; // adjust index
+
+// clip index
+if (lIndex<0)
+   lIndex=0;
+else if (lIndex>88)
+   lIndex=88;
+
+Output((SHORT)lCurSample); // send the sample to output
+
+Code=LONIBBLE(Input); // get LOWER 4-bit nibble
+// ...just the same as above for lower nibble
+
+Note that HIGHER nibble is processed first for mono sound and corresponds to
+LEFT channel for stereo.
+
+====================
+4. IMA ADPCM Tables
+====================
+
+LONG IndexAdjust[]=
+{
+    -1,
+    -1,
+    -1,
+    -1,
+     2,
+     4,
+     6,
+     8,
+    -1,
+    -1,
+    -1,
+    -1,
+     2,
+     4,
+     6,
+     8
+};
+
+LONG StepTable[]=
+{
+    7,	   8,	  9,	 10,	11,    12,     13,    14,    16,
+    17,    19,	  21,	 23,	25,    28,     31,    34,    37,
+    41,    45,	  50,	 55,	60,    66,     73,    80,    88,
+    97,    107,   118,	 130,	143,   157,    173,   190,   209,
+    230,   253,   279,	 307,	337,   371,    408,   449,   494,
+    544,   598,   658,	 724,	796,   876,    963,   1060,  1166,
+    1282,  1411,  1552,  1707,	1878,  2066,   2272,  2499,  2749,
+    3024,  3327,  3660,  4026,	4428,  4871,   5358,  5894,  6484,
+    7132,  7845,  8630,  9493,	10442, 11487,  12635, 13899, 15289,
+    16818, 18500, 20350, 22385, 24623, 27086,  29794, 32767
+};
+
+=========================
+5. TGV Movie Soundtracks
+=========================
+
+.TGV movies have the block structure analoguous to that of ASF/AS4.
+Video-related data is in "kVGT" and "fVGT" (or "TGVk" and "TGVf") blocks and
+sound-related data is just in the same blocks as in ASF/AS4: "1SNh", "1SNd",
+"1SNl", "1SNe".
+So, to play TGV movie soundtrack, just walk blocks chain, skip video blocks
+and process sound blocks.
+
+==================================
+6. Sound/Speech Files: .EAS, .SPH
+==================================
+
+Some sounds and all speech are usually in .EAS and .SPH files.
+These files have the header which is just the same as EACSHeader structure
+described above with two additions:
+(bType) is always 0xFF for sound/speech files,
+(dwDataStart) is the starting position of audio data relative to the beginning
+of the file.
+After the header, starting at (dwDataStart), comes audio data, up to the end of
+the file. The data is either non-compressed or IMA ADPCM compressed depending
+on the (bCompression) byte in the header. If it's IMA ADPCM compressed, there're
+no initial values for samples and indices at the beginning of the audio data.
+Just initialize them all to zeroes and start decompression at (dwDataStart).
+
+====================================
+7. Sound Effects in .BNK/.CRD Files
+====================================
+
+Most of sound effects are stored in .BNK and .CRD resource files. Those .BNKs
+and .CRDs may contain several sounds. They begin with some seemingly
+meaningless data, but after some junk of that data (typically starting at
+position 0x228, but not necessarily) come several EACS headers describing
+all sounds in .BNK/.CRD. Each EACS header has almost the same format as
+described above with some minor changes (some fields have different placement):
+
+struct EACSHeader
+{
+  char	szID[4];
+  DWORD dwSampleRate;
+  BYTE	bBits;
+  BYTE	bChannels;
+  BYTE	bCompression;
+  BYTE	bType;
+  DWORD dwLoopStart;
+  DWORD dwLoopLength;
+  DWORD dwNumSamples;
+  DWORD dwDataStart;
+  DWORD dwUnknown;
+};
+
+and with the same two additions just as for .EAS/.SPH speech/sound:
+(bType) is always 0xFF,
+(dwDataStart) is the starting position of sound data relative to the beginning
+of the .BNK/.CRD file containing that sound.
+So, what you need to do is just search in .BNK/.CRD for "EACS" ID string and
+read EACSHeader from the position where you found "EACS". And the same for
+all sounds contained within .BNK/.CRD.
+The sound data itself (for each EACS header describing it) starts at
+(dwDataStart) and its size may be computed using (dwNumSamples) EACSHeader
+field (for example) with the following formula:
+Size=dwNumSamples*SampleSize/CompressionRatio,
+where:
+CompressionRatio=1 for non-compressed sounds,
+		 2 for 8-bit IMA ADPCM compressed sounds,
+		 4 for 16-bit IMA ADPCM compressed sounds,
+SampleSize=bChannels*bBits (1 for mono 8-bit, 2 for mono 16-bit, etc.).
+So, starting at (dwDataStart) comes just either PCM audio data (as described
+above for .EAS/.SPH files) or IMA ADPCM compressed data (without initial
+sample/index values, just as in .EAS/.SPH). Set CurSample(Left/Right) and
+Index(Left/Right) to zeroes and start the decompression.
+
+===========
+8. Credits
+===========
+
+Vladan Bato (bat22@geocities.com)
+http://www.geocities.com/SiliconValley/8682
+The IMA ADPCM decompression scheme above is based on that described
+in his AUD3.TXT document.
+
+Peter Pawlowski (peterpw666@hotmail.com, piotrpw@polbox.com)
+http://members.fortunecity.com/pp666/
+http://pp666.cjb.net/
+http://www.geocities.com/pp_666/
+Pointed out corrections in IMA ADPCM decoder.
+
+Toni Wilen (nhlinfo@nhl-online.com)
+http://www.nhl-online.com/nhlinfo/
+Provided me with info on KSF files, PATl and TMpl headers. Toni Wilen is the
+author of SNDVIEW utility (available on his pages) which decompresses
+Electronic Arts audio files and compresses WAVs back into EA formats.
+
+Denis AUROUX (MXK) (auroux@clipper.ens.fr)
+http://www.eleves.ens.fr:8080/home/auroux/nfsspecs.txt
+Additional info on EACS headers. The author of The Unofficial NFS File Format
+Specifications.
+
+-------------------------------------------
+
+Valery V. Anisimovsky (samael@avn.mccme.ru)
+http://bim.km.ru/gap/
+http://www.anxsoft.newmail.ru
+http://anx.da.ru
+On these sites you can find my GAP program which can search for audio files
+in .BNK/.CRD resources, and play back .ASF/.AS4 songs, .BNK/.CRD sounds,
+.EAS/.SPH speech and soundtracks of .TGV movies.
+There's also complete source code of GAP and all its plug-ins there,
+including ASF plug-in, which could be used for further details on how you
+can deal with these formats.

@@ -1,0 +1,430 @@
+                BACKGROUND ON THE EXAMPLE IFF SOURCE CODE
+
+Jerry Morrison, 1/30/86
+
+The example IFF code is written using a programming style and techniques
+that may be unfamiliar to you. So here's a tutorial on "call-back
+procedures","enumerators", "interfaces", and "sub-classed structures". I
+recommend these programming practices independently of IFF software.
+
+
+DEFINITIONS: "CLIENT" VS. "USER"
+
+First, some definitions. The word "user" is reserved for a human user of a
+software package. That's you and me.
+
+A "client" of a software package, on the other hand, is a piece of software
+that uses that software package. A program that calls operating system
+routines such as "OpenFile" is a client of that operating system.
+
+
+CALL-BACK PROCEDURES
+
+Consider an operating system subroutine "ListDir" that lists the files in a
+disk directory. It might allow you to list just the filenames matching a
+pattern like "a*.text". Maybe you can ask it to list just the files created
+since yesterday ... or those longer than 2000 bytes. ListDir is a fancy,
+general-purpose directory subroutine that lets you pass in a number of
+arguments to filter the listing.
+
+A C definition might look like:
+
+   void ListDir(directory, namePattern, minSize, maxSize, minDate ...); ... {
+      for (each file in the directory)
+         if ( PatternMatch(namePattern, filename)
+               &&  fileSize >= minSize
+               &&  fileSize <= maxSize
+               &&  fileDate >= minDate
+               && ... )
+            printf("%s\n", filename);  /* probably fancier than this... */
+      }
+
+and your call to it:
+
+   ListDir(myDir, "a*.text", 0, maxFileSize, date1_1_1900, ...);
+
+When you think about it, these filtering arguments make up a
+special-purpose "file filtering language". The person who designed this
+subroutine "ListDir" might be pretty pleased with his accomplishment. But
+in practice he can never put in enough features into this special-purpose
+language to satisfy everyone. (You say you need to list just the files
+currently open?) And he may have provided a lot of functionality that is
+rarely needed. Is this filtering language what he should spending his time
+designing, writing, and debugging?
+
+A much better technique is to use a "call-back procedure". The concept is
+simple: instead of all those filter arguments to ListDir, you pass it a
+pointer to a "filter procedure". ListDir simply calls your procedure (via the
+pointer) to do the filtering, once per file. It passes each filename to your
+"filter proc", which returns "TRUE" to include that file in the listing or
+"FALSE" to skip it.
+
+   typedef BOOL FilterProc();  /* FilterProc: a BOOL procedure */
+
+   void ListDir(directory, filterProc);
+         Directory directory;  FilterProc *filterProc;  {
+      for (each file in the directory)
+         if ( (*filterProc)(filename) )  printf("%s\n", filename);
+      }
+
+and your code:
+
+   BOOL MyFilterProc(filename)  STRING filename;  {
+      return(PatternMatch("a*.text", filename));
+      }
+
+      ...
+      ListDir(myDir, MyFilterProc);
+
+This technique has many advantages. It gives unlimited flexibility to
+ListProc. It means you can use a general-purpose programming language
+instead of learning a special-purpose filtering language. It's more
+efficient to call a compiled subroutine than to "interpret" the filtering
+parameters. And it means you can do anything you want in a filter proc,
+from selecting files on the basis of numerology to copying files to backup
+tape.
+
+In practice, ListDir would have data about each file readily available. So it
+should pass this data to the filter proc to save time.
+
+
+As Alan Kay once said, "Simple things should be simple and complex things
+should be possible."
+
+
+STANDARD CALL-BACK PROCEDURE
+
+I could extend ListDir to accept a NULL FilterProc pointer to mean "list all
+files". More likely, I'd supply a standard call-back procedure "FilterTRUE"
+that always returns TRUE. Then ListDir(directory, FilterTRUE) will list all
+files with no special test for filterProc == NULL.
+
+   BOOL FilterTRUE(filename)  STRING filename;  {
+      return(TRUE);
+      }
+
+
+ENUMERATORS
+
+Let's take our ListDir example one step further. Rather than have ListDir
+print the selected filenames, have it JUST call your custom proc for every
+file. Let your custom proc print the filenames, maybe in your own personal
+format. Or maybe have it quietly backup new files, or ask the user which
+ones to delete, or ...
+
+   typedef CallBackProc(/* filename */);
+
+   void ListDir(directory, callBackProc);
+         Directory directory;  CallBackProc *callBackProc;  {
+      for (each file in the directory)
+         (*callBackProc)(filename);
+      }
+
+and your code:
+
+   void MyProc(filename)  STRING filename;  {
+      if ( PatternMatch("a*.text", filename) )
+         printf("%s\n", filename);
+      }
+
+      ...
+      ListDir(myDir, MyProc);
+
+Now we're talking about a full-blown "enumerator". The procedure "ListDir"
+is said to "enumerate" all the files in a directory. It "applies" your
+call-back procedure to each file. The enumerator scans the directory and
+your call-back procedure processes the files. It deals with the internal
+directory details and you deal with the printout. A nice separation of
+concerns.
+
+
+ListDir should come with a standard call-back procedure "PrintFilename"
+that lists the filename. By simply passing PrintFilename to ListDir, you
+can print a directory. By writing a call-back procedure that selectively
+calls the PrintFilename, you can filter the listing.
+
+   void PrintFilename(filename)  STRING filename;  {
+      printf("%s\n", filename);
+      }
+
+
+ENUMERATION CONTROL
+
+A simple enhancement is to empower the call-back procedure to stop the
+enumeration early. That's easy. Have it return "TRUE" to stop. This is very
+handy, for example, to quit when you find what you're looking for. Let's
+expand this boolean "continue/stop" result into an integer error code.
+
+   #define OKAY   0
+   #define DONE  -1
+   typedef int CallBackProc(/* filename */);
+
+   int ListDir(directory, callBackProc);
+         Directory directory;  CallBackProc *callBackProc;  {
+      int result = OKAY;
+      for (each file in the directory) while (result == OKAY)
+         result = (*callBackProc)(filename);
+      return(result);
+      }
+
+
+IFF FILE ENUMERATOR
+
+Now we'll relate these techniques to the example IFF code. I'm assuming
+that you've read "EA IFF 85" Standard for Interchange Format Files. That
+memo is available from Commodore as part of their Amiga documentation.
+Also ask Commodore for "ILBM" IFF Interleaved Bitmap and the example IFF
+source code.
+
+Two things make IFF files very flexible for lots of interchange between
+programs. First, file formats are independent of RAM formats. That means
+you have to do some conversion when you read and write IFF files. Second,
+the contents are stored in chunks according to global rules. That means you
+have to parse the file, i.e. scan it and react to what's actually there.
+
+In the example IFF files IFF.H and IFFR.C, the routines ReadIFF, ReadIList, &
+ReadICat are enumeration procedures. ReadIFF scans an IFF file,
+enumerating all the "FORM", "LIST", "PROP", and "CAT" chunks encountered.
+ReadIList & ReadICat enumerate all the chunks in a LIST and CAT,
+respectively.
+
+A ClientFrame record is a bundle of pointers to 4 "call-back procedures"
+getList, getProp, getForm, and getCat. These 4 procedures are called by
+ReadIFF, ReadIList, and ReadICat when the 4 kinds of IFF "groups" are
+encountered: "LIST", "PROP", "FORM", or "CAT".
+
+These 3 enumerator procedures and 4 client procedures together make up a
+reader for IFF files--a very simple recursive descent parser. If you want
+to learn more about parsing, a real good place to look is the new edition
+"dragon book" by Aho, Ullman, and Sethi.
+
+The procedure "SkipGroup" is just a default call-back procedure.
+
+The "IFFP" values IFF_OKAY through BAD_IFF are the error codes used by
+the IFF enumerators. We use the type "IFFP" to declare variables (and
+procedure results) that hold such values. The code "IFF_OKAY" means "AOK;
+keep enumerating". The other values mean "stop" for one reason or other.
+"IFF_DONE" means "we're all done", while "END_MARK" means "we hit the
+end at this nesting level".
+
+
+CALL-BACK PROCEDURE STATE
+
+ListDir is an enumerator with some internal state--it internally
+remembers its place in the directory. It loops over the directory, calling
+the client proc once per file. That's fine for some cases and less
+convenient for others. Consider this example that just lists the first 10
+files:
+
+   int count;
+
+   int PrintFirst10(filename)  STRING filename;  {
+      if (++count > 10)  return(DONE);
+      printf("%s\n", filename);
+      return(OKAY);
+      }
+
+   void DoIt();  {
+      ...
+      count = 0;
+      ListDir(myDir, PrintFirst10);
+      ...
+      }
+
+Inherently, the client's code has to be split into code that calls the
+enumerator and a call-back procedure. Thus any communication between
+the two must be via global variables. In this trivial example, the global
+"count" saves state data between calls to PrintFirst10. Often, it's much
+more complex. But globals won't work if you need reenterent or recursive
+code. We really want "count" to be a local variable of DoIt.
+
+Fixing this in Pascal is easy: Define PrintFirst10 as a nested procedure
+within DoIt so it can access DoIt's local variables. The manual analog in C
+is to redefine the enumerator to pass a raw "client data pointer" straight
+through to the call-back procedure. The two client procedures then
+communicate through the "client data pointer". DoIt would call
+ListDir(myDir, PrintFirst10, &count) which calls PrintFirst10(filename,
+&count).
+
+   #define OKAY   0
+   #define DONE  -1
+   typedef int CallBackProc(/* filename, clientData */);
+
+   int ListDir(directory, callBackProc, clientData);
+         Directory directory; CallBackProc *callBackProc; BYTE *clientData; {
+      int result = OKAY;
+      for (each file in the directory) while (result == OKAY)
+         result = (*callBackProc)(filename, clientData);
+      return(result);
+      }
+
+
+In general, an enumerator is sometimes inconvenient because it takes over
+control. Think about this: How could you enumerate two directories in
+parallel and copy the newer files from one directory to the other?
+
+
+STATELESS ENUMERATOR
+
+An alternate form without this disadvantage is the "stateless enumerator".
+
+In a stateless enumerator, it's up to the client to keep its place in the
+enumeration. Call a procedure like GetNextFilename each time around the
+loop.
+
+      STRING curFilename = NULL;
+      int count = 0;
+      do {
+         if (++count > 10)  break;  /* stop after 10 files */
+         curFilename = GetNextFilename(directory, curFilename);
+         if (curFilename == NULL)  break;  /* stop at end of directory */
+         printf("%s\n", filename);
+         }
+
+The stateless enumerator is sometimes better because it puts the client
+in control. The above example shows how easy it is to keep state
+information between iterations and to stop the enumeration easy. It's also
+easy to do things like list two directories in parallel.
+
+
+IFF CHUNK ENUMERATOR
+
+The following IFFR.C routines make up a stateless IFF chunk enumerator:
+OpenRIFF, OpenRGroup, GetChunkHdr and CloseRGroup. Together with
+IFFReadBytes, we have a complete layer of "chunk reader" subroutines.
+These subroutines are built upon the file stream package in the local
+system library.
+
+GetChunkHdr is the "get next" procedure you call to get the next IFF chunk.
+(GetFChunkHdr, GetF1ChunkHdr, and GetPChunkHdr are subroutines that call
+GetChunkHdr and do a little extra work.) OpenRIFF and OpenRGroup do the
+initialization needed before you can call GetChunkHdr. CloseRGroup does
+the cleanup work.
+
+You supply a "GroupContext" pointer each time you call one of these "chunk
+reader" procedures. The enumeration state is kept in a GroupContext record
+which the *client* must allocate but the *enumerator* routines initialize
+and maintain. (The client may peek into a GroupContext but should never
+modify it directly.) The two procedures OpenRIFF and OpenRGroup initialize
+the GroupContext record. This "opens a context" for reading chunks. The
+procedure CloseRGroup cleans up when you're done with a GroupContext.
+
+Here's the essense of an IFF scanner program. It handles whatever it finds,
+unlike inflexible file readers that demand conformance to a rigid file
+format. [Note: This code doesn't check for errors or end-of-context.]
+
+   OpenRGroup(..., context);  /* initialize */
+   do {
+      id = GetChunkHdr(context);  /* get the next chunk's ID */
+      switch (id)  {
+         case AAAA: {read in an AAAA chunk; break};
+         case BBBB: {read in a BBBB chunk; break};
+         ...
+         default: {};  /* just ignore unrecognized chunks */
+         }
+   CloseRGroup(context);  /* cleanup */
+
+GetChunkHdr reads the next chunk header and returns its chunk ID. You then
+dispatch on the chunk ID, that is, switch to a different piece of code for
+each type of chunk. If you don't recognize the chunk ID, just keep looping.
+
+In each "case:" statement, call IFFReadBytes one or more times to read the
+chunk's contents. The readin work you do here depends on the chunk type
+and what you need in RAM. Since GetChunkHdr automatically skips to the
+start of the next chunk, it doesn't matter if you don't read all the data
+bytes.
+
+GetChunkHdr does some other things for you automatically. When it reads a
+"group" chunk header (a chunk of type "FORM", "LIST", "CAT ", or "PROP") it
+automatically reads the subtype ID. That makes it very convenient to just
+open the contents of the group chunk as a group context and read the
+nested chunks. See the example source program ShowILBM for more about
+the relationship between a "GroupContext" and a "ClientFrame".
+
+Like all the example IFF code, GetChunkHdr checks for errors. To handle
+GetChunkHdr errors, we just add cases to the switch statment. To stop at
+end-of-context or an error in a switch case, we add a "while" clause at the
+end of the "do" statement.
+
+
+CLIENTS, INTERFACES, AND IMPLEMENTORS
+
+In the ListDir example, you can see that a lot of flexibility comes from
+decoupling the task of tracing through the directory's data structures from
+the task of filtering files and printing filenames. This is called
+modularity, or simply, dividing a program into parts.
+
+Choosing good module boundaries is an art. It has a big impact on a
+programmer's ability to coope with lrge programs. Good modularity makes
+programs much easier to understand and modify. But this topic would be
+another whole tutorial in itself.
+
+Just be aware that the example IFF program is divided into various
+"modules", each of which implements a different part of the bigger picture.
+One such module is the low level IFF reader/writer. It's split into two
+files IFFR.C and IFFW.C. Other such modules are the run encoder/decoder
+Packer.C and UnPacker.C, and ILBM read/write subroutines ILBMR.C and
+ILBMW.C.
+
+You'll notice that all three of these "modules" are split into a pair of files.
+That's because most linkers aren't fancy enough to automatically eliminate
+unused subroutines, e.g. for a program like ShowILBM that reads but doesn't
+need the writer code. Also, a program like DeluxePaint wants read and
+write code in separate overlays. So think of each pair as a single module.
+
+What I want to point out is the basic structure. Each "module" has an
+"interface" file (a .H file) that separates the "implementor" .C file(s) from
+the "client" programs. This interface is very important, in fact, more
+important than the code details inside the .C files. The interfaces for the
+above-mentioned modules are called IFF.H, Packer.H, and ILBM.H.
+
+Everything about a layer of software that the clients need to know belongs
+in its interface: constant and type definitions, extern declarations for the
+procedures, and comments. The comments detail the purpose of the module
+and each procedure, the procedure arguments, side effects, results, and
+error codes, etc. Nothing the clients don't need to know belongs in its
+interface: internal implementation details that might change.
+
+Thus, the modularization and other important design information is
+collected and documented in these interface files. So if you want to
+understand what a module does and how to use it, READ ITS INTERFACE.
+Don't dive headfirst into the implementation. 
+
+Two of the original articles on modular programming are
+   D.L. Parnas, "On the Criteria To Be Used in Decomposing Systems into
+Modules". Communications of the ACM 15, 12 (Dec. '72), pp 1053-1058.
+
+   B. Liskov and S. Zilles, "Programming with Abstract Data Types".
+Proceedings ACM SIGPLAN Conference on Very High-Level Languages.
+SIGPLAN Notices 9, 4 (April '74), pp 50-59.
+
+
+SUBCLASSED STRUCTURES
+
+One more technique. In programming, a general-purpose module may define
+a structure like ClientFrame. Along comes a more special-purpose program
+that needs a structure like it but with specialized fields added on. The
+answer is to build a larger structure whose first field is the earlier
+structure. This is called "subclassing" a structure, a term that comes from
+subclassing in Smalltalk.
+
+In the Macintosh(tm) toolbox, the record GrafPort is subclassed to produce
+the record WindowRecord, which is subclassed again to produce a
+DialogWindow record.
+
+Similarly in the example IFF program ShowILBM, the structure ClientFrame
+is subclassed to produce the more specialized structure ILBMFrame.
+
+   typedef struct {
+      ClientFrame clientFrame;
+      UBYTE foundBMHD;
+      ...
+      } ILBMFrame;
+
+Since the first field of an ILBMFrame is a ClientFrame, the ShowILBM
+procedure ReadPicture can coerce a *ClientFrame pointer to an
+*ILBMFrame pointer to pass it to ReadIFF (which knows nothing about
+ILBMFrame). When ReadIFF calls back ShowILBM's getForm procedure, we
+can coerce it back to an *ILBMFrame pointer. Take a look at ShowILBM to
+see how this works.
+

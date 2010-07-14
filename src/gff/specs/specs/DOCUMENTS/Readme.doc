@@ -1,0 +1,175 @@
+      Overview of IFF example source files
+            Feb. 4, 1986
+
+
+This source code is distributed as public domain software.
+Use it to help write robust IFF-compatible programs.
+
+Caveat: Electronic Arts developed this code, and is releasing it to
+promote the success of the Amiga.  EA does not have the resources 
+to supply support for this code.
+
+For support, Amiga software developers contact Commodore directly.
+
+
+1. Files
+
+   README  .DOC   This document.
+   BACKGRND.DOC   Tutorial on some techniques used in these example
+         programs.
+
+   COMPILER.H   Portability file to isolate compiler idiosyncrasies.
+
+   INTUALL .H   A super-include file for Amiga include files.
+
+   REMALLOC.H   Header for RemAlloc subroutines.
+   REMALLOC.C   Memory ALLOCators which REMember the size allocated,
+         for simpler freeing.
+
+   GIO     .H   Header file for Generic I/O speed up package.
+   GIO     .C   Generic I/O speed up routines (a disk cache).
+   GIOCALL .C   Outline of example GIO client.
+      To turn on the GIO package, change a switch in GIO.H,
+      add GIO.O to the linker control file, and recompile.
+
+   IFF     .H     Header file for general IFF read/write support.
+   IFFR    .C     IFF reade support routines.
+   IFFW    .C     IFF writer support routines.
+      These routines do a lot of the work for reading and writing
+      IFF files robustly. The reader and writer are separate since
+      some programs don't need both.
+
+   IFFCHECK.C     IFF checker utility source (very handy for debugging).
+   IFFCHECK.LNK   IFF checker utility linker control file.
+   IFFCHECK       Amiga runnable object program.
+      The IFF checker scans an IFF file, checks it for syntax
+      errors, and prints an outline of its contents.
+
+   PACKER  .H     Header for byte run encoder (compressor) subroutines.
+   PACKER  .C     Run encoder subroutines.
+   UNPACKER.C     Run decoder subroutines.
+      This run encoder/decoder is used for ILBM raster images.
+
+   ILBM    .H     Header for ILBM (raster image file) subroutines.
+   ILBMR   .C     ILBM reader support routines. Uses IFFR.
+   ILBMW   .C     ILBM writer support routines. Uses IFFW.
+
+   READPICT.H   Header for ReadPicture subroutines.
+   READPICT.C   ReadPicture subroutines read an ILBM file into an
+         Amiga BitMap in RAM. Uses ILBMR and IFFR.
+
+   SHOWILBM.C     Example program that reads and displays an ILBM file.
+   SHOWILBM.LNK   Linker control file for ShowILBM program.
+   SHOWILBM       Amiga runnable object program ShowILBM.
+   SHOWILBM.INFO   So you can run ShowILBM under the Amiga workbench.
+
+   PUTPICT .H   Header for PutPict subroutines.
+   PUTPICT .C   PutPict subroutines write an Amiga BitMap from RAM
+         to an ILBM file. Uses ILBMW and IFFW.
+
+   RAW2ILBM.C     Example program that reads a "raw" raster image file
+         and writes the image as an ILBM file.
+   RAW2ILBM.LNK   Linker control file for Raw2ILBM.
+   RAW2ILBM   Amiga runnable object program.
+
+   ILBM2Raw.C     Example program that reads an image as an ILBM file
+         and writes the image as a "raw" raster image file.
+   ILBM2Raw.LNK   Linker control file for ILBM2Raw.
+   ILBM2Raw   Amiga runnable object program.
+
+   BMPrintC.C   Subroutine that actually does the text dump.
+   ILBMDump.C     Example program that reads an image as an ILBM file
+         and writes the image as a text file containing
+         C data initialization statements for either a
+         BOB or a Sprite.
+   ILBMDump.LNK   Linker control file for ILBMDump.
+   ILBMDump   Amiga runnable object program.
+
+   ZapIcon      Amiga runnable program that creates a tool icon from
+         an ILBM (i.e., a brush saved from DPaint).
+         Usage: zapicon brushname toolname
+
+   IFFCHECG.LNK   Link file for IFFCheck including GIO.
+   SHOWILBG.LNK   Link file for ShowILBM including GIO.
+   RAW2ILBG.LNK   Link file for Raw2ILBM including GIO.
+
+
+   dragon      A picture of a dragon (ILBM brush).
+               Can be converted to an icon using Zapicon, or to C
+                  source using ILBMDump.
+
+
+2. About the development environment.
+
+This source code is built for the Lattice 68000 C cross-compiler from the
+IBM PC and the MetaComCo Amiga linker. You may have to make changes to suit
+other development tools, another development machine, or another target
+machine.
+
+These programs use C header files supplied by Commodore for the Amiga
+computer. If you need them, contact Commodore. Dependencies on the runtime
+environment are pretty localized, so ports should be easy.
+
+
+If you don't have Commodore's EXEC/TYPES.H file, here are some global IFF
+definitions you'll need:
+
+typedef long      LONG;       /* signed   32-bit number */
+typedef unsigned long   ULONG;       /* unsigned 32-bit number */
+typedef short      WORD;       /* signed   16-bit number */
+typedef unsigned short   UWORD;       /* unsigned 16-bit number */
+typedef char      BYTE;       /* signed    8-bit number */
+typedef unsigned char   UBYTE;       /* unsigned  8-bit number */
+typedef short      BOOL;
+#define NULL      0
+
+
+3. Compiler ideosyncracies.
+
+The Lattice C compiler running on the IBM PC supports a recent addition to
+the C language: the ability to typecheck procedure arguments (templates).
+Believe me, typechecking is useful! The more bugs I find at compile time,
+the less I have to find at run time.
+
+The programmer asks for typechecking via an "extern" statement like this:
+   extern IFFP Seek(BPTR, LONG, LONG);
+or a "typedef" statement like this:
+   typedef IFFP ClientProc(struct _GroupContext *);
+
+Unfortunately, this chokes other C compilers. If you have such a compiler,
+you have to comment out the stuff in parentheses. The above two examples
+become:
+   extern IFFP Seek(/* BPTR, LONG, LONG */);
+or a "typedef" statement like this:
+   typedef IFFP ClientProc(/* struct _GroupContext * */);
+Don't remove the parentheses!
+
+The header file COMPILER.H defines macros to isolate the compiler
+dependencies. The macro FDwAT ("function definitions with argument
+types") switches on/off the argument type declarations in the header files
+in this directory.
+
+
+4. RemAlloc subroutines.
+
+The "REMembering ALLOCator" is a useful little subroutine package included
+here. It saves you from having to remember the size of each node you
+allocate. (Why doesn't the Amiga allocator do this?)
+
+
+5. Optional buffered file I/O package GIO.
+
+Amiga file I/O can be greatly sped up by use of a RAM buffer. So we now have
+a layer of software that provides optional buffering. The "option" is
+controlled by changing a "#define" inside the header file GIO.H, adding
+GIO.O to your link file, recompiling, and recompiling. When turned off,
+this layer becomes just a layer of macro calls between the IFFR and IFFW
+modules and the AmigaDOS routines they call.
+
+This RAM buffer speeds things up when you're doing numerous small Writes
+and/or Seeks while writing. The general IFF writer IFFW.C tends to do this.
+It should be extended to optimize reading, too.
+
+If you are not using IFF, and already Write in chunks of 256 bytes or more,
+don't bother using GIO.
+

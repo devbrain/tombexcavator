@@ -1,0 +1,23 @@
+2008-05-06  Jonny Lamb  <jonnylamb@jonnylamb.com>
+
+	* VERSION: Upped the version number.
+
+	* .cvsignore,
+	  cvsclean,
+	  lib/.cvsignore,
+	  src/.cvsignore: Removed useless CVS files.
+
+	* bootstrap,
+	  dynamite.spec.in: Removed spec file.
+
+2008-01-09  Mark Ellis  <mark@mpellis.org.uk>
+
+	* added LICENSE to EXTRA_DIST
+	* renamed Changelog to ChangeLog for make dist
+
+2007-11-29  Mark Ellis <mark_ellis@users.sourceforge.net>
+
+	* from Debian package, man page for dynamite
+	* modified from Deb package, error checking in dynamite
+	* started Changelog
+

@@ -1,0 +1,88 @@
+
+                 >>> Tips for Compiling IFF Examples <<<
+                         Carolyn Scheppner - CBM
+
+      IFF examples, in most cases, are not self-contained programs.
+   They need to be linked with various IFF modules which contain
+   the IFF reader/writer/general routines that are used both directly
+   and indirectly by the example.  Information on which IFF modules
+   are required by the EA examples in the SOURCE directory can be found
+   in the LINKER_INFO directory.  The examples in the EXAMPLES directory
+   contain linkage information in their opening comments, and separate
+   .with files or makefiles are supplied for some of the examples.
+   See the AmigaDos Developer's Manual "The Linker" chapter for more
+   info on WITH files.  Examples and modules are listed below.
+
+     The IFF header (.h) files are also required when compiling the
+   examples.  The headers can be found in the INCLUDE/iff directory.
+   I will assume that you have set up your C development system
+   so that there is plenty of room on your source & headers work disk.
+   Make an "iff" subdirectory in your "include" directory and copy
+   the IFF headers there.  Note for AZTEC C people: you may need to
+   remove comments inside the parentheses in the function definitions
+   in packer.h.
+
+     The compiler.h header contains a switch (FDwAT) for compatibility
+   with various compilers.  The current IFF modules and include files
+   are written for 32-bit compilation, so you will probably have to
+   specify 32-bit (long data long code) compilation and link with
+   your compiler's 32-bit library.  Optionally, you could adapt the
+   IFF code and include files for 16-bit compatibility.  Since the IFF
+   code is heavily typed, this would mostly involve putting "L"'s
+   on constants, changing any "int"'s to "LONG"'s, and casting untyped
+   functions such as "sizeof" to (LONG).  If anyone makes the changes
+   necessary for 16-bit compilation, I would appreciate a copy of the
+   modified IFF sources and include files.
+
+     The OBJECT directory on this disk contains 32-bit Lattice object
+   modules.  To compile any IFF example, first compile (without linking)
+   the example's source module(s).  Check the example source comments
+   or LINKER_INFO directory for information on which standard IFF
+   modules must be linked with the example.  If you are using a compiler
+   that generates Metacomco compatible object modules (such as Lattice),
+   copy the required .o files from the OBJECT directory to your work
+   directory and link the example .o(s) with the appropriate startup
+   code and modules.  If you are using a compiler that generates a
+   different object format, you will need to first recompile the
+   required IFF module sources or run them through an object converter
+   if your compiler supplies one.
+
+     The LINKER_INFO files and source comments are generally in a
+   .with file format such as Alink (and Blink ?) understands.
+   See the Bantam AmigaDOS manual Assem/Linker chapter for a description
+   of .with file usage.  Note that LStartup.obj is equivalent to
+   the "c.o" startup module Lattice supplies with their compiler.
+
+   Example .with file (LIB: assigned where I keep libs and startups):
+
+   FROM     LIB:LStartup.obj, Example.o, iffr.o,*
+            ilbmr.o, unpacker.o
+   TO       ram:Example
+   LIBRARY  LIB:lib/LC.lib, LIB:lib/Amiga.lib
+
+
+
+ -------------------------------------------------------------------------
+                      >>> List of IFF modules <<<
+
+   IFF reader modules:
+
+   iffr.o      Lowest level reader rtns
+   ilbmr.o     Higher level ILBM reader rtns
+   readpict.o  Highest level ILBM reader
+   unpacker.o  Unpacking rtn
+
+   IFF writer modules:
+
+   iffw.o      Lowest level writer rtns
+   ilbmw.o     Higher level ILBM writer rtns
+   putpict.o   Highest level ILBM writer
+   packer.o    Packing rtn
+
+   General IFF modules:
+
+   gio.o       Fast IO rtns
+   remalloc.o  Memory allocation rtns
+
+--------------------------------------------------------------------------
+

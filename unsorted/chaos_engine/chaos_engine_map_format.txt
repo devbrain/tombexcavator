@@ -1,0 +1,118 @@
+map file should be able to store:
+
+- level tiles (chunk #1)
+- monsters positions and their trigger. Maybe also AI info (dumb or seeker)
+- items (chunk #6)
+- exits
+- moving blocks (maybe code-driven)
+- nodes
+- music changes
+
+0x0 - 0x40 : chunk start addresses, 0-terminated
+
+chunk #1 (0x40 fixed offset): tile data
+
+- 0.W: nb_cols
+- 2.W: nb rows
+- 4.B: world number (1 to 5, last 2 world 4 levels have 5 instead of 4)
+- 5.B: 3 for w1, 0 for w2, 4 for w3, 9 for w4. unknown.
+- each next 16 bit word is the tile + tile flags.
+  - bits 0 to 8: tile id
+  - bits 9 to 11: height
+  - bit 12: stair yes/no
+  - bit 13: exit yes/no
+  - bit 14: event/hostile/??? yes/no
+
+chunk #2 (2B96 in A1CHAOS.CAS, 0x308 bytes): ???
+
+list of 16 bit words. lots of fffe (-2) and 0s. probably 8 bit values coupled
+
+chunk #3 (2E9E in A1CHAOS.CAS, 0x744 bytes): ennemy position list & information
+
+- 2 first 16 bit words are 1) item_number 2) item size (0x3E=62 here)
+- then, item_number times the same structure:
+   00: X.W
+   02: Y.W
+   04: enemy type.B:
+      - 0A: in-wall generator
+      - 00: bubbles in stream (animated backgrounds)
+      - 02: standard monster
+      - 03: ?
+   05: B ??
+   06: B 18 or 1A ???
+   07: B FA or E5 ???
+   08: decimal value.W: 10, 100, 125 ... (speed?? score??)
+   0A: 0 ???
+   0C: value.W: 1,3,6,C (multiple of 3 ?)
+   0E: value.W: ranging 0 to 6
+   ???
+   38: value.W: positive or negative: offset of something...
+   3A: 0?
+chunk #4 (35E6 in A1CHAOS.CAS): event trigger positions
+
+- 2 first 16 bit words are 1) item_number 2) item size (8 here)
+- then, item_number times the same structure:
+   0: X.W
+   2: Y.W
+   4: event_index.W
+   6: zero pad ?
+
+
+chunk #5 (3932 in A1CHAOS.CAS): special zones list: disappearing walls, exits, appearing bonuses
+
+- 2 first 16 bit words are 1) item_number 2) item size (0x1E=30 here)
+- then, item_number times the same structure:
+   0: X.W
+   2: Y.W
+   4: type.B:
+      - 02: standard
+      - 0A: disappearing wall start
+      - 2B: exit
+   5: ext_4.B: tile id behind ?
+   6: ?.B (fixed to 2b)
+   7: ?.B (fixed to 25)
+   zeroes...
+   0x1A: 3F or 80: 80 = exit, 3F else
+   0x1B: negative / positive (F1 .. 03)
+   0x1C: negative / positive (FB .. 05)
+   0x1D: negative / positive (F3 .. 0f)
+
+chunk #6 (3AF8 in A1CHAOS.CAS): pickable item list
+
+- 2 first 16 bit words are 1) item_number 2) item size (8 here)
+- then, item_number times the same structure:
+   0: X.W
+   2: Y.W
+   4: flags.B (bit 6: triggers something, bit 0: ?, bit 1 -> 4: height)
+   5: 0: no event on pickup, != 0: event code
+   6: debug height data? 0x31+(height*2). Redundant with flags
+   7: item_code.B (alternate version exists with differetnt background)
+     - 87/9B: special power
+     - 88/9C: power up
+     - 80: level 1: party power, level 2/3 (also 94): phone
+     - 86: level 1: multi-direction gun shoot (brigand power), level 2: extra life
+     - 89/9D: food can
+     - 8A/9E: big food can
+     - 8B/9F: single silver coin
+     - 8C/A0: double silver coin
+     - 8D/A1: triple silver coin
+     - 7C: first aid
+     - 7E/92: player saved
+     - 7D/91: dynamite (navvie power)
+     - 7F: level 1: molotov (thug power), level 2: air blast, level 3: freeze
+     - 82: gold key
+     - 84/96: silver key
+     - 90/A3: gold ring
+     _ 8E: double gold ring
+     - A2: triple gold ring
+     - 99: level 1: remove node activation, level 2 (and 85): shield
+     - 81/95: map
+     - 8F: diamond
+     - 86: mine
+     - 83: freeze
+
+chunk #7 (3B8C in A1CHAOS.CAS, size = 0x150): ???
+
+list of bytes, no size header.Values: 0,1,2,8,e
+
+There's also a file called LEVSDAT.BIN which contains some tables, maybe for faast computations, I don't know

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="twin-e" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="$(SolutionDir)Debug Win32/twin-e" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug Win32" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+				</Compiler>
+				<Linker>
+					<Add library="SDL" />
+					<Add library="SDLmain" />
+					<Add library="SDL_mixer" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="$(SolutionDir)Release Win32/twin-e" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release Win32" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-W" />
+				</Compiler>
+				<Linker>
+					<Add library="SDL" />
+					<Add library="SDLmain" />
+					<Add library="SDL_mixer" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../src/HQMGlobal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/HQMLib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/HQMLib.h" />
+		<Unit filename="../../src/HQRlib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/HQRlib.h" />
+		<Unit filename="../../src/actorScript.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/actors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/angle.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/angle.h" />
+		<Unit filename="../../src/angleTable.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/angleTable.h" />
+		<Unit filename="../../src/anim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/animAction.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/body.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/cdrom.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/comportementMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/costume.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/costume.h" />
+		<Unit filename="../../src/cube.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/debug.h" />
+		<Unit filename="../../src/decomp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decomp.h" />
+		<Unit filename="../../src/expand.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/extra.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/extraData.h" />
+		<Unit filename="../../src/fichePerso.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fireEffect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/flaplayer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fullRedraw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/global.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/global.h" />
+		<Unit filename="../../src/grid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/hqr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/images.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/input.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/inventory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/lba.h" />
+		<Unit filename="../../src/life_ascii.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/life_binary.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/life_common.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/life_common.h" />
+		<Unit filename="../../src/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/mainLoop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/mainMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/mainSDL.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/mainSDLGL.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/memHandler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/memory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/moveActor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/music.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/object.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/osystem.h" />
+		<Unit filename="../../src/overlay.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/overlay.h" />
+		<Unit filename="../../src/renderer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/room.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/samples.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/samples.h" />
+		<Unit filename="../../src/save.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/shadow.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/streamReader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/streamReader.h" />
+		<Unit filename="../../src/sys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/text.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/threadCode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/type.h" />
+		<Unit filename="../../src/vars.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/vars.h" />
+		<Unit filename="../../src/video.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/vox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/zones.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/zones.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
