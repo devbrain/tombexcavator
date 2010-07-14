@@ -67,6 +67,8 @@ int main (int argc, char* argv [])
 	  prefix = "Linux";
 #endif
 #endif // NDEBUG
+
+
 	  if (!prefix.empty ())
 	    {
 	      abl::path_c tmp_path (ld);
@@ -80,9 +82,16 @@ int main (int argc, char* argv [])
 	  std::cerr << "Can not determine providers directory. Use -d flag" << std::endl;
 	  return 1;
 	}
+#if defined(PREDEF_OS_WINDOWS)
+      const std::string suffix = ".dll";
+      const std::string pfx    = "";
+#else
+      const std::string suffix = ".so";
+      const std::string pfx    = "lib";
+#endif
       std::string pth    = input_path.getValue ();
       std::string prov   = provider.getValue ();
-      std::string prov_n = std::string ("provider_") + prov;
+      std::string prov_n = pfx + std::string ("provider_") + prov + suffix;
       
       std::cout << "Loading provider " << prov_n << " from " << so_dir << std::endl; 
 
