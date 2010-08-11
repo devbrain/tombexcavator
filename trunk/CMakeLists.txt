@@ -3,8 +3,33 @@ cmake_minimum_required(VERSION 2.6)
 project (tombexcavator)
 set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-include (revision_info)
+# -----------------------------------------------------
+# Configure
+# -----------------------------------------------------
 
+include (revision_info)
+set (SDL_BUILDING_LIBRARY TRUE)
+include (FindSDL)
+include (FindGlib)
+include (TestBigEndian)
+include (CheckIncludeFiles)
+
+
+check_include_files (stdint.h HAVE_STDINT_H)
+
+TEST_BIG_ENDIAN (HAVE_BIG_ENDIAN)
+
+if (SDL_FOUND)
+  set (HAVE_SDL 1)
+endif ()
+
+if (Glib_FOUND)
+  set (HAVE_GLIB 1)
+endif ()
+
+
+
+# -----------------------------------------------------
 option (optHAS_OPTIMIZED "Turn Optimizations ON" OFF)
 option (optHAS_SYMBOLS   "Build with debug Symbols" ON)
 
@@ -22,41 +47,75 @@ else (optHAS_OPTIMIZED)
   endif (optHAS_SYMBOLS)
 endif (optHAS_OPTIMIZED)
 
+# ----------------------------------------------------------
+# Compiler Settings
+# ----------------------------------------------------------
+include (compiler) # Should be last include
 
 
-set (BK_SRC_ROOT src)
+# --------------------------------------------------
 
-set (myQualification "${CMAKE_SYSTEM_NAME}.${CMAKE_BUILD_TYPE}")
+set (TE_SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-set (myLIB_OUTPUT "${CMAKE_SOURCE_DIR}/lib/${myQualification}" )
-set (myBIN_OUTPUT "${CMAKE_SOURCE_DIR}/bin/${myQualification}")
-set (myOBJ_OUTPUT obj)
+set (myLIB_OUTPUT "${CMAKE_BINARY_DIR}/lib/" )
+set (myBIN_OUTPUT "${CMAKE_BINARY_DIR}/bin/")
+set (myOBJ_OUTPUT "${CMAKE_BINARY_DIR}/obj/")
 
 set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${myLIB_OUTPUT})
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${myLIB_OUTPUT})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${myBIN_OUTPUT})
 
+# --------------------------------------------------
+# Libs/includes path
+# --------------------------------------------------
 
-include_directories (${BK_SRC_ROOT} ${BK_INCLUDE_PATH} "${myOBJ_OUTPUT}/${myQualification}")
+set (TE_LIBS)
+set (TE_INCLUDES)
 
-if (${CMAKE_SYSTEM_NAME} STREQUAL Linux)
-set (TE_SYS_LIBS pthread dl)
-set (TE_C_FLAGS "-Wall -W -Wextra")
-set (TE_CXX_FLAGS "-Wall -W -Wextra")
-else ()
-set (TE_SYS_LIBS)
+if (HAVE_SDL)
+  list (APPEND TE_LIBS ${SDL_LIBRARY})
+  list (APPEND TE_INCLUDES ${SDL_INCLUDE_DIR})
 endif ()
 
-set (CMAKE_C_FLAGS_DEBUG   ${TE_C_FLAGS})
-set (CMAKE_CXX_FLAGS_DEBUG ${TE_CXX_FLAGS})
+if (HAVE_GLIB)
+  list (APPEND TE_LIBS     ${Glib_LIBRARIES})
+  list (APPEND TE_INCLUDES ${Glib_INCLUDE_DIRS})
+endif ()
 
+
+# --------------------------------------------------
+message (STATUS "                   ")
+message (STATUS "----- Summary -----")
+message (STATUS "                   ")
+message (STATUS "Build Type:       ${CMAKE_BUILD_TYPE}")
+message (STATUS "BIG_ENDIAN:       ${HAVE_BIG_ENDIAN}")
+message (STATUS "stdint.h present: ${HAVE_STDINT_H}")
+message (STATUS "SDL present:      ${HAVE_SDL}")
+message (STATUS "GLIB present:     ${HAVE_GLIB}")
+message (STATUS "                  ")
+message (STATUS "---- Compiler ----")
+message (STATUS "                  ")
+message (STATUS "C compiler  : ${CMAKE_C_COMPILER}")
+message (STATUS "C++ compiler: ${CMAKE_CXX_COMPILER}")
+message (STATUS "C compiler flags: ${myC_FLAGS}")
+message (STATUS "C++ compiler flags: ${myCXX_FLAGS}")
+message (STATUS "Defines: ${myDEFS}")
+message (STATUS "Includes: ${TE_INCLUDES}")
+message (STATUS "                  ")
+message (STATUS "----- Linker -----")
+message (STATUS "                  ")
+message (STATUS "Libs: ${TE_LIBS}")
+message (STATUS "                  ")
+message (STATUS "                  ")
+
+include (build)
 
 set (build_modules 
-  abl
+  platform
 )
 
 foreach (mdl ${build_modules})
-  set (MDL_SRC "${BK_SRC_ROOT}/${mdl}")
-  set (MDL_OBJ "${myOBJ_OUTPUT}/${myQualification}/${mdl}")
+  set (MDL_SRC "${TE_SRC_ROOT}/${mdl}")
+  set (MDL_OBJ "${myOBJ_OUTPUT}/${mdl}")
   add_subdirectory (${MDL_SRC} ${MDL_OBJ})
 endforeach ()
