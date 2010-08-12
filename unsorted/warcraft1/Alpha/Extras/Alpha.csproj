@@ -1,0 +1,65 @@
+﻿<Project DefaultTargets="BuildAlphaWC1" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <Optimize>False</Optimize>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>Full</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <Optimize>True</Optimize>
+        <DefineConstants>TRACE</DefineConstants>
+        <DebugSymbols>False</DebugSymbols>
+        <DebugType>None</DebugType>
+    </PropertyGroup>
+
+    <Import Project="$(MSBuildBinPath)/Microsoft.Common.tasks" />
+
+    <ItemGroup>
+        <ExtraReferences Include="Tao.Sdl.dll" />
+        <ExtraReferences Include="Tao.OpenGl.dll" />
+        <ExtraReferences Include="Tao.OpenGl.ExtensionLoader.dll" />
+        <ExtraReferences Include="Tao.OpenGl.Glu.dll" />
+        
+        <ExtraFiles Include="@(ExtraReferences);@(ExtraReferences->'%(Identity).config')" />
+        <InExtraFiles Include="@(ExtraFiles->'Extras\%(Identity)')" />
+
+        <References Include="System.dll" />
+        <References Include="System.Drawing.dll" />
+        <References Include="@(ExtraReferences)" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <AlphaSources Include="Alpha\*\*.cs" />
+        <AlphaDemoSources Include="Alpha-Demo\*.cs" />
+        <AlphaWC1Sources Include="Alpha-WC1\*.cs" />
+    </ItemGroup>-->
+
+    <Target Name="CopyExtras" Inputs="@(InExtraFiles)" Outputs="@(ExtraFiles)">
+        <Copy SourceFiles="@(InExtraFiles)" DestinationFiles="@(ExtraFiles)" />
+    </Target>
+
+    <Target Name="BuildAlpha" Inputs="@(AlphaSources)" Outputs="Alpha.dll" DependsOnTargets="CopyExtras">
+        <Csc Sources="@(AlphaSources)" References="@(References)" OutputAssembly="Alpha.dll" TargetType="library"/>
+    </Target>
+    <Target Name="BuildAlphaDemo" Inputs="@(AlphaDemoSources);Alpha.dll" Outputs="Alpha-Demo.exe" DependsOnTargets="BuildAlpha">
+        <Csc Sources="@(AlphaDemoSources)" References="@(References);Alpha.dll" OutputAssembly="Alpha-Demo.exe" TargetType="exe"/>
+    </Target>
+    <Target Name="BuildAlphaWC1" Inputs="@(AlphaWC1Sources);Alpha.dll" Outputs="Alpha-WC1.exe" DependsOnTargets="BuildAlpha">
+        <Csc Sources="@(AlphaWC1Sources)" References="@(References);Alpha.dll" OutputAssembly="Alpha-WC1.exe" TargetType="exe"/>
+    </Target>
+
+    <Target Name="Build" DependsOnTargets="BuildAlphaDemo;BuildAlphaWC1">
+    </Target>
+
+    <Target Name="Clean">
+        <Delete Files="Alpha-Demo.exe;Alpha-Demo.exe.mdb;Alpha-Demo.pdb" />
+        <Delete Files="Alpha.dll;Alpha.dll.mdb;Alpha.pdb" />
+        <Delete Files="Alpha-WC1.exe;Alpha-WC1.exe.mdb;Alpha-WC1.pdb" />
+        <Delete Files="@(ExtraFiles)" />
+    </Target>
+</Project>

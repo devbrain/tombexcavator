@@ -1,0 +1,14 @@
+
+Alpha is a open-source real time strategy game engine. It is written in C#,
+using the OpenGL and SDL libraries.
+
+Alpha is available under the GNU GPL, please see COPYING file for details.
+
+For more information about Alpha itself go to http://alpha.devnet.ro/
+
+To build alpha see http://alpha.devnet.ro/wiki/Compiling . In short, on an
+unix machine all you need is opengl, sdl and mono. Building goes like:
+
+    ./Extras/CreateMakefile.sh
+    make
+

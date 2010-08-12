@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This is the actual build file for Alpha. Scripts in ./Extras will create various
+makefiles and project files to build Alpha. Unless you know what you're doing,
+there is no reason to touch this, not even when adding new files.
+-->
+<Prebuild xmlns="http://dnpb.sourceforge.net/schemas/prebuild-1.6.xsd">
+    <Solution name="Alpha">
+        <Configuration name="Normal">
+            <Options>
+                <CompilerDefines> </CompilerDefines>
+                <OptimizeCode> true </OptimizeCode>
+                <WarningLevel>4</WarningLevel>
+                <WarningsAsErrors>true</WarningsAsErrors>
+                <OutputPath>..\</OutputPath>
+                <DebugInformation>true</DebugInformation>
+                <IncrementalBuild>true</IncrementalBuild>
+                <NoStdLib>false</NoStdLib>
+                <!--<SupressWarnings>0219</SupressWarnings>-->
+            </Options>
+        </Configuration>
+
+        <Project name="Alpha" path="Alpha" type="Library" assemblyName="Alpha">
+            <Configuration name="Normal">
+                <Options>
+                    <OutputPath>..\</OutputPath>
+                </Options>
+            </Configuration>
+            <ReferencePath>..\</ReferencePath>
+            <ReferencePath>..\Extras\</ReferencePath>
+            <Reference name="System"/>
+            <Reference name="System.Drawing"/>
+            <Reference name="Tao.OpenGl" localCopy="false"/>
+            <Reference name="Tao.OpenGl.Glu" localCopy="false"/>
+            <Reference name="Tao.Sdl" localCopy="false"/>
+            <Files>
+                <Match pattern="*.cs" recurse="true"/>
+            </Files>
+        </Project>
+
+        <Project name="Alpha-Demo" path="Alpha-Demo" type="Exe" assemblyName="Alpha-Demo">
+            <Configuration name="Normal">
+                <Options>
+                    <OutputPath>..\</OutputPath>
+                </Options>
+            </Configuration>
+            <Reference name="System"/>
+            <Reference name="System.Drawing"/>
+            <Reference name="Alpha"/>
+            <Files>
+                <Match pattern="*.cs" recurse="true"/>
+            </Files>
+        </Project>
+
+        <Project name="Alpha-WC1" path="Alpha-WC1" type="Exe" assemblyName="Alpha-WC1">
+            <Configuration name="Normal">
+                <Options>
+                    <OutputPath>..\</OutputPath>
+                </Options>
+            </Configuration>
+            <Reference name="System"/>
+            <Reference name="System.Drawing"/>
+            <Reference name="Alpha"/>
+            <Files>
+                <Match pattern="*.cs" recurse="true"/>
+            </Files>
+        </Project>
+    </Solution>
+</Prebuild>
+
+
