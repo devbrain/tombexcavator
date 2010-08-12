@@ -14,6 +14,7 @@
 
 #include <stddef.h>
 
+#include "platform/config.h"
 #include "platform/static_assert.h"
 
 

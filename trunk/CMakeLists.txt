@@ -15,7 +15,20 @@ include (TestBigEndian)
 include (CheckIncludeFiles)
 
 
-check_include_files (stdint.h HAVE_STDINT_H)
+check_include_files (stdint.h  ciHAVE_STDINT_H)
+check_include_files (pthread.h ciHAVE_PTHREAD_H)
+
+if (ciHAVE_STDINT_H)
+  set (HAVE_STDINT_H 1)
+else ()
+  set (HAVE_STDINT_H 0)
+endif ()
+
+if (ciHAVE_PTHREAD_H)
+  set (HAVE_PTHREAD_H 1)
+else ()
+  set (HAVE_PTHREAD_H 0)
+endif ()
 
 TEST_BIG_ENDIAN (HAVE_BIG_ENDIAN)
 
@@ -26,8 +39,6 @@ endif ()
 if (Glib_FOUND)
   set (HAVE_GLIB 1)
 endif ()
-
-
 
 # -----------------------------------------------------
 option (optHAS_OPTIMIZED "Turn Optimizations ON" OFF)
@@ -90,6 +101,7 @@ message (STATUS "                   ")
 message (STATUS "Build Type:       ${CMAKE_BUILD_TYPE}")
 message (STATUS "BIG_ENDIAN:       ${HAVE_BIG_ENDIAN}")
 message (STATUS "stdint.h present: ${HAVE_STDINT_H}")
+message (STATUS "pthread.h present: ${HAVE_PTHREAD_H}")
 message (STATUS "SDL present:      ${HAVE_SDL}")
 message (STATUS "GLIB present:     ${HAVE_GLIB}")
 message (STATUS "                  ")
@@ -107,7 +119,14 @@ message (STATUS "                  ")
 message (STATUS "Libs: ${TE_LIBS}")
 message (STATUS "                  ")
 message (STATUS "                  ")
+# ==========================================================================
+# Create config files
+# ==========================================================================
 
+set (TE_CONFIG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/config)
+configure_file(${TE_CONFIG_DIR}/te_config.h.in ${TE_CONFIG_DIR}/te_config.h)
+
+# ==========================================================================
 include (build)
 
 set (build_modules 
@@ -119,3 +138,5 @@ foreach (mdl ${build_modules})
   set (MDL_OBJ "${myOBJ_OUTPUT}/${mdl}")
   add_subdirectory (${MDL_SRC} ${MDL_OBJ})
 endforeach ()
+
+include (package)

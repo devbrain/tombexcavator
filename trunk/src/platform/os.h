@@ -186,21 +186,9 @@ typedef struct mutex_s_ mutex_s;
 
 mutex_s* mutex_create (void);
 void mutex_lock (mutex_s* mutex);
-int mutex_try_lock (mutex_s* mutex);
-int mutex_try_lock_timeout (mutex_s* mutex, int msecs);
 void mutex_unlock (mutex_s* mutex);
 void mutex_destroy (mutex_s* mutex);
 
-struct rwlock_s_;
-typedef struct rwlock_s_ rwlock_s;
-
-rwlock_s* rwlock_create         (void);
-void      rwlock_read_lock      (rwlock_s* rwlock);
-int       rwlock_read_try_lock  (rwlock_s* rwlock);
-void      rwlock_write_lock     (rwlock_s* rwlock);
-int       rwlock_write_try_lock (rwlock_s* rwlock);
-void      rwlock_unlock         (rwlock_s* rwlock);  
-void      rwlock_destroy        (rwlock_s* rwlock);
 
 /**
  * Shared Objects API

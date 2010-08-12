@@ -13,6 +13,7 @@ set (hdr
   unicode/unicode.hpp
 
   os_error.h
+  config.h
 )
 
 te_shared_lib (platform src hdr)

@@ -200,22 +200,6 @@ foreach (flag ${TE_CXX_WARNINGS})
   set (myCXX_FLAGS "${myCXX_FLAGS} ${flag}")
 endforeach ()
 
-if (HAVE_BIG_ENDIAN)
-  list (APPEND TE_DEFINITIONS "-DTE_BIG_ENDIAN")
-endif ()
-
-if (HAVE_STDINT_H)
-  list (APPEND TE_DEFINITIONS "-DTE_HAVE_STDINT_H")
-endif ()
-
-if (HAVE_GLIB)
-  list (APPEND TE_DEFINITIONS "-DTE_HAVE_GLIB")
-endif ()
-
-if (HAVE_SDL)
-  list (APPEND TE_DEFINITIONS "-DTE_HAVE_SDL")
-endif ()
-
 foreach (flag ${TE_DEFINITIONS})
   set (myDEFS "${myDEFS} ${flag}")
 endforeach ()

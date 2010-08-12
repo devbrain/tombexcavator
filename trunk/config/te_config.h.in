@@ -1,0 +1,10 @@
+#ifndef __TE_CONFIG_H__
+#define __TE_CONFIG_H__
+
+#define TE_HAVE_BIG_ENDIAN ${HAVE_BIG_ENDIAN}
+#define TE_HAVE_STDINT_H   ${HAVE_STDINT_H}
+#define TE_HAVE_PTHREAD_H  ${HAVE_PTHREAD_H}
+#define TE_HAVE_SDL        ${HAVE_SDL}
+#define TE_HAVE_GLIB       ${HAVE_GLIB}
+
+#endif
