@@ -14,6 +14,7 @@ set (hdr
 
   os_error.h
   config.h
+  os.hpp
 )
 
 te_shared_lib (platform src hdr)

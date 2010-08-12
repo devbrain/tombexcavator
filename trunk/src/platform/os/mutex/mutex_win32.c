@@ -1,9 +1,9 @@
-struct mutex_s_
+struct os_mutex_s_
 {
   HANDLE m_mutex;
 };
 /* ------------------------------------------------- */
-mutex_s* mutex_create (void)
+os_mutex_s* os_mutex_create (void)
 {
   int failed = 0;
   mutex_s* m = 0;
@@ -22,21 +22,16 @@ mutex_s* mutex_create (void)
   return m;
 }
 /* ------------------------------------------------- */
-void mutex_lock (mutex_s* mutex)
+void os_mutex_lock (os_mutex_s* mutex)
 {
-  if (!mutex)
-    {
-      return;
-    }
+  assert (mutex != NULL);
   WaitForSingleObject(mutex->m_mutex, INFINITE);
 }
 /* ------------------------------------------------- */
-void mutex_unlock (mutex_s* mutex)
+void os_mutex_unlock (os_mutex_s* mutex)
 {
-  if (!mutex)
-    {
-      return;
-    }
+  assert (mutex != NULL);
+
   if (mutex->m_mutex == NULL)
     {
       return;
@@ -44,7 +39,7 @@ void mutex_unlock (mutex_s* mutex)
   ReleaseMutex (mutex->m_mutex);
 }
 /* ------------------------------------------------- */
-void mutex_destroy (mutex_s* mutex)
+void os_mutex_destroy (os_mutex_s* mutex)
 {
   if (!mutex)
     {

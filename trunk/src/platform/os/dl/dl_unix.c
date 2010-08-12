@@ -1,14 +1,14 @@
 typedef void*  shared_object_handle_t;
 
-struct shared_object_s_
+struct os_shared_object_s_
 {
   shared_object_handle_t handle;
 };
 
 /* --------------------------------------------------------- */
-shared_object_s* shared_object_open (const char* path)
+os_shared_object_s* os_shared_object_open (const char* path)
 {
-  shared_object_s* result = 0;
+  os_shared_object_s* result = 0;
   shared_object_handle_t         h;
   if (!path)
     {
@@ -19,12 +19,12 @@ shared_object_s* shared_object_open (const char* path)
     {
       return 0;
     }
-  result = (shared_object_s*)malloc (sizeof (shared_object_s));
+  result = (os_shared_object_s*)malloc (sizeof (os_shared_object_s));
   result->handle = h;
   return result;
 }
 /* --------------------------------------------------------- */
-void* shared_object_get_symbol (shared_object_s* so, const char* name)
+void* os_shared_object_get_symbol (os_shared_object_s* so, const char* name)
 {
   if (!so || !so->handle)
     {
@@ -33,7 +33,7 @@ void* shared_object_get_symbol (shared_object_s* so, const char* name)
   return dlsym (so->handle, name);
 }
 /* --------------------------------------------------------- */
-void shared_object_close (shared_object_s* so)
+void os_shared_object_close (os_shared_object_s* so)
 {
   if (!so || !so->handle)
     {

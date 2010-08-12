@@ -1,14 +1,14 @@
-struct mutex_s_
+struct os_mutex_s_
 {
   pthread_mutex_t m_mutex;
 };
 /* ------------------------------------------------- */
-mutex_s* mutex_create (void)
+os_mutex_s* os_mutex_create (void)
 {
   int failed = 0;
-  mutex_s* m = 0;
+  os_mutex_s* m = 0;
   
-  m = (mutex_s*) malloc (sizeof (mutex_s));
+  m = (os_mutex_s*) malloc (sizeof (os_mutex_s));
   failed = (pthread_mutex_init (&m->m_mutex, NULL) != 0);
   if (failed)
     {
@@ -18,25 +18,19 @@ mutex_s* mutex_create (void)
   return m;
 }
 /* ------------------------------------------------- */
-void mutex_lock (mutex_s* mutex)
+void os_mutex_lock (os_mutex_s* mutex)
 {
-  if (!mutex)
-    {
-      return;
-    }
+  assert (mutex != NULL);
   pthread_mutex_lock (&mutex->m_mutex);
 }
 /* ------------------------------------------------- */
-void mutex_unlock (mutex_s* mutex)
+void os_mutex_unlock (os_mutex_s* mutex)
 {
-  if (!mutex)
-    {
-      return;
-    }
+  assert (mutex != NULL);
   pthread_mutex_unlock (&mutex->m_mutex);
 }
 /* ------------------------------------------------- */
-void mutex_destroy (mutex_s* mutex)
+void os_mutex_destroy (os_mutex_s* mutex)
 {
   if (!mutex)
     {
