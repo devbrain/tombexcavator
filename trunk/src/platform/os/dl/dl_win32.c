@@ -7,7 +7,7 @@ struct os_shared_object_s_
 /* --------------------------------------------------------- */
 os_shared_object_s* os_shared_object_open (const char* path)
 {
-  shared_object_s* result = 0;
+  os_shared_object_s* result = 0;
   shared_object_handle_t         h;
   if (!path)
     {
@@ -19,7 +19,7 @@ os_shared_object_s* os_shared_object_open (const char* path)
     {
       return 0;
     }
-  result = (shared_object_s*)malloc (sizeof (shared_object_s));
+  result = (os_shared_object_s*)malloc (sizeof (os_shared_object_s));
   result->handle = h;
   return result;
 }
@@ -30,7 +30,7 @@ void* os_shared_object_get_symbol (os_shared_object_s* so, const char* name)
     {
       return 0;
     }
-  return GetProcAddress (so->handle, name);
+  return (void*) GetProcAddress (so->handle, name);
 }
 /* --------------------------------------------------------- */
 void os_shared_object_close (os_shared_object_s* so)

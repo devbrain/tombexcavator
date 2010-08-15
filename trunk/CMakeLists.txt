@@ -34,10 +34,14 @@ TEST_BIG_ENDIAN (HAVE_BIG_ENDIAN)
 
 if (SDL_FOUND)
   set (HAVE_SDL 1)
+else ()
+  set (HAVE_SDL 0)
 endif ()
 
 if (Glib_FOUND)
   set (HAVE_GLIB 1)
+else ()
+  set (HAVE_GLIB 0)
 endif ()
 
 # -----------------------------------------------------

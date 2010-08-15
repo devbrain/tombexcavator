@@ -40,6 +40,9 @@
 #if defined(PREDEF_PLATFORM_WIN32)
 # if defined(DO_INCLUDE_NATIVE_FS) || defined(DO_INCLUDE_NATIVE_DL)
 #    include <windows.h>
+#    include <string.h>
+#    include "platform/unicode/unicode.h"
+#    include "platform/static_assert.h"
 # endif
 #elif defined(PREDEF_PLATFORM_UNIX)
 #  if defined(DO_INCLUDE_NATIVE_FS)

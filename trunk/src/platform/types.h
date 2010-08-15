@@ -50,7 +50,7 @@ __TE_DECLARE_TYPES (gint8 , guint8,
 		    gint64, guint64);
 #endif
 #else
-#error "Can not deduce proper platform types"
+#include "thirdparty/pstdint.h"
 #endif
 
 

@@ -1,10 +1,82 @@
 #ifndef __TE_CONFIG_H__
 #define __TE_CONFIG_H__
 
-#define TE_HAVE_BIG_ENDIAN ${HAVE_BIG_ENDIAN}
-#define TE_HAVE_STDINT_H   ${HAVE_STDINT_H}
-#define TE_HAVE_PTHREAD_H  ${HAVE_PTHREAD_H}
-#define TE_HAVE_SDL        ${HAVE_SDL}
-#define TE_HAVE_GLIB       ${HAVE_GLIB}
+#define ciTE_HAVE_BIG_ENDIAN ${HAVE_BIG_ENDIAN}
+#define ciTE_HAVE_STDINT_H   ${HAVE_STDINT_H}
+#define ciTE_HAVE_PTHREAD_H  ${HAVE_PTHREAD_H}
+#define ciTE_HAVE_SDL        ${HAVE_SDL}
+#define ciTE_HAVE_GLIB       ${HAVE_GLIB}
+
+/* -------------------------------------------------- */
+/* Big Endian                                                               */
+/* -------------------------------------------------- */
+
+#if defined(TE_HAVE_BIG_ENDIAN)
+#undef TE_HAVE_BIG_ENDIAN
+#endif
+
+#if defined(ciTE_HAVE_BIG_ENDIAN)
+#if (ciTE_HAVE_BIG_ENDIAN == 1)
+#define TE_HAVE_BIG_ENDIAN
+#endif
+#endif
+
+/* -------------------------------------------------- */
+/* STDINT                                                                     */
+/* -------------------------------------------------- */
+
+#if defined(TE_HAVE_STDINT_H )
+#undef TE_HAVE_STDINT_H 
+#endif
+
+#if defined(ciTE_HAVE_STDINT_H)
+#if (ciTE_HAVE_STDINT_H == 1)
+#define TE_HAVE_STDINT_H
+#endif 
+#endif
+
+/* -------------------------------------------------- */
+/* PTHREAD                                                                  */
+/* -------------------------------------------------- */
+
+#if defined(TE_HAVE_PTHREAD)
+#undef TE_HAVE_PTHREAD 
+#endif
+
+#if defined(ciTE_HAVE_PTHREAD)
+#if (ciTE_HAVE_PTHREAD == 1)
+#define TE_HAVE_PTHREAD
+#endif  
+#endif
+
+
+/* -------------------------------------------------- */
+/* SDL                                                                            */
+/* -------------------------------------------------- */
+
+#if defined(TE_HAVE_SDL )
+#undef TE_HAVE_SDL  
+#endif
+
+#if defined(ciTE_HAVE_SDL )
+#if (ciTE_HAVE_SDL == 1)
+#define TE_HAVE_SDL
+#endif  
+#endif
+
+/* -------------------------------------------------- */
+/* GLIB                                                                           */
+/* -------------------------------------------------- */
+
+#if defined(TE_HAVE_GLIB)
+#undef TE_HAVE_GLIB 
+#endif
+
+#if defined(ciTE_HAVE_GLIB)
+#if (ciTE_HAVE_GLIB == 1)
+#define TE_HAVE_GLIB
+#endif 
+#endif
+
 
 #endif

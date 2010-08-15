@@ -7,9 +7,9 @@
 #   define PLATFORM_API
 #else
 #   if defined(BUILD_PLATFORM)
-#      define PLATFORM_API DECLSPEC_EXPORT
+#      define PLATFORM_API TE_DECLSPEC_EXPORT
 #   else
-#      define PLATFORM_API DECLSPEC_IMPORT
+#      define PLATFORM_API TE_DECLSPEC_IMPORT
 #   endif
 #endif
 

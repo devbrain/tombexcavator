@@ -6,9 +6,9 @@ struct os_mutex_s_
 os_mutex_s* os_mutex_create (void)
 {
   int failed = 0;
-  mutex_s* m = 0;
+  os_mutex_s* m = 0;
   
-  m = (mutex_s*) malloc (sizeof (mutex_s));
+  m = (os_mutex_s*) malloc (sizeof (os_mutex_s));
   m->m_mutex = CreateMutex (NULL, FALSE, NULL);
   if (m->m_mutex = NULL)
     {

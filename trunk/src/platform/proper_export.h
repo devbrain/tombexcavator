@@ -3,35 +3,36 @@
 
 # if defined(__BEOS__) || defined(__HAIKU__)
 #  if defined(__GNUC__)
-#   define DECLSPEC_EXPORT __declspec(dllexport)
+#   define TE_DECLSPEC_EXPORT __declspec(dllexport)
 #  else
-#   define DECLSPEC_EXPORT __declspec(export)
+#   define TE_DECLSPEC_EXPORT __declspec(export)
 #  endif
-# elif defined(__WIN32__)
+# elif defined(__WIN32__) || defined(WIN32) 
 #  ifdef __BORLANDC__
-#    define DECLSPEC_EXPORT 
-#    define DECLSPEC_IMPORT	__declspec(dllimport)
+#    define TE_DECLSPEC_EXPORT 
+#    define TE_DECLSPEC_IMPORT	__declspec(dllimport)
 #  else
-#   define DECLSPEC_EXPORT	__declspec(dllexport)
+#   define TE_DECLSPEC_EXPORT	__declspec(dllexport)
+#   define TE_DECLSPEC_IMPORT	__declspec(dllimport)
 #  endif
 # elif defined(__OS2__)
 #  ifdef __WATCOMC__
-#    define DECLSPEC_EXPORT	__declspec(dllexport)
-#    define DECLSPEC_IMPORT
+#    define TE_DECLSPEC_EXPORT	__declspec(dllexport)
+#    define TE_DECLSPEC_IMPORT
 #  elif defined (__GNUC__) && __GNUC__ < 4
-#    define DECLSPEC_EXPORT    __declspec(dllexport)
-#    define DECLSPEC_IMPORT
+#    define TE_DECLSPEC_EXPORT    __declspec(dllexport)
+#    define TE_DECLSPEC_IMPORT
 #  else
-#   define DECLSPEC_EXPORT
-#   define DECLSPEC_IMPORT
+#   define TE_DECLSPEC_EXPORT
+#   define TE_DECLSPEC_IMPORT
 #  endif
 # else
 #  if defined(__GNUC__) && __GNUC__ >= 4
-#   define DECLSPEC_EXPORT	__attribute__ ((visibility("default")))
-#   define DECLSPEC_IMPORT
+#   define TE_DECLSPEC_EXPORT	__attribute__ ((visibility("default")))
+#   define TE_DECLSPEC_IMPORT
 #  else
-#   define DECLSPEC_EXPORT
-#   define DECLSPEC_IMPORT
+#   define TE_DECLSPEC_EXPORT
+#   define TE_DECLSPEC_IMPORT
 #  endif
 # endif
 
@@ -49,24 +50,24 @@
 
 #ifdef __SYMBIAN32__ 
 #ifndef EKA2 
-#undef DECLSPEC_IMPORT
-#define DECLSPEC_IMPORT
-#undef DECLSPEC_EXPORT
-#define DECLSPEC_EXPORT
+#undef TE_DECLSPEC_IMPORT
+#define TE_DECLSPEC_IMPORT
+#undef TE_DECLSPEC_EXPORT
+#define TE_DECLSPEC_EXPORT
 #elif !defined(__WINS__)
-#undef DECLSPEC_EXPORT
-#define DECLSPEC_EXPORT __declspec(dllexport)
+#undef TE_DECLSPEC_EXPORT
+#define TE_DECLSPEC_EXPORT __declspec(dllexport)
 #endif /* !EKA2 */
 #endif /* __SYMBIAN32__ */
 
 
 
-#if !defined(DECLSPEC_EXPORT)
-#error "DECLSPEC_EXPORT is undefined"
+#if !defined(TE_DECLSPEC_EXPORT)
+#error "TE_DECLSPEC_EXPORT is undefined"
 #endif
 
-#if !defined(DECLSPEC_IMPORT)
-#error "DECLSPEC_EXPORT is undefined"
+#if !defined(TE_DECLSPEC_IMPORT)
+#error "TE_DECLSPEC_EXPORT is undefined"
 #endif
 
 #if !defined(CALLSPEC)
