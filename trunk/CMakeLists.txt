@@ -135,6 +135,7 @@ include (build)
 
 set (build_modules 
   platform
+  archive
 )
 
 foreach (mdl ${build_modules})
