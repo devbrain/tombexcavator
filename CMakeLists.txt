@@ -1,83 +1,65 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required (VERSION 3.11)
 
-#
-# If the user specifies -DCMAKE_BUILD_TYPE on the command line, take their
-# definition
-# and dump it in the cache along with proper documentation, otherwise set
-# CMAKE_BUILD_TYPE
-# to Debug prior to calling PROJECT()
-#
-if (DEFINED CMAKE_BUILD_TYPE)
-  message ("Appling CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} from command line")
-  set (CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "Choose the type of
-build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug
-Release RelWithDebInfo MinSizeRel.")
-else ()
-   set (CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build,
-options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release
-RelWithDebInfo MinSizeRel.")
-endif ()
+project(nnpp)
 
-
-project (tomb_excavator)
-
+option(BUILD_SHARED_LIBS "Build shared library" ON)
 set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include (global)
+string(COMPARE EQUAL "${CMAKE_CFG_INTDIR}" "." IS_SINGLE_CONFIGURATION)
 
-message (STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
-message (STATUS "Build name: ${BUILDNAME}")
-
-include (config_flags)
-include (nowarn)
-include (build)
-
-enable_testing()
-
-# --------------------------------------------------------------
-# configure
-# --------------------------------------------------------------
-find_package (SDL)
-find_package (Qt4)
-
-if (SDL_FOUND)
-  OPTION (TOMB_EXCAVATOR_WITH_SDL "Use SDL" 1)
-  message (STATUS "SDL found. ${SDL_INCLUDE_DIR} ${SDL_LIBRARY}")
-else ()
-  message (STATUS "SDL support disabled")
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/cmake/conan/conan.cmake")
+  if (NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
+        message(STATUS "Downloading conan.cmake from https://github.com/memsharded/cmake-conan")
+        file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
+                "${CMAKE_BINARY_DIR}/conan.cmake"
+                SHOW_PROGRESS STATUS status)
+        message(STATUS "Download status = ${status}")
+  else ()
+        message (STATUS "Using existing ${CMAKE_BINARY_DIR}/conan.cmake")
+  endif ()
+  include(${CMAKE_BINARY_DIR}/conan.cmake)
+else()
+  include(${CMAKE_SOURCE_DIR}/cmake/conan/conan.cmake)
 endif ()
 
-if (QT4_FOUND)
-  OPTION (TOMB_EXCAVATOR_WITH_QT "Use QT" 1)
-  include(${QT_USE_FILE})
-  message (STATUS "QT found. ${QT_INCLUDE_DIR} ${QT_LIBRARIES}")
-else ()
-  message (STATUS "QT support disabled")
-endif ()
+conan_cmake_run(CONANFILE conanfile.txt 
+  BASIC_SETUP CMAKE_TARGETS
+  BUILD missing)
 
-configure_file (${CMAKE_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/config.h)
+conan_load_buildinfo ()
 
-# -------------------------------------------------------------
-set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+conan_basic_setup(NO_OUTPUT_DIRS)
 
-set (ONYX_ROOT ${CMAKE_SOURCE_DIR})
-set (ONYX_SRC  ${CMAKE_SOURCE_DIR}/src)
-set (ONYX_THIRDPARTY  ${ONYX_SRC}/thirdparty)
+# ===========================================================
+include(GenerateExportHeader)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads)
+find_package(Filesystem REQUIRED Experimental Final)
+# ===========================================================
 
-set           (ONYX_INCLUDE           ${ONYX_SRC}           ${ONYX_THIRDPARTY}
-${CMAKE_LIBRARY_OUTPUT_DIRECTORY} ${CMAKE_BINARY_DIR} ${SDL_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+# Organize unrelated targets to clean IDE hierarchy.
+set(DEPENDENCY_FOLDER "Dependencies")
 
-set (modules
-  westwood
+# This will also clean up the CMake ALL_BUILD, INSTALL, RUN_TESTS and ZERO_CHECK projects.
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER ${DEPENDENCY_FOLDER})
 
-  bsw
-  pict
-  thirdparty/expat
-  thirdparty/libz
-)
+# Output binary to predictable location.
+set(BINARY_OUT_DIR ${CMAKE_BINARY_DIR}/bin)
+set(LIB_OUT_DIR ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_OUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_OUT_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIB_OUT_DIR})
 
-foreach (module ${modules})
-  add_subdirectory(${ONYX_SRC}/${module} obj/${module})
-endforeach ()
+if (NOT IS_SINGLE_CONFIGURATION)
+    foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
+	    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIGU)
+	    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIGU} ${BINARY_OUT_DIR}/${OUTPUTCONFIG})
+	    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIGU} ${LIB_OUT_DIR}/${OUTPUTCONFIG})
+	    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIGU} ${LIB_OUT_DIR}/${OUTPUTCONFIG})
+    endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
+endif()
+# ===========================================================
+set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
+# ===========================================================
+add_subdirectory(ext)
 

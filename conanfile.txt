@@ -1,0 +1,8 @@
+[requires]
+  gtest/1.8.1@bincrafters/stable
+  libzip/1.5.2@bincrafters/stable
+  libarchive/3.4.0
+
+[generators]
+  cmake
+  

@@ -1,0 +1,15 @@
+get_filename_component(BSW_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+list(APPEND CMAKE_MODULE_PATH ${BSW_CMAKE_DIR})
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads)
+find_package(Filesystem REQUIRED Experimental Final)
+
+if(NOT TARGET nnpp::nnpp)
+    include(${CMAKE_CURRENT_LIST_DIR}/nnpp-targets.cmake)
+endif()
+
