@@ -33,3 +33,6 @@ target_link_libraries(shell PUBLIC
         bsw::bsw
 )
 
+add_dependencies(shell linenoise_ext vfs_ext)
+
+
