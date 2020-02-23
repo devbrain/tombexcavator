@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.11)
 
-project(nnpp)
+project(tombexcavator)
 
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -62,4 +62,6 @@ endif()
 set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
 # ===========================================================
 add_subdirectory(ext)
+add_subdirectory(src/shell)
+
 
