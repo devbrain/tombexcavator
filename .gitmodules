@@ -1,0 +1,4 @@
+[submodule "cmake-scripts"]
+	path = cmake-scripts
+	url = git@github.com:devbrain/cmake-scripts.git
+	branch = master
