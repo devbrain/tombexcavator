@@ -28,11 +28,9 @@ target_compile_features(shell PUBLIC cxx_std_17)
 
 target_link_libraries(shell PUBLIC
         Threads::Threads
-
-        vfs::vfs
-        bsw::bsw
+	vfs::vfs
 )
 
-add_dependencies(shell linenoise_ext vfs_ext)
+add_dependencies(shell linenoise_ext)
 
 

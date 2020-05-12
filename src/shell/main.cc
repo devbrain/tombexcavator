@@ -1,4 +1,7 @@
 #include <linenoise/linenoise.hpp>
+#include <vfs/api/system.hh>
+#include <bsw/logger/logger.hh>
+
 const auto path = "history.txt";
 
 
@@ -39,5 +42,9 @@ int main(int argc, char* argv[])
 // Save history
     linenoise::SaveHistory(path);
 
+    EVLOG_TRACE(EVLOG_ERROR, "Zopa", 1);
+
+
+    vfs::deinitialize();
     return 0;
 }
