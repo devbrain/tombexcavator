@@ -1,0 +1,9 @@
+#ifndef ARCHIVE_CONFIG_H__
+#define ARCHIVE_CONFIG_H__
+
+
+
+#cmakedefine ARCHIVE_ARCH_IS_BIG_ENDIAN
+#cmakedefine ARCHIVE_HAVE_INT64
+
+#endif
