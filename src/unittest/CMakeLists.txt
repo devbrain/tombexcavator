@@ -1,16 +1,22 @@
 # ------------------------------------------------------------------
 set(generic_src
-  main.cc
-  )
+        main.cc
+        md5.c
+        )
+
+set(generic_hdr
+        md5.h
+        )
 
 set(archive_src
-  archive/byte_order_test.cc
-  )
+        archive/byte_order_test.cc
+        archive/explode/explode_test.cc
+        )
 
 set(modules
-  generic
-  archive
-  )
+        generic
+        archive
+        )
 
 set(src)
 set(hdr)

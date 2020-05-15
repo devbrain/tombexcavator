@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.11)
 
-project(tombexcavator VERSION 0.0.1 LANGUAGES CXX)
+project(tombexcavator VERSION 0.0.1 LANGUAGES CXX C)
 
 
 set (CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_SOURCE_DIR}/cmake-scripts")

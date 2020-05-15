@@ -2,7 +2,7 @@
 #define ARCHIVE_BYTE_ORDER_HPP__
 
 
-#include <stdint.h>
+#include <cstdint>
 #include <archive/archive_config.h>
 #define ARCHIVE_HAVE_INT64
 namespace archive
