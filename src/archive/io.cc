@@ -104,6 +104,11 @@ namespace archive
         m_ptr += size;
     }
     // -------------------------------------------------------------
+    const unsigned char* inmem_input::data() const
+    {
+        return m_data + m_ptr;
+    }
+    // -------------------------------------------------------------
     offset_type inmem_input::tell()
     {
         return static_cast <offset_type> (m_ptr);

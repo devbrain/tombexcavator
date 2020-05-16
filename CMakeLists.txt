@@ -47,5 +47,6 @@ add_subdirectory(ext)
 add_subdirectory(src/shell)
 add_subdirectory(src/unittest)
 add_subdirectory(src/archive)
+add_subdirectory(src/providers)
 
 

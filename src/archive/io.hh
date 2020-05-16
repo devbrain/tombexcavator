@@ -7,6 +7,7 @@
 #include <vector>
 
 #include <sys/types.h>
+#include <archive/byte_order.hh>
 
 #include "archive/archive_api.h"
 
@@ -100,6 +101,7 @@ namespace archive
 	  virtual offset_type tell();
 	  virtual offset_type bytes_remains();
 	  virtual void seek(offset_type offset);
+	  const unsigned char* data() const;
   private:
 	  const unsigned char* m_data;
 	  const std::size_t    m_size;
@@ -137,6 +139,53 @@ namespace archive
 	  std::vector <char>& m_buff;
 	  std::size_t m_ptr;
   };
+  // =============================================================================
+  enum class endianity
+  {
+      BIG,
+      LITTLE
+  };
+
+  template <typename T, endianity e>
+  struct endian_data
+  {
+      static constexpr bool is_big_endian = e == endianity::BIG;
+      using value_type = T;
+
+      T data;
+  };
+
+  using be_uint16_t = endian_data<uint16_t, endianity::BIG>;
+  using be_uint32_t = endian_data<uint32_t, endianity::BIG>;
+  using be_uint64_t = endian_data<uint64_t, endianity::BIG>;
+
+  using le_uint16_t = endian_data<uint16_t, endianity::LITTLE>;
+  using le_uint32_t = endian_data<uint32_t, endianity::LITTLE>;
+  using le_uint64_t = endian_data<uint64_t, endianity::LITTLE>;
+
+  template <typename T>
+  input& operator >> (input& inp, T& val)
+  {
+     inp.read(val);
+     return inp;
+  }
+
+    template <typename T>
+    input& operator >> (input& inp, endian_data<T, endianity::BIG>& val)
+    {
+        inp.read(val.data);
+        val.data = byte_order::from_big_endian(val.data);
+        return inp;
+    }
+
+    template <typename T>
+    input& operator >> (input& inp, endian_data<T, endianity::LITTLE>& val)
+    {
+        inp.read(val.data);
+        val.data = byte_order::from_little_endian(val.data);
+        return inp;
+    }
+
 } // ns archive
 
 

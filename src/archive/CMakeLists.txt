@@ -31,11 +31,13 @@ set(generic_src
         archive.cc
         io.cc
         exceptions.cc
+        single_file_archive.cc
         )
 set(generic_hdr
         byte_order.hh
         io.hh
         exceptions.hh
+        single_file_archive.hh
         )
 
 set(modules generic explode)
@@ -79,7 +81,6 @@ target_include_directories(archive
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${PROJECT_ROOT}/include>
         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
-        PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         )
 
