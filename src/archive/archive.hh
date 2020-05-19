@@ -13,7 +13,6 @@ namespace archive
     protected:
         virtual ssize_t do_read  (void* buff, size_t len) = 0;
         bool seek (uint64_t pos, enum whence_type whence) override;
-        uint64_t m_pos;
     private:
         ssize_t read  (void* buff, size_t len) override ;
         ssize_t write (void* buff, size_t len) override ;
@@ -30,6 +29,8 @@ namespace archive
     // --------------------------------------------------------------------
     class ARCHIVE_API read_only_inode : public vfs::module::inode
     {
+    public:
+        explicit read_only_inode(vfs_inode_type type);
     protected:
         void load_stat(stats& output) override ;
         virtual read_only_inode* find_by_name(const char* name) = 0;
@@ -48,6 +49,7 @@ namespace archive
     class ARCHIVE_API read_only_fs : public vfs::module::filesystem
     {
     public:
+        read_only_fs(const std::string fstype);
         virtual read_only_inode* root(const std::string& params) = 0;
         virtual size_t max_name_length() = 0;
     private:

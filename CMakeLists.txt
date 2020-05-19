@@ -13,6 +13,8 @@ onyx_setup_conan(
   vfs/0.0.1@devbrain/stable
   bsw/0.0.1@devbrain/stable
   doctest/2.3.4@bincrafters/stable
+  chaiscript/6.1.0@devbrain/stable
+  nlohmann_json/3.7.3
   OPTIONS
   bsw:shared=True
   vfs:shared=True
@@ -30,10 +32,16 @@ find_package(Threads)
 set(BINARY_OUT_DIR ${CMAKE_BINARY_DIR}/bin)
 set(LIB_OUT_DIR ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_OUT_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_OUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BINARY_OUT_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIB_OUT_DIR})
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BINARY_OUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${BINARY_OUT_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${LIB_OUT_DIR})
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BINARY_OUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${BINARY_OUT_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${LIB_OUT_DIR})
 # ===========================================================
 set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
 # ===========================================================
@@ -41,6 +49,7 @@ set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
 find_package(bsw REQUIRED)
 find_package(doctest REQUIRED)
 find_package(vfs REQUIRED)
+find_package(chaiscript REQUIRED)
 
 # ===========================================================
 add_subdirectory(ext)
@@ -48,5 +57,6 @@ add_subdirectory(src/shell)
 add_subdirectory(src/unittest)
 add_subdirectory(src/archive)
 add_subdirectory(src/providers)
+add_subdirectory(src/thirdparty/docopt)
 
 

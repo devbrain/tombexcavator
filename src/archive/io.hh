@@ -21,8 +21,8 @@ namespace archive
     input ();
     virtual ~input ();
     virtual void read_buff (char* buffer, std::size_t size) = 0;
-    virtual offset_type tell () = 0;
-    virtual offset_type bytes_remains () = 0;
+    virtual offset_type tell () const = 0;
+    virtual offset_type bytes_remains () const = 0;
     virtual void seek (offset_type offset) = 0;
 
     template <typename T>
@@ -83,8 +83,8 @@ namespace archive
     ~file_input ();
 
     virtual void read_buff (char* buffer, std::size_t size);
-    virtual offset_type tell ();
-    virtual offset_type bytes_remains ();
+    virtual offset_type tell () const;
+    virtual offset_type bytes_remains () const;
     virtual void seek (offset_type offset);
 
   private:
@@ -98,10 +98,11 @@ namespace archive
 	  inmem_input(const unsigned char* data, std::size_t size);
 	  
 	  virtual void read_buff (char* buffer, std::size_t size);
-	  virtual offset_type tell();
-	  virtual offset_type bytes_remains();
+	  virtual offset_type tell() const;
+	  virtual offset_type bytes_remains() const;
 	  virtual void seek(offset_type offset);
 	  const unsigned char* data() const;
+	  std::size_t size() const noexcept ;
   private:
 	  const unsigned char* m_data;
 	  const std::size_t    m_size;

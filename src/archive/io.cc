@@ -47,7 +47,7 @@ namespace archive
         }
     }
     // -------------------------------------------------------------
-    offset_type file_input::tell()
+    offset_type file_input::tell() const
     {
         const long pos = ftell(m_file);
         if (pos < 0)
@@ -57,7 +57,7 @@ namespace archive
         return static_cast <offset_type> (pos);
     }
     // -------------------------------------------------------------
-    offset_type file_input::bytes_remains()
+    offset_type file_input::bytes_remains() const
     {
         offset_type current = tell();
         if (fseek(m_file, 0, SEEK_END) != 0)
@@ -65,7 +65,7 @@ namespace archive
             throw input_error();
         }
         offset_type end = tell();
-        seek(current);
+        const_cast<file_input*>(this)->seek(current);
         return static_cast <offset_type> (end - current);
     }
     // -------------------------------------------------------------
@@ -109,14 +109,19 @@ namespace archive
         return m_data + m_ptr;
     }
     // -------------------------------------------------------------
-    offset_type inmem_input::tell()
+    offset_type inmem_input::tell() const
     {
         return static_cast <offset_type> (m_ptr);
     }
     // -------------------------------------------------------------
-    offset_type inmem_input::bytes_remains()
+    offset_type inmem_input::bytes_remains() const
     {
         return static_cast <offset_type> (m_size) - static_cast <offset_type> (m_ptr);
+    }
+    // -------------------------------------------------------------
+    std::size_t inmem_input::size() const noexcept
+    {
+        return m_size;
     }
     // -------------------------------------------------------------
     void inmem_input::seek(offset_type offset)

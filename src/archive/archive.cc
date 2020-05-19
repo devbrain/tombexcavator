@@ -4,19 +4,13 @@
 namespace archive
 {
     read_only_file::read_only_file()
-    : m_pos(0)
     {
 
     }
     // -----------------------------------------------------------------------------
     ssize_t read_only_file::read  (void* buff, size_t len)
     {
-        auto rc = do_read(buff, len);
-        if (rc >= 0)
-        {
-            m_pos = m_pos + rc;
-        }
-        return rc;
+        return  do_read(buff, len);
     }
     // -----------------------------------------------------------------------------
     ssize_t read_only_file::write(void* , size_t )
@@ -31,7 +25,7 @@ namespace archive
     // -----------------------------------------------------------------------------
     uint64_t read_only_file::tell() const
     {
-        return m_pos;
+        return 0;
     }
     // -----------------------------------------------------------------------------
     bool read_only_file::truncate()
@@ -73,11 +67,22 @@ namespace archive
         return open_read_only();
     }
     // -----------------------------------------------------------------------------
+    read_only_inode::read_only_inode(vfs_inode_type type)
+    : vfs::module::inode(type)
+    {
+
+    }
+    // -----------------------------------------------------------------------------
     void read_only_inode::load_stat(stats&)
     {
 
     }
     // ==============================================================================
+    read_only_fs::read_only_fs(const std::string fstype)
+    :vfs::module::filesystem(fstype)
+    {
+
+    }
     vfs::module::inode* read_only_fs::load_root(const std::string& params)
     {
         return root(params);

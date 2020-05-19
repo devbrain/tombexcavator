@@ -1,5 +1,5 @@
-set (src main.cc)
-set (hdr)
+set (src main.cc eval.cc functions.cc)
+set (hdr eval.hh functions.hh)
 
 add_executable(shell ${src} ${hdr})
 
@@ -28,7 +28,9 @@ target_compile_features(shell PUBLIC cxx_std_17)
 
 target_link_libraries(shell PUBLIC
         Threads::Threads
-	vfs::vfs
+		vfs::vfs
+		te::docopt
+		chaiscript::chaiscript
 )
 
 add_dependencies(shell linenoise_ext)
