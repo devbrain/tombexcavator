@@ -4,6 +4,9 @@
 #include <vfs/api/vfs_module.h>
 #include <archive/archive_api.h>
 
+#include <bsw/warn/push.hh>
+#include <bsw/warn/dll_interface_base>
+
 namespace archive
 {
     class ARCHIVE_API read_only_file : public vfs::module::file
@@ -59,4 +62,6 @@ namespace archive
         bool is_readonly() const override ;
     };
 } // ns archive
+#include <bsw/warn/pop.hh>
 #endif
+

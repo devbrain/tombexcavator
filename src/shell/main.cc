@@ -1,5 +1,11 @@
 #include <iostream>
+
+#include <bsw/warn/push.hh>
+#if defined(_MSC_VER)
+#pragma warning(disable : 4244 4456 4100)
+#endif
 #include <linenoise/linenoise.hpp>
+#include <bsw/warn/pop.hh>
 #include <vfs/api/system.hh>
 #include <bsw/whereami.hh>
 #include <bsw/logger/logger.hh>
@@ -29,15 +35,6 @@ static const char USAGE[] =
 )";
 int main(int argc, char* argv[])
 {
-
-
-    std::map<std::string, docopt::value> args
-            = docopt::docopt(USAGE,
-                             { argv + 1, argv + argc },
-                             true,               // show help if requested
-                             "Naval Fate 2.0");  // version string
-
-
 
     auto my_bin_dir = core::get_exec_path().parent_path();
     std::cout << my_bin_dir << std::endl;

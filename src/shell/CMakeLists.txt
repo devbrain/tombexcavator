@@ -24,11 +24,17 @@ target_compile_definitions(shell
         NOMINMAX >
         )
 
+target_compile_options(shell PRIVATE
+        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+        -Wall>
+        $<$<CXX_COMPILER_ID:MSVC>: "/W4" "/bigobj" >)
+
 target_compile_features(shell PUBLIC cxx_std_17)
 
 target_link_libraries(shell PUBLIC
         Threads::Threads
 		vfs::vfs
+        te::archive
 		te::docopt
 		chaiscript::chaiscript
 )

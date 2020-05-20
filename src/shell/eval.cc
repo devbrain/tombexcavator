@@ -1,5 +1,6 @@
 #include "eval.hh"
 #include "functions.hh"
+#define CHAISCRIPT_NO_THREADS
 #include <chaiscript/chaiscript.hpp>
 namespace detail
 {

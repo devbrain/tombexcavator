@@ -11,7 +11,7 @@ include("onyx")
 onyx_setup_conan(
   REQUIRES
   vfs/0.0.1@devbrain/stable
-  bsw/0.0.1@devbrain/stable
+  bsw/0.0.1-1@devbrain/stable
   doctest/2.3.4@bincrafters/stable
   chaiscript/6.1.0@devbrain/stable
   nlohmann_json/3.7.3
