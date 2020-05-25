@@ -26,21 +26,31 @@ set (explode_hdr
         explode/unlzexe.hh
         explode/knowledge_dynamics.hh
         )
+set (lodepng_src
+        thirdparty/lodepng/lodepng.cpp
+        )
+
+set(lodepng_hdr
+        thirdparty/lodepng/lodepng.h
+        )
 
 set(generic_src
         archive.cc
         io.cc
         exceptions.cc
         single_file_archive.cc
+        output.cc
         )
 set(generic_hdr
         byte_order.hh
         io.hh
         exceptions.hh
         single_file_archive.hh
+
+        output.hh
         )
 
-set(modules generic explode)
+set(modules generic explode lodepng)
 
 set(src)
 set(hdr)

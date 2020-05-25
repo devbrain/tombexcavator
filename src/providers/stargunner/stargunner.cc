@@ -2,11 +2,10 @@
 // Created by igor on 16/05/2020.
 //
 
-
+#include <iostream>
 #include <bsw/errors.hh>
 #include <set>
 #include <cstring>
-#include <iostream>
 #include <archive/io.hh>
 #include <archive/exceptions.hh>
 #include <archive/byte_order.hh>
@@ -79,7 +78,7 @@ namespace stargunner
 
             input >> unknown >> size;
             auto offset = input.tell();
-            std::cout << name << std::endl;
+        //    std::cout << name << std::endl;
             bool valid = false;
             if (size.data > 4)
             {
@@ -268,5 +267,40 @@ namespace stargunner
     {
         return m_fat.find(name)->second;
     }
-
+    // ======================================================================================
+    std::vector<std::vector<int16_t >> load_animation_sequences(archive::input& input)
+    {
+        archive::le_uint32_t sprites, data_size;
+        input >> sprites >> data_size;
+        std::vector<uint32_t> offsets(sprites.data);
+        size_t sz = 0;
+        for (std::size_t i=0; i<offsets.size(); i++)
+        {
+            archive::le_uint32_t size;
+            input >> size;
+            offsets[i] = size.data;
+        }
+        offsets.push_back(data_size.data);
+        std::vector<std::vector<int16_t >> res;
+        size_t start = input.tell();
+        for (uint32_t i=0; i<sprites.data; i++)
+        {
+            uint32_t start_offset = offsets[i];
+            input.seek(start + start_offset);
+            std::vector<int16_t> group;
+            while (true)
+            {
+                archive::le_int16_t idx;
+                input >> idx;
+                int16_t value = idx.data;
+                if (value == -1)
+                {
+                    break;
+                }
+                group.push_back(value);
+            }
+            res.push_back(group);
+        }
+        return res;
+    }
 } // ns stargunner

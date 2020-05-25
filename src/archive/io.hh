@@ -159,10 +159,16 @@ namespace archive
   using be_uint16_t = endian_data<uint16_t, endianity::BIG>;
   using be_uint32_t = endian_data<uint32_t, endianity::BIG>;
   using be_uint64_t = endian_data<uint64_t, endianity::BIG>;
+  using be_int16_t = endian_data<uint16_t, endianity::BIG>;
+  using be_int32_t = endian_data<uint32_t, endianity::BIG>;
+  using be_int64_t = endian_data<uint64_t, endianity::BIG>;
 
   using le_uint16_t = endian_data<uint16_t, endianity::LITTLE>;
   using le_uint32_t = endian_data<uint32_t, endianity::LITTLE>;
   using le_uint64_t = endian_data<uint64_t, endianity::LITTLE>;
+  using le_int16_t = endian_data<uint16_t, endianity::LITTLE>;
+  using le_int32_t = endian_data<uint32_t, endianity::LITTLE>;
+  using le_int64_t = endian_data<uint64_t, endianity::LITTLE>;
 
   template <typename T>
   input& operator >> (input& inp, T& val)

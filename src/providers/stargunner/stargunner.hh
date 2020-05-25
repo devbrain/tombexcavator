@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <archive/archive.hh>
+#include <archive/io.hh>
 #include <archive/single_file_archive.hh>
 #include <mio/mio.hpp>
 
@@ -29,8 +30,6 @@ namespace stargunner
         const std::byte* m_stream;
     };
 
-
-
     class dlt_archive
     {
     public:
@@ -42,7 +41,9 @@ namespace stargunner
         mio::mmap_source m_source;
         std::map<std::string, fat_entry> m_fat;
     };
-};
+
+    std::vector<std::vector<int16_t >> load_animation_sequences(archive::input& input);
+}
 
 
 #endif //TOMBEXCAVATOR_STARGUNNER_HH

@@ -1,1 +1,2 @@
 add_subdirectory(stargunner)
+add_subdirectory(mystic_towers)

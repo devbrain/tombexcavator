@@ -1,7 +1,9 @@
 cmake_minimum_required (VERSION 3.11)
 
-project(tombexcavator VERSION 0.0.1 LANGUAGES CXX C)
+find_package (Python3 REQUIRED)
 
+
+project(tombexcavator VERSION 0.0.1 LANGUAGES CXX C)
 
 set (CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_SOURCE_DIR}/cmake-scripts")
 
@@ -13,7 +15,6 @@ onyx_setup_conan(
   vfs/0.0.1@devbrain/stable
   bsw/0.0.1-1@devbrain/stable
   doctest/2.3.4@bincrafters/stable
-  chaiscript/6.1.0@devbrain/stable
   nlohmann_json/3.7.3
   OPTIONS
   bsw:shared=True
@@ -46,16 +47,16 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${LIB_OUT_DIR})
 set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
 # ===========================================================
 
+
 find_package(bsw REQUIRED)
 find_package(doctest REQUIRED)
 find_package(vfs REQUIRED)
-find_package(chaiscript REQUIRED)
 
 # ===========================================================
 add_subdirectory(ext)
-add_subdirectory(src/shell)
 add_subdirectory(src/unittest)
 add_subdirectory(src/archive)
+add_subdirectory(src/extractor)
 add_subdirectory(src/providers)
 add_subdirectory(src/thirdparty/docopt)
 
