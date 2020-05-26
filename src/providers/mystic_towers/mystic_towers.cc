@@ -42,4 +42,14 @@ namespace mystic
     {
         return m_fat;
     }
-}
+    // ---------------------------------------------------------------------
+    std::vector<std::byte> dat_archive::read(const fat_entry& fe) const
+    {
+        std::vector<std::byte> out (fe.size);
+        archive::inmem_input input(reinterpret_cast<const unsigned char*>(m_source.data()), m_source.size());
+        input.seek(fe.offset);
+        input.read_buff((char*)out.data(), fe.size);
+        return out;
+    }
+} // ns mystic
+

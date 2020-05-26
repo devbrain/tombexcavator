@@ -23,6 +23,7 @@ namespace mystic
     public:
         dat_archive (const std::string& path);
         const std::map<std::string, fat_entry>& fat () const;
+        std::vector<std::byte> read(const fat_entry& fe) const;
     private:
         mio::mmap_source m_source;
         std::map<std::string, fat_entry> m_fat;
