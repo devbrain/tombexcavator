@@ -1,7 +1,7 @@
 #include <stdexcept>
-#include <archive/archive.hh>
+#include <providers/read_only_fs.hh>
 
-namespace archive
+namespace provider
 {
     read_only_file::read_only_file()
     {
@@ -68,7 +68,7 @@ namespace archive
     }
     // -----------------------------------------------------------------------------
     read_only_inode::read_only_inode(vfs_inode_type type)
-    : vfs::module::inode(type)
+            : vfs::module::inode(type)
     {
 
     }
@@ -79,13 +79,14 @@ namespace archive
     }
     // ==============================================================================
     read_only_fs::read_only_fs(const std::string fstype)
-    :vfs::module::filesystem(fstype)
+            :vfs::module::filesystem(fstype)
     {
 
     }
+    // ---------------------------------------------------------------------------
     vfs::module::inode* read_only_fs::load_root(const std::string& params)
     {
-        return root(params);
+        return this->root(params);
     }
     // --------------------------------------------------------------------------
     int read_only_fs::sync()

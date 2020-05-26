@@ -93,6 +93,13 @@ namespace archive
               m_ptr(0)
     {
     }
+    inmem_input::inmem_input(inmem_input&& other)
+    : m_data(other.m_data),
+      m_size(other.m_size),
+      m_ptr(other.m_ptr)
+    {
+        other.m_data = nullptr;
+    }
     // -------------------------------------------------------------
     void inmem_input::read_buff(char* buffer, std::size_t size)
     {

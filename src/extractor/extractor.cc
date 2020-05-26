@@ -79,10 +79,6 @@ int main(int argc, char* argv[])
                              { argv + 1, argv + argc },
                              true,               // show help if requested
                              "extractor 1.0");  // version string
-    for(auto const& arg : args)
-    {
-        std::cout << arg.first << ":" <<  arg.second << std::endl;
-    }
     auto my_dir = core::get_exec_path().parent_path();
     stdfs::path modules_dir = my_dir;
     if (args["--modules-dir"])

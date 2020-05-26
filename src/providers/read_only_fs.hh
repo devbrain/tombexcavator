@@ -1,15 +1,15 @@
-#ifndef ARCHIVE_HH__
-#define ARCHIVE_HH__
+#ifndef PROVIDER_READ_ONLY_FS_HH
+#define PROVIDER_READ_ONLY_FS_HH
 
 #include <vfs/api/vfs_module.h>
-#include <archive/archive_api.h>
+#include <providers/provider_api.h>
 
 #include <bsw/warn/push.hh>
 #include <bsw/warn/dll_interface_base>
 
-namespace archive
+namespace provider
 {
-    class ARCHIVE_API read_only_file : public vfs::module::file
+    class PROVIDER_API read_only_file : public vfs::module::file
     {
     public:
         read_only_file();
@@ -23,14 +23,14 @@ namespace archive
         bool truncate() override;
     };
     // --------------------------------------------------------------------
-    class ARCHIVE_API dir_iterator : public vfs::module::directory_iterator
+    class PROVIDER_API dir_iterator : public vfs::module::directory_iterator
     {
     protected:
         virtual bool has_next() = 0;
         virtual std::string next() = 0;
     };
     // --------------------------------------------------------------------
-    class ARCHIVE_API read_only_inode : public vfs::module::inode
+    class PROVIDER_API read_only_inode : public vfs::module::inode
     {
     public:
         explicit read_only_inode(vfs_inode_type type);
@@ -49,14 +49,14 @@ namespace archive
         vfs::module::file* open_file(open_mode_type mode_type) override ;
     };
     // --------------------------------------------------------------------
-    class ARCHIVE_API read_only_fs : public vfs::module::filesystem
+    class PROVIDER_API read_only_fs : public vfs::module::filesystem
     {
     public:
         read_only_fs(const std::string fstype);
         virtual read_only_inode* root(const std::string& params) = 0;
         virtual size_t max_name_length() = 0;
     private:
-        vfs::module::inode* load_root(const std::string& params) override ;
+        vfs::module::inode* load_root(const std::string& params) override;
         int sync() override ;
         int sync_inode(vfs::module::inode* inod) override ;
         bool is_readonly() const override ;

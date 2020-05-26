@@ -2,7 +2,6 @@
 // Created by igor on 16/05/2020.
 //
 
-#include <iostream>
 #include <bsw/errors.hh>
 #include <set>
 #include <cstring>
@@ -39,6 +38,11 @@ namespace stargunner
     bool fat_entry::is_compressed() const noexcept
     {
         return m_out_size != m_size;
+    }
+    // ----------------------------------------------------------------------------------------------
+    bool fat_entry::is_directory() const noexcept
+    {
+        return !m_stream;
     }
     // ----------------------------------------------------------------------------------------------
     const std::byte* fat_entry::stream () const noexcept
@@ -117,9 +121,9 @@ namespace stargunner
         return "";
     }
     // ---------------------------------------------------------------------------------------------------------
-    archive::file_allocation_table<fat_entry> dlt_archive::scan(const std::string& directory) const
+    std::map<std::string, fat_entry> dlt_archive::scan(const std::string& directory) const
     {
-        archive::file_allocation_table<fat_entry> res;
+        std::map<std::string, fat_entry> res;
         std::set<std::string> subdirs;
         for (const auto& kv : m_fat)
         {
@@ -131,7 +135,7 @@ namespace stargunner
             auto sep_idx = name.find("\\");
             if (sep_idx == std::string::npos)
             {
-                res.put(name, kv.second, false);
+                res.insert(std::make_pair(name, kv.second));
             }
             else
             {
@@ -139,7 +143,7 @@ namespace stargunner
                 if (subdirs.find(dir_name) == subdirs.end())
                 {
                     subdirs.insert(dir_name);
-                    res.put(dir_name, fat_entry(), true);
+                    res.insert(std::make_pair(dir_name, fat_entry()));
                 }
             }
         }

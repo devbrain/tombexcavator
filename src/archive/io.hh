@@ -96,6 +96,7 @@ namespace archive
   {
   public:
 	  inmem_input(const unsigned char* data, std::size_t size);
+	  inmem_input(inmem_input&& other);
 	  
 	  virtual void read_buff (char* buffer, std::size_t size);
 	  virtual offset_type tell() const;

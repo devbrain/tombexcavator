@@ -35,18 +35,14 @@ set(lodepng_hdr
         )
 
 set(generic_src
-        archive.cc
         io.cc
         exceptions.cc
-        single_file_archive.cc
         output.cc
         )
 set(generic_hdr
         byte_order.hh
         io.hh
         exceptions.hh
-        single_file_archive.hh
-
         output.hh
         )
 

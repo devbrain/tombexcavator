@@ -7,9 +7,8 @@
 
 #include <vector>
 #include <string>
-#include <archive/archive.hh>
+#include <map>
 #include <archive/io.hh>
-#include <archive/single_file_archive.hh>
 #include <mio/mio.hpp>
 
 namespace stargunner
@@ -21,6 +20,7 @@ namespace stargunner
         fat_entry() noexcept;
         fat_entry(const fat_entry&) = default;
         bool is_compressed() const noexcept ;
+        bool is_directory() const noexcept ;
         std::size_t size() const noexcept ;
         std::size_t out_size() const noexcept ;
         const std::byte* stream () const noexcept ;
@@ -34,7 +34,7 @@ namespace stargunner
     {
     public:
         dlt_archive (const std::string& path);
-        archive::file_allocation_table<fat_entry> scan(const std::string& directory) const;
+        std::map<std::string, fat_entry> scan(const std::string& directory) const;
         static void decompress(const fat_entry& fe, std::vector<std::byte>& out);
         fat_entry get_entry(const std::string& name);
     private:
