@@ -38,12 +38,20 @@ set(generic_src
         io.cc
         exceptions.cc
         output.cc
+        tile_sheet.cc
+        coord.cc
+        palette.cc
+        canvas.cc
         )
 set(generic_hdr
         byte_order.hh
         io.hh
         exceptions.hh
         output.hh
+        tile_sheet.hh
+        coord.hh
+        palette.hh
+        canvas.hh
         )
 
 set(modules generic explode lodepng)

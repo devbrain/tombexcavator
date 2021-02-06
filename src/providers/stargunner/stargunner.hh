@@ -8,8 +8,10 @@
 #include <vector>
 #include <string>
 #include <map>
+
 #include <archive/io.hh>
 #include <mio/mio.hpp>
+#include <archive/tile_sheet.hh>
 
 namespace stargunner
 {
@@ -34,15 +36,22 @@ namespace stargunner
     {
     public:
         dlt_archive (const std::string& path);
+
         std::map<std::string, fat_entry> scan(const std::string& directory) const;
         static void decompress(const fat_entry& fe, std::vector<std::byte>& out);
         fat_entry get_entry(const std::string& name);
+
     private:
         mio::mmap_source m_source;
         std::map<std::string, fat_entry> m_fat;
     };
 
     std::vector<std::vector<int16_t >> load_animation_sequences(archive::input& input);
+    archive::palette load_palette(archive::input& input);
+    archive::tile_sheet load_tile_sheet(const std::vector<std::vector<int16_t >>& groups, const archive::palette& pal,
+                                        archive::input& input);
+    std::vector <int> load_frames(archive::input& input);
+    void dump_sprites(archive::input& input, const archive::palette& pal, const std::string& oname);
 }
 
 

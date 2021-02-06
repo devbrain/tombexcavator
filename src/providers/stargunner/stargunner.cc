@@ -2,12 +2,16 @@
 // Created by igor on 16/05/2020.
 //
 
-#include <bsw/errors.hh>
+
 #include <set>
 #include <cstring>
+#include <iostream>
+#include <sstream>
+
 #include <archive/io.hh>
 #include <archive/exceptions.hh>
 #include <archive/byte_order.hh>
+#include <bsw/errors.hh>
 
 #include "stargunner.hh"
 
@@ -292,19 +296,147 @@ namespace stargunner
             uint32_t start_offset = offsets[i];
             input.seek(start + start_offset);
             std::vector<int16_t> group;
-            while (true)
+            archive::le_int16_t flag, num;
+            input >> flag >> num;
+            std::cout << flag.data << " ::: (" << num.data << ") ";
+            for (int16_t j=0; j<num.data; j++)
             {
-                archive::le_int16_t idx;
-                input >> idx;
-                int16_t value = idx.data;
-                if (value == -1)
-                {
-                    break;
-                }
+                archive::le_uint16_t frame;
+                input >> frame;
+                uint16_t value = frame.data;
                 group.push_back(value);
+                std::cout << value << " ";
             }
+            std::cout << std::endl;
             res.push_back(group);
         }
         return res;
+    }
+    // ==============================================================================
+    archive::palette load_palette(archive::input& input)
+    {
+        unsigned char data[768];
+        input.read_buff((char*)data, 768);
+        return archive::palette(data, sizeof(data), true);
+    }
+    // --------------------------------------------------------------------------------------------------------------
+    struct spd_descriptor
+    {
+        archive::le_uint32_t sprite_index;
+        archive::le_uint32_t w;
+        archive::le_uint32_t h;
+        archive::le_int32_t unk1;
+        archive::le_int32_t unk2;
+        archive::le_int32_t unk3;
+        archive::le_int32_t unk4;
+        archive::le_uint32_t offset_start;
+        archive::le_uint32_t unk5;
+        archive::le_uint32_t offset_end;
+    };
+    archive::input& operator >> (archive::input& inp, spd_descriptor& d)
+    {
+        inp >> d.sprite_index >> d.w >> d.h >> d.unk1 >> d.unk2 >> d.unk3 >> d.unk4
+        >> d.offset_start >> d.unk5 >> d.offset_end;
+        return inp;
+    }
+
+    struct sprite_data
+    {
+        uint32_t w;
+        uint32_t h;
+        uint32_t offset;
+    };
+    std::vector <int> load_frames(archive::input& input)
+    {
+        archive::le_uint32_t dummy;
+        archive::le_uint32_t payload_size;
+        archive::le_uint32_t num_descriptors;
+        input >> dummy >> payload_size >> num_descriptors;
+
+        std::vector <int> res;
+
+        for (uint32_t i=0; i<num_descriptors.data; i++)
+        {
+            spd_descriptor spd;
+            input >> spd;
+            res.push_back(spd.sprite_index.data);
+        }
+        return res;
+    }
+
+    void dump_sprites(archive::input& input, const archive::palette& pal, const std::string& oname)
+    {
+        archive::le_uint32_t dummy;
+        archive::le_uint32_t payload_size;
+        archive::le_uint32_t num_descriptors;
+        input >> dummy >> payload_size >> num_descriptors;
+        std::map<int16_t, sprite_data> sprites;
+
+        for (uint32_t i=0; i<num_descriptors.data; i++)
+        {
+            spd_descriptor spd;
+            input >> spd;
+            sprites.insert(std::make_pair((int16_t)spd.sprite_index.data,
+                                          sprite_data{spd.w.data, spd.h.data, spd.offset_start.data}));
+        }
+        auto offset_to_payload = input.tell();
+
+        for (const auto& kv : sprites)
+        {
+            std::vector<unsigned char> pixels (kv.second.w * kv.second.h);
+            archive::canvas canvas(kv.second.w, kv.second.h);
+            canvas.pal() = pal;
+            input.seek(kv.second.offset + offset_to_payload);
+            input.read_buff((char*)canvas.data(), canvas.size());
+
+            std::ostringstream os;
+            os << oname << "/" << kv.first << ".png";
+            bool rc = canvas.save_to_png(os.str());
+
+        }
+
+    }
+
+    archive::tile_sheet load_tile_sheet(const std::vector<std::vector<int16_t >>& groups, const archive::palette& pal,
+                                        archive::input& input)
+    {
+        archive::le_uint32_t dummy;
+        archive::le_uint32_t payload_size;
+        archive::le_uint32_t num_descriptors;
+        input >> dummy >> payload_size >> num_descriptors;
+        std::map<int16_t, sprite_data> sprites;
+
+        for (uint32_t i=0; i<num_descriptors.data; i++)
+        {
+            spd_descriptor spd;
+            input >> spd;
+            sprites.insert(std::make_pair((int16_t)spd.sprite_index.data,
+                    sprite_data{spd.w.data, spd.h.data, spd.offset_start.data}));
+        }
+        auto offset_to_payload = input.tell();
+        archive::tile_sheet_builder builder;
+        builder.add_palette(pal);
+        for (const auto& g : groups)
+        {
+            builder.start_group();
+            for (auto gidx : g)
+            {
+                auto itr = sprites.find(gidx);
+                if (itr == sprites.end())
+                {
+                   // ENFORCE(itr != sprites.end());
+                    continue;
+                }
+
+
+                std::vector<unsigned char> pixels (itr->second.w * itr->second.h);
+                input.seek(itr->second.offset + offset_to_payload);
+                input.read_buff((char*)pixels.data(), pixels.size());
+
+                builder.add_sprite(std::move(pixels), itr->second.w, itr->second.h);
+            }
+            builder.end_group();
+        }
+        return builder.build();
     }
 } // ns stargunner

@@ -63,3 +63,4 @@ target_link_libraries(provider PUBLIC archive)
 
 add_subdirectory(stargunner)
 add_subdirectory(mystic_towers)
+add_subdirectory(archon_ultra)
