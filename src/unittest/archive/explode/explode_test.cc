@@ -4,11 +4,10 @@
 #include <stdexcept>
 #include <doctest.h>
 
-#include "archive/io.hh"
-#include "archive/explode/exe_file.hh"
-#include "archive/explode/unpklite.hh"
-#include "archive/explode/unlzexe.hh"
-#include "archive/explode/knowledge_dynamics.hh"
+#include "formats/mzexplode/exe_file.hh"
+#include "formats/mzexplode/unpklite.hh"
+#include "formats/mzexplode/unlzexe.hh"
+#include "formats/mzexplode/knowledge_dynamics.hh"
 
 #include "unittest/md5.h"
 
@@ -56,11 +55,11 @@ template <class DECODER>
 struct tester;
 
 template <>
-struct tester < archive::explode::unpklite >
+struct tester < formats::explode::unpklite >
 {
-	static void test(archive::explode::input_exe_file& iexe)
+	static void test(formats::explode::input_exe_file& iexe)
 	{
-		if (!archive::explode::unpklite::accept (iexe))
+		if (!formats::explode::unpklite::accept (iexe))
 		{
 			throw std::runtime_error("not a PKLITE");
 		}
@@ -68,11 +67,11 @@ struct tester < archive::explode::unpklite >
 };
 
 template <>
-struct tester < archive::explode::unlzexe >
+struct tester < formats::explode::unlzexe >
 {
-	static void test(archive::explode::input_exe_file& iexe)
+	static void test(formats::explode::input_exe_file& iexe)
 	{
-		if (!archive::explode::unlzexe::accept (iexe))
+		if (!formats::explode::unlzexe::accept (iexe))
 		{
 			throw std::runtime_error("not a LZEXE");
 		}
@@ -80,11 +79,11 @@ struct tester < archive::explode::unlzexe >
 };
 
 template <>
-struct tester < archive::explode::knowledge_dynamics >
+struct tester < formats::explode::knowledge_dynamics >
 {
-	static void test(archive::explode::input_exe_file& iexe)
+	static void test(formats::explode::input_exe_file& iexe)
 	{
-		if (!archive::explode::knowledge_dynamics::accept(iexe))
+		if (!formats::explode::knowledge_dynamics::accept(iexe))
 		{
 			throw std::runtime_error("not a Knowledge Dynaimcs");
 		}
@@ -95,16 +94,16 @@ struct tester < archive::explode::knowledge_dynamics >
 template <typename DECODER>
 static void eval_digest(const unsigned char* data, std::size_t length, md5_digest& digest, std::vector<char>& out_buff)
 {
-	archive::inmem_input input(data, length);
-	archive::explode::input_exe_file iexe(input);
+	formats::memory_input input((char*)data, length);
+	formats::explode::input_exe_file iexe(input);
 
 	tester <DECODER>::test(iexe);
 
 	DECODER decoder(iexe);
-	archive::explode::full_exe_file fo(decoder.decomp_size());
+	formats::explode::full_exe_file fo(decoder.decomp_size());
 	decoder.unpack(fo);
 
-	archive::inmem_output out(out_buff);
+	formats::memory_output out(out_buff);
 	fo.write(out);
 
 
@@ -143,9 +142,9 @@ static bool do_test(const unsigned char* data, std::size_t length, const char* e
 #define STRINGIZE_HELPER(exp) #exp
 #define STRINGIZE(exp) STRINGIZE_HELPER(exp)
 
-#define PKLITE_TEST(NAME) do_test <archive::explode::unpklite>(CONCATENATE (data::pklite_, NAME), CONCATENATE(CONCATENATE (data::pklite_, NAME), _len), CONCATENATE(digest_, CONCATENATE (pklite_, NAME)))
-#define LZEXE_TEST(NAME) do_test <archive::explode::unlzexe>(CONCATENATE (data::z, NAME), CONCATENATE(CONCATENATE (data::z, NAME), _len), CONCATENATE(digest_, CONCATENATE (lzexe_, NAME)))
-#define KD_TEST(NAME) do_test <archive::explode::knowledge_dynamics>(CONCATENATE (data::knowledge_dynamics_, NAME), CONCATENATE(CONCATENATE (data::knowledge_dynamics_, NAME), _len), CONCATENATE(digest_, CONCATENATE (knowledge_dynamics_, NAME)))
+#define PKLITE_TEST(NAME) do_test <formats::explode::unpklite>(CONCATENATE (data::pklite_, NAME), CONCATENATE(CONCATENATE (data::pklite_, NAME), _len), CONCATENATE(digest_, CONCATENATE (pklite_, NAME)))
+#define LZEXE_TEST(NAME) do_test <formats::explode::unlzexe>(CONCATENATE (data::z, NAME), CONCATENATE(CONCATENATE (data::z, NAME), _len), CONCATENATE(digest_, CONCATENATE (lzexe_, NAME)))
+#define KD_TEST(NAME) do_test <formats::explode::knowledge_dynamics>(CONCATENATE (data::knowledge_dynamics_, NAME), CONCATENATE(CONCATENATE (data::knowledge_dynamics_, NAME), _len), CONCATENATE(digest_, CONCATENATE (knowledge_dynamics_, NAME)))
 
 TEST_CASE("mz-explode PKLITE tests") {
 	REQUIRE(PKLITE_TEST(112));

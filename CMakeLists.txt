@@ -1,31 +1,14 @@
 cmake_minimum_required (VERSION 3.11)
 
-find_package (Python3 REQUIRED)
-
-
 project(tombexcavator VERSION 0.0.1 LANGUAGES CXX C)
 
-set (CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_SOURCE_DIR}/cmake-scripts")
-
-
-include("onyx")
-
-onyx_setup_conan(
-  REQUIRES
-  vfs/0.0.1@devbrain/stable
-  bsw/0.0.1-1@devbrain/stable
-  doctest/2.3.4@bincrafters/stable
-  nlohmann_json/3.7.3
-  OPTIONS
-  bsw:shared=True
-  vfs:shared=True
-)
+set (CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_SOURCE_DIR}/cmake")
 
 # ===========================================================
 include(GenerateExportHeader)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads)
-
+find_package(Filesystem)
 # ===========================================================
 
 
@@ -45,19 +28,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${BINARY_OUT_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${LIB_OUT_DIR})
 # ===========================================================
 set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
-# ===========================================================
-
-
-find_package(bsw REQUIRED)
-find_package(doctest REQUIRED)
-find_package(vfs REQUIRED)
-
+set (PROJECT_INCLUDE ${CMAKE_SOURCE_DIR}/src)
 # ===========================================================
 add_subdirectory(ext)
+add_subdirectory(src/formats)
 add_subdirectory(src/unittest)
-add_subdirectory(src/archive)
-add_subdirectory(src/extractor)
-add_subdirectory(src/providers)
-add_subdirectory(src/thirdparty/docopt)
 
 

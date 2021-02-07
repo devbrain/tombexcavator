@@ -9,7 +9,6 @@ set(generic_hdr
         )
 
 set(archive_src
-        archive/byte_order_test.cc
         archive/explode/explode_test.cc
         )
 
@@ -43,7 +42,10 @@ endforeach ()
 
 add_executable(unittest ${src} ${hdr})
 
-target_link_libraries(unittest PRIVATE doctest::doctest te::archive)
+target_link_libraries(unittest PRIVATE
+        tombexcavator-formats
+        thirdparty::doctest
+        )
 target_include_directories(unittest PRIVATE ${PROJECT_ROOT}/src)
 
 
