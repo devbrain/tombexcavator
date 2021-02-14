@@ -6,10 +6,10 @@
 
 #include <cstring>
 
-#include "formats/io/io.hh"
+#include "io.hh"
 #include "formats/exceptions.hh"
 
-namespace formats::io
+namespace formats::explode::mz::io
 {
     input::input()
     {

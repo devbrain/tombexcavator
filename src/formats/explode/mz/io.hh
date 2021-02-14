@@ -10,7 +10,7 @@
 
 #include <tombexcavator-formats_export.h>
 
-namespace formats::io
+namespace formats::explode::mz::io
 {
   typedef off_t offset_type;
 

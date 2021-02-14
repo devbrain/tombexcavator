@@ -36,7 +36,7 @@ namespace formats::explode::mz
 		m_file.read_buff (u.bytes, sizeof(m_header));
 		for (int i = 0; i < eMAX_HEADER_VAL; i++)
 		{
-			m_header[i] = io::byte_order::from_little_endian(m_header[i]);
+			m_header[i] = formats::io::byte_order::from_little_endian(m_header[i]);
 		}
 
 		uint16_t sig_ptr = inp[exe_file::INITIAL_IP];

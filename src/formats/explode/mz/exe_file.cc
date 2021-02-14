@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "formats/explode/mz/exe_file.hh"
-#include "formats/io/io.hh"
+#include "io.hh"
 #include "formats/exceptions.hh"
 #include "formats/io/byte_order.hh"
 
@@ -79,7 +79,7 @@ namespace formats::explode::mz
 
         for (int i = 0; i < MAX_HEADER_VAL; i++)
         {
-            m_header[i] = io::byte_order::from_little_endian(m_header[i]);
+            m_header[i] = formats::io::byte_order::from_little_endian(m_header[i]);
         }
 
         if ((m_header[SIGNATURE] != MSDOS_MAGIC) && (m_header[SIGNATURE] != MSDOS_MAGIC_1))
@@ -290,7 +290,7 @@ namespace formats::explode::mz
 
         for (int i = 0; i < MAX_HEADER_VAL; i++)
         {
-            new_header[i] = io::byte_order::to_little_endian(m_header[i]);
+            new_header[i] = formats::io::byte_order::to_little_endian(m_header[i]);
         }
 
         union
@@ -316,8 +316,8 @@ namespace formats::explode::mz
             std::vector<uint16_t> new_rel(relloc_entries * 2);
             for (std::size_t i = 0; i < relloc_entries; i++)
             {
-                const uint16_t rel = io::byte_order::to_little_endian(m_rellocs[i].rel);
-                const uint16_t seg = io::byte_order::to_little_endian(m_rellocs[i].seg);
+                const uint16_t rel = formats::io::byte_order::to_little_endian(m_rellocs[i].rel);
+                const uint16_t seg = formats::io::byte_order::to_little_endian(m_rellocs[i].seg);
                 new_rel[2 * i] = rel;
                 new_rel[2 * i + 1] = seg;
             }

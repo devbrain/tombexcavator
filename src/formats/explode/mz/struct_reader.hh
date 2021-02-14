@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "formats/io/io.hh"
+#include "io.hh"
 #include "formats/io/byte_order.hh"
 
 namespace formats::explode::mz
@@ -41,12 +41,12 @@ namespace formats::explode::mz
 
         operator uint32_t() const
         {
-            return io::byte_order::from_little_endian(data.eax);
+            return formats::io::byte_order::from_little_endian(data.eax);
         }
 
         operator uint16_t() const
         {
-            return io::byte_order::from_little_endian(data.r32.r16.ax);
+            return formats::io::byte_order::from_little_endian(data.r32.r16.ax);
         }
 
         operator uint8_t() const
@@ -86,7 +86,7 @@ namespace formats::explode::mz
         {
             uint16_t x;
             m_input.read(x);
-            return io::byte_order::from_little_endian(x);
+            return formats::io::byte_order::from_little_endian(x);
         }
         io::offset_type tell()
         {

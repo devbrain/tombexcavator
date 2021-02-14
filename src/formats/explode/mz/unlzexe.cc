@@ -5,7 +5,7 @@
 #include "formats/explode/mz/struct_reader.hh"
 #include "formats/exceptions.hh"
 
-static void build_rellocs_90(formats::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
+static void build_rellocs_90(formats::explode::mz::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
 {
     formats::explode::mz::byte_reader f(file);
     int16_t seg = 0;
@@ -25,7 +25,7 @@ static void build_rellocs_90(formats::io::input& file, std::vector<formats::expl
     //std::cout << "seg = " << std::hex << seg << std::endl;
 }
 // ----------------------------------------------------------------
-static void build_rellocs_91(formats::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
+static void build_rellocs_91(formats::explode::mz::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
 {
     int16_t seg = 0;
     int16_t offs = 0;
@@ -58,7 +58,7 @@ static void build_rellocs_91(formats::io::input& file, std::vector<formats::expl
     };
 }
 
-static uint32_t unpak_code(formats::explode::mz::output_exe_file& oexe, formats::io::input& input, uint32_t offset)
+static uint32_t unpak_code(formats::explode::mz::output_exe_file& oexe, formats::explode::mz::io::input& input, uint32_t offset)
 {
     input.seek(offset);
     formats::explode::mz::bit_reader bitstream(input);
@@ -300,7 +300,7 @@ namespace formats::explode::mz
 
         for (int i = 0; i < eHEADER_MAX; i++)
         {
-            m_header[i] = io::byte_order::from_little_endian(m_header[i]);
+            m_header[i] = formats::io::byte_order::from_little_endian(m_header[i]);
         }
 
         if (m_ver == 90)

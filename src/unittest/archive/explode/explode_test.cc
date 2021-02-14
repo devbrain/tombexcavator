@@ -94,7 +94,7 @@ struct tester < formats::explode::mz::knowledge_dynamics >
 template <typename DECODER>
 static void eval_digest(const unsigned char* data, std::size_t length, md5_digest& digest, std::vector<char>& out_buff)
 {
-	formats::io::inmem_input input((unsigned char*)data, length);
+	formats::explode::mz::io::inmem_input input((unsigned char*)data, length);
 	formats::explode::mz::input_exe_file iexe(input);
 
 	tester <DECODER>::test(iexe);
@@ -103,7 +103,7 @@ static void eval_digest(const unsigned char* data, std::size_t length, md5_diges
 	formats::explode::mz::full_exe_file fo(decoder.decomp_size());
 	decoder.unpack(fo);
 
-	formats::io::inmem_output out(out_buff);
+	formats::explode::mz::io::inmem_output out(out_buff);
 	fo.write(out);
 
 

@@ -369,8 +369,8 @@ namespace formats::explode::mz
 
         m_file.read_buff(u.bytes, 2 * sizeof(uint16_t));
 
-        u.words[0] = io::byte_order::from_little_endian(u.words[0]);
-        u.words[1] = io::byte_order::from_little_endian(u.words[1]);
+        u.words[0] = formats::io::byte_order::from_little_endian(u.words[0]);
+        u.words[1] = formats::io::byte_order::from_little_endian(u.words[1]);
 
         return (u.words[0] == 0x4B50) && (u.words[1] == 0x494C);
     }
@@ -390,7 +390,7 @@ namespace formats::explode::mz
         static io::offset_type pklite_info_offset = 2 * 0x0E;
         m_file.seek(pklite_info_offset);
         m_file.read(m_h_pklite_info);
-        m_h_pklite_info = io::byte_order::from_little_endian(m_h_pklite_info);
+        m_h_pklite_info = formats::io::byte_order::from_little_endian(m_h_pklite_info);
         if (!is_supported(m_h_pklite_info))
         {
             throw decoder_error("Unsuported version");
@@ -517,7 +517,7 @@ namespace formats::explode::mz
             uint16_t* words;
         } extra;
 
-        uint16_t temp_extra = io::byte_order::to_little_endian(m_h_pklite_info);
+        uint16_t temp_extra = formats::io::byte_order::to_little_endian(m_h_pklite_info);
         extra.words = &temp_extra;
 
         oexe.extra_header().push_back(extra.bytes[0]);

@@ -1,19 +1,24 @@
 set (src
         exceptions.cc
-        io/io.cc
 
+        explode/mz/io.cc
         explode/mz/exe_file.cc
         explode/mz/knowledge_dynamics.cc
         explode/mz/unexepack.cc
         explode/mz/unlzexe.cc
         explode/mz/unpklite.cc
         explode/explode_exe_file.cc
+
+        image/picture.cc
+        image/stbi_wrapper.cc
+        image/pcx.cc
+        image/thirdparty/lodepng.cpp
         )
 set (hdr
         exceptions.hh
         io/byte_order.hh
-        io/io.hh
 
+        explode/mz/io.hh
         explode/mz/exe_file.hh
         explode/mz/knowledge_dynamics.hh
         explode/mz/struct_reader.hh
@@ -21,6 +26,22 @@ set (hdr
         explode/mz/unlzexe.hh
         explode/mz/unpklite.hh
         explode/explode_exe_file.hh
+
+        image/picture.hh
+
+        image/tga.hh
+        image/bmp.hh
+        image/gif.hh
+        image/jpeg.hh
+        image/pcx.hh
+        image/png.hh
+        image/psd.hh
+        image/tga.hh
+
+        image/thirdparty/lodepng.h
+        image/thirdparty/dr_pcx.h
+        image/thirdparty/stb_image.h
+
         )
 
 add_library(tombexcavator-formats SHARED ${src} ${hdr})

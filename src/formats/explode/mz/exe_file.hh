@@ -5,7 +5,7 @@
 #include <vector>
 #include <iosfwd>
 
-#include "formats/io/io.hh"
+#include "io.hh"
 
 #include <tombexcavator-formats_export.h>
 

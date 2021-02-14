@@ -18,7 +18,7 @@ static void decode(formats::explode::mz::input_exe_file& iexe, std::vector<char>
     DECODER decoder(iexe);
     formats::explode::mz::full_exe_file fo(decoder.decomp_size());
     decoder.unpack(fo);
-    formats::io::inmem_output ow(out_buff);
+    formats::explode::mz::io::inmem_output ow(out_buff);
     fo.write(ow);
 }
 
