@@ -1,26 +1,26 @@
 set (src
-        io/input.cc
-        io/output.cc
-        io/io_base.cc
+        exceptions.cc
+        io/io.cc
 
-        mzexplode/exe_file.cc
-        mzexplode/knowledge_dynamics.cc
-        mzexplode/unexepack.cc
-        mzexplode/unlzexe.cc
-        mzexplode/unpklite.cc
+        explode/mz/exe_file.cc
+        explode/mz/knowledge_dynamics.cc
+        explode/mz/unexepack.cc
+        explode/mz/unlzexe.cc
+        explode/mz/unpklite.cc
+        explode/explode_exe_file.cc
         )
 set (hdr
-        io/input.hh
-        io/output.hh
-        io/io_base.hh
+        exceptions.hh
+        io/byte_order.hh
         io/io.hh
 
-        mzexplode/exe_file.hh
-        mzexplode/knowledge_dynamics.hh
-        mzexplode/unexepack.hh
-        mzexplode/unlzexe.hh
-        mzexplode/unpklite.hh
-        mzexplode/struct_reader.hh
+        explode/mz/exe_file.hh
+        explode/mz/knowledge_dynamics.hh
+        explode/mz/struct_reader.hh
+        explode/mz/unexepack.hh
+        explode/mz/unlzexe.hh
+        explode/mz/unpklite.hh
+        explode/explode_exe_file.hh
         )
 
 add_library(tombexcavator-formats SHARED ${src} ${hdr})
@@ -38,10 +38,8 @@ set_target_properties(tombexcavator-formats PROPERTIES CXX_STANDARD 17)
 
 target_link_libraries(tombexcavator-formats PUBLIC
           thirdparty::mio
-          thirdparty::endian
           std::filesystem
           Threads::Threads
-
         )
 
 target_compile_options(tombexcavator-formats PRIVATE

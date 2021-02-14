@@ -2,50 +2,53 @@
 #include <cstring>
 #include <algorithm>
 
-#include "exe_file.hh"
+#include "formats/explode/mz/exe_file.hh"
+#include "formats/io/io.hh"
+#include "formats/exceptions.hh"
+#include "formats/io/byte_order.hh"
 
-inline constexpr uint16_t MSDOS_MAGIC = 0x5A4D;
-inline constexpr uint16_t MSDOS_MAGIC_1 = 0x4D5A;
+static const uint16_t MSDOS_MAGIC = 0x5A4D;
+static const uint16_t MSDOS_MAGIC_1 = 0x4D5A;
 
-static const char* header_to_string(formats::explode::exe_file::header_t h)
+static const char* header_to_string(formats::explode::mz::exe_file::header_t h)
 {
     switch (h)
     {
-        case formats::explode::exe_file::SIGNATURE:
+        case formats::explode::mz::exe_file::SIGNATURE:
             return "SIGNATURE";
-        case formats::explode::exe_file::NUM_OF_BYTES_IN_LAST_PAGE:
+        case formats::explode::mz::exe_file::NUM_OF_BYTES_IN_LAST_PAGE:
             return "NUM_OF_BYTES_IN_LAST_PAGE";
-        case formats::explode::exe_file::NUM_OF_PAGES:
+        case formats::explode::mz::exe_file::NUM_OF_PAGES:
             return "NUM_OF_PAGES";
-        case formats::explode::exe_file::RELLOCATION_ENTRIES:
+        case formats::explode::mz::exe_file::RELLOCATION_ENTRIES:
             return "RELLOCATION_ENTRIES";
-        case formats::explode::exe_file::HEADER_SIZE_PARA:
+        case formats::explode::mz::exe_file::HEADER_SIZE_PARA:
             return "HEADER_SIZE_PARA";
-        case formats::explode::exe_file::MIN_MEM_PARA:
+        case formats::explode::mz::exe_file::MIN_MEM_PARA:
             return "MIN_MEM_PARA";
-        case formats::explode::exe_file::MAX_MEM_PARA:
+        case formats::explode::mz::exe_file::MAX_MEM_PARA:
             return "MAX_MEM_PARA";
-        case formats::explode::exe_file::INITIAL_SS:
+        case formats::explode::mz::exe_file::INITIAL_SS:
             return "INITIAL_SS";
-        case formats::explode::exe_file::INITIAL_SP:
+        case formats::explode::mz::exe_file::INITIAL_SP:
             return "INITIAL_SP";
-        case formats::explode::exe_file::CHECKSUM:
+        case formats::explode::mz::exe_file::CHECKSUM:
             return "CHECKSUM";
-        case formats::explode::exe_file::INITIAL_IP:
+        case formats::explode::mz::exe_file::INITIAL_IP:
             return "INITIAL_IP";
-        case formats::explode::exe_file::INITIAL_CS:
+        case formats::explode::mz::exe_file::INITIAL_CS:
             return "INITIAL_CS";
-        case formats::explode::exe_file::RELLOC_OFFSET:
+        case formats::explode::mz::exe_file::RELLOC_OFFSET:
             return "RELLOC_OFFSET";
-        case formats::explode::exe_file::OVERLAY_NUM:
+        case formats::explode::mz::exe_file::OVERLAY_NUM:
             return "OVERLAY_NUM";
-        case formats::explode::exe_file::MAX_HEADER_VAL:
+        case formats::explode::mz::exe_file::MAX_HEADER_VAL:
             return "<UNKNOWN>";
     }
     return "";
 }
 
-namespace formats::explode
+namespace formats::explode::mz
 {
     std::ostream& operator<<(std::ostream& os, exe_file::header_t h)
     {
@@ -63,7 +66,7 @@ namespace formats::explode
         return m_header[hv];
     }
     // ========================================================
-    input_exe_file::input_exe_file(formats::input& file)
+    input_exe_file::input_exe_file(io::input& file)
             : m_file(file)
     {
         union
@@ -76,29 +79,29 @@ namespace formats::explode
 
         for (int i = 0; i < MAX_HEADER_VAL; i++)
         {
-            m_header[i] = endian::read_le<uint16_t>(&m_header[i]);
+            m_header[i] = io::byte_order::from_little_endian(m_header[i]);
         }
 
         if ((m_header[SIGNATURE] != MSDOS_MAGIC) && (m_header[SIGNATURE] != MSDOS_MAGIC_1))
         {
-            throw std::runtime_error("Not an exe file");
+            throw exefile_error();
         }
     }
     // --------------------------------------------------------
     bool input_exe_file::is_exepack() const
     {
-        const std::size_t exe_data_start = m_header[HEADER_SIZE_PARA] * 16L;
-        std::size_t extra_data_start = m_header[NUM_OF_PAGES] * 512L;
+        const io::offset_type exe_data_start = m_header[HEADER_SIZE_PARA] * 16L;
+        io::offset_type extra_data_start = m_header[NUM_OF_PAGES] * 512L;
         if (m_header[NUM_OF_BYTES_IN_LAST_PAGE])
         {
             extra_data_start -= (512 - m_header[NUM_OF_BYTES_IN_LAST_PAGE]);
         }
-        const std::size_t first_offset = m_header[INITIAL_CS] * 0x10;// + exe_data_start;
-        const std::size_t exe_len = first_offset;
+        const io::offset_type first_offset = m_header[INITIAL_CS] * 0x10;// + exe_data_start;
+        const io::offset_type exe_len = first_offset;
         bool res = false;
         try
         {
-            std::size_t exepack_hdr_start = exe_data_start + exe_len;
+            io::offset_type exepack_hdr_start = exe_data_start + exe_len;
             m_file.seek(exepack_hdr_start + 0x12 - 2);
             char magic[2];
             m_file.read_buff(magic, 2);
@@ -108,7 +111,7 @@ namespace formats::explode
             {
                 return false;
             }
-            const std::size_t str_offs = exepack_hdr_start + 0x12 + 0x105; // exepack_hdr_start + unpk_len;
+            const io::offset_type str_offs = exepack_hdr_start + 0x12 + 0x105; // exepack_hdr_start + unpk_len;
             m_file.seek(str_offs);
             char str[0x16];
             m_file.read_buff(str, sizeof(str));
@@ -124,7 +127,7 @@ namespace formats::explode
 
     }
     // --------------------------------------------------------
-    formats::input& input_exe_file::file()
+    io::input& input_exe_file::file()
     {
         return m_file;
     }
@@ -135,8 +138,9 @@ namespace formats::explode
         this->operator[](SIGNATURE) = MSDOS_MAGIC;
     }
     // -------------------------------------------------------------------
-    output_exe_file::~output_exe_file() = default;
-
+    output_exe_file::~output_exe_file()
+    {
+    }
     // -------------------------------------------------------------------
     uint16_t& output_exe_file::operator[](header_t hv)
     {
@@ -277,21 +281,25 @@ namespace formats::explode
 
     }
     // ------------------------------------------------------------------
-    void full_exe_file::write(output& out) const
+    void full_exe_file::write(io::output& out) const
     {
-        const bool is_be = out.big_endian();
-        out.big_endian(false);
-
-        const uint32_t relloc_entries = static_cast <uint32_t>(m_header[exe_file::RELLOCATION_ENTRIES]) & 0xFFFFu;
-        const uint32_t para_size = static_cast <uint32_t>(m_header[exe_file::HEADER_SIZE_PARA]) & 0xFFFFu;
+        const uint32_t relloc_entries = static_cast <uint32_t>(m_header[exe_file::RELLOCATION_ENTRIES]) & 0xFFFF;
+        const uint32_t para_size = static_cast <uint32_t>(m_header[exe_file::HEADER_SIZE_PARA]) & 0xFFFF;
 
         uint16_t new_header[MAX_HEADER_VAL];
 
         for (int i = 0; i < MAX_HEADER_VAL; i++)
         {
-            out << new_header[i];
-            //new_header[i] = endian::write_le<uint16_t >(&m_header[i]);
+            new_header[i] = io::byte_order::to_little_endian(m_header[i]);
         }
+
+        union
+        {
+            const char* bytes;
+            const uint16_t* words;
+        } h;
+        h.words = new_header;
+        out.write_buff(h.bytes, sizeof(m_header));
 
         if (!m_extra_header.empty())
         {
@@ -299,16 +307,27 @@ namespace formats::explode
         }
         if (!m_rellocs.empty())
         {
+            union
+            {
+                const char* bytes;
+                const uint16_t* words;
+            } r;
+
             std::vector<uint16_t> new_rel(relloc_entries * 2);
             for (std::size_t i = 0; i < relloc_entries; i++)
             {
-                out  << m_rellocs[i].rel << m_rellocs[i].seg;
+                const uint16_t rel = io::byte_order::to_little_endian(m_rellocs[i].rel);
+                const uint16_t seg = io::byte_order::to_little_endian(m_rellocs[i].seg);
+                new_rel[2 * i] = rel;
+                new_rel[2 * i + 1] = seg;
             }
+            r.words = &new_rel[0];
+            out.write_buff(r.bytes, relloc_entries * 4);
         }
-        const std::size_t now = out.tell();
+        const std::size_t now = static_cast <std::size_t> (out.tell());
         if (now > para_size * 16)
         {
-            throw std::runtime_error("bad header size");
+            throw decoder_error("bad header size");
         }
         const std::size_t sz = para_size * 16 - now;
         if (sz)
@@ -318,7 +337,6 @@ namespace formats::explode
         }
 
         out.write_buff(reinterpret_cast <const char*>(&m_code[0]), m_code.size());
-        out.big_endian(is_be);
     }
-} // ns explode
+} // ns explode::mz
 

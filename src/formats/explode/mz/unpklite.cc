@@ -1,10 +1,9 @@
 #include <vector>
 #include <cstring>
-#include <iostream>
 
-#include "unpklite.hh"
-#include "exe_file.hh"
-#include "struct_reader.hh"
+#include "formats/explode/mz/unpklite.hh"
+#include "formats/explode/mz/struct_reader.hh"
+#include "formats/exceptions.hh"
 
 namespace
 {
@@ -36,7 +35,7 @@ namespace
         return false;
     }
     // ===================================================================
-    void adjust_length_code_2000(uint16_t& length_code, formats::explode::bit_reader& f, bool uncompressed_region)
+    void adjust_length_code_2000(uint16_t& length_code, formats::explode::mz::bit_reader& f, bool uncompressed_region)
     {
         // 4627
         while (true)
@@ -99,7 +98,7 @@ namespace
         }
     }
     // -------------------------------------------------------------------
-    void adjust_length_code_n2000(uint16_t& length_code, formats::explode::bit_reader& f, bool uncompressed_region)
+    void adjust_length_code_n2000(uint16_t& length_code, formats::explode::mz::bit_reader& f, bool uncompressed_region)
     {
         // 474e
         while (true)
@@ -208,10 +207,10 @@ namespace
     }
 
     typedef void (* adjust_length_code_fn)(uint16_t& length_code,
-                                           formats::explode::bit_reader& f,
+                                           formats::explode::mz::bit_reader& f,
                                            bool uncompressed_region);
 
-    uint16_t get_base_offset(formats::explode::bit_reader& f)
+    uint16_t get_base_offset(formats::explode::mz::bit_reader& f)
     {
         // 4b05
         while (true)
@@ -281,17 +280,17 @@ namespace
             }
         }
 #if !defined(__clang__) && !defined(__SUNPRO_CC)
-        throw std::runtime_error("should not be here");
+        throw formats::decoder_error("should not be here");
         return 0;
 #endif
     }
     // ===================================================================
     void build_rellocs(uint16_t h_pklite_info,
-                       formats::explode::struct_reader<uint32_t>& fr,
-                       std::vector<formats::explode::rellocation>& rellocs)
+                       formats::explode::mz::struct_reader<uint32_t>& fr,
+                       std::vector<formats::explode::mz::rellocation>& rellocs)
     {
 
-        formats::explode::struct_reader<uint16_t> f(fr.input());
+        formats::explode::mz::struct_reader<uint16_t> f(fr.input());
         uint32_t relocs_count = 0;
         uint16_t var_counter = 0;
         uint32_t length_code = 0;
@@ -318,7 +317,7 @@ namespace
                     uint16_t rel = f.word();
                     uint16_t seg = var_counter;
 
-                    rellocs.push_back(formats::explode::rellocation(seg, rel));
+                    rellocs.push_back(formats::explode::mz::rellocation(seg, rel));
                     relocs_count++;
                     has_bytes++;
                 }
@@ -342,7 +341,7 @@ namespace
                         //5013:;
                         uint16_t rel = f.word();
                         uint16_t seg = var_counter;
-                        rellocs.push_back(formats::explode::rellocation(seg, rel));
+                        rellocs.push_back(formats::explode::mz::rellocation(seg, rel));
                         relocs_count++;
                         has_bytes++;
                     }
@@ -354,12 +353,12 @@ namespace
     }
 } // anonymous ns
 // =====================================================================
-namespace formats::explode
+namespace formats::explode::mz
 {
     bool unpklite::accept(input_exe_file& inp)
     {
-        input& m_file = inp.file();
-        static const std::size_t pklite_ver_offset = 2 * 0xF;
+        io::input& m_file = inp.file();
+        static const io::offset_type pklite_ver_offset = 2 * 0xF;
         m_file.seek(pklite_ver_offset);
 
         union
@@ -370,8 +369,8 @@ namespace formats::explode
 
         m_file.read_buff(u.bytes, 2 * sizeof(uint16_t));
 
-        u.words[0] = endian::read_le<uint16_t>(&u.words[0]);
-        u.words[1] = endian::read_le<uint16_t>(&u.words[1]);
+        u.words[0] = io::byte_order::from_little_endian(u.words[0]);
+        u.words[1] = io::byte_order::from_little_endian(u.words[1]);
 
         return (u.words[0] == 0x4B50) && (u.words[1] == 0x494C);
     }
@@ -388,13 +387,13 @@ namespace formats::explode
               m_has_checksum(false),
               m_h_pklite_info(0)
     {
-        static std::size_t pklite_info_offset = 2 * 0x0E;
+        static io::offset_type pklite_info_offset = 2 * 0x0E;
         m_file.seek(pklite_info_offset);
         m_file.read(m_h_pklite_info);
-        m_h_pklite_info = endian::read_le<uint16_t>(&m_h_pklite_info);
+        m_h_pklite_info = io::byte_order::from_little_endian(m_h_pklite_info);
         if (!is_supported(m_h_pklite_info))
         {
-            throw std::runtime_error("unpklite - Unsuported version");
+            throw decoder_error("Unsuported version");
         }
         const uint32_t header_length_para = inp[exe_file::HEADER_SIZE_PARA];
         m_header_length = (header_length_para & 0xFFFF) << 4;
@@ -465,7 +464,7 @@ namespace formats::explode
                     {
                         if (length_code == 0xFFFD)
                         {
-                            throw std::runtime_error("unpklite - Not implemented");
+                            throw decoder_error("Not implemented");
                         }
                         if (length_code != 0xFFFE)
                         {
@@ -518,7 +517,7 @@ namespace formats::explode
             uint16_t* words;
         } extra;
 
-        uint16_t temp_extra = endian::read_le<uint16_t>(&m_h_pklite_info);
+        uint16_t temp_extra = io::byte_order::to_little_endian(m_h_pklite_info);
         extra.words = &temp_extra;
 
         oexe.extra_header().push_back(extra.bytes[0]);

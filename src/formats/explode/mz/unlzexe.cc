@@ -1,13 +1,13 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
-#include "unlzexe.hh"
-#include "exe_file.hh"
-#include "struct_reader.hh"
+#include "formats/explode/mz/unlzexe.hh"
+#include "formats/explode/mz/struct_reader.hh"
+#include "formats/exceptions.hh"
 
-static void build_rellocs_90(formats::input& file, std::vector<formats::explode::rellocation>& rellocs)
+static void build_rellocs_90(formats::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
 {
-    formats::explode::byte_reader f(file);
+    formats::explode::mz::byte_reader f(file);
     int16_t seg = 0;
     do
     {
@@ -17,7 +17,7 @@ static void build_rellocs_90(formats::input& file, std::vector<formats::explode:
         for (; c > 0; c--)
         {
             uint16_t offs = f.word();
-            rellocs.push_back(formats::explode::rellocation(static_cast <uint16_t> (seg), offs));
+            rellocs.push_back(formats::explode::mz::rellocation(static_cast <uint16_t> (seg), offs));
         }
         seg = static_cast <int16_t> (seg + 0x1000);
     } // while (seg != static_cast <int16_t>(0xF000+0x1000));
@@ -25,12 +25,12 @@ static void build_rellocs_90(formats::input& file, std::vector<formats::explode:
     //std::cout << "seg = " << std::hex << seg << std::endl;
 }
 // ----------------------------------------------------------------
-static void build_rellocs_91(formats::input& file, std::vector<formats::explode::rellocation>& rellocs)
+static void build_rellocs_91(formats::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
 {
     int16_t seg = 0;
     int16_t offs = 0;
     int16_t span = 0;
-    formats::explode::byte_reader f(file);
+    formats::explode::mz::byte_reader f(file);
     while (true)
     {
         uint8_t s = f.byte();
@@ -53,14 +53,15 @@ static void build_rellocs_91(formats::input& file, std::vector<formats::explode:
         offs = static_cast <int16_t>(offs + span);
         seg = static_cast <int16_t>(seg + static_cast <int16_t>((offs & ~0x0f) >> 4));
         offs &= 0x0f;
-        rellocs.push_back(formats::explode::rellocation(static_cast <uint16_t> (seg), static_cast <uint16_t>(offs)));
+        rellocs.push_back(
+                formats::explode::mz::rellocation(static_cast <uint16_t> (seg), static_cast <uint16_t>(offs)));
     };
 }
 
-static uint32_t unpak_code(formats::explode::output_exe_file& oexe, formats::input& input, uint32_t offset)
+static uint32_t unpak_code(formats::explode::mz::output_exe_file& oexe, formats::io::input& input, uint32_t offset)
 {
     input.seek(offset);
-    formats::explode::bit_reader bitstream(input);
+    formats::explode::mz::bit_reader bitstream(input);
 
     uint8_t data[0x4500], * p = data;
     std::size_t opos = 0;
@@ -126,7 +127,7 @@ static uint32_t unpak_code(formats::explode::output_exe_file& oexe, formats::inp
     return static_cast <uint32_t> (opos);
 }
 // ----------------------------------------------------------------
-namespace formats::explode
+namespace formats::explode::mz
 {
     bool unlzexe::accept(input_exe_file& inp)
     {
@@ -233,10 +234,10 @@ namespace formats::explode
         {
             return false;
         }
-        const std::size_t entry =
+        const io::offset_type entry =
                 (static_cast <uint32_t>(inp[exe_file::HEADER_SIZE_PARA] + inp[exe_file::INITIAL_CS]) << 4) +
                 inp[exe_file::INITIAL_IP];
-        input& m_file = inp.file();
+        io::input& m_file = inp.file();
         m_file.seek(entry);
         m_file.read_buff(reinterpret_cast <char*>(sigbuff), sizeof(sigbuff));
 
@@ -260,7 +261,7 @@ namespace formats::explode
               m_exe_file(inp),
               m_ver(0)
     {
-        static const std::size_t magic_offs = 2 * 0x0E;
+        static const io::offset_type magic_offs = 2 * 0x0E;
 
         union
         {
@@ -284,10 +285,10 @@ namespace formats::explode
                 m_ver = 91;
             } else
             {
-                throw std::runtime_error("unlzexe - Unsuported version");
+                throw decoder_error("Unsuported version");
             }
         }
-        const std::size_t header_pos = (inp[exe_file::HEADER_SIZE_PARA] + inp[exe_file::INITIAL_CS]) << 4;
+        const io::offset_type header_pos = (inp[exe_file::HEADER_SIZE_PARA] + inp[exe_file::INITIAL_CS]) << 4;
         m_file.seek(header_pos);
         union
         {
@@ -299,7 +300,7 @@ namespace formats::explode
 
         for (int i = 0; i < eHEADER_MAX; i++)
         {
-            m_header[i] = endian::read_le<uint16_t>(&m_header[i]);
+            m_header[i] = io::byte_order::from_little_endian(m_header[i]);
         }
 
         if (m_ver == 90)

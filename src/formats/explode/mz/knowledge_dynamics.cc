@@ -1,28 +1,32 @@
-#include "knowledge_dynamics.hh"
+#include "formats/explode/mz/knowledge_dynamics.hh"
+#include "formats/exceptions.hh"
+#include "formats/io/byte_order.hh"
+#include "formats/explode/mz/struct_reader.hh"
 
-namespace formats::explode
+
+namespace formats::explode::mz
 {
     knowledge_dynamics::knowledge_dynamics(input_exe_file& inp)
             : m_file(inp.file())
     {
-        std::size_t extra_data_start = inp[exe_file::NUM_OF_PAGES] * 512L;
+        io::offset_type extra_data_start = inp[exe_file::NUM_OF_PAGES] * 512L;
         if (inp[exe_file::NUM_OF_BYTES_IN_LAST_PAGE])
         {
-            extra_data_start = static_cast <std::size_t> (extra_data_start -
-                                                          (512 - inp[exe_file::NUM_OF_BYTES_IN_LAST_PAGE]));
+            extra_data_start = static_cast <io::offset_type> (extra_data_start -
+                                                              (512 - inp[exe_file::NUM_OF_BYTES_IN_LAST_PAGE]));
         }
         unsigned char mzHeader2[0x25];
         m_file.seek(extra_data_start);
         m_file.read_buff(reinterpret_cast<char*>(mzHeader2), 0x25);
 
-        memory_input mio(reinterpret_cast<char*>(mzHeader2), 0x25);
+        io::inmem_input mio(mzHeader2, 0x25);
         input_exe_file inner(mio);
-        std::size_t exe_data_start2 = inner[exe_file::HEADER_SIZE_PARA] * 16L;
-        std::size_t extra_data_start2 = inner[exe_file::NUM_OF_PAGES] * 512L;
+        io::offset_type exe_data_start2 = inner[exe_file::HEADER_SIZE_PARA] * 16L;
+        io::offset_type extra_data_start2 = inner[exe_file::NUM_OF_PAGES] * 512L;
         if (inner[exe_file::NUM_OF_BYTES_IN_LAST_PAGE])
         {
-            extra_data_start2 = static_cast <std::size_t> (extra_data_start2 -
-                                                           (512 - inner[exe_file::NUM_OF_BYTES_IN_LAST_PAGE]));
+            extra_data_start2 = static_cast <io::offset_type> (extra_data_start2 -
+                                                               (512 - inner[exe_file::NUM_OF_BYTES_IN_LAST_PAGE]));
         }
         m_expected_size = static_cast <uint32_t>  (extra_data_start2 - exe_data_start2);
         m_code_offs = static_cast <uint32_t>(extra_data_start + exe_data_start2);
@@ -34,7 +38,7 @@ namespace formats::explode
     // ------------------------------------------------------------
     bool knowledge_dynamics::accept(input_exe_file& inp)
     {
-        input& f = inp.file();
+        io::input& f = inp.file();
         uint8_t bytes[3];
         f.seek(0x200);
         // e9 99 00
@@ -142,7 +146,7 @@ namespace formats::explode
 
             if (step - 9 >= sizeof(keyMask))
             {
-                throw std::runtime_error("KnowledgeDynamics decoder overflow");
+                throw decoder_error("Overflow");
             }
             next_index &= keyMask[(step - 9)];
             /* Apply the value as-is, continuing with dictionary reset, C) */
@@ -180,7 +184,7 @@ namespace formats::explode
                 next_index = last_index;
                 if (queued >= sizeof(queue))
                 {
-                    throw std::runtime_error("KnowledgeDynamics decoder overflow");
+                    throw decoder_error("Overflow");
                 }
                 /* Queue 1 char */
                 queue[queued++] = last_char;
@@ -193,11 +197,11 @@ namespace formats::explode
                 /* Queue 1 char */
                 if (queued >= sizeof(queue))
                 {
-                    throw std::runtime_error("KnowledgeDynamics decoder overflow");
+                    throw decoder_error("Overflow");
                 }
                 if (next_index >= sizeof(dict_val))
                 {
-                    throw std::runtime_error("KnowledgeDynamics decoder overflow");
+                    throw decoder_error("Overflow");
                 }
                 queue[queued++] = dict_val[next_index];
                 /* Next query: */
@@ -208,7 +212,7 @@ namespace formats::explode
             last_char = static_cast <uint8_t> (next_index & 0x00FF);
             if (queued >= sizeof(queue))
             {
-                throw std::runtime_error("KnowledgeDynamics decoder overflow");
+                throw decoder_error("Overflow");
             }
             queue[queued++] = last_char;
 
@@ -221,7 +225,7 @@ namespace formats::explode
             /* Save value to the dictionary */
             if (next_index >= sizeof(dict_val))
             {
-                throw std::runtime_error("KnowledgeDynamics decoder overflow");
+                throw decoder_error("Overflow");
             }
             dict_key[dict_index] = last_index; /* "goto prev entry" */
             dict_val[dict_index] = last_char;  /* the value */

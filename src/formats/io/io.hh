@@ -1,88 +1,144 @@
-//
-// Created by igor on 07/02/2021.
-//
+#ifndef __EXPLODE_IO_HH__
+#define __EXPLODE_IO_HH__
 
-#ifndef TOMBEXCAVATOR_IO_HH
-#define TOMBEXCAVATOR_IO_HH
+#include <stdio.h>
+#include <cstddef>
+#include <stdint.h>
+#include <vector>
 
-#include "formats/io/input.hh"
-#include "formats/io/output.hh"
+#include <sys/types.h>
 
-namespace formats
+#include <tombexcavator-formats_export.h>
+
+namespace formats::io
 {
-    namespace detail
+  typedef off_t offset_type;
+
+  class FORMATS_API input
+  {
+  public:
+    input ();
+    virtual ~input ();
+    virtual void read_buff (char* buffer, std::size_t size) = 0;
+    virtual offset_type tell () = 0;
+    virtual offset_type bytes_remains () = 0;
+    virtual void seek (offset_type offset) = 0;
+
+    template <typename T>
+    void read (T& x)
     {
-        enum class endianity
-        {
-            BIG,
-            LITTLE
-        };
+      union 
+      {
+	char* bytes;
+	T*    words;
+      } u;
+      u.words = &x;
+      this->read_buff (u.bytes, sizeof (T));
+    }
+  
 
-        template<typename T, endianity e>
-        struct endian_data
-        {
-            static constexpr bool is_big_endian = e == endianity::BIG;
-            using value_type = T;
+  private:
+    input (const input&);
+    input& operator = (const input&);
+  };
 
-            endian_data()
-            : data(0) {}
+  // ============================================================
 
-            endian_data(T x)
-            :data (x) {}
+  class FORMATS_API output
+  {
+  public:
+    output ();
+    virtual ~output ();
+    virtual void write_buff (const char* buffer, std::size_t size) = 0;
+    virtual offset_type tell () = 0;
+    virtual void seek (offset_type offset) = 0;
 
-            T data;
-
-            operator T() const noexcept { return data; }
-        };
-    } // ns detail
-
-    using be_uint16_t = detail::endian_data<uint16_t, detail::endianity::BIG>;
-    using be_uint32_t = detail::endian_data<uint32_t, detail::endianity::BIG>;
-    using be_uint64_t = detail::endian_data<uint64_t, detail::endianity::BIG>;
-    using be_int16_t = detail::endian_data<int16_t, detail::endianity::BIG>;
-    using be_int32_t = detail::endian_data<int32_t, detail::endianity::BIG>;
-    using be_int64_t = detail::endian_data<int64_t, detail::endianity::BIG>;
-
-    using le_uint16_t = detail::endian_data<uint16_t, detail::endianity::LITTLE>;
-    using le_uint32_t = detail::endian_data<uint32_t, detail::endianity::LITTLE>;
-    using le_uint64_t = detail::endian_data<uint64_t, detail::endianity::LITTLE>;
-    using le_int16_t = detail::endian_data<int16_t, detail::endianity::LITTLE>;
-    using le_int32_t = detail::endian_data<int32_t, detail::endianity::LITTLE>;
-    using le_int64_t = detail::endian_data<int64_t, detail::endianity::LITTLE>;
-
-    template <typename T, detail::endianity E>
-    input& operator >> (input& inp, detail::endian_data<T,E>& val)
+    template <typename T>
+    void write (const T& x)
     {
-        const bool current_endianity = inp.big_endian();
-        if constexpr (E == detail::endianity::BIG)
-        {
-            inp.big_endian(true);
-        }
-        else
-        {
-            inp.big_endian(false);
-        }
-        inp.read(val.data);
-        inp.big_endian(current_endianity);
-        return inp;
+      union 
+      {
+		const char* bytes;
+		const T*    words;
+      } u;
+      u.words = &x;
+      write_buff (u.bytes, sizeof (T));
     }
 
-    template <typename T, detail::endianity E>
-    output& operator << (output& out, detail::endian_data<T,E>& val)
-    {
-        const bool current_endianity = out.big_endian();
-        if constexpr (E == detail::endianity::BIG)
-        {
-            out.big_endian(true);
-        }
-        else
-        {
-            out.big_endian(false);
-        }
-        out.write(val.data);
-        out.big_endian(current_endianity);
-        return out;
-    }
-} // ns formats
 
-#endif //TOMBEXCAVATOR_IO_HH
+  private:
+    output (const output&);
+    output& operator = (const output&);
+  };
+
+  // ============================================================
+
+  class FORMATS_API file_input : public input
+  {
+  public:
+    explicit file_input (const char* path);
+    explicit file_input (FILE* file);
+
+    ~file_input ();
+
+    virtual void read_buff (char* buffer, std::size_t size);
+    virtual offset_type tell ();
+    virtual offset_type bytes_remains ();
+    virtual void seek (offset_type offset);
+
+  private:
+    bool m_owner;
+    FILE* m_file;
+  };
+  // ============================================================
+  class FORMATS_API inmem_input : public input
+  {
+  public:
+	  inmem_input(const unsigned char* data, std::size_t size);
+	  
+	  virtual void read_buff (char* buffer, std::size_t size);
+	  virtual offset_type tell();
+	  virtual offset_type bytes_remains();
+	  virtual void seek(offset_type offset);
+  private:
+	  const unsigned char* m_data;
+	  const std::size_t    m_size;
+	  std::size_t          m_ptr;
+  };
+
+  // ============================================================
+  class FORMATS_API file_output : public output
+  {
+  public:
+    explicit file_output (const char* path);
+    explicit file_output (FILE* file);
+
+    ~file_output ();
+
+    virtual void write_buff (const char* buffer, std::size_t size);
+    virtual offset_type tell ();
+    virtual void seek (offset_type offset);
+
+  private:
+    bool m_owner;
+    FILE* m_file;
+  };
+  // ============================================================
+  class FORMATS_API inmem_output : public output
+  {
+  public:
+	  explicit inmem_output(std::vector <char>& out_buff);
+
+	  virtual void write_buff (const char* buffer, std::size_t size);
+	  virtual offset_type tell();
+	  virtual void seek(offset_type offset);
+
+  private:
+	  std::vector <char>& m_buff;
+	  std::size_t m_ptr;
+  };
+}
+
+
+
+#endif

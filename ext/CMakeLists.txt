@@ -13,6 +13,5 @@ macro(IMPORT_THIRDPARTY EXT NAME LIB)
 endmacro()
 
 add_subdirectory(doctest)
-add_subdirectory(endian)
 add_subdirectory(mio)
 
