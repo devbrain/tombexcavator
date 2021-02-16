@@ -20,7 +20,9 @@ namespace formats::image
         std::vector<char> pixels;
     };
 
-    FORMATS_API bool save_to_png(const picture& pic, std::filesystem::path& path);
+    FORMATS_API bool save_to_png(const picture& pic, const std::filesystem::path& path);
+    FORMATS_API picture load_picture(const std::filesystem::path& path);
+    FORMATS_API picture load_picture(const char* data, std::size_t size);
 } // ns
 
 #endif //TOMBEXCAVATOR_PICTURE_HH

@@ -4,7 +4,7 @@
 #include "formats/explode/mz/unexepack.hh"
 
 #include "formats/explode/mz/struct_reader.hh"
-#include "formats/exceptions.hh"
+#include "../../../../include/formats/exceptions.hh"
 
 
 

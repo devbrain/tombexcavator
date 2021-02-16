@@ -7,7 +7,7 @@
 #include <cstring>
 
 #include "io.hh"
-#include "formats/exceptions.hh"
+#include "../../../../include/formats/exceptions.hh"
 
 namespace formats::explode::mz::io
 {

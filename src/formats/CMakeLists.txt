@@ -10,13 +10,25 @@ set (src
         explode/explode_exe_file.cc
 
         image/picture.cc
+        image/picture_loader.cc
         image/stbi_wrapper.cc
         image/pcx.cc
         image/thirdparty/lodepng.cpp
         )
 set (hdr
-        exceptions.hh
-        io/byte_order.hh
+        ${PROJECT_INCLUDE}/formats/exceptions.hh
+        ${PROJECT_INCLUDE}/formats/io/byte_order.hh
+        ${PROJECT_INCLUDE}/formats/explode/mz/explode_exe_file.hh
+
+        ${PROJECT_INCLUDE}/formats/image/picture.hh
+        ${PROJECT_INCLUDE}/formats/image/tga.hh
+        ${PROJECT_INCLUDE}/formats/image/bmp.hh
+        ${PROJECT_INCLUDE}/formats/image/gif.hh
+        ${PROJECT_INCLUDE}/formats/image/jpeg.hh
+        ${PROJECT_INCLUDE}/formats/image/pcx.hh
+        ${PROJECT_INCLUDE}/formats/image/png.hh
+        ${PROJECT_INCLUDE}/formats/image/psd.hh
+        ${PROJECT_INCLUDE}/formats/image/tga.hh
 
         explode/mz/io.hh
         explode/mz/exe_file.hh
@@ -25,18 +37,8 @@ set (hdr
         explode/mz/unexepack.hh
         explode/mz/unlzexe.hh
         explode/mz/unpklite.hh
-        explode/explode_exe_file.hh
 
-        image/picture.hh
-
-        image/tga.hh
-        image/bmp.hh
-        image/gif.hh
-        image/jpeg.hh
-        image/pcx.hh
-        image/png.hh
-        image/psd.hh
-        image/tga.hh
+        image/picture_loader.hh
 
         image/thirdparty/lodepng.h
         image/thirdparty/dr_pcx.h
@@ -53,14 +55,20 @@ generate_export_header(tombexcavator-formats
              STATIC_DEFINE FORMATS_BUILT_AS_STATIC
 )
 
-target_include_directories(tombexcavator-formats PUBLIC ${PROJECT_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(tombexcavator-formats
+        PUBLIC ${PROJECT_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR}
+        PRIVATE ${PROJECT_INCLUDE_PRIVATE}
+        )
 
 set_target_properties(tombexcavator-formats PROPERTIES CXX_STANDARD 17)
 
-target_link_libraries(tombexcavator-formats PUBLIC
-          thirdparty::mio
+target_link_libraries(tombexcavator-formats
+          PUBLIC
           std::filesystem
           Threads::Threads
+
+          PRIVATE
+          thirdparty::mio
         )
 
 target_compile_options(tombexcavator-formats PRIVATE

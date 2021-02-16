@@ -2,11 +2,13 @@
 // Created by igor on 14/02/2021.
 //
 
-#include "pcx.hh"
+#include "formats/image/pcx.hh"
+#include "formats/image/picture_loader.hh"
 #include <cstring>
 
 #define DR_PCX_IMPLEMENTATION
 #include "formats/image/thirdparty/dr_pcx.h"
+
 
 namespace formats::image
 {
@@ -68,4 +70,15 @@ namespace formats::image
         drpcx_free(pImageData);
         return true;
     }
+
+    struct register_pcx
+    {
+        register_pcx() noexcept
+        {
+            picture_loader::instance().register_functions(is_pcx, load_pcx);
+        }
+    };
+
+    static register_pcx register_pcx_inst;
 }
+

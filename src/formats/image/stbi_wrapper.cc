@@ -4,12 +4,14 @@
 
 #include <cstring>
 
-#include "jpeg.hh"
-#include "tga.hh"
-#include "bmp.hh"
-#include "png.hh"
-#include "psd.hh"
-#include "gif.hh"
+#include "formats/image/jpeg.hh"
+#include "formats/image/tga.hh"
+#include "formats/image/bmp.hh"
+#include "formats/image/png.hh"
+#include "formats/image/psd.hh"
+#include "formats/image/gif.hh"
+
+#include "formats/image/picture_loader.hh"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "thirdparty/stb_image.h"
@@ -34,6 +36,7 @@ static bool stbi_wrapper(tester_fn_ptr tester, const char* input, std::size_t in
         out.pixels.resize(out.height*out.width*out.bpp);
         std::memcpy(out.pixels.data(), data, out.pixels.size());
         STBI_FREE(data);
+        return true;
     }
     return false;
 }
@@ -52,13 +55,22 @@ bool CONCATENATE(load_,EXT)(const char* input, std::size_t input_length, picture
 {                                                                                                   \
     return stbi_wrapper(CONCATENATE(stbi__, CONCATENATE(EXT,_info)), input, input_length, out);     \
 }                                                                                                   \
+                                                                                                    \
+struct CONCATENATE(register_fn,__LINE__)                                                            \
+{                                                                                                   \
+    CONCATENATE(register_fn,__LINE__)() noexcept                                                    \
+    {                                                                                               \
+       picture_loader::instance().register_functions(CONCATENATE(is_,EXT), CONCATENATE(load_,EXT)); \
+    }                                                                                               \
+};                                                                                                  \
+static CONCATENATE(register_fn,__LINE__)  CONCATENATE(CONCATENATE(register_fn,__LINE__),_inst)
 
 namespace formats::image
 {
-    DECLARE_STBI_METHOD(jpeg)
-    DECLARE_STBI_METHOD(tga)
-    DECLARE_STBI_METHOD(bmp)
-    DECLARE_STBI_METHOD(png)
-    DECLARE_STBI_METHOD(psd)
-    DECLARE_STBI_METHOD(gif)
+    DECLARE_STBI_METHOD(jpeg);
+    DECLARE_STBI_METHOD(tga);
+    DECLARE_STBI_METHOD(bmp);
+    DECLARE_STBI_METHOD(png);
+    DECLARE_STBI_METHOD(psd);
+    DECLARE_STBI_METHOD(gif);
 }

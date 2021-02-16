@@ -1,5 +1,5 @@
 #include "formats/explode/mz/knowledge_dynamics.hh"
-#include "formats/exceptions.hh"
+#include "../../../../include/formats/exceptions.hh"
 #include "formats/io/byte_order.hh"
 #include "formats/explode/mz/struct_reader.hh"
 

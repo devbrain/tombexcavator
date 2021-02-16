@@ -6,7 +6,7 @@
 #define TOMBEXCAVATOR_JPEG_HH
 
 #include <tombexcavator-formats_export.h>
-#include "formats/image/picture.hh"
+#include "picture.hh"
 
 namespace formats::image
 {

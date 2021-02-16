@@ -4,7 +4,7 @@
 
 #include "formats/explode/mz/exe_file.hh"
 #include "io.hh"
-#include "formats/exceptions.hh"
+#include "../../../../include/formats/exceptions.hh"
 #include "formats/io/byte_order.hh"
 
 static const uint16_t MSDOS_MAGIC = 0x5A4D;

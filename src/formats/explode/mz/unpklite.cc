@@ -3,7 +3,7 @@
 
 #include "formats/explode/mz/unpklite.hh"
 #include "formats/explode/mz/struct_reader.hh"
-#include "formats/exceptions.hh"
+#include "../../../../include/formats/exceptions.hh"
 
 namespace
 {

@@ -3,7 +3,7 @@
 #include <iostream>
 #include "formats/explode/mz/unlzexe.hh"
 #include "formats/explode/mz/struct_reader.hh"
-#include "formats/exceptions.hh"
+#include "../../../../include/formats/exceptions.hh"
 
 static void build_rellocs_90(formats::explode::mz::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
 {

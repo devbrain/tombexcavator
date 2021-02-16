@@ -28,10 +28,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${BINARY_OUT_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${LIB_OUT_DIR})
 # ===========================================================
 set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
-set (PROJECT_INCLUDE ${CMAKE_SOURCE_DIR}/src)
+set (PROJECT_INCLUDE_PRIVATE ${CMAKE_SOURCE_DIR}/src)
+set (PROJECT_INCLUDE         ${CMAKE_SOURCE_DIR}/include)
 # ===========================================================
 add_subdirectory(ext)
 add_subdirectory(src/formats)
+add_subdirectory(src/utils)
 add_subdirectory(src/unittest)
 
 

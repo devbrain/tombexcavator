@@ -4,12 +4,14 @@
 
 #include <fstream>
 #include <ios>
-#include "picture.hh"
+#include "formats/image/picture.hh"
+#include "formats/image/picture_loader.hh"
+#include <mio/mmap.hpp>
 #include "formats/image/thirdparty/lodepng.h"
 
 namespace formats::image
 {
-    bool save_to_png(const picture& pic, std::filesystem::path& path)
+    bool save_to_png(const picture& pic, const std::filesystem::path& path)
     {
         const LodePNGColorType color_type = (pic.bpp == 3) ? LCT_RGB : LCT_RGBA;
         unsigned char* out;
@@ -31,5 +33,28 @@ namespace formats::image
         file.close();
         free(out);
         return true;
+    }
+    // ------------------------------------------------------------------------------------------------------------
+    picture load_picture(const std::filesystem::path& path)
+    {
+        mio::mmap_source mmap(path.string());
+        try
+        {
+            return load_picture(mmap.data(), mmap.size());
+        }
+        catch (const std::exception& e)
+        {
+            throw std::runtime_error("unknown image format " + path.string());
+        }
+    }
+    // ------------------------------------------------------------------------------------------------------------
+    picture load_picture(const char* data, std::size_t size)
+    {
+        picture pic;
+        if (!picture_loader::instance().load(data, size, pic))
+        {
+            throw std::runtime_error("unknown image format");
+        }
+        return pic;
     }
 }
