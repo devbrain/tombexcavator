@@ -1,8 +1,7 @@
 #ifndef __EXPLODE_UNPKLITE_HH__
 #define __EXPLODE_UNPKLITE_HH__
 
-#include <stdint.h>
-#include <stddef.h>
+#include <cstdint>
 #include "formats/explode/mz/exe_file.hh"
 
 namespace formats::explode::mz

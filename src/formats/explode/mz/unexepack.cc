@@ -4,7 +4,7 @@
 #include "formats/explode/mz/unexepack.hh"
 
 #include "formats/explode/mz/struct_reader.hh"
-#include "../../../../include/formats/exceptions.hh"
+#include "bsw/exceptions.hh"
 
 
 
@@ -21,7 +21,7 @@ namespace formats::explode::mz
 		const uint16_t ip = inp[exe_file::INITIAL_IP];
 		if (ip != 0x10 && ip != 0x12 && ip != 0x14)
 		{
-			throw decoder_error ("unsupported version");
+			throw bsw::decoder_error ("unsupported version");
 		}
 		m_exe_data_start = inp[exe_file::HEADER_SIZE_PARA] * 16L;
 		uint32_t var_2c = inp[exe_file::INITIAL_CS] * 16L;
@@ -36,7 +36,7 @@ namespace formats::explode::mz
 		m_file.read_buff (u.bytes, sizeof(m_header));
 		for (int i = 0; i < eMAX_HEADER_VAL; i++)
 		{
-			m_header[i] = formats::io::byte_order::from_little_endian(m_header[i]);
+			m_header[i] = bsw::byte_order::from_little_endian(m_header[i]);
 		}
 
 		uint16_t sig_ptr = inp[exe_file::INITIAL_IP];
@@ -94,7 +94,7 @@ namespace formats::explode::mz
 
 			if (ch != 0x63)
 			{
-				throw decoder_error("not an exepack");
+				throw bsw::decoder_error("not an exepack");
 			}
 
 			uint16_t ax = var_36;

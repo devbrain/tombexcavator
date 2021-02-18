@@ -1,6 +1,4 @@
 set (src
-        exceptions.cc
-
         explode/mz/io.cc
         explode/mz/exe_file.cc
         explode/mz/knowledge_dynamics.cc
@@ -16,8 +14,7 @@ set (src
         image/thirdparty/lodepng.cpp
         )
 set (hdr
-        ${PROJECT_INCLUDE}/formats/exceptions.hh
-        ${PROJECT_INCLUDE}/formats/io/byte_order.hh
+
         ${PROJECT_INCLUDE}/formats/explode/mz/explode_exe_file.hh
 
         ${PROJECT_INCLUDE}/formats/image/picture.hh
@@ -64,6 +61,7 @@ set_target_properties(tombexcavator-formats PROPERTIES CXX_STANDARD 17)
 
 target_link_libraries(tombexcavator-formats
           PUBLIC
+          tombexcavator-bsw
           std::filesystem
           Threads::Threads
 

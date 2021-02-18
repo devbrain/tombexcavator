@@ -30,8 +30,22 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${LIB_OUT_DIR})
 set (PROJECT_ROOT ${CMAKE_SOURCE_DIR})
 set (PROJECT_INCLUDE_PRIVATE ${CMAKE_SOURCE_DIR}/src)
 set (PROJECT_INCLUDE         ${CMAKE_SOURCE_DIR}/include)
+set (PROJECT_CONFIG_INCLUDE  ${CMAKE_BINARY_DIR}/include)
+# ===========================================================
+# CONFIGURATION
+# ===========================================================
+include (TestBigEndian)
+TEST_BIG_ENDIAN(IS_BIG_ENDIAN)
+if(NOT IS_BIG_ENDIAN)
+  set (TE_IS_LITTLE_ENDIAN 1)
+endif()
+
+file(MAKE_DIRECTORY ${PROJECT_CONFIG_INCLUDE})
+configure_file(configure.h.in ${PROJECT_CONFIG_INCLUDE}/tombexcavator_configure.h @ONLY)
+
 # ===========================================================
 add_subdirectory(ext)
+add_subdirectory(src/bsw)
 add_subdirectory(src/formats)
 add_subdirectory(src/utils)
 add_subdirectory(src/unittest)

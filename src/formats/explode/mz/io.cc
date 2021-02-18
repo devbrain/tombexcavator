@@ -7,7 +7,7 @@
 #include <cstring>
 
 #include "io.hh"
-#include "../../../../include/formats/exceptions.hh"
+#include "bsw/exceptions.hh"
 
 namespace formats::explode::mz::io
 {
@@ -25,7 +25,7 @@ namespace formats::explode::mz::io
         m_file = fopen(path, "rb");
         if (!m_file)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
     }
     // -------------------------------------------------------------
@@ -47,7 +47,7 @@ namespace formats::explode::mz::io
     {
         if (fread(buffer, size, 1, m_file) != 1)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
     }
     // -------------------------------------------------------------
@@ -56,7 +56,7 @@ namespace formats::explode::mz::io
         const long pos = ftell(m_file);
         if (pos < 0)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
         return static_cast <offset_type> (pos);
     }
@@ -66,7 +66,7 @@ namespace formats::explode::mz::io
         offset_type current = tell();
         if (fseek(m_file, 0, SEEK_END) != 0)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
         offset_type end = tell();
         seek(current);
@@ -87,7 +87,7 @@ namespace formats::explode::mz::io
     {
         if (fseek_offset(m_file, offset, SEEK_SET) != 0)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
     }
     // ==============================================================
@@ -102,7 +102,7 @@ namespace formats::explode::mz::io
     {
         if (m_ptr + size > m_size)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
         std::memcpy(buffer, m_data + m_ptr, size);
         m_ptr += size;
@@ -122,7 +122,7 @@ namespace formats::explode::mz::io
     {
         if (offset >= static_cast <offset_type> (m_size))
         {
-            throw input_error();
+            throw bsw::input_error();
         }
         m_ptr = static_cast <std::size_t>(offset);
     }
@@ -141,7 +141,7 @@ namespace formats::explode::mz::io
         m_file = fopen(path, "wb");
         if (!m_file)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
     }
     // -------------------------------------------------------------
@@ -163,7 +163,7 @@ namespace formats::explode::mz::io
     {
         if (fwrite(buffer, size, 1, m_file) != 1)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
     }
     // -------------------------------------------------------------
@@ -172,7 +172,7 @@ namespace formats::explode::mz::io
         const long pos = ftell(m_file);
         if (pos <= 0)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
         return static_cast <offset_type> (pos);
     }
@@ -181,7 +181,7 @@ namespace formats::explode::mz::io
     {
         if (fseek_offset(m_file, offset, SEEK_SET) != 0)
         {
-            throw input_error();
+            throw bsw::input_error();
         }
     }
     // =============================================================
@@ -211,7 +211,7 @@ namespace formats::explode::mz::io
     {
         if (offset >= static_cast <off_t> (m_buff.size()))
         {
-            throw input_error();
+            throw bsw::input_error();
         }
         m_ptr = static_cast <std::size_t> (offset);
     }

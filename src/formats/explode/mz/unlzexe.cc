@@ -1,9 +1,9 @@
 #include <vector>
 #include <cstring>
-#include <iostream>
+
 #include "formats/explode/mz/unlzexe.hh"
 #include "formats/explode/mz/struct_reader.hh"
-#include "../../../../include/formats/exceptions.hh"
+#include "bsw/exceptions.hh"
 
 static void build_rellocs_90(formats::explode::mz::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
 {
@@ -285,7 +285,7 @@ namespace formats::explode::mz
                 m_ver = 91;
             } else
             {
-                throw decoder_error("Unsuported version");
+                throw bsw::decoder_error("Unsuported version");
             }
         }
         const io::offset_type header_pos = (inp[exe_file::HEADER_SIZE_PARA] + inp[exe_file::INITIAL_CS]) << 4;
@@ -300,7 +300,7 @@ namespace formats::explode::mz
 
         for (int i = 0; i < eHEADER_MAX; i++)
         {
-            m_header[i] = formats::io::byte_order::from_little_endian(m_header[i]);
+            m_header[i] = bsw::byte_order::from_little_endian(m_header[i]);
         }
 
         if (m_ver == 90)

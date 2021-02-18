@@ -1,15 +1,10 @@
 #ifndef __EXPLODE_UNEXEPACK_HH__
 #define __EXPLODE_UNEXEPACK_HH__
 
-#include <stdint.h>
-#include <stddef.h>
-
 #include "formats/explode/mz/exe_file.hh"
 
 namespace formats::explode::mz
 {
-
-
 	class FORMATS_API unexepack
 	{
 	public:

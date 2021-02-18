@@ -8,13 +8,19 @@ set(generic_hdr
         md5.h
         )
 
-set(archive_src
-        archive/explode/explode_test.cc
+set(formats_src
+        formats/explode/mz/explode_test.cc
+        )
+
+set(bsw_src
+        bsw/io/memory_stream.cc
+        bsw/io/binary_reader_writer.cc
         )
 
 set(modules
         generic
-        archive
+        formats
+        bsw
         )
 
 set(src)
@@ -44,6 +50,7 @@ add_executable(unittest ${src} ${hdr})
 
 target_link_libraries(unittest PRIVATE
         tombexcavator-formats
+        tombexcavator-bsw
         thirdparty::doctest
         )
 target_include_directories(unittest PRIVATE ${PROJECT_ROOT}/src)

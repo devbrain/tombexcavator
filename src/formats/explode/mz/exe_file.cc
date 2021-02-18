@@ -3,9 +3,8 @@
 #include <algorithm>
 
 #include "formats/explode/mz/exe_file.hh"
-#include "io.hh"
-#include "../../../../include/formats/exceptions.hh"
-#include "formats/io/byte_order.hh"
+#include "bsw/exceptions.hh"
+#include "bsw/byte_order.hh"
 
 static const uint16_t MSDOS_MAGIC = 0x5A4D;
 static const uint16_t MSDOS_MAGIC_1 = 0x4D5A;
@@ -79,12 +78,12 @@ namespace formats::explode::mz
 
         for (int i = 0; i < MAX_HEADER_VAL; i++)
         {
-            m_header[i] = formats::io::byte_order::from_little_endian(m_header[i]);
+            m_header[i] = bsw::byte_order::from_little_endian(m_header[i]);
         }
 
         if ((m_header[SIGNATURE] != MSDOS_MAGIC) && (m_header[SIGNATURE] != MSDOS_MAGIC_1))
         {
-            throw exefile_error();
+            throw bsw::exefile_error();
         }
     }
     // --------------------------------------------------------
@@ -290,7 +289,7 @@ namespace formats::explode::mz
 
         for (int i = 0; i < MAX_HEADER_VAL; i++)
         {
-            new_header[i] = formats::io::byte_order::to_little_endian(m_header[i]);
+            new_header[i] = bsw::byte_order::to_little_endian(m_header[i]);
         }
 
         union
@@ -316,8 +315,8 @@ namespace formats::explode::mz
             std::vector<uint16_t> new_rel(relloc_entries * 2);
             for (std::size_t i = 0; i < relloc_entries; i++)
             {
-                const uint16_t rel = formats::io::byte_order::to_little_endian(m_rellocs[i].rel);
-                const uint16_t seg = formats::io::byte_order::to_little_endian(m_rellocs[i].seg);
+                const uint16_t rel = bsw::byte_order::to_little_endian(m_rellocs[i].rel);
+                const uint16_t seg = bsw::byte_order::to_little_endian(m_rellocs[i].seg);
                 new_rel[2 * i] = rel;
                 new_rel[2 * i + 1] = seg;
             }
@@ -327,7 +326,7 @@ namespace formats::explode::mz
         const std::size_t now = static_cast <std::size_t> (out.tell());
         if (now > para_size * 16)
         {
-            throw decoder_error("bad header size");
+            throw bsw::decoder_error("bad header size");
         }
         const std::size_t sz = para_size * 16 - now;
         if (sz)

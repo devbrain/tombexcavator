@@ -3,7 +3,7 @@
 
 #include "formats/explode/mz/unpklite.hh"
 #include "formats/explode/mz/struct_reader.hh"
-#include "../../../../include/formats/exceptions.hh"
+#include "bsw/exceptions.hh"
 
 namespace
 {
@@ -280,7 +280,7 @@ namespace
             }
         }
 #if !defined(__clang__) && !defined(__SUNPRO_CC)
-        throw formats::decoder_error("should not be here");
+        throw bsw::decoder_error("should not be here");
         return 0;
 #endif
     }
@@ -369,8 +369,8 @@ namespace formats::explode::mz
 
         m_file.read_buff(u.bytes, 2 * sizeof(uint16_t));
 
-        u.words[0] = formats::io::byte_order::from_little_endian(u.words[0]);
-        u.words[1] = formats::io::byte_order::from_little_endian(u.words[1]);
+        u.words[0] = bsw::byte_order::from_little_endian(u.words[0]);
+        u.words[1] = bsw::byte_order::from_little_endian(u.words[1]);
 
         return (u.words[0] == 0x4B50) && (u.words[1] == 0x494C);
     }
@@ -390,10 +390,10 @@ namespace formats::explode::mz
         static io::offset_type pklite_info_offset = 2 * 0x0E;
         m_file.seek(pklite_info_offset);
         m_file.read(m_h_pklite_info);
-        m_h_pklite_info = formats::io::byte_order::from_little_endian(m_h_pklite_info);
+        m_h_pklite_info = bsw::byte_order::from_little_endian(m_h_pklite_info);
         if (!is_supported(m_h_pklite_info))
         {
-            throw decoder_error("Unsuported version");
+            throw bsw::decoder_error("Unsuported version");
         }
         const uint32_t header_length_para = inp[exe_file::HEADER_SIZE_PARA];
         m_header_length = (header_length_para & 0xFFFF) << 4;
@@ -464,7 +464,7 @@ namespace formats::explode::mz
                     {
                         if (length_code == 0xFFFD)
                         {
-                            throw decoder_error("Not implemented");
+                            throw bsw::decoder_error("Not implemented");
                         }
                         if (length_code != 0xFFFE)
                         {
@@ -517,7 +517,7 @@ namespace formats::explode::mz
             uint16_t* words;
         } extra;
 
-        uint16_t temp_extra = formats::io::byte_order::to_little_endian(m_h_pklite_info);
+        uint16_t temp_extra = bsw::byte_order::to_little_endian(m_h_pklite_info);
         extra.words = &temp_extra;
 
         oexe.extra_header().push_back(extra.bytes[0]);

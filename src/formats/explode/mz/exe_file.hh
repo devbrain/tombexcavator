@@ -1,11 +1,11 @@
 #ifndef __EXPLODE_EXE_FILE_HH__
 #define __EXPLODE_EXE_FILE_HH__
 
-#include <stdint.h>
 #include <vector>
 #include <iosfwd>
+#include <cstdint>
 
-#include "io.hh"
+#include "formats/explode/mz/io.hh"
 
 #include <tombexcavator-formats_export.h>
 
@@ -55,7 +55,7 @@ namespace formats::explode::mz
     };
 
     // ==============================================================
-    struct FORMATS_API rellocation
+    struct rellocation
     {
         rellocation()
                 : rel(0), seg(0)

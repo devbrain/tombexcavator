@@ -1,8 +1,6 @@
 #ifndef __EXPLODE_UNLZEXE_HH__
 #define __EXPLODE_UNLZEXE_HH__
 
-#include <stdint.h>
-#include <stddef.h>
 #include "formats/explode/mz/exe_file.hh"
 
 namespace formats::explode::mz

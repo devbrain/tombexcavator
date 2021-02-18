@@ -1,6 +1,6 @@
 #include "formats/explode/mz/knowledge_dynamics.hh"
-#include "../../../../include/formats/exceptions.hh"
-#include "formats/io/byte_order.hh"
+#include "bsw/exceptions.hh"
+#include "bsw/byte_order.hh"
 #include "formats/explode/mz/struct_reader.hh"
 
 
@@ -146,7 +146,7 @@ namespace formats::explode::mz
 
             if (step - 9 >= sizeof(keyMask))
             {
-                throw decoder_error("Overflow");
+                throw bsw::decoder_error("Overflow");
             }
             next_index &= keyMask[(step - 9)];
             /* Apply the value as-is, continuing with dictionary reset, C) */
@@ -184,7 +184,7 @@ namespace formats::explode::mz
                 next_index = last_index;
                 if (queued >= sizeof(queue))
                 {
-                    throw decoder_error("Overflow");
+                    throw bsw::decoder_error("Overflow");
                 }
                 /* Queue 1 char */
                 queue[queued++] = last_char;
@@ -197,11 +197,11 @@ namespace formats::explode::mz
                 /* Queue 1 char */
                 if (queued >= sizeof(queue))
                 {
-                    throw decoder_error("Overflow");
+                    throw bsw::decoder_error("Overflow");
                 }
                 if (next_index >= sizeof(dict_val))
                 {
-                    throw decoder_error("Overflow");
+                    throw bsw::decoder_error("Overflow");
                 }
                 queue[queued++] = dict_val[next_index];
                 /* Next query: */
@@ -212,7 +212,7 @@ namespace formats::explode::mz
             last_char = static_cast <uint8_t> (next_index & 0x00FF);
             if (queued >= sizeof(queue))
             {
-                throw decoder_error("Overflow");
+                throw bsw::decoder_error("Overflow");
             }
             queue[queued++] = last_char;
 
@@ -225,7 +225,7 @@ namespace formats::explode::mz
             /* Save value to the dictionary */
             if (next_index >= sizeof(dict_val))
             {
-                throw decoder_error("Overflow");
+                throw bsw::decoder_error("Overflow");
             }
             dict_key[dict_index] = last_index; /* "goto prev entry" */
             dict_val[dict_index] = last_char;  /* the value */

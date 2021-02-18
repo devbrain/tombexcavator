@@ -1,0 +1,6 @@
+#ifndef TE_CONFIG_H
+#define TE_CONFIG_H
+
+#define TE_IS_LITTLE_ENDIAN @TE_IS_LITTLE_ENDIAN@
+
+#endif

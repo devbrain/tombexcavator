@@ -1,6 +1,6 @@
-#include "../../include/formats/exceptions.hh"
+#include "bsw/exceptions.hh"
 
-namespace formats
+namespace bsw
 {
   input_error::input_error ()
     : std::runtime_error ("Input error")

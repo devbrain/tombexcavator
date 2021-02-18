@@ -1,13 +1,11 @@
 #ifndef __EXPLODE_IO_HH__
 #define __EXPLODE_IO_HH__
 
-#include <stdio.h>
+#include <cstdio>
 #include <cstddef>
-#include <stdint.h>
 #include <vector>
 
 #include <sys/types.h>
-
 #include <tombexcavator-formats_export.h>
 
 namespace formats::explode::mz::io

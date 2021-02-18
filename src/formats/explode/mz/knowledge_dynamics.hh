@@ -1,9 +1,6 @@
 #ifndef __EXPLODE_KNOWLEDGE_DYNAMICS_HH__
 #define __EXPLODE_KNOWLEDGE_DYNAMICS_HH__
 
-#include <stdint.h>
-#include <stddef.h>
-
 #include "formats/explode/mz/exe_file.hh"
 
 namespace formats::explode::mz
