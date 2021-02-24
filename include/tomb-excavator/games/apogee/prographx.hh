@@ -6,7 +6,7 @@
 #define TOMBEXCAVATOR_PROGRAPHX_HH
 
 #include <iosfwd>
-#include <tombexcavator-games-apogee_export.h>
+#include <tomb-excavator/games-apogee_export.h>
 #include <tomb-excavator/games/common/tile_sheet.hh>
 
 namespace apogee

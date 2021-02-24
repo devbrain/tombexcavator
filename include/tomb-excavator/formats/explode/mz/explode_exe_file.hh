@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_EXPLODE_EXE_FILE_HH
 #define TOMBEXCAVATOR_EXPLODE_EXE_FILE_HH
 
-#include <tombexcavator-formats_export.h>
+#include <tomb-excavator/formats_export.h>
 #include <vector>
 
 namespace formats::explode::mz

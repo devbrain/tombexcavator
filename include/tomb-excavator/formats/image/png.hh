@@ -5,8 +5,8 @@
 #ifndef TOMBEXCAVATOR_PNG_HH
 #define TOMBEXCAVATOR_PNG_HH
 
-#include <tombexcavator-formats_export.h>
-#include "picture.hh"
+#include <tomb-excavator/formats_export.h>
+#include "tomb-excavator/formats/image/picture.hh"
 
 namespace formats::image
 {

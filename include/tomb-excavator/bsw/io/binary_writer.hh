@@ -8,8 +8,8 @@
 
 #include <vector>
 #include <ostream>
-#include <tombexcavator-bsw_export.h>
-#include <tombexcavator_configure.h>
+#include <tomb-excavator/bsw_export.h>
+#include <tomb-excavator/tombexcavator_configure.h>
 #include <tomb-excavator/bsw/io/memory_stream_buf.hh>
 
 namespace bsw::io

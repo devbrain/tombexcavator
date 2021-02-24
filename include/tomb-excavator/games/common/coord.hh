@@ -5,7 +5,7 @@
 #ifndef COMMON_COORD_HH
 #define COMMON_COORD_HH
 
-#include <tombexcavator-games-common_export.h>
+#include <tomb-excavator/games-common_export.h>
 
 namespace common
 {

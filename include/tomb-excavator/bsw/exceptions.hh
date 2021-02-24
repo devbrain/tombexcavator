@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 #include <sstream>
-#include <tombexcavator-bsw_export.h>
+#include <tomb-excavator/bsw_export.h>
 
 namespace bsw
 {

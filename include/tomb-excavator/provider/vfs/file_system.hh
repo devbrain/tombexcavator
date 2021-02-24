@@ -8,7 +8,7 @@
 #include <string>
 #include <memory>
 
-#include <tombexcavator-provider_export.h>
+#include <tomb-excavator/provider_export.h>
 #include <tomb-excavator/provider/vfs/directory.hh>
 #include <tomb-excavator/provider/physfs/directory.hh>
 
@@ -33,7 +33,7 @@ namespace provider::vfs
 #       if !defined(tombexcavator_provider_EXPORTS)
 #           define tombexcavator_provider_EXPORTS
 #       endif
-#       include <tombexcavator-provider_export.h>
+#       include <tomb-excavator/provider_export.h>
 #           define REGISTER_PROVIDER_FS(TYPE) \
                extern "C" PROVIDER_API void* TE_PROVIDER_LOADER_NAME () { return new TYPE; }
 

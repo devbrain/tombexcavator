@@ -48,12 +48,12 @@ add_library(tombexcavator-formats SHARED ${src} ${hdr})
 generate_export_header(tombexcavator-formats
              BASE_NAME FORMATS_EXPORT
              EXPORT_MACRO_NAME FORMATS_API
-             EXPORT_FILE_NAME tombexcavator-formats_export.h
+             EXPORT_FILE_NAME ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/formats_export.h
              STATIC_DEFINE FORMATS_BUILT_AS_STATIC
 )
 
 target_include_directories(tombexcavator-formats
-        PUBLIC ${PROJECT_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR}
+        PUBLIC ${PROJECT_INCLUDE} ${PROJECT_CONFIG_INCLUDE}
         PRIVATE ${PROJECT_INCLUDE_PRIVATE}
         )
 

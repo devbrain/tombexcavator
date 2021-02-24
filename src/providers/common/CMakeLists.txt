@@ -4,6 +4,7 @@ set (src
         tile_sheet.cc
         canvas.cc
         ega_palette.cc
+        bitmask.cc
         )
 
 set(hdr
@@ -12,6 +13,7 @@ set(hdr
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/tile_sheet.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/canvas.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/ega_palette.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/bitmask.hh
         )
 
 add_library(tombexcavator-games-common SHARED ${src} ${hdr})
@@ -19,12 +21,12 @@ add_library(tombexcavator-games-common SHARED ${src} ${hdr})
 generate_export_header(tombexcavator-games-common
         BASE_NAME GAMES_COMMON_EXPORT
         EXPORT_MACRO_NAME GAMES_COMMON_API
-        EXPORT_FILE_NAME tombexcavator-games-common_export.h
+        EXPORT_FILE_NAME ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/games-common_export.h
         STATIC_DEFINE GAMES_COMMON_BUILT_AS_STATIC
         )
 
 target_include_directories(tombexcavator-games-common
-        PUBLIC ${PROJECT_CONFIG_INCLUDE} ${PROJECT_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR}
+        PUBLIC ${PROJECT_CONFIG_INCLUDE} ${PROJECT_INCLUDE}
         PRIVATE ${PROJECT_INCLUDE_PRIVATE}
         )
 

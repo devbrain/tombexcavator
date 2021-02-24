@@ -81,5 +81,10 @@ namespace common
             }
         }
     }
-
+    // ---------------------------------------------------------------------------
+    void canvas::put(int x, int y, unsigned char pixel)
+    {
+        const auto dst_idx = m_dim.w()*y + x;
+        m_pixels[dst_idx] = pixel;
+    }
 }

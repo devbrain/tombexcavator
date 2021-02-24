@@ -8,9 +8,9 @@
 #include <vector>
 #include <string>
 
-#include <tombexcavator-games-common_export.h>
-#include "coord.hh"
-#include "palette.hh"
+#include <tomb-excavator/games-common_export.h>
+#include "tomb-excavator/games/common/coord.hh"
+#include "tomb-excavator/games/common/palette.hh"
 
 namespace common
 {
@@ -31,6 +31,7 @@ namespace common
         void fill (unsigned char color);
 
         void copy(int x, int y, const std::vector<unsigned char>& src, int src_w, int src_h);
+        void put(int x, int y, unsigned char pixel);
 
         [[nodiscard]] unsigned char* data() noexcept ;
         [[nodiscard]] const unsigned char* data() const noexcept ;

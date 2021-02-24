@@ -30,12 +30,12 @@ add_library(tombexcavator-bsw SHARED ${src} ${hdr})
 generate_export_header(tombexcavator-bsw
              BASE_NAME BSW_EXPORT
              EXPORT_MACRO_NAME BSW_API
-             EXPORT_FILE_NAME tombexcavator-bsw_export.h
+             EXPORT_FILE_NAME ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/bsw_export.h
              STATIC_DEFINE BSW_BUILT_AS_STATIC
 )
 
 target_include_directories(tombexcavator-bsw
-        PUBLIC ${PROJECT_CONFIG_INCLUDE} ${PROJECT_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR}
+        PUBLIC ${PROJECT_CONFIG_INCLUDE} ${PROJECT_INCLUDE}
         PRIVATE ${PROJECT_INCLUDE_PRIVATE}
         )
 

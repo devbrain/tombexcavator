@@ -2,11 +2,11 @@
 // Created by igor on 14/02/2021.
 //
 
-#ifndef TOMBEXCAVATOR_JPEG_HH
-#define TOMBEXCAVATOR_JPEG_HH
+#ifndef TOMBEXCAVATOR_BMP_HH
+#define TOMBEXCAVATOR_BMP_HH
 
-#include <tombexcavator-formats_export.h>
-#include "picture.hh"
+#include <tomb-excavator/formats_export.h>
+#include "tomb-excavator/formats/image/picture.hh"
 
 namespace formats::image
 {

@@ -41,7 +41,7 @@ if(NOT IS_BIG_ENDIAN)
 endif()
 
 file(MAKE_DIRECTORY ${PROJECT_CONFIG_INCLUDE})
-configure_file(configure.h.in ${PROJECT_CONFIG_INCLUDE}/tombexcavator_configure.h @ONLY)
+configure_file(configure.h.in ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/tombexcavator_configure.h @ONLY)
 
 # ===========================================================
 add_subdirectory(ext)

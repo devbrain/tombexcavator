@@ -9,9 +9,9 @@
 #include <vector>
 #include <istream>
 
-#include <tombexcavator_configure.h>
+#include <tomb-excavator/tombexcavator_configure.h>
 #include "memory_stream_buf.hh"
-#include "tombexcavator-bsw_export.h"
+#include "tomb-excavator/bsw_export.h"
 
 namespace bsw::io
 {

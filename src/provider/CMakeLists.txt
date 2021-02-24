@@ -23,12 +23,12 @@ add_library(tombexcavator-provider SHARED ${src} ${hdr})
 generate_export_header(tombexcavator-provider
              BASE_NAME PROVIDER_EXPORT
              EXPORT_MACRO_NAME PROVIDER_API
-             EXPORT_FILE_NAME tombexcavator-provider_export.h
+             EXPORT_FILE_NAME ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/provider_export.h
              STATIC_DEFINE PROVIDER_BUILT_AS_STATIC
 )
 
 target_include_directories(tombexcavator-provider
-        PUBLIC ${PROJECT_CONFIG_INCLUDE} ${PROJECT_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR}
+        PUBLIC ${PROJECT_CONFIG_INCLUDE} ${PROJECT_INCLUDE}
         PRIVATE ${PROJECT_INCLUDE_PRIVATE}
         )
 

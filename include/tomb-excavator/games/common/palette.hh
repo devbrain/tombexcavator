@@ -5,7 +5,7 @@
 #ifndef COMMON_PALETTE_HH
 #define COMMON_PALETTE_HH
 
-#include <tombexcavator-games-common_export.h>
+#include <tomb-excavator/games-common_export.h>
 #include <vector>
 #include <cstdint>
 

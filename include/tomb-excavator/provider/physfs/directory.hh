@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_PHYS_FS_DIRECTORY_HH
 #define TOMBEXCAVATOR_PHYS_FS_DIRECTORY_HH
 
-#include <tombexcavator-provider_export.h>
+#include <tomb-excavator/provider_export.h>
 #include <filesystem>
 #include <string>
 #include <memory>

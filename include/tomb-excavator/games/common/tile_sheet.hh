@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <string>
-#include <tombexcavator-games-common_export.h>
+#include <tomb-excavator/games-common_export.h>
 #include <tomb-excavator/games/common/coord.hh>
 #include <tomb-excavator/games/common/palette.hh>
 #include <tomb-excavator/games/common/canvas.hh>

@@ -3,7 +3,7 @@
 
 
 #include <stdint.h>
-#include <tombexcavator_configure.h>
+#include <tomb-excavator/tombexcavator_configure.h>
 
 namespace bsw
 {
