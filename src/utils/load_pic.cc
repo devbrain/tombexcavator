@@ -2,7 +2,7 @@
 // Created by igor on 16/02/2021.
 //
 #include <iostream>
-#include "formats/image/picture.hh"
+#include "tomb-excavator/formats/image/picture.hh"
 
 int main(int argc, char* argv[])
 {

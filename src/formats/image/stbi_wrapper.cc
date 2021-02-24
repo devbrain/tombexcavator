@@ -4,12 +4,12 @@
 
 #include <cstring>
 
-#include "formats/image/jpeg.hh"
-#include "formats/image/tga.hh"
-#include "formats/image/bmp.hh"
-#include "formats/image/png.hh"
-#include "formats/image/psd.hh"
-#include "formats/image/gif.hh"
+#include "tomb-excavator/formats/image/jpeg.hh"
+#include "tomb-excavator/formats/image/tga.hh"
+#include "tomb-excavator/formats/image/bmp.hh"
+#include "tomb-excavator/formats/image/png.hh"
+#include "tomb-excavator/formats/image/psd.hh"
+#include "tomb-excavator/formats/image/gif.hh"
 
 #include "formats/image/picture_loader.hh"
 

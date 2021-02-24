@@ -15,17 +15,17 @@ set (src
         )
 set (hdr
 
-        ${PROJECT_INCLUDE}/formats/explode/mz/explode_exe_file.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/explode/mz/explode_exe_file.hh
 
-        ${PROJECT_INCLUDE}/formats/image/picture.hh
-        ${PROJECT_INCLUDE}/formats/image/tga.hh
-        ${PROJECT_INCLUDE}/formats/image/bmp.hh
-        ${PROJECT_INCLUDE}/formats/image/gif.hh
-        ${PROJECT_INCLUDE}/formats/image/jpeg.hh
-        ${PROJECT_INCLUDE}/formats/image/pcx.hh
-        ${PROJECT_INCLUDE}/formats/image/png.hh
-        ${PROJECT_INCLUDE}/formats/image/psd.hh
-        ${PROJECT_INCLUDE}/formats/image/tga.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/picture.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/tga.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/bmp.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/gif.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/jpeg.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/pcx.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/png.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/psd.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/tga.hh
 
         explode/mz/io.hh
         explode/mz/exe_file.hh

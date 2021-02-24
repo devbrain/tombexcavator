@@ -4,8 +4,8 @@
 #include <sstream>
 #include <doctest.h>
 
-#include "bsw/io/binary_reader.hh"
-#include "bsw/io/binary_writer.hh"
+#include "tomb-excavator/bsw/io/binary_reader.hh"
+#include "tomb-excavator/bsw/io/binary_writer.hh"
 
 
 using namespace bsw::io;

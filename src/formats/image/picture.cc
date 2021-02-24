@@ -4,13 +4,34 @@
 
 #include <fstream>
 #include <ios>
-#include "formats/image/picture.hh"
+#include "tomb-excavator/formats/image/picture.hh"
 #include "formats/image/picture_loader.hh"
 #include <mio/mmap.hpp>
 #include "formats/image/thirdparty/lodepng.h"
 
 namespace formats::image
 {
+    picture::picture(unsigned w, unsigned h, bool is_rgba)
+    : width(w),
+    height(h),
+    bpp(is_rgba ? 4 : 3)
+    {
+        pixels.resize(bpp*width*height);
+    }
+    // -------------------------------------------------------------------------------------------
+    void picture::put(unsigned x, unsigned y, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+    {
+        const std::size_t row_size = bpp*width;
+        const std::size_t idx = y*row_size + x*bpp;
+        pixels[idx+0] = r;
+        pixels[idx+1] = g;
+        pixels[idx+2] = b;
+        if (bpp == 4)
+        {
+            pixels[idx+3] = a;
+        }
+    }
+    // =================================================================================================
     bool save_to_png(const picture& pic, const std::filesystem::path& path)
     {
         const LodePNGColorType color_type = (pic.bpp == 3) ? LCT_RGB : LCT_RGBA;

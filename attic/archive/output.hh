@@ -2,7 +2,7 @@
 #define ARCHIVE_OUTPUT_HH
 
 #include <archive/archive_api.h>
-#include "palette.hh"
+#include "games/common/palette.hh"
 #include <string>
 #include <vector>
 #include <tuple>

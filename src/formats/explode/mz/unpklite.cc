@@ -3,7 +3,7 @@
 
 #include "formats/explode/mz/unpklite.hh"
 #include "formats/explode/mz/struct_reader.hh"
-#include "bsw/exceptions.hh"
+#include "tomb-excavator/bsw/exceptions.hh"
 
 namespace
 {
@@ -280,7 +280,7 @@ namespace
             }
         }
 #if !defined(__clang__) && !defined(__SUNPRO_CC)
-        throw bsw::decoder_error("should not be here");
+        RAISE_EX("should not be here");
         return 0;
 #endif
     }
@@ -393,7 +393,7 @@ namespace formats::explode::mz
         m_h_pklite_info = bsw::byte_order::from_little_endian(m_h_pklite_info);
         if (!is_supported(m_h_pklite_info))
         {
-            throw bsw::decoder_error("Unsuported version");
+            RAISE_EX("Unsuported version");
         }
         const uint32_t header_length_para = inp[exe_file::HEADER_SIZE_PARA];
         m_header_length = (header_length_para & 0xFFFF) << 4;
@@ -464,7 +464,7 @@ namespace formats::explode::mz
                     {
                         if (length_code == 0xFFFD)
                         {
-                            throw bsw::decoder_error("Not implemented");
+                            RAISE_EX ("Not implemented");
                         }
                         if (length_code != 0xFFFE)
                         {

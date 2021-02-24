@@ -3,7 +3,7 @@
 //
 
 #include <doctest.h>
-#include <bsw/io/memory_stream_buf.hh>
+#include <tomb-excavator/bsw/io/memory_stream_buf.hh>
 #include <vector>
 #include <sstream>
 

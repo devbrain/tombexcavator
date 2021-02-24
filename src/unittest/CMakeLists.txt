@@ -17,6 +17,7 @@ set(bsw_src
         bsw/io/binary_reader_writer.cc
         )
 
+
 set(modules
         generic
         formats

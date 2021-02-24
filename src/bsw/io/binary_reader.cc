@@ -2,8 +2,8 @@
 // Created by igor on 18/02/2021.
 //
 
-#include "bsw/io/binary_reader.hh"
-#include "bsw/byte_order.hh"
+#include "tomb-excavator/bsw/io/binary_reader.hh"
+#include "tomb-excavator/bsw/byte_order.hh"
 
 namespace bsw::io
 {
@@ -158,6 +158,18 @@ namespace bsw::io
         return *this;
     }
 
+    binary_reader& binary_reader::operator>>(std::vector<char>& value)
+    {
+        read_raw(value.data(), value.size());
+        return *this;
+    }
+
+    binary_reader& binary_reader::operator>>(std::vector<unsigned char>& value)
+    {
+        read_raw(value.data(), value.size());
+        return *this;
+    }
+
     void binary_reader::read_raw(std::streamsize length, std::string& value)
     {
         value.clear();
@@ -174,6 +186,11 @@ namespace bsw::io
     void binary_reader::read_raw(char* buffer, std::streamsize length)
     {
         m_istr.read(buffer, length);
+    }
+
+    void binary_reader::read_raw(unsigned char* buffer, std::streamsize length)
+    {
+        m_istr.read((char *)buffer, length);
     }
 
 } // ns

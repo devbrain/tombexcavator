@@ -38,20 +38,20 @@ set(generic_src
         io.cc
         exceptions.cc
         output.cc
-        tile_sheet.cc
-        coord.cc
-        palette.cc
-        canvas.cc
+        ../../src/providers/common/tile_sheet.cc
+        ../../src/providers/common/coord.cc
+        ../../src/providers/common/palette.cc
+        ../../src/providers/common/canvas.cc
         )
 set(generic_hdr
         byte_order.hh
         io.hh
         exceptions.hh
         output.hh
-        tile_sheet.hh
-        coord.hh
-        palette.hh
-        canvas.hh
+        ../../include/tomb-excavator/games/common/tile_sheet.hh
+        ../../include/tomb-excavator/games/common/coord.hh
+        ../../include/tomb-excavator/games/common/palette.hh
+        ../../include/tomb-excavator/games/common/canvas.hh
         )
 
 set(modules generic explode lodepng)

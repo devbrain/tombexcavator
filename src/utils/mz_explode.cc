@@ -2,7 +2,7 @@
 // Created by igor on 16/02/2021.
 //
 
-#include <formats/explode/mz/explode_exe_file.hh>
+#include <tomb-excavator/formats/explode/mz/explode_exe_file.hh>
 #include <mio/mmap.hpp>
 #include <filesystem>
 #include <iostream>

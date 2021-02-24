@@ -47,6 +47,8 @@ configure_file(configure.h.in ${PROJECT_CONFIG_INCLUDE}/tombexcavator_configure.
 add_subdirectory(ext)
 add_subdirectory(src/bsw)
 add_subdirectory(src/formats)
+add_subdirectory(src/provider)
+add_subdirectory(src/providers)
 add_subdirectory(src/utils)
 add_subdirectory(src/unittest)
 

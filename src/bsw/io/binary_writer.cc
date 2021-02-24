@@ -2,8 +2,8 @@
 // Created by igor on 18/02/2021.
 //
 
-#include "bsw/io/binary_writer.hh"
-#include "bsw/byte_order.hh"
+#include "tomb-excavator/bsw/io/binary_writer.hh"
+#include "tomb-excavator/bsw/byte_order.hh"
 
 namespace bsw::io
 {

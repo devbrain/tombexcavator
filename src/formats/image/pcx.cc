@@ -2,7 +2,7 @@
 // Created by igor on 14/02/2021.
 //
 
-#include "formats/image/pcx.hh"
+#include "tomb-excavator/formats/image/pcx.hh"
 #include "formats/image/picture_loader.hh"
 #include <cstring>
 

@@ -3,7 +3,7 @@
 
 #include "formats/explode/mz/unlzexe.hh"
 #include "formats/explode/mz/struct_reader.hh"
-#include "bsw/exceptions.hh"
+#include "tomb-excavator/bsw/exceptions.hh"
 
 static void build_rellocs_90(formats::explode::mz::io::input& file, std::vector<formats::explode::mz::rellocation>& rellocs)
 {
@@ -285,7 +285,7 @@ namespace formats::explode::mz
                 m_ver = 91;
             } else
             {
-                throw bsw::decoder_error("Unsuported version");
+                RAISE_EX ("Unsuported version");
             }
         }
         const io::offset_type header_pos = (inp[exe_file::HEADER_SIZE_PARA] + inp[exe_file::INITIAL_CS]) << 4;

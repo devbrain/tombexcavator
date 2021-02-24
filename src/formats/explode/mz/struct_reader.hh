@@ -2,7 +2,7 @@
 #define __EXPLODE_STRUCT_READER_HH__
 
 #include "formats/explode/mz/io.hh"
-#include "bsw/byte_order.hh"
+#include "tomb-excavator/bsw/byte_order.hh"
 
 namespace formats::explode::mz
 {

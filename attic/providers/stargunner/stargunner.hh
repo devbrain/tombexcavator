@@ -11,7 +11,7 @@
 
 #include "../../archive/io.hh"
 #include <mio/mio.hpp>
-#include "../../archive/tile_sheet.hh"
+#include "games/common/tile_sheet.hh"
 
 namespace stargunner
 {

@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-#include "../../../include/formats/explode/mz/explode_exe_file.hh"
+#include "tomb-excavator/formats/explode/mz/explode_exe_file.hh"
 
 #include "formats/explode/mz/knowledge_dynamics.hh"
 #include "formats/explode/mz/unlzexe.hh"

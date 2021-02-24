@@ -2,7 +2,7 @@
 // Created by igor on 17/02/2021.
 //
 
-#include "bsw/io/memory_stream_buf.hh"
+#include "tomb-excavator/bsw/io/memory_stream_buf.hh"
 #include "ios_init.hh"
 
 namespace bsw::io

@@ -3,8 +3,8 @@
 #include <algorithm>
 
 #include "formats/explode/mz/exe_file.hh"
-#include "bsw/exceptions.hh"
-#include "bsw/byte_order.hh"
+#include "tomb-excavator/bsw/exceptions.hh"
+#include "tomb-excavator/bsw/byte_order.hh"
 
 static const uint16_t MSDOS_MAGIC = 0x5A4D;
 static const uint16_t MSDOS_MAGIC_1 = 0x4D5A;
@@ -83,7 +83,7 @@ namespace formats::explode::mz
 
         if ((m_header[SIGNATURE] != MSDOS_MAGIC) && (m_header[SIGNATURE] != MSDOS_MAGIC_1))
         {
-            throw bsw::exefile_error();
+           RAISE_EX("Not a MZ-EXE file");
         }
     }
     // --------------------------------------------------------
@@ -326,7 +326,7 @@ namespace formats::explode::mz
         const std::size_t now = static_cast <std::size_t> (out.tell());
         if (now > para_size * 16)
         {
-            throw bsw::decoder_error("bad header size");
+            RAISE_EX ("bad header size");
         }
         const std::size_t sz = para_size * 16 - now;
         if (sz)
