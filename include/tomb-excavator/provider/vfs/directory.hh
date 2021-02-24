@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_DIRECTORY_HH
 #define TOMBEXCAVATOR_DIRECTORY_HH
 
-#include <tomb-excavator/provider_export.h>
+#include <tomb-excavator/export-provider.h>
 
 #include <cstddef>
 #include <string>

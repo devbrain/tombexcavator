@@ -6,6 +6,7 @@ set (CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_SOURCE_DIR}/cmake")
 
 # ===========================================================
 include(GenerateExportHeader)
+include(build)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads)
 find_package(Filesystem)
@@ -40,7 +41,7 @@ if(NOT IS_BIG_ENDIAN)
   set (TE_IS_LITTLE_ENDIAN 1)
 endif()
 
-file(MAKE_DIRECTORY ${PROJECT_CONFIG_INCLUDE})
+file(MAKE_DIRECTORY ${PROJECT_CONFIG_INCLUDE}/tomb-excavator)
 configure_file(configure.h.in ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/tombexcavator_configure.h @ONLY)
 
 # ===========================================================

@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <ostream>
-#include <tomb-excavator/bsw_export.h>
+#include <tomb-excavator/export-bsw.h>
 #include <tomb-excavator/tombexcavator_configure.h>
 #include <tomb-excavator/bsw/io/memory_stream_buf.hh>
 

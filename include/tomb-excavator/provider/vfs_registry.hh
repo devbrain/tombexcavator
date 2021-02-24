@@ -10,7 +10,7 @@
 #include <initializer_list>
 #include <filesystem>
 
-#include <tomb-excavator/provider_export.h>
+#include <tomb-excavator/export-provider.h>
 #include <tomb-excavator/provider/vfs/file_system.hh>
 
 

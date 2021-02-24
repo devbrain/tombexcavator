@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_PICTURE_HH
 #define TOMBEXCAVATOR_PICTURE_HH
 
-#include <tomb-excavator/formats_export.h>
+#include <tomb-excavator/export-formats.h>
 #include <vector>
 #include <filesystem>
 

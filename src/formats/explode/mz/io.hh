@@ -6,7 +6,7 @@
 #include <vector>
 
 #include <sys/types.h>
-#include <tomb-excavator/formats_export.h>
+#include <tomb-excavator/export-formats.h>
 
 namespace formats::explode::mz::io
 {

@@ -10,8 +10,8 @@
 #include <istream>
 
 #include <tomb-excavator/tombexcavator_configure.h>
-#include "memory_stream_buf.hh"
-#include "tomb-excavator/bsw_export.h"
+#include <tomb-excavator/bsw/io/memory_stream_buf.hh>
+#include <tomb-excavator/export-bsw.h>
 
 namespace bsw::io
 {

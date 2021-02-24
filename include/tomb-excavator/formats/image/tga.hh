@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_TGA_HH
 #define TOMBEXCAVATOR_TGA_HH
 
-#include <tomb-excavator/formats_export.h>
+#include <tomb-excavator/export-formats.h>
 #include "tomb-excavator/formats/image/picture.hh"
 
 namespace formats::image

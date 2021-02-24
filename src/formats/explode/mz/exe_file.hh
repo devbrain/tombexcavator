@@ -7,7 +7,7 @@
 
 #include "formats/explode/mz/io.hh"
 
-#include <tomb-excavator/formats_export.h>
+#include <tomb-excavator/export-formats.h>
 
 namespace formats::explode::mz
 {

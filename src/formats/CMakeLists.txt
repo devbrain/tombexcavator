@@ -40,36 +40,15 @@ set (hdr
         image/thirdparty/lodepng.h
         image/thirdparty/dr_pcx.h
         image/thirdparty/stb_image.h
-
         )
 
-add_library(tombexcavator-formats SHARED ${src} ${hdr})
-
-generate_export_header(tombexcavator-formats
-             BASE_NAME FORMATS_EXPORT
-             EXPORT_MACRO_NAME FORMATS_API
-             EXPORT_FILE_NAME ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/formats_export.h
-             STATIC_DEFINE FORMATS_BUILT_AS_STATIC
-)
-
-target_include_directories(tombexcavator-formats
-        PUBLIC ${PROJECT_INCLUDE} ${PROJECT_CONFIG_INCLUDE}
-        PRIVATE ${PROJECT_INCLUDE_PRIVATE}
+build_te_library(formats
+        SOURCES ${src}
+        HEADERS ${src}
+        PUBLIC_LINK
+            tombexcavator-bsw
+            std::filesystem
+            Threads::Threads
+        PRIVATE_LINK
+            thirdparty::mio
         )
-
-set_target_properties(tombexcavator-formats PROPERTIES CXX_STANDARD 17)
-
-target_link_libraries(tombexcavator-formats
-          PUBLIC
-          tombexcavator-bsw
-          std::filesystem
-          Threads::Threads
-
-          PRIVATE
-          thirdparty::mio
-        )
-
-target_compile_options(tombexcavator-formats PRIVATE
-        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>: -Wall -Wextra -pedantic -fvisibility=hidden
-        $<$<COMPILE_LANGUAGE:CXX>:-fvisibility-inlines-hidden> >
-        $<$<CXX_COMPILER_ID:MSVC>: "/W4" >)

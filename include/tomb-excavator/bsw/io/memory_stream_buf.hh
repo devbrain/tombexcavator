@@ -12,7 +12,7 @@
 #include <ostream>
 #include <stdexcept>
 
-#include <tomb-excavator/bsw_export.h>
+#include <tomb-excavator/export-bsw.h>
 
 namespace bsw::io
 {

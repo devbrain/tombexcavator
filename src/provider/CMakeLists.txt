@@ -18,34 +18,13 @@ set (hdr
 
         )
 
-add_library(tombexcavator-provider SHARED ${src} ${hdr})
+build_te_library(provider
+        SOURCES ${src}
+        HEADERS ${hdr}
 
-generate_export_header(tombexcavator-provider
-             BASE_NAME PROVIDER_EXPORT
-             EXPORT_MACRO_NAME PROVIDER_API
-             EXPORT_FILE_NAME ${PROJECT_CONFIG_INCLUDE}/tomb-excavator/provider_export.h
-             STATIC_DEFINE PROVIDER_BUILT_AS_STATIC
-)
-
-target_include_directories(tombexcavator-provider
-        PUBLIC ${PROJECT_CONFIG_INCLUDE} ${PROJECT_INCLUDE}
-        PRIVATE ${PROJECT_INCLUDE_PRIVATE}
+        PUBLIC_LINK
+            tombexcavator-formats
+            tombexcavator-bsw
+            ${CMAKE_DL_LIBS}
         )
 
-set_target_properties(tombexcavator-provider PROPERTIES CXX_STANDARD 17)
-
-target_link_libraries(tombexcavator-provider
-          PUBLIC
-          tombexcavator-formats
-          tombexcavator-bsw
-          Threads::Threads
-          ${CMAKE_DL_LIBS}
-
-          PRIVATE
-          thirdparty::mio
-        )
-
-target_compile_options(tombexcavator-provider PRIVATE
-        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>: -Wall -Wextra -pedantic -fvisibility=hidden
-        $<$<COMPILE_LANGUAGE:CXX>:-fvisibility-inlines-hidden> >
-        $<$<CXX_COMPILER_ID:MSVC>: "/W4" >)

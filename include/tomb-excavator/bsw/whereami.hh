@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_WHEREAMI_HH
 #define TOMBEXCAVATOR_WHEREAMI_HH
 
-#include <tomb-excavator/bsw_export.h>
+#include <tomb-excavator/export-bsw.h>
 #include <filesystem>
 
 namespace bsw
