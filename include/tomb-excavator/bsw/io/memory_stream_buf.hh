@@ -14,6 +14,8 @@
 
 #include <tomb-excavator/export-bsw.h>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace bsw::io
 {
 
@@ -197,7 +199,9 @@ namespace bsw::io
         /// Returns a pointer to the underlying streambuf.
 
     protected:
+
         memory_stream_buf_t _buf;
+
     };
 
     class BSW_API memory_input_stream : public memory_ios, public std::istream
@@ -227,6 +231,8 @@ namespace bsw::io
 /// Returns the number of chars written to the buffer.
     };
 
+
+
 //
 // inlines
 //
@@ -243,5 +249,5 @@ namespace bsw::io
 
 }
 
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_MEMORY_STREAM_BUF_HH

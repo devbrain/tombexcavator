@@ -9,6 +9,7 @@
 #include <vector>
 #include <filesystem>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace formats::image
 {
     struct FORMATS_API picture
@@ -30,4 +31,5 @@ namespace formats::image
     FORMATS_API picture load_picture(const char* data, std::size_t size);
 } // ns
 
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_PICTURE_HH

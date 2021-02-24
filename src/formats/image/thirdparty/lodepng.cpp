@@ -1,3 +1,7 @@
+#if defined(_MSC_VER)
+#pragma warning( push )
+#pragma warning( disable : 4267 )
+#endif
 /*
 LodePNG version 20201017
 
@@ -6462,3 +6466,6 @@ unsigned encode(const std::string& filename,
 #endif /* LODEPNG_COMPILE_PNG */
 } /* namespace lodepng */
 #endif /*LODEPNG_COMPILE_CPP*/
+#if defined(_MSC_VER)
+#pragma warning( pop )
+#endif

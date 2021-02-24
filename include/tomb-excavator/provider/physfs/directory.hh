@@ -12,6 +12,8 @@
 #include <iosfwd>
 #include <vector>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace provider::physfs
 {
     class PROVIDER_API directory
@@ -42,4 +44,5 @@ namespace provider::physfs
     };
 } // ns
 
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif

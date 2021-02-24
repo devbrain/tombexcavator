@@ -11,7 +11,7 @@
 #include <tomb-excavator/games/common/coord.hh>
 #include <tomb-excavator/games/common/palette.hh>
 #include <tomb-excavator/games/common/canvas.hh>
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace common
 {
     class GAMES_COMMON_API sprite_group
@@ -55,5 +55,5 @@ namespace common
         std::vector<std::vector<unsigned char>> m_sprites;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_TILE_SHEET_HH

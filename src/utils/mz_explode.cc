@@ -3,7 +3,14 @@
 //
 
 #include <tomb-excavator/formats/explode/mz/explode_exe_file.hh>
+#if defined(_MSC_VER)
+#pragma warning( push )
+#pragma warning( disable : 4244 )
+#endif
 #include <mio/mmap.hpp>
+#if defined(_MSC_VER)
+#pragma warning( pop )
+#endif
 #include <filesystem>
 #include <iostream>
 #include <fstream>

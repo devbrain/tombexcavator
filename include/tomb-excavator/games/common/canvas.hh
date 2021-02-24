@@ -11,7 +11,7 @@
 #include <tomb-excavator/games-common_export.h>
 #include "tomb-excavator/games/common/coord.hh"
 #include "tomb-excavator/games/common/palette.hh"
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace common
 {
     class GAMES_COMMON_API canvas
@@ -41,5 +41,5 @@ namespace common
         std::vector<unsigned char> m_pixels;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_CANVAS_HH

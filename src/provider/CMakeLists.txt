@@ -15,8 +15,14 @@ set (hdr
 
         ${PROJECT_INCLUDE}/tomb-excavator/provider/file_types.hh
         ${PROJECT_INCLUDE}/tomb-excavator/provider/vfs_registry.hh
-
         )
+
+
+if (WIN32)
+    set (DL_LIBS thirdparty::dlfcn-win32)
+else()
+    set (DL_LIBS ${CMAKE_DL_LIBS})
+endif()
 
 build_te_library(provider
         SOURCES ${src}
@@ -25,6 +31,6 @@ build_te_library(provider
         PUBLIC_LINK
             tombexcavator-formats
             tombexcavator-bsw
-            ${CMAKE_DL_LIBS}
+            ${DL_LIBS}
         )
 

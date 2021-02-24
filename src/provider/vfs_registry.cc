@@ -57,7 +57,8 @@ namespace provider
             const auto& file = p.path();
             if (std::filesystem::is_regular_file(p.path()))
             {
-                 void* library = dlopen(file.c_str(), RTLD_LAZY);
+                 
+                 void* library = dlopen(file.u8string().c_str(), RTLD_LAZY);
                  if (library)
                  {
                      #define xstr(s) str(s)

@@ -5,6 +5,8 @@
 #include <sstream>
 #include <tomb-excavator/export-bsw.h>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace bsw
 {
     class BSW_API exception : public std::runtime_error
@@ -47,6 +49,8 @@ namespace bsw
         return os.str();
     }
 }
+
+#include <tomb-excavator/msvc/c4251-end.h>
 
 #if defined(_MSC_VER)
 #define __PRETTY_FUNCTION__ __FUNCSIG__

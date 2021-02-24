@@ -96,7 +96,7 @@ namespace formats::explode::mz
 			{
 				RAISE_EX ("not an exepack");
 			}
-
+#if 0
 			uint16_t ax = var_36;
 			ax += 6;
 			
@@ -107,8 +107,8 @@ namespace formats::explode::mz
 			m_file.seek(offs);
 			std::vector <uint8_t> ibuff(var_8);
 			m_file.read_buff((char*)&ibuff[0], var_8);
-			
-			uint16_t bytes_in = var_8;
+#endif		
+		//	uint16_t bytes_in = var_8;
 
 			
 
@@ -119,7 +119,7 @@ namespace formats::explode::mz
 		return;
 	}
 
-	void unexepack::unpack(output_exe_file& oexe)
+	void unexepack::unpack([[maybe_unused]] output_exe_file& oexe)
 	{
 	}
 

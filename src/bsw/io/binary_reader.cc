@@ -83,11 +83,11 @@ namespace bsw::io
         if constexpr (sizeof(long) == 8)
         {
             if (m_flip_bytes)
-            { value = byte_order::flip_bytes((int64_t) value); }
+            { value = (long)byte_order::flip_bytes((int64_t) value); }
         } else
         {
             if (m_flip_bytes)
-            { value = byte_order::flip_bytes((int32_t) value); }
+            { value = (long)byte_order::flip_bytes((int32_t) value); }
         }
 
         return *this;
@@ -99,11 +99,11 @@ namespace bsw::io
         if constexpr (sizeof(unsigned long) == 8)
         {
             if (m_flip_bytes)
-            { value = byte_order::flip_bytes((uint64_t) value); }
+            { value = (unsigned long)byte_order::flip_bytes((uint64_t) value); }
         } else
         {
             if (m_flip_bytes)
-            { value = byte_order::flip_bytes((uint32_t) value); }
+            { value = (unsigned long)byte_order::flip_bytes((uint32_t) value); }
         }
         return *this;
     }

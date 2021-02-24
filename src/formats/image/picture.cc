@@ -6,8 +6,20 @@
 #include <ios>
 #include "tomb-excavator/formats/image/picture.hh"
 #include "formats/image/picture_loader.hh"
+
+#if defined(_MSC_VER)
+#pragma warning( push )
+#pragma warning( disable : 4244 )
+#endif
+
 #include <mio/mmap.hpp>
+
+#if defined(_MSC_VER)
+#pragma warning( pop )
+#endif
+
 #include "formats/image/thirdparty/lodepng.h"
+
 
 namespace formats::image
 {
@@ -63,7 +75,7 @@ namespace formats::image
         {
             return load_picture(mmap.data(), mmap.size());
         }
-        catch (const std::exception& e)
+        catch (const std::exception& )
         {
             throw std::runtime_error("unknown image format " + path.string());
         }

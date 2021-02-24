@@ -8,8 +8,8 @@ ExternalProject_Add(
         GIT_REPOSITORY https://github.com/mandreyel/mio.git
         UPDATE_COMMAND ""
         INSTALL_DIR ${GLOBAL_OUTPUT_PATH}
-        CMAKE_ARGS  -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=$<CONFIG>
-        BUILD_COMMAND  ${CMAKE_COMMAND} --build <BINARY_DIR>
+        CMAKE_ARGS  -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=$<CONFIG> -DBUILD_TESTING=OFF
+        BUILD_COMMAND  ${CMAKE_COMMAND} --build <BINARY_DIR> 
 )
 
 ExternalProject_Get_Property(mio-ext install_dir)

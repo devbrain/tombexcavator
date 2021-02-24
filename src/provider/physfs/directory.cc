@@ -10,7 +10,7 @@
 
 static std::string str_tolower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(),
-                    [](unsigned char c){ return std::tolower(c); }
+                    [](unsigned char c){ return (unsigned char)std::tolower(c); }
                   );
     return s;
 }
@@ -24,8 +24,8 @@ namespace provider::physfs
     {
         for(auto& p: std::filesystem::directory_iterator(m_root))
         {
-            m_entries.emplace_back(str_tolower(p.path().filename()));
-            m_entries_real.emplace_back(p.path().filename());
+            m_entries.emplace_back(str_tolower(p.path().filename().u8string()));
+            m_entries_real.emplace_back(p.path().filename().u8string());
         }
     }
     // ---------------------------------------------------------------------------------

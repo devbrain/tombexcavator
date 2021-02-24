@@ -11,7 +11,7 @@
 
 namespace formats::image
 {
-    class picture;
+    struct picture;
 
     class picture_loader
     {

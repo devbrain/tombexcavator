@@ -8,7 +8,7 @@
 #include <tomb-excavator/games-common_export.h>
 #include <vector>
 #include <cstdint>
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace common
 {
     struct GAMES_COMMON_API rgba
@@ -36,5 +36,5 @@ namespace common
         std::vector<rgba> m_data;
     };
 } // ns
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif

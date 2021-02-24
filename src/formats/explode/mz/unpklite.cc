@@ -279,10 +279,7 @@ namespace
                     }
             }
         }
-#if !defined(__clang__) && !defined(__SUNPRO_CC)
-        RAISE_EX("should not be here");
-        return 0;
-#endif
+
     }
     // ===================================================================
     void build_rellocs(uint16_t h_pklite_info,

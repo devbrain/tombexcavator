@@ -12,9 +12,7 @@
 
 #include <tomb-excavator/export-provider.h>
 #include <tomb-excavator/provider/vfs/file_system.hh>
-
-
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace provider
 {
     class PROVIDER_API vfs_registry
@@ -43,5 +41,5 @@ namespace provider
         std::list<fs_holder> m_modules;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_VFS_REGISTRY_HH

@@ -105,11 +105,11 @@ namespace bsw::io
         {
             if constexpr (sizeof(long) == 8)
             {
-                long fValue = byte_order::flip_bytes((int64_t) value);
+                long fValue = (long)byte_order::flip_bytes((int64_t) value);
                 _ostr.write((const char*) &fValue, sizeof(fValue));
             } else
             {
-                long fValue = byte_order::flip_bytes((int32_t) value);
+                long fValue = (long)byte_order::flip_bytes((int32_t) value);
                 _ostr.write((const char*) &fValue, sizeof(fValue));
             }
         } else
@@ -125,11 +125,11 @@ namespace bsw::io
         {
             if constexpr (sizeof(long) == 8)
             {
-                long fValue = byte_order::flip_bytes((uint64_t) value);
+                unsigned long fValue = (unsigned long)byte_order::flip_bytes((uint64_t) value);
                 _ostr.write((const char*) &fValue, sizeof(fValue));
             } else
             {
-                long fValue = byte_order::flip_bytes((uint32_t) value);
+                unsigned long fValue = (unsigned long)byte_order::flip_bytes((uint32_t) value);
                 _ostr.write((const char*) &fValue, sizeof(fValue));
             }
         } else
