@@ -1,19 +1,9 @@
 set (src
-        coord.cc
-        palette.cc
-        tile_sheet.cc
-        canvas.cc
         ega_palette.cc
-        bitmask.cc
         )
 
 set(hdr
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/coord.hh
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/palette.hh
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/tile_sheet.hh
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/canvas.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/ega_palette.hh
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/bitmask.hh
         )
 
 add_library(tombexcavator-games-common SHARED ${src} ${hdr})

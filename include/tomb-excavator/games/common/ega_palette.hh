@@ -6,11 +6,11 @@
 #define TOMBEXCAVATOR_EGA_PALETTE_HH
 
 #include <tomb-excavator/games-common_export.h>
-#include <tomb-excavator/games/common/palette.hh>
+#include <tomb-excavator/provider/dto/video//palette.hh>
 
 namespace common
 {
-    class GAMES_COMMON_API ega_palette : public palette
+class GAMES_COMMON_API ega_palette : public provider::dto::palette
     {
     public:
         ega_palette();

@@ -14,6 +14,7 @@ endmacro()
 
 add_subdirectory(doctest)
 add_subdirectory(mio)
+add_subdirectory(argagg)
 
 if (WIN32)
 	add_subdirectory(dlfcn-win32)

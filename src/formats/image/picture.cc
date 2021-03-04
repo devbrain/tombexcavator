@@ -19,7 +19,7 @@
 #endif
 
 #include "formats/image/thirdparty/lodepng.h"
-
+#include <cstring>
 
 namespace formats::image
 {
@@ -64,6 +64,21 @@ namespace formats::image
 
         file.write((char*)out, outsize);
         file.close();
+        free(out);
+        return true;
+    }
+    // ------------------------------------------------------------------------------------------------------------
+    bool save_to_png(const picture& pic, std::vector<char>& outvec)
+    {
+        const LodePNGColorType color_type = (pic.bpp == 3) ? LCT_RGB : LCT_RGBA;
+        unsigned char* out;
+        size_t outsize;
+        if (0 != lodepng_encode_memory(&out, &outsize, (unsigned char*)pic.pixels.data(), pic.width, pic.height, color_type, 8))
+        {
+            return false;
+        }
+        outvec.resize(outsize);
+        std::memcpy(outvec.data(), out, outsize);
         free(out);
         return true;
     }

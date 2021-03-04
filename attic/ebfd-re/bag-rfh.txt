@@ -1,0 +1,125 @@
+Emperor's RFD/RFH/BAG File Formats
+-----------------------------------------
+Written by Scorpio9a
+Version 1.0
+
+Author of DuneEx
+ICQ: 98341404
+E-Mail: scorpio9a@ra2maincenter.tmfweb.nl
+Web-Site: http://www.dunemods.com
+=========================================
+
+I will also release the source code of the DuneEx 2 RFH/RFD/BAG engine after the release of DuneEx 2
+So keep an eye on http://www.dunemods.com. (the DuneEx2 RFH/RFD/BAG engine is written in Visual Basic 6)
+
+If you need more help with something then please contact me at scorpio9a@ra2maincenter.tmfweb.nl.
+
+===========
+RFH Format:
+===========
+
+The RFH file is the header and the RFD file is the body.
+In the RFD file is the files stored.
+
+The Main data files of E:BFD is stored in the RFH/RFD files
+
+The RFH format is splitted in records
+Every records is 6 * 4 Bytes and a ASCIIZ string
+There is no header in the RFH file
+
++--------------+
+| Filename len | A Long (4 Bytes) // Length of the filename
++--------------+ 
+|  Date Added  | A Long (4 Bytes) // Date when this file was added or modified.
++--------------+
+|    Packed    | A Long (4 Bytes) // Is this file compressed? 0 = no and 2 = yes
++--------------+
+| Packed Size  | A Long (4 Bytes) // Packed Size (Compressed Size)
++--------------+
+| Original Size| A Long (4 Bytes) // Original Size
++--------------+
+|    Offset    | A Long (4 Bytes) // Offset in RFD file
++--------------+
+|   Filename   | ASCIIZ string - ASCIIZ Char: 0 will terminate the string
++--------------+
+
+
+===========
+RFD Format:
+===========
+
+The RFH file is required for the information: OffSet, PackedSize, OriginalSize, Packed
+The OffSet is the beginning of the file inside the RFD file and Packed Size is the end.
+
+The Packed body record is always (Packed = 2):
+----------------------------------------------
+
+The File is compressed with the ZLib compression.
+You need the Original Size to decompress the packed file.
+
++---------------+
+| Original Size | A Long (4 Bytes)
++---------------+
+|  Packed File  | (Packed Size - 4) Bytes
++---------------+
+
+
+The Non-Packed body record is always (Packed = 0):
+--------------------------------------------------
+
+The body isn't encrypted or compressed its directly the file.
+
++---------------+
+|      File     | Original Size or/and Packed Size
++---------------+
+
+
+===========
+BAG Format:
+===========
+
+Header:
+-------
+
+How to calculate the Total size of the header & File Records is simple just use this:
+(Record Length x Number Tracks) + 16 = Total Header & File Records length
+
++---------------+
+|       ID      | ASCIIZ String (4 Bytes) // Always "GABA"
++---------------+
+|   Game Type   | A Long (4 Bytes) // 2 = Red Alert 2, and 4 = Emperor: Battle for Dune
++---------------+
+| Number Tracks | A Long (4 Bytes) // Total number of Tracks in BAG file
++---------------+
+| Record Length | A Long (4 Bytes) // Length of File Record (in bytes). Always 64
++---------------+
+
+File Record:
+------------
+
+This is for every track that is in the bag file, all the file records comes right after the header.
+
++---------------+
+|   Track Name  | ASCIIZ String (32 Bytes) // Always 32 bytes (The file extension is not included)
++---------------+
+|     OffSet    | A Long (4 Bytes) // OffSet from begin of the BAG file
++---------------+
+|   Track Size  | A Long (4 Bytes) // Track size
++---------------+
+|   Frequency   | A Long (4 Bytes) // Frequency of audio file
++---------------+
+|   File Type   | A Long (4 Bytes) // 2 and 6 = W file (Wave file with out a header), 12 and 28 = CMP (unknown), 37 = MP3
++---------------+
+|  Extra Info   | A Long (4 Bytes) // 
++---------------+
+|    Unkown 1   | A Long (4 Bytes) // Always 0
++---------------+ 
+|    Unkown 2   | A Long (4 Bytes) // Always 0
++---------------+ 
+|    Unkown 3   | A Long (4 Bytes) // Always 0
++---------------+ 
+
+File Body:
+----------
+
+The Body are all the files, nothing more then that.

@@ -124,7 +124,7 @@ namespace bsw::io
         }
 
     protected:
-        static int_type charToInt(char_type c)
+        static int_type char_to_int(char_type c)
         {
             return char_traits::to_int_type(c);
         }
@@ -143,6 +143,9 @@ namespace bsw::io
         int_type _pb;
         bool _ispb;
     };
+
+    using unbuffered_stream_buf =  basic_unbuffered_stream_buf<char, std::char_traits<char>>;
+
 } // ns
 
 #endif

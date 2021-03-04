@@ -45,6 +45,15 @@ namespace provider
         return nullptr;
     }
     // --------------------------------------------------------------------------------------------
+    void vfs_registry::visit(std::function<void(const std::filesystem::path&,
+                             std::shared_ptr<vfs::file_system>)> visitor) const
+    {
+        for (auto& module : m_modules)
+        {
+            visitor(module.m_so_name, module.m_fs);
+        }
+    }
+    // --------------------------------------------------------------------------------------------
     void vfs_registry::_load(const std::filesystem::path& path)
     {
         if (!std::filesystem::is_directory(path))

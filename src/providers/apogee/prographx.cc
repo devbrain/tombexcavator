@@ -13,7 +13,7 @@
 
 namespace apogee
 {
-    common::tile_sheet load_prographx_tiles(std::istream& istream, std::size_t padding)
+    provider::dto::sprite_group load_prographx_tiles(std::istream& istream, std::size_t padding)
     {
         bsw::io::binary_reader reader(istream, bsw::io::binary_reader::LITTLE_ENDIAN_BYTE_ORDER);
         auto current = reader.stream().tellg();
@@ -26,10 +26,11 @@ namespace apogee
             RAISE_EX("File size ", fsize, " is less than padding (", padding, ")");
         }
         detail::ega_byte_planar<false, 3, 1, 2, 4, 0> ega(reader);
-        common::tile_sheet_builder builder;
 
-        builder.add_palette(common::ega_palette());
+        provider::dto::sprite_group sg;
+        sg.pal() = common::ega_palette();
 
+        int sprite_id = 0;
         while (reader.stream().tellg() - current < fsize - padding)
         {
             unsigned char bcount;
@@ -40,9 +41,10 @@ namespace apogee
             unsigned count = bcount & 0xFF;
             unsigned w = bw & 0xFF;
             unsigned h = bh & 0xFF;
-            int py = 0;
             for (unsigned sprite = 0; sprite < count; sprite++)
             {
+                auto& sp = sg.add(8*w, h, true);
+                sp.set_id(sprite_id++);
                 for (unsigned y=0; y<h; y++)
                 {
                     unsigned px = 0;
@@ -53,16 +55,16 @@ namespace apogee
                         ega.read_chunk(pixels, mask);
                         for (int i=0; i<8; i++)
                         {
-                          //  auto [r,g,b]  = ega_colors[pixels[i]];
-                          //  uint8_t a = mask[i] ? 0xFF : 0;
-                          //  pic.put(px++, py, r, g, b, a);
+                            sp.get_canvas().put(8*b + i, y, pixels[i]);
+                            if (mask[i])
+                            {
+                                sp.get_bitmask()->set(8 * b + i, y);
+                            }
                         }
                     }
-                    py++;
                 }
             }
         }
-
-        return builder.build();
+        return sg;
     }
 }

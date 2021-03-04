@@ -7,11 +7,11 @@
 
 #include <iosfwd>
 #include <tomb-excavator/games-apogee_export.h>
-#include <tomb-excavator/games/common/tile_sheet.hh>
+#include <tomb-excavator/provider/dto/video//sprite.hh>
 
 namespace apogee
 {
-  [[nodiscard]] GAMES_APOGEE_API  common::tile_sheet load_prographx_tiles(std::istream& istream, std::size_t padding);
+  [[nodiscard]] GAMES_APOGEE_API provider::dto::sprite_group load_prographx_tiles(std::istream& istream, std::size_t padding);
 }
 
 #endif //TOMBEXCAVATOR_PROGRAPHX_HH

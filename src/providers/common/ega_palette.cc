@@ -9,6 +9,7 @@ namespace common
 {
     ega_palette::ega_palette()
     {
+        using namespace provider::dto;
         m_data = {
                 rgba(0x00,0x00,0xAA),
                 rgba(0x00,0xAA,0x00),

@@ -6,11 +6,11 @@
 #define TOMBEXCAVATOR_DIRECTORY_HH
 
 #include <tomb-excavator/export-provider.h>
+#include <tomb-excavator/provider/file_types.hh>
 
-#include <cstddef>
 #include <string>
 #include <memory>
-#include <iosfwd>
+
 
 namespace provider::vfs
 {
@@ -23,10 +23,9 @@ namespace provider::vfs
         virtual std::size_t entries() const = 0;
         virtual std::string name(std::size_t entry_idx) const = 0;
         virtual bool is_directory(std::size_t entry_idx) const = 0;
-        virtual std::string type(std::size_t entry_idx) const = 0;
 
         virtual std::unique_ptr<directory> load_directory(std::size_t entry_idx) const = 0;
-        virtual std::unique_ptr<std::istream> open_file(std::size_t entry_idx) const = 0;
+        virtual file_type_t open_file(std::size_t entry_idx) const = 0;
     };
 } // ns
 

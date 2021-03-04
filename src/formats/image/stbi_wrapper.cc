@@ -13,8 +13,17 @@
 
 #include "formats/image/picture_loader.hh"
 
+#if defined(__GNUC__) || defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#endif
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "thirdparty/stb_image.h"
+
+#if defined(__GNUC__) || defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
 
 typedef int  (*tester_fn_ptr) (stbi__context *s, int *x, int *y, int *comp);
 

@@ -1,6 +1,6 @@
 set (src
-        crystal_caves_provider.cc)
-set (hdr)
+        crystal_caves_provider.cc sprite_loader.cc)
+set (hdr sprite_loader.hh)
 
 add_library(crystal_caves SHARED ${src} ${hdr})
 set_target_properties(tombexcavator-provider PROPERTIES CXX_STANDARD 17)
@@ -8,6 +8,7 @@ set_target_properties(tombexcavator-provider PROPERTIES CXX_STANDARD 17)
 target_link_libraries(crystal_caves
         PRIVATE
         tombexcavator-provider
+        tombexcavator-games-apogee
         tombexcavator-games-common
         )
 

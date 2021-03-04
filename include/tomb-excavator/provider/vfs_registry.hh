@@ -9,20 +9,25 @@
 #include <list>
 #include <initializer_list>
 #include <filesystem>
+#include <functional>
 
 #include <tomb-excavator/export-provider.h>
 #include <tomb-excavator/provider/vfs/file_system.hh>
 #include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace provider
 {
     class PROVIDER_API vfs_registry
     {
     public:
         vfs_registry();
+
         explicit vfs_registry(std::initializer_list<std::filesystem::path> places);
+
         ~vfs_registry();
 
         std::shared_ptr<vfs::file_system> get(const physfs::directory& dir);
+        void visit(std::function<void(const std::filesystem::path&, std::shared_ptr<vfs::file_system>)> visitor) const;
     private:
         void _load(const std::filesystem::path& path);
     private:

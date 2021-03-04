@@ -22,19 +22,19 @@ namespace provider::physfs
         explicit directory(const std::filesystem::path& path);
         ~directory();
 
-        std::size_t entries() const;
-        std::string name(const std::size_t idx) const;
+        [[nodiscard]] std::size_t entries() const;
+        [[nodiscard]] std::string name(const std::size_t idx) const;
 
-        bool contains(const std::string& name) const;
+        [[nodiscard]] bool contains(const std::string& name) const;
 
-        bool is_directory(const std::string& name) const;
-        bool is_directory(std::size_t idx) const;
+        [[nodiscard]] bool is_directory(const std::string& name) const;
+        [[nodiscard]] bool is_directory(std::size_t idx) const;
 
-        std::unique_ptr<directory> open_directory(const std::string& name) const;
-        std::unique_ptr<directory> open_directory(std::size_t idx) const;
+        [[nodiscard]] std::unique_ptr<directory> open_directory(const std::string& name) const;
+        [[nodiscard]] std::unique_ptr<directory> open_directory(std::size_t idx) const;
 
-        std::unique_ptr<std::istream> open_file(const std::string& name) const;
-        std::unique_ptr<std::istream> open_file(std::size_t idx) const;
+        [[nodiscard]] std::unique_ptr<std::istream> open_file(const std::string& name) const;
+        [[nodiscard]] std::unique_ptr<std::istream> open_file(std::size_t idx) const;
     private:
         std::size_t _get_real_index(const std::string& name) const;
     private:
