@@ -118,7 +118,7 @@ TEST_SUITE("Base64 Encoder")
 
 TEST_SUITE("Base64 Decoder")
 {
-    TEST_CASE("testDecoder")
+    TEST_CASE ("testDecoder")
     {
         {
             std::istringstream istr("AAECAwQF");
@@ -155,6 +155,7 @@ TEST_SUITE("Base64 Decoder")
             bsw::io::base64_decoder decoder(istr);
             std::string s;
             decoder >> s;
+
             REQUIRE(s == "ABCDEF");
             REQUIRE(decoder.eof());
             REQUIRE(!decoder.fail());
@@ -184,14 +185,12 @@ TEST_SUITE("Base64 Decoder")
         }
     }
 
-    TEST_CASE("testDecoderURL")
+    TEST_CASE ("testDecoderURL")
     {
         {
             std::istringstream istr("AAECAwQF");
             bsw::io::base64_decoder decoder(istr, bsw::io::BASE64_URL_ENCODING);
             REQUIRE_S(decoder.good() && decoder.get() == 0);
-          //  auto x = decoder.good();
-          //  auto y = decoder.get();
             REQUIRE_S(decoder.good() && decoder.get() == 1);
             REQUIRE_S(decoder.good() && decoder.get() == 2);
             REQUIRE_S(decoder.good() && decoder.get() == 3);
@@ -265,7 +264,7 @@ TEST_SUITE("Base64 Decoder")
         }
     }
 
-    TEST_CASE("testDecoderNoPadding")
+    TEST_CASE ("testDecoderNoPadding")
     {
         {
             std::istringstream istr("AAECAwQF");
@@ -298,8 +297,9 @@ TEST_SUITE("Base64 Decoder")
             REQUIRE_S(decoder.good() && decoder.get() == -1);
         }
     }
+}
 
-    TEST_CASE("testEncodeDecode")
+TEST_CASE("testEncodeDecode")
     {
         {
             std::stringstream str;
@@ -334,6 +334,5 @@ TEST_SUITE("Base64 Decoder")
             }
             REQUIRE(s == src);
         }
-    }
-
 }
+
