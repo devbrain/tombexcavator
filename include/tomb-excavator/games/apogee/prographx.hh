@@ -11,7 +11,7 @@
 
 namespace apogee
 {
-  [[nodiscard]] GAMES_APOGEE_API provider::dto::sprite_group load_prographx_tiles(std::istream& istream, std::size_t padding);
+  [[nodiscard]] GAMES_APOGEE_API provider::dto::sprite_group load_prographx_tiles(std::istream& istream, std::size_t padding, int first_sprite_id);
 }
 
 #endif //TOMBEXCAVATOR_PROGRAPHX_HH

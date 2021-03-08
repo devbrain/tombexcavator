@@ -14,7 +14,8 @@ class cc_directory : public provider::vfs::directory
 public:
     explicit cc_directory(const provider::physfs::directory& dir)
     {
-        m_loaders.emplace_back(new sprite_loader("sprites", "cc1.gfx", dir));
+        m_loaders.emplace_back(new sprite_loader("sprites", "cc1.gfx", dir, 0));
+        m_loaders.emplace_back(new sprite_loader("menu-tiles", "cc1-f1.mni", dir, 0));
     }
 
 private:

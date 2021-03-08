@@ -13,7 +13,7 @@
 
 namespace apogee
 {
-    provider::dto::sprite_group load_prographx_tiles(std::istream& istream, std::size_t padding)
+    provider::dto::sprite_group load_prographx_tiles(std::istream& istream, std::size_t padding, int first_sprite_id)
     {
         bsw::io::binary_reader reader(istream, bsw::io::binary_reader::LITTLE_ENDIAN_BYTE_ORDER);
         auto current = reader.stream().tellg();
@@ -30,7 +30,7 @@ namespace apogee
         provider::dto::sprite_group sg;
         sg.pal() = common::ega_palette();
 
-        int sprite_id = 0;
+        int sprite_id = first_sprite_id;
         while (reader.stream().tellg() - current < fsize - padding)
         {
             unsigned char bcount;

@@ -7,5 +7,5 @@
 
 provider::file_type_t sprite_loader::read(std::istream& is) const
 {
-    return apogee::load_prographx_tiles(is, 0);
+    return apogee::load_prographx_tiles(is, 0, m_first_sprite_id);
 }

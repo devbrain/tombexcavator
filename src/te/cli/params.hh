@@ -16,10 +16,19 @@ struct basic_params
 
 struct show_modules : public basic_params
 {
-
 };
 
-using params_t = std::variant<show_modules>;
+struct basic_module_op : public basic_params
+{
+    std::filesystem::path input_dir;
+};
+
+struct list_files : public basic_module_op
+{
+    std::string vfs_path;
+};
+
+using params_t = std::variant<show_modules, list_files>;
 
 params_t build_from_command_line(int argc, char* argv[]);
 

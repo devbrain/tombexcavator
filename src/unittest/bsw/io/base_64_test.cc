@@ -18,7 +18,6 @@
 
 TEST_SUITE("Base64 Encoder")
 {
-
     TEST_CASE("testEncoder")
     {
         {

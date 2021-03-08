@@ -17,12 +17,15 @@ set(bsw_src
         bsw/io/binary_reader_writer.cc
         bsw/io/base_64_test.cc
         )
-
+set (export_src
+        export/xml_writer_test.cc
+        )
 
 set(modules
         generic
         formats
         bsw
+        export
         )
 
 set(src)
@@ -51,6 +54,7 @@ endforeach ()
 add_executable(unittest ${src} ${hdr})
 
 target_link_libraries(unittest PRIVATE
+        tombexcavator-export
         tombexcavator-formats
         tombexcavator-bsw
         thirdparty::doctest

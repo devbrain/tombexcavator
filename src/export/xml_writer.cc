@@ -6,18 +6,30 @@
 
 namespace exporter
 {
-    xml_stream::xml_stream(std::ostream& os)
-            : m_ostream(os)
+    xml_stream::xml_stream(std::ostream& os, bool pretty)
+            : m_ostream(os),
+            m_pretty (pretty)
     {
 
     }
     // ----------------------------------------------------------------------------------------
     void xml_stream::ident()
     {
-        const auto nesting = m_stack.size();
-        for (std::size_t i = 0; i<4*nesting; i++)
+        if (m_pretty)
         {
-            m_ostream << ' ';
+            const auto nesting = m_stack.size();
+            for (std::size_t i = 0; i < 4 * nesting; i++)
+            {
+                m_ostream << ' ';
+            }
+        }
+    }
+    // ----------------------------------------------------------------------------------------
+    void xml_stream::eol()
+    {
+        if (m_pretty)
+        {
+            m_ostream << '\n';
         }
     }
     // ----------------------------------------------------------------------------------------
@@ -28,7 +40,7 @@ namespace exporter
         {
             if (!first)
             {
-                m_ostream << " ";
+                m_ostream << ' ';
             }
             m_ostream << a.first << R"(=")" << a.second << R"(")";
             first = false;
@@ -38,14 +50,20 @@ namespace exporter
     void xml_stream::start_element(const std::string& name, const std::initializer_list<attrib_t>& attribs)
     {
         ident();
-        m_ostream << "<" << name;
+        if (!is_parent_closed())
+        {
+            m_ostream << ">";
+            eol();
+            set_parent_close();
+        }
+        m_ostream << '<' << name;
         if (attribs.size() > 0)
         {
             m_ostream << ' ';
         }
         write_attribs(attribs);
-        m_ostream << ">\n";
-        m_stack.push(name);
+        add_child_to_parent();
+        m_stack.push({name, false, false});
     }
     // ----------------------------------------------------------------------------------------
     void xml_stream::end_element()
@@ -54,11 +72,21 @@ namespace exporter
         {
             return;
         }
-        auto name = m_stack.top();
-        m_stack.pop();
+        if (is_parent_has_children())
+        {
+            auto name = m_stack.top().name;
+            m_stack.pop();
 
-        ident();
-        m_ostream << "</" << name << ">\n";
+            ident();
+            m_ostream << "</" << name << ">";
+            eol();
+        }
+        else
+        {
+            m_stack.pop();
+            m_ostream << " />";
+            eol();
+        }
 
     }
     // ----------------------------------------------------------------------------------------
@@ -80,12 +108,46 @@ namespace exporter
     {
         return true;
     }
+    // ----------------------------------------------------------------------------------------
+    bool xml_stream::is_parent_closed() const
+    {
+        if (m_stack.empty())
+        {
+            return true;
+        }
+        return m_stack.top().is_closed;
+    }
+    // ----------------------------------------------------------------------------------------
+    void xml_stream::set_parent_close()
+    {
+        if (!m_stack.empty())
+        {
+            m_stack.top().is_closed = true;
+        }
+    }
+    // ----------------------------------------------------------------------------------------
+    void xml_stream::add_child_to_parent()
+    {
+        if (!m_stack.empty())
+        {
+            m_stack.top().has_children = true;
+        }
+    }
+    // ----------------------------------------------------------------------------------------
+    bool xml_stream::is_parent_has_children() const
+    {
+        if (m_stack.empty())
+        {
+            return false;
+        }
+        return m_stack.top().has_children;
+    }
     // =========================================================================================
     xml_doc_writer::xml_doc_writer(xml_stream& stream, const std::string& node, const xml_stream::attrib_list_t& atts)
     : m_stream(stream)
-            {
-                    m_stream.start_element(node, atts);
-            }
+    {
+        m_stream.start_element(node, atts);
+    }
     // ----------------------------------------------------------------------------------------
     xml_doc_writer::~xml_doc_writer()
     {
@@ -96,4 +158,5 @@ namespace exporter
     {
         return true;
     }
+
 }
