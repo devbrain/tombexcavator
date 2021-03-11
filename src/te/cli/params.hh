@@ -28,7 +28,12 @@ struct list_files : public basic_module_op
     std::string vfs_path;
 };
 
-using params_t = std::variant<show_modules, list_files>;
+struct export_files : public basic_module_op
+{
+    std::string opath;
+};
+
+using params_t = std::variant<show_modules, list_files, export_files>;
 
 params_t build_from_command_line(int argc, char* argv[]);
 

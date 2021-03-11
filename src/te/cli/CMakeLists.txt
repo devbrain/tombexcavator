@@ -1,10 +1,12 @@
 set (src
         te-cli.cc
         params.cc
+        exporter.cc
         )
 
 set(hdr
         params.hh
+        exporter.hh
         )
 
 add_executable(te-cli ${src} ${hdr})
@@ -12,6 +14,7 @@ add_executable(te-cli ${src} ${hdr})
 target_link_libraries(te-cli PRIVATE
         thirdparty::argagg
         tombexcavator-provider
+        tombexcavator-export
         )
 
 set_target_properties(te-cli PROPERTIES CXX_STANDARD 17)

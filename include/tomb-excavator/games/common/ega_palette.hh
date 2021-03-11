@@ -8,7 +8,7 @@
 #include <tomb-excavator/games-common_export.h>
 #include <tomb-excavator/provider/dto/video//palette.hh>
 
-namespace common
+namespace games::common
 {
 class GAMES_COMMON_API ega_palette : public provider::dto::palette
     {

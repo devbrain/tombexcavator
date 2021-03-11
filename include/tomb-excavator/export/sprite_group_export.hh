@@ -45,7 +45,7 @@ namespace exporter
     // ==============================================================================
     EXPORT_API void to_png(const tile_sheet& ts, const std::filesystem::path& oname);
 
-    EXPORT_API void to_tmx(const tile_sheet& ts,
+    EXPORT_API void to_tsx(const tile_sheet& ts,
                            const std::string& tileset_name,
                            const std::filesystem::path& oname_tmx,
                            const std::filesystem::path& oname_png);

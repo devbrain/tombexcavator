@@ -28,7 +28,7 @@ namespace apogee
         detail::ega_byte_planar<false, 3, 1, 2, 4, 0> ega(reader);
 
         provider::dto::sprite_group sg;
-        sg.pal() = common::ega_palette();
+        sg.pal() = games::common::ega_palette();
 
         int sprite_id = first_sprite_id;
         while (reader.stream().tellg() - current < fsize - padding)

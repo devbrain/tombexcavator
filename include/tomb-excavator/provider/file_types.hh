@@ -12,10 +12,11 @@
 #include <tomb-excavator/provider/dto/video/palette.hh>
 #include <tomb-excavator/provider/dto/video/sprite.hh>
 #include <tomb-excavator/provider/dto/video/picture.hh>
+#include <tomb-excavator/formats/image/picture.hh>
 
 namespace provider
 {
-    using file_type_t = std::variant<dto::sprite_group, dto::picture>;
+    using file_type_t = std::variant<dto::sprite_group, dto::picture, formats::image::picture>;
 }
 
 #endif //TOMBEXCAVATOR_FILE_TYPES_HH

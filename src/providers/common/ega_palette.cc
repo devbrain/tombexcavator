@@ -4,8 +4,7 @@
 
 #include <tomb-excavator/games/common/ega_palette.hh>
 
-
-namespace common
+namespace games::common
 {
     ega_palette::ega_palette()
     {

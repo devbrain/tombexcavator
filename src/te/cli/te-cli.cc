@@ -10,18 +10,21 @@
 #include <tomb-excavator/bsw/exceptions.hh>
 
 #include "params.hh"
-
+#include "exporter.hh"
 
 class cmd_handler
 {
 public:
     void operator()(const show_modules& m);
     void operator()(const list_files& m);
+    void operator()(const export_files& m);
 private:
     static std::unique_ptr<provider::vfs_registry> create_registry (const basic_params& m);
     static provider::physfs::directory open_fs_dir(const basic_module_op& m);
     static std::tuple<std::unique_ptr<provider::vfs::directory>, std::optional<std::size_t>>
     get_fs_entry(std::unique_ptr<provider::vfs::directory>&& root, const std::filesystem::path& vfs_path);
+
+    static void do_export(std::unique_ptr<provider::vfs::directory>&& root, const std::filesystem::path& opath);
 };
 // ----------------------------------------------------------------------------------------------
 std::unique_ptr<provider::vfs_registry> cmd_handler::create_registry (const basic_params& m)
@@ -124,7 +127,8 @@ void cmd_handler::operator()(const list_files& m)
     {
         for (std::size_t eidx = 0; eidx < vfs_dir->entries(); eidx++)
         {
-            std::cout << vfs_dir->name(eidx);
+            auto name = vfs_dir->name(eidx);
+            std::cout << name;
             if (vfs_dir->is_directory(eidx))
             {
                 std::cout << "\t" << "[DIR]";
@@ -136,6 +140,48 @@ void cmd_handler::operator()(const list_files& m)
     {
         std::cout << vfs_dir->name(*entry_index) << std::endl;
     }
+}
+// ----------------------------------------------------------------------------------------------
+void cmd_handler::do_export(std::unique_ptr<provider::vfs::directory>&& root, const std::filesystem::path& opath)
+{
+    std::unique_ptr<provider::vfs::directory> dir = std::move(root);
+    for (std::size_t i=0; i<dir->entries(); i++)
+    {
+        if (dir->is_directory(i))
+        {
+            do_export(dir->load_directory(i), opath / dir->name(i));
+        }
+        else
+        {
+            std::visit(data_exporter{dir->name(i), opath}, dir->open_file(i));
+        }
+    }
+}
+// ----------------------------------------------------------------------------------------------
+void cmd_handler::operator()(const export_files& m)
+{
+    auto registry = create_registry(m);
+    auto dir = open_fs_dir(m);
+    auto fs = registry->get(dir);
+    if (!fs)
+    {
+        RAISE_EX("No registered provider can handle ", m.input_dir);
+    }
+    if (std::filesystem::exists(m.opath))
+    {
+        if (!std::filesystem::is_directory(m.opath))
+        {
+            RAISE_EX("Output destination ", m.opath, " but it is not directory");
+        }
+    }
+    else
+    {
+        if (!std::filesystem::create_directories(m.opath))
+        {
+            RAISE_EX("Failed to create output directory ", m.opath);
+        }
+    }
+    do_export(fs->root(dir), m.opath);
 }
 // ----------------------------------------------------------------------------------------------
 int main(int argc, char* argv[])

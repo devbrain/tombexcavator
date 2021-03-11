@@ -1,9 +1,11 @@
 set (src
         prographx.cc
+        prographx_sprite_loader.cc
         )
 
 set(hdr
         ${PROJECT_INCLUDE}/tomb-excavator/games/apogee/prographx.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/apogee/prographx_sprite_loader.hh
 
         ega.hh
         )

@@ -6,21 +6,12 @@
 #define TOMBEXCAVATOR_PICTURE_EXPORT_HH
 
 #include <tomb-excavator/export-export.h>
-#include <tomb-excavator/export/transformer.hh>
 #include <tomb-excavator/provider/dto/video/picture.hh>
 #include <filesystem>
 
 namespace exporter
 {
-class EXPORT_API picture_export : public transformer<provider::dto::picture>
-    {
-    public:
-        explicit picture_export(std::filesystem::path opath);
-    private:
-        void transform(const provider::dto::picture& pic) override;
-    private:
-        std::filesystem::path m_opath;
-    };
+    void EXPORT_API to_png(const provider::dto::picture& pic, const std::filesystem::path& opath);
 }
 
 #endif //TOMBEXCAVATOR_PICTURE_EXPORT_HH

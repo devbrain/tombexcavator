@@ -8,7 +8,7 @@
 #include <tomb-excavator/export-formats.h>
 #include <vector>
 #include <filesystem>
-
+#include <iosfwd>
 #include <tomb-excavator/msvc/c4251-begin.h>
 namespace formats::image
 {
@@ -30,6 +30,7 @@ namespace formats::image
     FORMATS_API bool save_to_png(const picture& pic, std::vector<char>& out);
     FORMATS_API picture load_picture(const std::filesystem::path& path);
     FORMATS_API picture load_picture(const char* data, std::size_t size);
+    FORMATS_API picture load_picture(std::istream& is);
 } // ns
 
 #include <tomb-excavator/msvc/c4251-end.h>

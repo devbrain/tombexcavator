@@ -11,13 +11,26 @@
 #include <utility>
 #include <string>
 #include <stack>
+#include <sstream>
 
 namespace exporter
 {
+    struct EXPORT_API xml_string_rep
+    {
+        template <typename T>
+        xml_string_rep(const T& x)
+        {
+            std::ostringstream os;
+            os << x;
+            val = os.str();
+        }
+        std::string val;
+    };
+
     class EXPORT_API xml_stream
     {
     public:
-        using attrib_t = std::pair<std::string, std::string>;
+        using attrib_t = std::pair<std::string, xml_string_rep>;
         using attrib_list_t =  std::initializer_list<attrib_t>;
     public:
         explicit xml_stream(std::ostream& os, bool pretty = true);
@@ -96,5 +109,9 @@ namespace exporter
 #define XML_TEXT(...) get_xml_stream().text(__VA_ARGS__)
 #define XML_COMMENT(...) get_xml_stream().comment(__VA_ARGS__)
 #define XML_PROLOG(...) get_xml_stream().prolog({ __VA_ARGS__ })
+
+#if defined(__GNUC__) || defined(__GNUG__)
+#pragma GCC diagnostic ignored "-Wempty-body"
+#endif
 
 #endif //TOMBEXCAVATOR_XML_WRITER_HH

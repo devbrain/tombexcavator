@@ -4,16 +4,11 @@
 
 #include <tomb-excavator/export/picture_export.hh>
 #include <tomb-excavator/formats/image/picture.hh>
+#include <tomb-excavator/bsw/exceptions.hh>
 
 namespace exporter
 {
-    picture_export::picture_export(std::filesystem::path opath)
-    : m_opath(std::move(opath))
-    {
-
-    }
-    // ----------------------------------------------------------------------------------
-    void picture_export::transform(const provider::dto::picture& pic)
+    void to_png(const provider::dto::picture& pic, const std::filesystem::path& opath)
     {
         const auto w = pic.dim().w();
         const auto h = pic.dim().h();
@@ -27,6 +22,9 @@ namespace exporter
                 opic.put(x, y, r, g, b, a);
             }
         }
-        formats::image::save_to_png(opic, m_opath);
+        if (!formats::image::save_to_png(opic, opath))
+        {
+            RAISE_EX("Failed to save ", opath);
+        }
     }
 } // ns

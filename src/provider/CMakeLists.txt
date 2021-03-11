@@ -10,7 +10,6 @@ set (src
         vfs/file_system.cc
 
         physfs/directory.cc
-        physfs/data_loader.cc
 
         vfs_registry.cc
 
@@ -22,7 +21,6 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/provider/vfs/file_system.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/provider/physfs/directory.hh
-        ${PROJECT_INCLUDE}/tomb-excavator/provider/physfs/data_loader.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/provider/file_types.hh
         ${PROJECT_INCLUDE}/tomb-excavator/provider/vfs_registry.hh

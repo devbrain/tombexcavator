@@ -3,6 +3,7 @@
 //
 
 #include <fstream>
+#include <iterator>
 #include <ios>
 #include "tomb-excavator/formats/image/picture.hh"
 #include "formats/image/picture_loader.hh"
@@ -104,5 +105,12 @@ namespace formats::image
             throw std::runtime_error("unknown image format");
         }
         return pic;
+    }
+    // ------------------------------------------------------------------------------------------------------------
+    picture load_picture(std::istream& is)
+    {
+        std::vector<char> data((std::istreambuf_iterator<char>(is)),
+                               std::istreambuf_iterator<char>());
+        return load_picture(data.data(), data.size());
     }
 }

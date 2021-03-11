@@ -42,7 +42,7 @@ namespace exporter
             {
                 m_ostream << ' ';
             }
-            m_ostream << a.first << R"(=")" << a.second << R"(")";
+            m_ostream << a.first << R"(=")" << a.second.val << R"(")";
             first = false;
         }
     }
@@ -101,7 +101,7 @@ namespace exporter
         {
             write_attribs(attribs);
         }
-        m_ostream << "?>";
+        m_ostream << "?>\n";
     }
     // ----------------------------------------------------------------------------------------
     xml_stream::operator bool() const noexcept

@@ -3,10 +3,12 @@
 //
 
 #include <tomb-excavator/export/sprite_group_export.hh>
+#include <tomb-excavator/export/xml_writer.hh>
 #include <tomb-excavator/formats/image/picture.hh>
 #include <tomb-excavator/bsw/exceptions.hh>
 #include <fstream>
 #include <algorithm>
+#include <sstream>
 
 
 namespace exporter
@@ -113,12 +115,25 @@ namespace exporter
         file.close();
     }
     // -------------------------------------------------------------------------------------------
-    void to_tmx(const tile_sheet& ts,
+    void to_tsx(const tile_sheet& ts,
                 const std::string& tileset_name,
                 const std::filesystem::path& oname_tmx,
                 const std::filesystem::path& oname_png)
     {
-
+        to_png(ts, oname_png);
+        std::ostringstream os;
+        START_XML(os)
+        {
+            XML_PROLOG();
+            XML_NODE("tileset", {"name", tileset_name},
+                     {"tilewidth", 16}, {"tileheight", 16}, {"spacing", 0}, {"margins", 0}, {"columns", 1},
+                     {"tilecount", ts.size()})
+            {
+                XML_NODE("image", {"source", oname_tmx}, {"width", 16}, {"height", 16*ts.size()});
+            }
+        }
+        std::ofstream ofs(oname_tmx, std::ios::binary | std::ios::out);
+        const auto s = os.str();
+        ofs.write(s.c_str(), s.size());
     }
-
 }

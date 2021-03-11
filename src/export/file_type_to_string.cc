@@ -17,6 +17,10 @@ namespace
         {
             return "image";
         }
+        std::string operator () (const formats::image::picture&)
+        {
+            return "image";
+        }
     };
 }
 
