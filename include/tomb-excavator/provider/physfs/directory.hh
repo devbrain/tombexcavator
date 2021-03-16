@@ -19,11 +19,15 @@ namespace provider::physfs
     class PROVIDER_API directory
     {
     public:
+        directory();
+
         explicit directory(const std::filesystem::path& path);
         ~directory();
 
+        void open(const std::filesystem::path& path);
+
         [[nodiscard]] std::size_t entries() const;
-        [[nodiscard]] std::string name(const std::size_t idx) const;
+        [[nodiscard]] std::string name(std::size_t idx) const;
 
         [[nodiscard]] bool contains(const std::string& name) const;
 
@@ -36,7 +40,8 @@ namespace provider::physfs
         [[nodiscard]] std::unique_ptr<std::istream> open_file(const std::string& name) const;
         [[nodiscard]] std::unique_ptr<std::istream> open_file(std::size_t idx) const;
     private:
-        std::size_t _get_real_index(const std::string& name) const;
+        [[nodiscard]] std::size_t _get_real_index(const std::string& name) const;
+
     private:
         std::filesystem::path m_root;
         std::vector<std::string> m_entries;

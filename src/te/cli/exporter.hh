@@ -18,6 +18,7 @@ public:
     void operator () (const provider::dto::sprite_group& sg) const;
     void operator () (const provider::dto::picture& pic) const;
     void operator () (const formats::image::picture& pic) const;
+    void operator () (const std::string& txt) const;
 
 private:
     std::string m_name;

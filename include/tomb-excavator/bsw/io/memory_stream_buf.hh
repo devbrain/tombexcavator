@@ -6,10 +6,11 @@
 #define TOMBEXCAVATOR_ARCHIVE_MEMORY_STREAM_BUF_HH
 
 #include <streambuf>
-#include <iosfwd>
 #include <ios>
 #include <istream>
 #include <ostream>
+#include <memory>
+#include <vector>
 #include <stdexcept>
 
 #include <tomb-excavator/export-bsw.h>
@@ -18,8 +19,6 @@
 
 namespace bsw::io
 {
-
-
     template<typename ch, typename tr>
     class memory_stream_buf : public std::basic_streambuf<ch, tr>
         /// BasicMemoryStreamBuf is a simple implementation of a
@@ -38,143 +37,33 @@ namespace bsw::io
         typedef typename Base::int_type int_type;
         typedef typename Base::pos_type pos_type;
         typedef typename Base::off_type off_type;
-
     public:
-        memory_stream_buf(char_type* pBuffer, std::streamsize bufferSize)
-                :
-                _pBuffer(pBuffer),
-                _bufferSize(bufferSize)
-        {
-            this->setg(_pBuffer, _pBuffer, _pBuffer + _bufferSize);
-            this->setp(_pBuffer, _pBuffer + _bufferSize);
-        }
+        typedef std::vector<char_type> mem_block_t;
+    public:
+        memory_stream_buf() = delete;
+        memory_stream_buf(const memory_stream_buf&) = delete;
+        memory_stream_buf& operator=(const memory_stream_buf&) = delete;
 
-        ~memory_stream_buf()
-        {
-        }
+        memory_stream_buf(char_type* pBuffer, std::streamsize bufferSize);
+        explicit memory_stream_buf(std::shared_ptr<mem_block_t> mem);
+        explicit memory_stream_buf(std::unique_ptr<mem_block_t>&& mem);
+        ~memory_stream_buf();
 
-        virtual int_type overflow(int_type /*c*/)
-        {
-            return char_traits::eof();
-        }
 
-        virtual int_type underflow()
-        {
-            return char_traits::eof();
-        }
-
+        virtual int_type overflow(int_type /*c*/);
+        virtual int_type underflow();
         virtual pos_type seekoff(off_type off, std::ios_base::seekdir way,
-                                 std::ios_base::openmode which = std::ios_base::in | std::ios_base::out)
-        {
-            const pos_type fail = off_type(-1);
-            off_type newoff = off_type(-1);
+                                 std::ios_base::openmode which = std::ios_base::in | std::ios_base::out);
+        virtual int sync();
+        std::streamsize chars_written() const;
 
-            if ((which & std::ios_base::in) != 0)
-            {
-                if (this->gptr() == 0)
-                {
-                    return fail;
-                }
-
-                if (way == std::ios_base::beg)
-                {
-                    newoff = 0;
-                } else
-                {
-                    if (way == std::ios_base::cur)
-                    {
-                        // cur is not valid if both in and out are specified (Condition 3)
-                        if ((which & std::ios_base::out) != 0)
-                        {
-                            return fail;
-                        }
-                        newoff = this->gptr() - this->eback();
-                    } else
-                    {
-                        if (way == std::ios_base::end)
-                        {
-                            newoff = this->egptr() - this->eback();
-                        } else
-                        {
-                            throw std::runtime_error("should not be here");
-                        }
-                    }
-                }
-
-                if ((newoff + off) < 0 || (this->egptr() - this->eback()) < (newoff + off))
-                {
-                    return fail;
-                }
-                this->setg(this->eback(), this->eback() + newoff + off, this->egptr());
-            }
-
-            if ((which & std::ios_base::out) != 0)
-            {
-                if (this->pptr() == 0)
-                {
-                    return fail;
-                }
-
-                if (way == std::ios_base::beg)
-                {
-                    newoff = 0;
-                } else
-                {
-                    if (way == std::ios_base::cur)
-                    {
-                        // cur is not valid if both in and out are specified (Condition 3)
-                        if ((which & std::ios_base::in) != 0)
-                        {
-                            return fail;
-                        }
-                        newoff = this->pptr() - this->pbase();
-                    } else
-                    {
-                        if (way == std::ios_base::end)
-                        {
-                            newoff = this->epptr() - this->pbase();
-                        } else
-                        {
-                            throw std::runtime_error("should not be here");
-                        }
-                    }
-                }
-
-                if (newoff + off < 0 || (this->epptr() - this->pbase()) < newoff + off)
-                {
-                    return fail;
-                }
-                this->pbump((int) (newoff + off - (this->pptr() - this->pbase())));
-            }
-
-            return newoff;
-        }
-
-        virtual int sync()
-        {
-            return 0;
-        }
-
-        std::streamsize charsWritten() const
-        {
-            return static_cast<std::streamsize>(this->pptr() - this->pbase());
-        }
-
-        void reset()
         /// Resets the buffer so that current read and write positions
         /// will be set to the beginning of the buffer.
-        {
-            this->setg(_pBuffer, _pBuffer, _pBuffer + _bufferSize);
-            this->setp(_pBuffer, _pBuffer + _bufferSize);
-        }
-
+        void reset();
     private:
-        char_type* _pBuffer;
-        std::streamsize _bufferSize;
-
-        memory_stream_buf();
-        memory_stream_buf(const memory_stream_buf&);
-        memory_stream_buf& operator=(const memory_stream_buf&);
+        char_type* m_buffer;
+        std::streamsize m_buffer_size;
+        std::shared_ptr<mem_block_t> m_mem;
     };
 
 //
@@ -190,6 +79,8 @@ namespace bsw::io
     {
     public:
         memory_ios(char* pBuffer, std::streamsize bufferSize);
+        explicit memory_ios(std::shared_ptr<memory_stream_buf_t::mem_block_t> mem);
+        explicit memory_ios(std::unique_ptr<memory_stream_buf_t::mem_block_t>&& mem);
         /// Creates the basic stream.
 
         ~memory_ios();
@@ -199,9 +90,7 @@ namespace bsw::io
         /// Returns a pointer to the underlying streambuf.
 
     protected:
-
-        memory_stream_buf_t _buf;
-
+        memory_stream_buf_t m_buf;
     };
 
     class BSW_API memory_input_stream : public memory_ios, public std::istream
@@ -209,6 +98,8 @@ namespace bsw::io
     {
     public:
         memory_input_stream(const char* pBuffer, std::streamsize bufferSize);
+        explicit memory_input_stream(std::shared_ptr<memory_stream_buf_t::mem_block_t> mem);
+        explicit memory_input_stream(std::unique_ptr<memory_stream_buf_t::mem_block_t>&& mem);
 /// Creates a MemoryInputStream for the given memory area,
 /// ready for reading.
 
@@ -236,17 +127,169 @@ namespace bsw::io
 //
 // inlines
 //
+    template<typename ch, typename tr>
+    memory_stream_buf<ch, tr>::memory_stream_buf(char_type* pBuffer, std::streamsize bufferSize)
+            :
+            m_buffer(pBuffer),
+            m_buffer_size(bufferSize)
+    {
+        this->setg(m_buffer, m_buffer, m_buffer + m_buffer_size);
+        this->setp(m_buffer, m_buffer + m_buffer_size);
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    memory_stream_buf<ch, tr>::memory_stream_buf(std::shared_ptr<mem_block_t> mem)
+    : m_mem(mem)
+    {
+        m_buffer = m_mem->data();
+        m_buffer_size = m_mem->size();
+        this->setg(m_buffer, m_buffer, m_buffer + m_buffer_size);
+        this->setp(m_buffer, m_buffer + m_buffer_size);
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    memory_stream_buf<ch, tr>::memory_stream_buf(std::unique_ptr<mem_block_t>&& mem)
+            : m_mem(std::move(mem))
+    {
+        m_buffer = m_mem->data();
+        m_buffer_size = m_mem->size();
+        this->setg(m_buffer, m_buffer, m_buffer + m_buffer_size);
+        this->setp(m_buffer, m_buffer + m_buffer_size);
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    memory_stream_buf<ch, tr>::~memory_stream_buf()
+    {
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    typename memory_stream_buf<ch, tr>::int_type memory_stream_buf<ch, tr>::overflow(int_type /*c*/)
+    {
+        return char_traits::eof();
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    typename memory_stream_buf<ch, tr>::int_type memory_stream_buf<ch, tr>::underflow()
+    {
+        return char_traits::eof();
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    typename memory_stream_buf<ch, tr>::pos_type memory_stream_buf<ch, tr>::seekoff(off_type off, std::ios_base::seekdir way,
+                                                                                    std::ios_base::openmode which)
+    {
+        const pos_type fail = off_type(-1);
+        off_type newoff = off_type(-1);
+
+        if ((which & std::ios_base::in) != 0)
+        {
+            if (this->gptr() == 0)
+            {
+                return fail;
+            }
+
+            if (way == std::ios_base::beg)
+            {
+                newoff = 0;
+            } else
+            {
+                if (way == std::ios_base::cur)
+                {
+                    // cur is not valid if both in and out are specified (Condition 3)
+                    if ((which & std::ios_base::out) != 0)
+                    {
+                        return fail;
+                    }
+                    newoff = this->gptr() - this->eback();
+                } else
+                {
+                    if (way == std::ios_base::end)
+                    {
+                        newoff = this->egptr() - this->eback();
+                    } else
+                    {
+                        throw std::runtime_error("should not be here");
+                    }
+                }
+            }
+
+            if ((newoff + off) < 0 || (this->egptr() - this->eback()) < (newoff + off))
+            {
+                return fail;
+            }
+            this->setg(this->eback(), this->eback() + newoff + off, this->egptr());
+        }
+
+        if ((which & std::ios_base::out) != 0)
+        {
+            if (this->pptr() == 0)
+            {
+                return fail;
+            }
+
+            if (way == std::ios_base::beg)
+            {
+                newoff = 0;
+            } else
+            {
+                if (way == std::ios_base::cur)
+                {
+                    // cur is not valid if both in and out are specified (Condition 3)
+                    if ((which & std::ios_base::in) != 0)
+                    {
+                        return fail;
+                    }
+                    newoff = this->pptr() - this->pbase();
+                } else
+                {
+                    if (way == std::ios_base::end)
+                    {
+                        newoff = this->epptr() - this->pbase();
+                    } else
+                    {
+                        throw std::runtime_error("should not be here");
+                    }
+                }
+            }
+
+            if (newoff + off < 0 || (this->epptr() - this->pbase()) < newoff + off)
+            {
+                return fail;
+            }
+            this->pbump((int) (newoff + off - (this->pptr() - this->pbase())));
+        }
+
+        return newoff;
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    int memory_stream_buf<ch, tr>::sync()
+    {
+        return 0;
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    std::streamsize memory_stream_buf<ch, tr>::chars_written() const
+    {
+        return static_cast<std::streamsize>(this->pptr() - this->pbase());
+    }
+    // -----------------------------------------------------------------------------------------
+    template<typename ch, typename tr>
+    void memory_stream_buf<ch, tr>::reset()
+    {
+        this->setg(m_buffer, m_buffer, m_buffer + m_buffer_size);
+        this->setp(m_buffer, m_buffer + m_buffer_size);
+    }
+    // ======================================================================================
     inline memory_stream_buf_t* memory_ios::rdbuf()
     {
-        return &_buf;
+        return &m_buf;
     }
-
+    // ======================================================================================
     inline std::streamsize memory_output_stream::charsWritten() const
     {
-        return _buf.charsWritten();
+        return m_buf.chars_written();
     }
-
-
 }
 
 #include <tomb-excavator/msvc/c4251-end.h>

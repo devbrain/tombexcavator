@@ -10,7 +10,7 @@
 
 namespace games::common
 {
-class GAMES_COMMON_API ega_palette : public provider::dto::palette
+    class GAMES_COMMON_API ega_palette : public provider::dto::palette
     {
     public:
         ega_palette();

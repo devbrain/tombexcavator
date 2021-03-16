@@ -109,6 +109,20 @@ namespace bsw::io
         {
         }
 
+        basic_memory_binary_reader(std::shared_ptr<std::vector<T>> mem, stream_byte_order byteOrder = NATIVE_BYTE_ORDER)
+                :
+                binary_reader(m_istr, byteOrder),
+                m_istr(mem)
+        {
+        }
+
+        basic_memory_binary_reader(std::unique_ptr<std::vector<T>>&& mem, stream_byte_order byteOrder = NATIVE_BYTE_ORDER)
+                :
+                binary_reader(m_istr, byteOrder),
+                m_istr(std::move(mem))
+        {
+        }
+
         const memory_input_stream& stream() const
         {
             return m_istr;

@@ -24,12 +24,22 @@ namespace games::common
     private:
         [[nodiscard]] std::size_t entries() const override;
         [[nodiscard]] std::string name(std::size_t entry_idx) const override;
-        [[nodiscard]] bool is_directory([[maybe_unused]] std::size_t entry_idx) const override;
-        [[nodiscard]] std::unique_ptr<provider::vfs::directory> load_directory([[maybe_unused]] std::size_t entry_idx) const override;
+        [[nodiscard]] bool is_directory(std::size_t entry_idx) const override;
+        [[nodiscard]] std::unique_ptr<provider::vfs::directory> load_directory(std::size_t entry_idx) const override;
         [[nodiscard]] provider::file_type_t open_file(std::size_t entry_idx) const override;
     private:
+        struct data_loader_index
+        {
+            data_loader_index(std::size_t loader_index, std::size_t entry_index)
+            : m_loader_index(loader_index), m_entry_index (entry_index) {}
+
+            std::size_t m_loader_index;
+            std::size_t m_entry_index;
+        };
+    private:
         std::vector<std::shared_ptr<games::common::data_loader>> m_loaders;
-        const provider::physfs::directory* m_dir;
+        std::vector<data_loader_index> m_index;
+        std::shared_ptr<provider::physfs::directory> m_dir;
     };
 }
 

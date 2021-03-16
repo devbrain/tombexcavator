@@ -6,6 +6,10 @@ set (src
         dto/video/sprite.cc
         dto/video/picture.cc
 
+        dto/map/tile.cc
+        dto/map/layer.cc
+        dto/map/map.cc
+
         vfs/directory.cc
         vfs/file_system.cc
 
@@ -32,7 +36,9 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/video/sprite.hh
         ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/video/picture.hh
 
-
+        ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/map/tile.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/map/layer.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/map/map.hh
         )
 
 

@@ -31,8 +31,15 @@ namespace apogee
         sg.pal() = games::common::ega_palette();
 
         int sprite_id = first_sprite_id;
-        while (reader.stream().tellg() - current < fsize - padding)
+        const auto data_to_read = fsize - padding;
+        while (!reader.stream().eof())
         {
+            auto now_pos = reader.stream().tellg() - current;
+            if (now_pos >= data_to_read)
+            {
+                break;
+            }
+
             unsigned char bcount;
             unsigned char bw;
             unsigned char bh;
@@ -41,6 +48,7 @@ namespace apogee
             unsigned count = bcount & 0xFF;
             unsigned w = bw & 0xFF;
             unsigned h = bh & 0xFF;
+
             for (unsigned sprite = 0; sprite < count; sprite++)
             {
                 auto& sp = sg.add(8*w, h, true);

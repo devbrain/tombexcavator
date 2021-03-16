@@ -21,6 +21,10 @@ namespace
         {
             return "image";
         }
+        std::string operator () (const std::string&)
+        {
+            return "text";
+        }
     };
 }
 

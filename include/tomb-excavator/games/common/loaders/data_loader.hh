@@ -14,17 +14,33 @@ namespace games::common
     class GAMES_COMMON_API data_loader
     {
     public:
-        data_loader(std::string virt_name, std::string phys_name);
+        explicit data_loader(std::string phys_name);
         virtual ~data_loader();
 
-        [[nodiscard]] provider::file_type_t load(const provider::physfs::directory& dir) const;
-        [[nodiscard]] const std::string& name() const;
+        virtual void open(std::shared_ptr<provider::physfs::directory> dir) = 0;
+
+        [[nodiscard]] virtual std::size_t size() const = 0;
+        [[nodiscard]] virtual provider::file_type_t load(std::size_t index) const = 0;
+        [[nodiscard]] virtual std::string name(std::size_t index) const = 0;
         [[nodiscard]] const std::string& physical_name() const;
+    private:
+        std::string m_phys_name;
+    };
+    // ================================================================================================
+    class GAMES_COMMON_API single_entry_data_loader : public data_loader
+    {
+    public:
+        single_entry_data_loader(std::string virt_name, std::string phys_name);
+    private:
+        void open(std::shared_ptr<provider::physfs::directory> dir) override;
+        [[nodiscard]] std::size_t size() const override;
+        [[nodiscard]] provider::file_type_t load(std::size_t index) const override;
+        [[nodiscard]] std::string name(std::size_t index) const override;
     protected:
         virtual provider::file_type_t read(std::istream& is) const = 0;
     private:
         std::string m_virt_name;
-        std::string m_phys_name;
+        std::shared_ptr<provider::physfs::directory> m_dir;
     };
 }
 

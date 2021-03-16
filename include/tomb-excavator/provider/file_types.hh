@@ -7,6 +7,7 @@
 
 #include <variant>
 #include <tuple>
+#include <string>
 
 #include <tomb-excavator/provider/dto/video/canvas.hh>
 #include <tomb-excavator/provider/dto/video/palette.hh>
@@ -16,7 +17,10 @@
 
 namespace provider
 {
-    using file_type_t = std::variant<dto::sprite_group, dto::picture, formats::image::picture>;
+    using file_type_t = std::variant<dto::sprite_group,
+                                     dto::picture,
+                                     formats::image::picture,
+                                     std::string>;
 }
 
 #endif //TOMBEXCAVATOR_FILE_TYPES_HH

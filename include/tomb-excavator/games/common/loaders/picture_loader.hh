@@ -9,7 +9,7 @@
 
 namespace games::common
 {
-    class GAMES_COMMON_API picture_loader : public data_loader
+    class GAMES_COMMON_API picture_loader : public single_entry_data_loader
     {
     public:
         picture_loader(std::string virt_name, std::string phys_name);

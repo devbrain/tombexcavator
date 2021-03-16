@@ -19,9 +19,16 @@ namespace provider::physfs
 {
     directory::~directory() = default;
     // ---------------------------------------------------------------------------------
+    directory::directory() = default;
+    // ---------------------------------------------------------------------------------
     directory::directory(const std::filesystem::path& path)
-    : m_root(path)
     {
+        open(path);
+    }
+    // ---------------------------------------------------------------------------------
+    void directory::open(const std::filesystem::path& path)
+    {
+        m_root = path;
         for(auto& p: std::filesystem::directory_iterator(m_root))
         {
             m_entries.emplace_back(str_tolower(p.path().filename().u8string()));

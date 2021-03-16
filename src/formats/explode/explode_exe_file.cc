@@ -11,17 +11,19 @@
 #include "formats/explode/mz/unpklite.hh"
 #include "formats/explode/mz/unexepack.hh"
 
-
-template<typename DECODER>
-static void decode(formats::explode::mz::input_exe_file& iexe, std::vector<char>& out_buff)
+namespace
 {
-    DECODER decoder(iexe);
-    formats::explode::mz::full_exe_file fo(decoder.decomp_size());
-    decoder.unpack(fo);
-    formats::explode::mz::io::inmem_output ow(out_buff);
-    fo.write(ow);
-}
-
+    template<typename DECODER>
+    void decode(formats::explode::mz::input_exe_file& iexe, std::vector<char>& out_buff)
+    {
+        DECODER decoder(iexe);
+        formats::explode::mz::full_exe_file fo(decoder.decomp_size());
+        decoder.unpack(fo);
+        formats::explode::mz::io::inmem_output ow(out_buff);
+        fo.write(ow);
+    }
+} // anon. ns
+// ========================================================================================================
 namespace formats::explode::mz
 {
     bool explode_exe_file(const char* input, std::size_t input_size, std::vector<char>& output)
@@ -62,5 +64,25 @@ namespace formats::explode::mz
             return false;
         }
         return true;
+    }
+    // ===========================================================================================
+    std::unique_ptr<bsw::io::binary_reader> explode_exe_file(std::istream& istream)
+    {
+        auto current = istream.tellg();
+        istream.seekg(0, std::ios::end);
+        auto fsize = istream.tellg() - current;
+        istream.seekg(current, std::ios::beg);
+
+        auto input = std::make_shared<std::vector<char>>(fsize);
+        istream.read(input->data(), fsize);
+
+        constexpr auto order = bsw::io::binary_reader::LITTLE_ENDIAN_BYTE_ORDER;
+
+        if (auto output = std::make_shared<std::vector<char>>();
+            formats::explode::mz::explode_exe_file(input->data(), input->size(), *output))
+        {
+            return std::make_unique<bsw::io::memory_binary_reader>(output, order);
+        }
+        return std::make_unique<bsw::io::memory_binary_reader>(input, order);
     }
 }

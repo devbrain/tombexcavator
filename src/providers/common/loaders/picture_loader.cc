@@ -8,7 +8,7 @@ namespace games::common
 {
 
     picture_loader::picture_loader(std::string virt_name, std::string phys_name)
-    : data_loader(virt_name, phys_name)
+    : single_entry_data_loader(virt_name, phys_name)
     {
     }
 

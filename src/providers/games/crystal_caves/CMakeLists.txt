@@ -1,6 +1,9 @@
 set (src
-        crystal_caves_provider.cc)
-set (hdr)
+        crystal_caves_provider.cc
+        ccmap.cc)
+set (hdr
+        ccmap.hh
+        )
 
 add_library(crystal_caves SHARED ${src} ${hdr})
 set_target_properties(tombexcavator-provider PROPERTIES CXX_STANDARD 17)

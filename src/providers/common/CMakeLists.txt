@@ -1,5 +1,6 @@
 set (src
         ega_palette.cc
+        romfont.cc
 
         loaders/data_loader.cc
         loaders/picture_loader.cc
@@ -11,6 +12,7 @@ set (src
 
 set(hdr
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/ega_palette.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/romfont.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/data_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/picture_loader.hh

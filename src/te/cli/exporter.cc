@@ -2,6 +2,7 @@
 // Created by igor on 10/03/2021.
 //
 
+#include <fstream>
 #include "exporter.hh"
 #include <tomb-excavator/export/sprite_group_export.hh>
 #include <tomb-excavator/export/picture_export.hh>
@@ -32,4 +33,11 @@ void data_exporter::operator () (const formats::image::picture& pic) const
 {
     auto opath = m_odir / (m_name + ".png");
     formats::image::save_to_png(pic, opath);
+}
+// ------------------------------------------------------------------------------------------------
+void data_exporter::operator () (const std::string& txt) const
+{
+    auto opath = m_odir / (m_name + ".txt");
+    std::ofstream ofs (opath, std::ios::binary | std::ios::out);
+    ofs.write(txt.c_str(), txt.size());
 }
