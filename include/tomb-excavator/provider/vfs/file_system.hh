@@ -23,6 +23,8 @@ namespace provider::vfs
         virtual std::string name() const = 0;
         virtual bool accept(const physfs::directory& dir) const = 0;
         virtual std::unique_ptr<directory> root(const physfs::directory& dir) const = 0;
+
+        file_type_t open_file(const std::string& path);
     };
 }
 

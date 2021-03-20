@@ -16,6 +16,7 @@ set(bsw_src
         bsw/io/memory_stream.cc
         bsw/io/binary_reader_writer.cc
         bsw/io/base_64_test.cc
+        bsw/string_tokenizer_test.cc
         )
 set (export_src
         export/xml_writer_test.cc

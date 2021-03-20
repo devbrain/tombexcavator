@@ -6,7 +6,16 @@
 
 namespace provider::vfs
 {
-    directory::directory() = default;
+    directory::directory(file_system* owner)
+    : m_owner(owner)
+    {
 
+    }
+    // ---------------------------------------------------------------------------------------------------------
     directory::~directory() = default;
-}
+    // ---------------------------------------------------------------------------------------------------------
+    file_system* directory::owner()
+    {
+        return m_owner;
+    }
+} // ns

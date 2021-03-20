@@ -6,34 +6,34 @@
 
 namespace provider::dto
 {
-    map::map(int w, int h)
+    basic_map::basic_map(int w, int h)
     : m_dim(w, h)
     {
 
     }
     // -------------------------------------------------------------------
-    map::map(dimension d)
+    basic_map::basic_map(dimension d)
     : m_dim(std::move(d))
     {
 
     }
     // -------------------------------------------------------------------
-    layer& map::add_layer()
+    layer& basic_map::add_layer()
     {
         return m_layers.emplace_back(m_dim);
     }
     // -------------------------------------------------------------------
-    bool map::empty() const noexcept
+    bool basic_map::empty() const noexcept
     {
         return m_layers.empty();
     }
     // -------------------------------------------------------------------
-    map::const_iterator map::begin() const
+    basic_map::const_iterator basic_map::begin() const
     {
         return m_layers.begin();
     }
     // -------------------------------------------------------------------
-    map::const_iterator map::end() const
+    basic_map::const_iterator basic_map::end() const
     {
         return m_layers.end();
     }

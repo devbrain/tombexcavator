@@ -16,7 +16,7 @@ namespace games::common
     public:
         using loaders_list_t = std::initializer_list<data_loader*>;
     public:
-        root_directory(const loaders_list_t& loaders);
+        root_directory(provider::vfs::file_system* owner, const loaders_list_t& loaders);
         root_directory(const root_directory& other);
 
         [[nodiscard]] bool accept(const provider::physfs::directory& dir) const;

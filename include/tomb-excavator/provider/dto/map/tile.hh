@@ -17,11 +17,12 @@ namespace provider::dto
     {
     public:
         using name_value_t = std::tuple<std::string, std::string>;
+        using ilist_t = std::initializer_list<name_value_t>;
         using props_t = std::vector<name_value_t>;
         using const_iterator = props_t::const_iterator ;
     public:
         explicit tile(int id);
-        tile (int id, std::initializer_list<name_value_t> props);
+        tile (int id, ilist_t props);
 
         [[nodiscard]] int get_id() const noexcept;
         [[nodiscard]] bool empty() const noexcept;

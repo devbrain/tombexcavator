@@ -21,8 +21,8 @@ namespace provider::dto
 
         [[nodiscard]] dimension dim() const noexcept;
 
-        template<typename ... Args>
-        void put_tile(int x, int y, Args&& ...args)
+
+        void put_tile(int x, int y, int id, tile::ilist_t props)
         {
             if (x >= m_dim.w())
             {
@@ -32,7 +32,7 @@ namespace provider::dto
             {
                 RAISE_EX(y, ">=", m_dim.h());
             }
-            m_tiles[y*m_dim.w() + x] = tile(std::forward<Args>(args)...);
+            m_tiles[y*m_dim.w() + x] = tile(id, props);
         }
 
         [[nodiscard]] const tile& get_tile(int x, int y) const;

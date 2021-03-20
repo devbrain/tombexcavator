@@ -17,10 +17,23 @@ data_exporter::data_exporter(const std::string& name, const std::filesystem::pat
 // ------------------------------------------------------------------------------------------------
 void data_exporter::operator () (const provider::dto::sprite_group& sg) const
 {
-    exporter::tile_sheet ts(sg);
-    auto opng = m_odir / (m_name + ".png");
-    auto otsx = m_odir / (m_name + ".tsx");
-    exporter::to_tsx(ts, m_name, otsx, opng);
+    const auto sheets = provider::dto::tile_sheet::create(sg);
+    int i = 0;
+    for (const auto& ts : sheets)
+    {
+        std::string base = m_name;
+        if (sheets.size() > 1)
+        {
+            std::ostringstream os;
+            os << m_name + "-" << i;
+            base = os.str();
+            i++;
+        }
+
+        auto opng = m_odir / (base + ".png");
+        auto otsx = m_odir / (base + ".tsx");
+        exporter::to_tsx(ts, base, otsx, opng);
+    }
 }
 // ------------------------------------------------------------------------------------------------
 void data_exporter::operator () (const provider::dto::picture& pic) const

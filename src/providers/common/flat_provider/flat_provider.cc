@@ -8,7 +8,7 @@ namespace games::common
 {
     flat_provider::flat_provider(const std::string& name, const root_directory::loaders_list_t& loaders)
     : m_name(name),
-      m_root(loaders)
+      m_root(this, loaders)
     {
 
     }

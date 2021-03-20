@@ -7,6 +7,9 @@ set (src
 
         thirdparty/whereami.c
         whereami.cc
+        string_tokenizer.cc
+        ascii.cc
+
         )
 
 set (hdr
@@ -14,6 +17,8 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/byte_order.hh
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/whereami.hh
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/macros.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/string_tokenizer.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/ascii.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/io/unbuffered_stream_buf.hh
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/io/buffered_stream_buf.hh

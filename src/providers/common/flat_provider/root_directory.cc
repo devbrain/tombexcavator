@@ -7,7 +7,8 @@
 
 namespace games::common
 {
-    root_directory::root_directory(const loaders_list_t& loaders)
+    root_directory::root_directory(provider::vfs::file_system* owner, const loaders_list_t& loaders)
+    : provider::vfs::directory(owner)
     {
         for (data_loader* dl : loaders)
         {

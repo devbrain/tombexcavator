@@ -12,6 +12,7 @@ set (src
 
         vfs/directory.cc
         vfs/file_system.cc
+        vfs/graph.cc
 
         physfs/directory.cc
 
@@ -39,6 +40,8 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/map/tile.hh
         ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/map/layer.hh
         ${PROJECT_INCLUDE}/tomb-excavator/provider/dto/map/map.hh
+
+        vfs/graph.hh
         )
 
 
