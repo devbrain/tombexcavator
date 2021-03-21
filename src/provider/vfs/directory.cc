@@ -7,7 +7,7 @@
 namespace provider::vfs
 {
     directory::directory(file_system* owner)
-    : m_owner(owner)
+    : m_owner(owner), m_parent(nullptr)
     {
 
     }
@@ -17,5 +17,12 @@ namespace provider::vfs
     file_system* directory::owner()
     {
         return m_owner;
+    }
+    // ---------------------------------------------------------------------------------------------------------
+    std::unique_ptr<directory> directory::open_directory(std::size_t entry_idx)
+    {
+        auto ret = this->load_directory(entry_idx);
+        ret->m_parent = this;
+        return ret;
     }
 } // ns

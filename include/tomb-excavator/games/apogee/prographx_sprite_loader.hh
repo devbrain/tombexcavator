@@ -18,8 +18,10 @@ namespace apogee
                       int first_sprite_id, std::size_t padding);
 
     private:
+        provider::dto::sprite_group read(std::istream& is, int first_sprite_id) const override;
+    private:
         std::size_t m_padding;
-        provider::file_type_t read(std::istream& is, int first_sprite_id) const override;
+
     };
 }
 

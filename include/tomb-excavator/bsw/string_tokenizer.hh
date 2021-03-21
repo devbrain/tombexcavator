@@ -22,22 +22,20 @@ namespace bsw
     public:
         enum options
         {
-            TOK_IGNORE_EMPTY = 1, /// ignore empty tokens
-            TOK_TRIM = 2  /// remove leading and trailing whitespace from tokens
+            TOK_IGNORE_EMPTY = 1u, /// ignore empty tokens
+            TOK_TRIM = 2u  /// remove leading and trailing whitespace from tokens
         };
 
         typedef std::vector<std::string> token_vec_t;
         typedef token_vec_t::const_iterator iterator;
 
-        string_tokenizer(const std::string& str, const std::string& separators, int options = 0);
+        string_tokenizer(const std::string& str, const std::string& separators, unsigned int options = 0);
         /// Splits the given string into tokens. The tokens are expected to be
         /// separated by one of the separator characters given in separators.
         /// Additionally, options can be specified:
         ///   * TOK_IGNORE_EMPTY: empty tokens are ignored
         ///   * TOK_TRIM: trailing and leading whitespace is removed from tokens.
 
-        ~string_tokenizer();
-        /// Destroys the tokenizer.
 
         [[nodiscard]] iterator begin() const;
         [[nodiscard]] iterator end() const;
@@ -70,52 +68,49 @@ namespace bsw
         /// Returns the number of tokens equal to the specified token.
 
     private:
-        void trim(std::string& token);
+        static void trim(std::string& token);
 
-        token_vec_t _tokens;
+        token_vec_t m_tokens;
     };
 
 
 //
 // inlines
 //
-
-
     inline string_tokenizer::iterator string_tokenizer::begin() const
     {
-        return _tokens.begin();
+        return m_tokens.begin();
     }
-
+    // ----------------------------------------------------------------------------------------
     inline string_tokenizer::iterator string_tokenizer::end() const
     {
-        return _tokens.end();
+        return m_tokens.end();
     }
-
+    // ----------------------------------------------------------------------------------------
     inline std::string& string_tokenizer::operator[](std::size_t index)
     {
-        if (index >= _tokens.size())
+        if (index >= m_tokens.size())
         {
             RAISE_EX("Out of range");
         }
 
-        return _tokens[index];
+        return m_tokens[index];
     }
-
+    // ----------------------------------------------------------------------------------------
     inline const std::string& string_tokenizer::operator[](std::size_t index) const
     {
-        if (index >= _tokens.size())
+        if (index >= m_tokens.size())
         {
             RAISE_EX("Out of range");
         }
 
-        return _tokens[index];
+        return m_tokens[index];
     }
-
+    // ----------------------------------------------------------------------------------------
     inline std::size_t string_tokenizer::count() const
     {
-        return _tokens.size();
+        return m_tokens.size();
     }
-
 }
 
 #endif //TOMBEXCAVATOR_STRING_TOKENIZER_HH

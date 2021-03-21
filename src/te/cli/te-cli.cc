@@ -6,7 +6,6 @@
 #include <iterator>
 
 #include <tomb-excavator/provider/vfs_registry.hh>
-#include <tomb-excavator/export/file_type_to_string.hh>
 #include <tomb-excavator/bsw/exceptions.hh>
 
 #include "params.hh"
@@ -73,7 +72,7 @@ cmd_handler::get_fs_entry(std::unique_ptr<provider::vfs::directory>&& root, cons
             {
                 if (vfs_dir->is_directory(j))
                 {
-                    vfs_dir = vfs_dir->load_directory(j);
+                    vfs_dir = vfs_dir->open_directory(j);
                     component_found = true;
                     break;
                 }
@@ -149,7 +148,7 @@ void cmd_handler::do_export(std::unique_ptr<provider::vfs::directory>&& root, co
     {
         if (dir->is_directory(i))
         {
-            do_export(dir->load_directory(i), opath / dir->name(i));
+            do_export(dir->open_directory(i), opath / dir->name(i));
         }
         else
         {

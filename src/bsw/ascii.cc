@@ -6,7 +6,7 @@
 
 namespace bsw
 {
-    const int ascii::CHARACTER_PROPERTIES[128] =
+    const unsigned int ascii::CHARACTER_PROPERTIES[128] =
             {
                     /* 00 . */ ACP_CONTROL,
                     /* 01 . */ ACP_CONTROL,
@@ -137,6 +137,4 @@ namespace bsw
                     /* 7e ~ */ ACP_PUNCT | ACP_GRAPH | ACP_PRINT,
                     /* 7f . */ ACP_CONTROL
             };
-
-
 }

@@ -8,7 +8,7 @@
 
 namespace bsw
 {
-    string_tokenizer::string_tokenizer(const std::string& str, const std::string& separators, int options)
+    string_tokenizer::string_tokenizer(const std::string& str, const std::string& separators, unsigned int options)
     {
         std::string::const_iterator it = str.begin();
         std::string::const_iterator end = str.end();
@@ -21,12 +21,14 @@ namespace bsw
         {
             if (separators.find(*it) != std::string::npos)
             {
-                if (doTrim) trim(token);
-                if (!token.empty() || !ignoreEmpty) _tokens.push_back(token);
-                if (!ignoreEmpty) lastToken = true;
+                if (doTrim)
+                { trim(token); }
+                if (!token.empty() || !ignoreEmpty)
+                { m_tokens.push_back(token); }
+                if (!ignoreEmpty)
+                { lastToken = true; }
                 token.clear();
-            }
-            else
+            } else
             {
                 token += *it;
                 lastToken = false;
@@ -35,21 +37,19 @@ namespace bsw
 
         if (!token.empty())
         {
-            if (doTrim) trim(token);
-            if (!token.empty() || !ignoreEmpty) _tokens.push_back(token);
-        }
-        else if (lastToken)
+            if (doTrim)
+            { trim(token); }
+            if (!token.empty() || !ignoreEmpty)
+            { m_tokens.push_back(token); }
+        } else
+        {
+            if (lastToken)
             {
-                _tokens.push_back(std::string());
+                m_tokens.push_back(std::string());
             }
+        }
     }
-
-
-    string_tokenizer::~string_tokenizer()
-    {
-    }
-
-
+    // ----------------------------------------------------------------------------------------
     void string_tokenizer::trim(std::string& token)
     {
         std::string::size_type front = 0;
@@ -59,7 +59,8 @@ namespace bsw
         std::string::const_iterator tEnd = token.end();
         for (; tIt != tEnd; ++tIt, ++front)
         {
-            if (!ascii::is_space(*tIt)) break;
+            if (!ascii::is_space(*tIt))
+            { break; }
         }
         if (tIt != tEnd)
         {
@@ -67,53 +68,51 @@ namespace bsw
             std::string::const_reverse_iterator tRend = token.rend();
             for (; tRit != tRend; ++tRit, ++back)
             {
-                if (!ascii::is_space(*tRit)) break;
+                if (!ascii::is_space(*tRit))
+                { break; }
             }
         }
         token = token.substr(front, length - back - front);
     }
-
-
+    // ----------------------------------------------------------------------------------------
     std::size_t string_tokenizer::count(const std::string& token) const
     {
         std::size_t result = 0;
-        token_vec_t::const_iterator it = std::find(_tokens.begin(), _tokens.end(), token);
-        while (it != _tokens.end())
+        auto it = std::find(m_tokens.begin(), m_tokens.end(), token);
+        while (it != m_tokens.end())
         {
             result++;
-            it = std::find(++it, _tokens.end(), token);
+            it = std::find(++it, m_tokens.end(), token);
         }
         return result;
     }
-
-
+    // ----------------------------------------------------------------------------------------
     std::string::size_type string_tokenizer::find(const std::string& token, std::string::size_type pos) const
     {
-        token_vec_t::const_iterator it = std::find(_tokens.begin() + pos, _tokens.end(), token);
-        if (it != _tokens.end())
+        auto it = std::find(m_tokens.begin() + pos, m_tokens.end(), token);
+        if (it != m_tokens.end())
         {
-            return it - _tokens.begin();
+            return it - m_tokens.begin();
         }
         RAISE_EX("Token ", token, " not found");
     }
-
-
+    // ----------------------------------------------------------------------------------------
     bool string_tokenizer::has(const std::string& token) const
     {
-        token_vec_t::const_iterator it = std::find(_tokens.begin(), _tokens.end(), token);
-        return it != _tokens.end();
+        auto it = std::find(m_tokens.begin(), m_tokens.end(), token);
+        return it != m_tokens.end();
     }
-
-
-    std::size_t string_tokenizer::replace(const std::string& oldToken, const std::string& newToken, std::string::size_type pos)
+    // ----------------------------------------------------------------------------------------
+    std::size_t
+    string_tokenizer::replace(const std::string& oldToken, const std::string& newToken, std::string::size_type pos)
     {
         std::size_t result = 0;
-        token_vec_t::iterator it = std::find(_tokens.begin() + pos, _tokens.end(), oldToken);
-        while (it != _tokens.end())
+        auto it = std::find(m_tokens.begin() + pos, m_tokens.end(), oldToken);
+        while (it != m_tokens.end())
         {
             result++;
             *it = newToken;
-            it = std::find(++it, _tokens.end(), oldToken);
+            it = std::find(++it, m_tokens.end(), oldToken);
         }
         return result;
     }

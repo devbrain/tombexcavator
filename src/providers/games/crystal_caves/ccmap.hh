@@ -17,8 +17,9 @@ private:
     void open(std::shared_ptr<provider::physfs::directory> dir) override;
 
     [[nodiscard]] std::size_t size() const override;
-    [[nodiscard]] provider::file_type_t load(std::size_t index) const override;
+    [[nodiscard]] provider::file_content_t load(std::size_t index) const override;
     [[nodiscard]] std::string name(std::size_t index) const override;
+    [[nodiscard]] provider::file_type_t type(std::size_t index) const override;
 private:
     using level_t = std::vector<std::string>;
     std::vector<level_t> m_levels;

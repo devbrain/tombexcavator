@@ -405,7 +405,7 @@ std::size_t ccmap::size() const
     return m_levels.size();
 }
 // ------------------------------------------------------------------------------------------
-provider::file_type_t ccmap::load(std::size_t index) const
+provider::file_content_t ccmap::load(std::size_t index) const
 {
     std::ostringstream os;
     for (const auto& s : m_levels[index])
@@ -433,4 +433,9 @@ std::string ccmap::name(std::size_t index) const
     std::ostringstream os;
     os << "level-" << index - 2;
     return os.str();
+}
+
+provider::file_type_t ccmap::type(std::size_t index) const
+{
+    return provider::make_file_type<provider::dto::map>();
 }

@@ -61,9 +61,15 @@ namespace games::common
         return nullptr;
     }
     // ----------------------------------------------------------------------------------------------
-    provider::file_type_t root_directory::open_file(std::size_t entry_idx) const
+    provider::file_content_t root_directory::open_file(std::size_t entry_idx) const
     {
         const auto& e = m_index[entry_idx];
         return m_loaders[e.m_loader_index]->load(e.m_entry_index);
+    }
+    // ----------------------------------------------------------------------------------------------
+    provider::file_type_t root_directory::file_type(std::size_t entry_idx) const
+    {
+        const auto& e = m_index[entry_idx];
+        return m_loaders[e.m_loader_index]->type(e.m_entry_index);
     }
 }

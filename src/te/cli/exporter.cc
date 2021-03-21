@@ -42,6 +42,11 @@ void data_exporter::operator () (const provider::dto::picture& pic) const
     exporter::to_png(pic, opath);
 }
 // ------------------------------------------------------------------------------------------------
+void data_exporter::operator () (const provider::dto::map& map) const
+{
+    // TODO
+}
+// ------------------------------------------------------------------------------------------------
 void data_exporter::operator () (const formats::image::picture& pic) const
 {
     auto opath = m_odir / (m_name + ".png");

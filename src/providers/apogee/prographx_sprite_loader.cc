@@ -15,7 +15,7 @@ namespace apogee
 
     }
     // ------------------------------------------------------------------------------------------------------------
-    provider::file_type_t prographx_sprite_loader::read(std::istream& is, int first_sprite_id) const
+    provider::dto::sprite_group prographx_sprite_loader::read(std::istream& is, int first_sprite_id) const
     {
         return apogee::load_prographx_tiles(is, m_padding, first_sprite_id);
     }

@@ -9,19 +9,23 @@ namespace
 {
     struct visitor
     {
-        std::string operator () (const provider::dto::sprite_group& )
+        std::string operator () (const provider::dto::sprite_group* )
         {
             return "tilesheet";
         }
-        std::string operator () (const provider::dto::picture&)
+        std::string operator () (const provider::dto::picture*)
         {
             return "image";
         }
-        std::string operator () (const formats::image::picture&)
+        std::string operator () (const provider::dto::map*)
+        {
+            return "map";
+        }
+        std::string operator () (const formats::image::picture*)
         {
             return "image";
         }
-        std::string operator () (const std::string&)
+        std::string operator () (const std::string*)
         {
             return "text";
         }

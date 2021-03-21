@@ -26,7 +26,8 @@ namespace games::common
         [[nodiscard]] std::string name(std::size_t entry_idx) const override;
         [[nodiscard]] bool is_directory(std::size_t entry_idx) const override;
         [[nodiscard]] std::unique_ptr<provider::vfs::directory> load_directory(std::size_t entry_idx) const override;
-        [[nodiscard]] provider::file_type_t open_file(std::size_t entry_idx) const override;
+        [[nodiscard]] provider::file_content_t open_file(std::size_t entry_idx) const override;
+        [[nodiscard]] provider::file_type_t file_type(std::size_t entry_idx) const override;
     private:
         struct data_loader_index
         {

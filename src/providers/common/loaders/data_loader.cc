@@ -31,7 +31,7 @@ namespace games::common
         m_dir = dir;
     }
     // --------------------------------------------------------------------------------------------
-    provider::file_type_t single_entry_data_loader::load([[maybe_unused]] std::size_t index) const
+    provider::file_content_t single_entry_data_loader::load([[maybe_unused]] std::size_t index) const
     {
         auto is = m_dir->open_file(physical_name());
         return read(*is);

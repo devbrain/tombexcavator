@@ -26,12 +26,16 @@ namespace provider::vfs
         virtual std::string name(std::size_t entry_idx) const = 0;
         virtual bool is_directory(std::size_t entry_idx) const = 0;
 
+        std::unique_ptr<directory> open_directory(std::size_t entry_idx);
+        virtual file_content_t open_file(std::size_t entry_idx) const = 0;
+        virtual file_type_t file_type(std::size_t entry_idx) const = 0;
+    protected:
         virtual std::unique_ptr<directory> load_directory(std::size_t entry_idx) const = 0;
-        virtual file_type_t open_file(std::size_t entry_idx) const = 0;
     protected:
         file_system* owner();
     private:
         file_system* m_owner;
+        directory*   m_parent;
     };
 } // ns
 
