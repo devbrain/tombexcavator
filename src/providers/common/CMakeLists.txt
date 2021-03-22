@@ -1,8 +1,8 @@
 set (src
         ega_palette.cc
-        romfont.cc
 
         loaders/data_loader.cc
+        loaders/archive_loader.cc
         loaders/picture_loader.cc
         loaders/sprite_loader.cc
 
@@ -12,11 +12,11 @@ set (src
 
 set(hdr
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/ega_palette.hh
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/romfont.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/data_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/picture_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/sprite_loader.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/archive_loader.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/flat_provider/root_directory.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/flat_provider/flat_provider.hh
@@ -42,4 +42,5 @@ target_link_libraries(tombexcavator-games-common
         PUBLIC
         tombexcavator-formats
         tombexcavator-bsw
+        thirdparty::mio
         )

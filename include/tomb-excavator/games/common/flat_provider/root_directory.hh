@@ -14,7 +14,7 @@ namespace games::common
     class GAMES_COMMON_API root_directory : public provider::vfs::directory
     {
     public:
-        using loaders_list_t = std::initializer_list<data_loader*>;
+        using loaders_list_t = std::initializer_list<abstract_data_loader*>;
     public:
         root_directory(provider::vfs::file_system* owner, const loaders_list_t& loaders);
         root_directory(const root_directory& other);
@@ -38,7 +38,7 @@ namespace games::common
             std::size_t m_entry_index;
         };
     private:
-        std::vector<std::shared_ptr<games::common::data_loader>> m_loaders;
+        std::vector<std::shared_ptr<abstract_data_loader>> m_loaders;
         std::vector<data_loader_index> m_index;
         std::shared_ptr<provider::physfs::directory> m_dir;
     };

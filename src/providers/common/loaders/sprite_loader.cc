@@ -6,15 +6,15 @@
 
 namespace games::common
 {
-    sprite_loader::sprite_loader(std::string virt_name, std::string phys_name, int first_sprite_id)
-    : typed_single_entry_data_loader<provider::dto::sprite_group>(virt_name, phys_name),
-    m_first_sprite_id(first_sprite_id)
+    sprite_loader::sprite_loader(std::string virt_name, std::string phys_name, int first_sprite_id,
+                                 sprite_loader_t loader)
+            : single_entry_physical_data_loader<provider::dto::sprite_group>(std::move(virt_name),
+                                                                             std::move(phys_name),
+                                                                             [first_sprite_id, loader](
+                                                                                     std::istream& is) {
+                                                                                 return loader(is, first_sprite_id);
+                                                                             })
     {
 
-    }
-    // ----------------------------------------------------------------------------------------------------------
-    provider::dto::sprite_group sprite_loader::load_content(std::istream& is) const
-    {
-        return read(is, m_first_sprite_id);
     }
 }

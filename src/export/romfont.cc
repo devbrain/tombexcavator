@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-#include <tomb-excavator/games/common/romfont.hh>
+#include <tomb-excavator/export/romfont.hh>
 
 namespace
 {
@@ -667,8 +667,8 @@ namespace
         glyph_holder()
         {
             init(IBM_PC_V3_8x8, font_8x8, 8);
-            init(IBM_PC_V3_8x8, font_8x14, 14);
-            init(IBM_PC_V3_8x8, font_8x16, 16);
+            init(IBM_VGA_8x14, font_8x14, 14);
+            init(IBM_VGA_8x16, font_8x16, 16);
         }
     private:
         static void init(const uint8_t* data, glyph_data_t* out, std::size_t fy)
@@ -696,7 +696,7 @@ namespace
     };
 } // anon ns
 
-namespace games::common
+namespace exporter
 {
     const std::vector<std::vector<bool>>& get_glyph(font font_type, char ch)
     {

@@ -8,11 +8,12 @@ namespace games::common
 {
 
     picture_loader::picture_loader(std::string virt_name, std::string phys_name)
-    : typed_single_entry_data_loader<formats::image::picture>(std::move(virt_name), std::move(phys_name))
+    : single_entry_physical_data_loader<formats::image::picture>(std::move(virt_name), std::move(phys_name),
+                                                                 load_content)
     {
     }
-
-    formats::image::picture picture_loader::load_content(std::istream& is) const
+    // ----------------------------------------------------------------------------------------------
+    formats::image::picture picture_loader::load_content(std::istream& is)
     {
         return formats::image::load_picture(is);
     }

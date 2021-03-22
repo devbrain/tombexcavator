@@ -7,6 +7,7 @@
 #include <ios>
 #include "tomb-excavator/formats/image/picture.hh"
 #include "formats/image/picture_loader.hh"
+#include <tomb-excavator/bsw/exceptions.hh>
 
 #if defined(_MSC_VER)
 #pragma warning( push )
@@ -34,8 +35,12 @@ namespace formats::image
     // -------------------------------------------------------------------------------------------
     void picture::put(unsigned x, unsigned y, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
     {
-        const std::size_t row_size = bpp*width;
-        const std::size_t idx = y*row_size + x*bpp;
+
+        const std::size_t idx = (y*width + x)*bpp;
+        if (idx + bpp >= pixels.size())
+        {
+            RAISE_EX("Coord (", x, ",", y, ") >= width ", width, " height ", height);
+        }
         pixels[idx+0] = r;
         pixels[idx+1] = g;
         pixels[idx+2] = b;

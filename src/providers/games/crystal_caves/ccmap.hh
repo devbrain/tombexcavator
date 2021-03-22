@@ -9,7 +9,7 @@
 #include <string>
 #include <tomb-excavator/games/common/loaders/data_loader.hh>
 
-class ccmap : public games::common::data_loader
+class ccmap : public games::common::physical_data_loader
 {
 public:
     explicit ccmap(std::string phys_name);
@@ -20,6 +20,7 @@ private:
     [[nodiscard]] provider::file_content_t load(std::size_t index) const override;
     [[nodiscard]] std::string name(std::size_t index) const override;
     [[nodiscard]] provider::file_type_t type(std::size_t index) const override;
+    [[nodiscard]] bool is_directory(std::size_t index) const override;
 private:
     using level_t = std::vector<std::string>;
     std::vector<level_t> m_levels;

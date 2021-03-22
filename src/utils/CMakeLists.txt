@@ -7,5 +7,8 @@ ENDMACRO()
 ADD_UTILITY(load_pic load_pic.cc)
 ADD_UTILITY(mz_explode mz_explode.cc)
 
+add_executable(ccmap ccmap.cc)
+target_link_libraries(ccmap PRIVATE tombexcavator-formats tombexcavator-export tombexcavator-games-apogee tombexcavator-provider)
+set_target_properties(ccmap PROPERTIES CXX_STANDARD 17)
 
 

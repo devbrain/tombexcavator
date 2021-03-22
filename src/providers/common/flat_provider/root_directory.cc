@@ -10,7 +10,7 @@ namespace games::common
     root_directory::root_directory(provider::vfs::file_system* owner, const loaders_list_t& loaders)
     : provider::vfs::directory(owner)
     {
-        for (data_loader* dl : loaders)
+        for (auto* dl : loaders)
         {
             m_loaders.emplace_back(dl);
         }
@@ -21,7 +21,7 @@ namespace games::common
     bool root_directory::accept(const provider::physfs::directory& dir) const
     {
         return std::all_of(m_loaders.begin(), m_loaders.end(),
-                           [&dir](const auto& dl) {return dir.contains(dl->physical_name());});
+                           [&dir](const auto& dl) {return dl->accept(dir);});
     }
     // ----------------------------------------------------------------------------------------------
     void root_directory::open(const provider::physfs::directory& dir)

@@ -10,12 +10,12 @@
 
 namespace games::common
 {
-    class GAMES_COMMON_API picture_loader : public typed_single_entry_data_loader<formats::image::picture>
+    class GAMES_COMMON_API picture_loader : public single_entry_physical_data_loader<formats::image::picture>
     {
     public:
         picture_loader(std::string virt_name, std::string phys_name);
     private:
-        formats::image::picture load_content(std::istream& is) const override;
+        static formats::image::picture load_content(std::istream& is);
     };
 }
 

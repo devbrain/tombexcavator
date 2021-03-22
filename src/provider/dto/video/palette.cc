@@ -41,6 +41,10 @@ namespace provider::dto
     // -------------------------------------------------------------------------------------------------------
     rgba palette::operator [] (std::size_t idx) const
     {
+        if (idx >= m_data.size())
+        {
+            RAISE_EX("Palette index ", idx, " is out of range ", m_data.size());
+        }
         return m_data [idx];
     }
     // -------------------------------------------------------------------------------------------------------

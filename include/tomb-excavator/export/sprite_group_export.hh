@@ -15,13 +15,14 @@
 namespace exporter
 {
 
-    // ==============================================================================
     EXPORT_API void to_png(const provider::dto::tile_sheet& ts, const std::filesystem::path& oname);
 
     EXPORT_API void to_tsx(const provider::dto::tile_sheet& ts,
                            const std::string& tileset_name,
                            const std::filesystem::path& oname_tmx,
                            const std::filesystem::path& oname_png);
+
+    EXPORT_API void to_png_with_ids(const provider::dto::sprite_group& ts, const std::filesystem::path& oname);
 }
 
 #endif //TOMBEXCAVATOR_SPRITE_GROUP_EXPORT_HH
