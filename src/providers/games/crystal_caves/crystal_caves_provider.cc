@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include <tomb-excavator/games/common/flat_provider/flat_provider.hh>
+#include <tomb-excavator/games/common/vfs/virtual_fs.hh>
 #include <tomb-excavator/games/common/loaders/picture_loader.hh>
 #include <tomb-excavator/games/apogee/prographx_sprite_loader.hh>
 #include "ccmap.hh"
@@ -12,12 +12,12 @@
 using namespace apogee;
 using namespace games::common;
 
-class ccfs : public flat_provider
+class ccfs : public virtual_fs
 {
 public:
     ccfs()
-            : flat_provider("Crystal Caves",
-                            {
+            : virtual_fs("Crystal Caves",
+                         {
                                     new prographx_sprite_loader("sprites", "cc1.gfx", 0, 0),
                                     new prographx_sprite_loader("menu-tiles", "cc1-f1.mni", 0, 45),
                                     new prographx_sprite_loader("fonts-spl", "cc1-spl.mni", 0, 45),

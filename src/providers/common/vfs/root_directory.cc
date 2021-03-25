@@ -3,12 +3,12 @@
 //
 
 #include <algorithm>
-#include <tomb-excavator/games/common/flat_provider/root_directory.hh>
+#include <tomb-excavator/games/common/vfs/root_directory.hh>
+#include "directory_adaptor.hh"
 
 namespace games::common
 {
-    root_directory::root_directory(provider::vfs::file_system* owner, const loaders_list_t& loaders)
-    : provider::vfs::directory(owner)
+    root_directory::root_directory(const loaders_list_t& loaders)
     {
         for (auto* dl : loaders)
         {
@@ -51,14 +51,17 @@ namespace games::common
         return m_loaders[e.m_loader_index]->name(e.m_entry_index);
     }
     // ----------------------------------------------------------------------------------------------
-    bool root_directory::is_directory([[maybe_unused]] std::size_t entry_idx) const
+    bool root_directory::is_directory(std::size_t entry_idx) const
     {
-        return false;
+        const auto& e = m_index[entry_idx];
+        return m_loaders[e.m_loader_index]->is_directory(e.m_entry_index);
     }
     // ----------------------------------------------------------------------------------------------
-    std::unique_ptr<provider::vfs::directory> root_directory::load_directory([[maybe_unused]] std::size_t entry_idx) const
+    std::unique_ptr<provider::vfs::directory> root_directory::load_directory(std::size_t entry_idx) const
     {
-        return nullptr;
+        const auto& e = m_index[entry_idx];
+        std::shared_ptr<abstract_directory> ad = m_loaders[e.m_loader_index]->load_directory(e.m_entry_index);
+        return std::make_unique<directory_adaptor>(ad);
     }
     // ----------------------------------------------------------------------------------------------
     provider::file_content_t root_directory::open_file(std::size_t entry_idx) const

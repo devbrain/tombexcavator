@@ -2,28 +2,28 @@
 // Created by igor on 11/03/2021.
 //
 
-#include <tomb-excavator/games/common/flat_provider/flat_provider.hh>
+#include <tomb-excavator/games/common/vfs/virtual_fs.hh>
 
 namespace games::common
 {
-    flat_provider::flat_provider(const std::string& name, const root_directory::loaders_list_t& loaders)
+    virtual_fs::virtual_fs(const std::string& name, const root_directory::loaders_list_t& loaders)
     : m_name(name),
-      m_root(this, loaders)
+      m_root(loaders)
     {
 
     }
     // --------------------------------------------------------------------------------------------------------
-    std::string flat_provider::name() const
+    std::string virtual_fs::name() const
     {
         return m_name;
     }
     // --------------------------------------------------------------------------------------------------------
-    bool flat_provider::accept(const provider::physfs::directory& dir) const
+    bool virtual_fs::accept(const provider::physfs::directory& dir) const
     {
         return m_root.accept(dir);
     }
     // --------------------------------------------------------------------------------------------------------
-    std::unique_ptr<provider::vfs::directory> flat_provider::root(const provider::physfs::directory& dir) const
+    std::unique_ptr<provider::vfs::directory> virtual_fs::root(const provider::physfs::directory& dir) const
     {
         auto cloned = m_root;
         cloned.open(dir);

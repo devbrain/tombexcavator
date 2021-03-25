@@ -6,7 +6,7 @@
 #define TOMBEXCAVATOR_FLAT_ROOT_DIRECTORY_HH
 
 #include <tomb-excavator/export-games-common.h>
-#include <tomb-excavator/games/common/loaders/data_loader.hh>
+#include <tomb-excavator/games/common/vfs/data_loader.hh>
 #include <tomb-excavator/provider/vfs/directory.hh>
 
 namespace games::common
@@ -16,7 +16,7 @@ namespace games::common
     public:
         using loaders_list_t = std::initializer_list<abstract_data_loader*>;
     public:
-        root_directory(provider::vfs::file_system* owner, const loaders_list_t& loaders);
+        explicit root_directory(const loaders_list_t& loaders);
         root_directory(const root_directory& other);
 
         [[nodiscard]] bool accept(const provider::physfs::directory& dir) const;

@@ -37,7 +37,7 @@ namespace formats::image
     {
 
         const std::size_t idx = (y*width + x)*bpp;
-        if (idx + bpp >= pixels.size())
+        if (idx + bpp > pixels.size())
         {
             RAISE_EX("Coord (", x, ",", y, ") >= width ", width, " height ", height);
         }

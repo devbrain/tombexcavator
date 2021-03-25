@@ -19,7 +19,7 @@ namespace provider::vfs
     {
         friend class PROVIDER_API file_system;
     public:
-        explicit directory(file_system* owner);
+        explicit directory();
         virtual ~directory();
 
         virtual std::size_t entries() const = 0;
@@ -32,9 +32,6 @@ namespace provider::vfs
     protected:
         virtual std::unique_ptr<directory> load_directory(std::size_t entry_idx) const = 0;
     protected:
-        file_system* owner();
-    private:
-        file_system* m_owner;
         directory*   m_parent;
     };
 } // ns

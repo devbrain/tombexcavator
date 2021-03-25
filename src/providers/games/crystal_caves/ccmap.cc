@@ -28,76 +28,82 @@ namespace
                 return 24;
         }
     }
+
+    std::string level_name(std::size_t index)
+    {
+        if (index == 0)
+        {
+            return "intro";
+        }
+        if (index == 1)
+        {
+            return "finale";
+        }
+        if (index == 2)
+        {
+            return "main_map";
+        }
+
+        std::ostringstream os;
+        os << "level-" << index - 2;
+        return os.str();
+    }
 } // anon. ns
 // ==========================================================================================
+constexpr int PROPS_IO = 0;
+constexpr int PROPS_ROWS = 1;
+constexpr int LEVEL_TYPE = 0;
+
+static provider::file_content_t level_as_string ([[maybe_unused]] std::istream& is,
+                                                 const games::common::archive_data_loader::fat_entry::file_info& fi,
+                                                 const games::common::archive_data_loader::fat_entry::fat_entry::props_map_t& props)
+{
+
+    auto exe_reader = std::any_cast<bsw::io::binary_reader*>(props.find(PROPS_IO)->second);
+    auto rows = std::any_cast<int>(props.find(PROPS_ROWS)->second);
+
+    exe_reader->stream().seekg(fi.offset, std::ios::beg);
+    std::ostringstream os;
+    for (int i=0; i<rows; i++)
+    {
+        char line [42];
+        exe_reader->read_raw(line, 41);
+        line[41] = 0;
+        os << std::string(line+1) << "\n";
+    }
+    return os.str();
+}
+
+ccmap::loaders_map_t ccmap::loaders()
+{
+    return {{LEVEL_TYPE, level_as_string}};
+}
+
 ccmap::ccmap(std::string phys_name)
-        : games::common::physical_data_loader(std::move(phys_name))
+        : games::common::archive_data_loader(std::move(phys_name), loaders())
 {
 
 }
 // ------------------------------------------------------------------------------------------
-void ccmap::open(std::shared_ptr<provider::physfs::directory> dir)
+std::vector<ccmap::fat_entry> ccmap::load_fat(std::istream& is)
 {
-    auto istream = dir->open_file(physical_name());
-    auto exe_reader = formats::explode::mz::explode_exe_file(*istream);
-    exe_reader->stream().seekg(0x8CE0, std::ios::beg);
+    auto exe_reader = formats::explode::mz::explode_exe_file(is);
+    m_exploded_exe = std::move(exe_reader);
+    constexpr std::size_t MAPS_OFFSET = 0x8CE0;
+
+    std::vector<ccmap::fat_entry> result;
+    uint64_t offset = MAPS_OFFSET;
     for (int i = 0; i < 19; i++)
     {
-        level_t lvl;
-        auto rows = get_num_rows(i);
-        for (std::size_t line = 0; line < rows; line++)
-        {
-            char x[40];
-            char b;
-            *exe_reader >> b;
-            exe_reader->read_raw(x, 40);
-            lvl.emplace_back(x);
-        }
-        m_levels.push_back(std::move(lvl));
-    }
-}
-// ------------------------------------------------------------------------------------------
-std::size_t ccmap::size() const
-{
-    return m_levels.size();
-}
-// ------------------------------------------------------------------------------------------
-provider::file_content_t ccmap::load(std::size_t index) const
-{
-    std::ostringstream os;
-    for (const auto& s : m_levels[index])
-    {
-        os << s << "\n";
-    }
-    return os.str();
-}
-// ------------------------------------------------------------------------------------------
-std::string ccmap::name(std::size_t index) const
-{
-    if (index == 0)
-    {
-        return "intro";
-    }
-    if (index == 1)
-    {
-        return "finale";
-    }
-    if (index == 2)
-    {
-        return "main_map";
-    }
+        int rows = get_num_rows(i);
+        fat_entry::props_map_t props { {PROPS_IO, m_exploded_exe.get()},
+                                       {PROPS_ROWS, rows}};
+        std::size_t size = 41*rows;
 
-    std::ostringstream os;
-    os << "level-" << index - 2;
-    return os.str();
+        fat_entry::file_info fi {41, offset, LEVEL_TYPE, provider::make_file_type<std::string>()};
+        result.emplace_back(level_name(i), fi, props);
+        offset += size;
+    }
+    return result;
 }
 
-provider::file_type_t ccmap::type([[maybe_unused]] std::size_t index) const
-{
-    return provider::make_file_type<std::string>();
-}
-
-bool ccmap::is_directory([[maybe_unused]] std::size_t index) const
-{
-    return false;
-}

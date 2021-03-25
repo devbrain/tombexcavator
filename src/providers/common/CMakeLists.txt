@@ -1,25 +1,31 @@
 set (src
         ega_palette.cc
+        vga_palette.cc
 
-        loaders/data_loader.cc
         loaders/archive_loader.cc
         loaders/picture_loader.cc
         loaders/sprite_loader.cc
 
-        flat_provider/root_directory.cc
-        flat_provider/flat_provider.cc
+        vfs/root_directory.cc
+        vfs/virtual_fs.cc
+        vfs/data_loader.cc
+        vfs/directory_adaptor.cc
         )
 
 set(hdr
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/ega_palette.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/vga_palette.hh
 
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/data_loader.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/single_entry_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/picture_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/sprite_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/archive_loader.hh
 
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/flat_provider/root_directory.hh
-        ${PROJECT_INCLUDE}/tomb-excavator/games/common/flat_provider/flat_provider.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/vfs/data_loader.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/vfs/root_directory.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/vfs/virtual_fs.hh
+
+        vfs/directory_adaptor.hh
         )
 
 add_library(tombexcavator-games-common SHARED ${src} ${hdr})

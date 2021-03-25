@@ -7,20 +7,18 @@
 
 #include <vector>
 #include <string>
-#include <tomb-excavator/games/common/loaders/data_loader.hh>
+#include <tomb-excavator/games/common/loaders/archive_loader.hh>
+#include <tomb-excavator/bsw/io/binary_reader.hh>
 
-class ccmap : public games::common::physical_data_loader
+class ccmap : public games::common::archive_data_loader
 {
 public:
     explicit ccmap(std::string phys_name);
 private:
-    void open(std::shared_ptr<provider::physfs::directory> dir) override;
-
-    [[nodiscard]] std::size_t size() const override;
-    [[nodiscard]] provider::file_content_t load(std::size_t index) const override;
-    [[nodiscard]] std::string name(std::size_t index) const override;
-    [[nodiscard]] provider::file_type_t type(std::size_t index) const override;
-    [[nodiscard]] bool is_directory(std::size_t index) const override;
+    [[nodiscard]] std::vector<fat_entry> load_fat(std::istream& is) override;
+    static loaders_map_t loaders();
+private:
+    std::unique_ptr<bsw::io::binary_reader> m_exploded_exe;
 private:
     using level_t = std::vector<std::string>;
     std::vector<level_t> m_levels;

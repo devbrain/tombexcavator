@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_PICTURE_LOADER_HH
 #define TOMBEXCAVATOR_PICTURE_LOADER_HH
 
-#include <tomb-excavator/games/common/loaders/data_loader.hh>
+#include <tomb-excavator/games/common/loaders/single_entry_loader.hh>
 #include <tomb-excavator/formats/image/picture.hh>
 
 namespace games::common
