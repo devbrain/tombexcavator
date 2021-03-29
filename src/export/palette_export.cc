@@ -15,7 +15,7 @@ namespace exporter
         {
             provider::dto::sprite sp = sg.add(32, 32);
             sp.set_id(color);
-            sp.get_canvas().fill(color);
+            sp.get_canvas().fill(static_cast<uint8_t>(color));
         }
         to_png_with_ids(sg, opath);
     }

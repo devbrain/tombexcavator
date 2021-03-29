@@ -29,7 +29,7 @@ namespace provider
         std::shared_ptr<vfs::file_system> get(const physfs::directory& dir);
         void visit(std::function<void(const std::filesystem::path&, std::shared_ptr<vfs::file_system>)> visitor) const;
     private:
-        void _load(const std::filesystem::path& path);
+        void _load(const std::filesystem::path& path, const std::filesystem::path& self);
     private:
         struct fs_holder
         {

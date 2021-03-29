@@ -13,7 +13,7 @@
 #include <vector>
 #include <memory>
 #include <map>
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 
 namespace games::westwood
 {
@@ -40,4 +40,5 @@ namespace games::westwood
     };
 }
 
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_WESTWOOD_DATA_LOADER_HH

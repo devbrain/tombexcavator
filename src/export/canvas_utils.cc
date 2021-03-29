@@ -38,7 +38,7 @@ namespace exporter
     provider::dto::coord draw_on_canvas(formats::image::picture& opic, int x0, int y0, font fnt,
                                         const std::string& str, const provider::dto::rgba& color)
     {
-        int h;
+        int h = 0;
         int x = 0;
         for (std::size_t i=0; i<str.size(); i++)
         {

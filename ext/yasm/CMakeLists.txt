@@ -17,8 +17,15 @@ ExternalProject_Add(
         BUILD_COMMAND  ${CMAKE_COMMAND} --build <BINARY_DIR>
 )
 
+if (MSVC)
+    set(YASMF yasm.exe)
+else()
+    set(YASMF yasm)
+endif()
+
 ExternalProject_Get_Property(yasm-ext install_dir)
 add_executable(yasm IMPORTED GLOBAL)
 add_executable(thirdparty::yasm ALIAS yasm)
-set_property(TARGET yasm PROPERTY IMPORTED_LOCATION ${install_dir}/lib/${LIB})
+set_property(TARGET yasm PROPERTY IMPORTED_LOCATION ${install_dir}/bin/${YASMF})
+set_property(TARGET yasm PROPERTY FOLDER "ThirdParty/yasm")
 add_dependencies(yasm yasm-ext)

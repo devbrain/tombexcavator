@@ -6,21 +6,53 @@
 #include <algorithm>
 #include <tomb-excavator/provider/vfs_registry.hh>
 #include <tomb-excavator/bsw/whereami.hh>
+#include <tomb-excavator/bsw/macros.hh>
+
+namespace
+{
+    std::filesystem::path get_self_path()
+    {
+        try
+        {
+            return  bsw::get_executable_path();
+        }
+        catch (std::exception&)
+        {
+            try
+            {
+                return bsw::get_module_path();
+            }
+            catch (std::exception& e)
+            {
+            }
+        }
+        return {};
+    }
+}
 
 
 namespace provider
 {
     vfs_registry::vfs_registry()
     {
-        _load(bsw::get_executable_path().parent_path());
+        const auto self = get_self_path();
+        if (self.empty())
+        {
+            RAISE_EX("Can not determine self path");
+        }
+        _load(self.parent_path(), self);
     }
     // --------------------------------------------------------------------------------------------
     vfs_registry::vfs_registry(std::initializer_list<std::filesystem::path> places)
     {
-        _load(bsw::get_executable_path().parent_path());
+        const auto self = get_self_path();
+        if (!self.empty())
+        {
+            _load(self.parent_path(), self);
+        }
         for (const auto& dir : places)
         {
-            _load(dir);
+            _load(dir, self);
         }
     }
     // --------------------------------------------------------------------------------------------
@@ -54,25 +86,27 @@ namespace provider
         }
     }
     // --------------------------------------------------------------------------------------------
-    void vfs_registry::_load(const std::filesystem::path& path)
+    void vfs_registry::_load(const std::filesystem::path& path, const std::filesystem::path& self)
     {
         if (!std::filesystem::is_directory(path))
         {
             return;
         }
+        
 
         for (const auto& p : std::filesystem::directory_iterator(path))
         {
             const auto& file = p.path();
             if (std::filesystem::is_regular_file(p.path()))
             {
-                 
+                if (file == self)
+                {
+                    continue;
+                }
                  void* library = dlopen(file.u8string().c_str(), RTLD_LAZY);
                  if (library)
                  {
-                     #define xstr(s) str(s)
-                     #define str(s) #s
-                     void* addr = dlsym(library, xstr(TE_PROVIDER_LOADER_NAME));
+                     void* addr = dlsym(library, STRINGIZE(TE_PROVIDER_LOADER_NAME));
                      if (!addr)
                      {
                          dlclose(library);

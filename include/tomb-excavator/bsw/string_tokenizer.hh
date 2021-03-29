@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace bsw
 {
     class BSW_API string_tokenizer
@@ -113,4 +113,5 @@ namespace bsw
     }
 }
 
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_STRING_TOKENIZER_HH

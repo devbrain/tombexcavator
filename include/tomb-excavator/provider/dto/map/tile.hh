@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 #include <tuple>
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace provider::dto
 {
 
@@ -33,5 +33,5 @@ namespace provider::dto
         props_t m_props;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_TILE_HH

@@ -50,7 +50,13 @@ cmd_handler::get_fs_entry(std::unique_ptr<provider::vfs::directory>&& root, cons
 {
     std::unique_ptr<provider::vfs::directory> vfs_dir = std::move(root);
     std::vector <std::string> components;
-    std::copy(vfs_path.begin(), vfs_path.end(), std::back_inserter(components));
+    
+    for (const auto& elt : vfs_path)
+    {
+        components.push_back(elt.u8string());
+    }
+
+    //std::copy(vfs_path.begin(), vfs_path.end(), std::back_inserter(components));
     std::size_t start = 0;
 
     std::string sep;

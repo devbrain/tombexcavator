@@ -12,6 +12,8 @@
 #include <utility>
 #include <memory>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace games::common
 {
 
@@ -63,7 +65,7 @@ namespace games::common
     };
 
 
-
+#include <tomb-excavator/msvc/c4251-end.h>
 }
 
 #endif //TOMBEXCAVATOR_DATA_LOADER_HH

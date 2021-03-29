@@ -13,6 +13,7 @@
 #include <vector>
 #include <tuple>
 #include <optional>
+#include <tomb-excavator/msvc/c4251-begin.h>
 
 namespace provider::dto
 {
@@ -110,5 +111,5 @@ namespace provider::dto
         std::tuple<dimension, dimension> m_dims;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_SPRITE_HH

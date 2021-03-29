@@ -13,6 +13,8 @@
 #include <vector>
 #include <tuple>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace provider::dto
 {
     class PROVIDER_API basic_map
@@ -37,4 +39,5 @@ namespace provider::dto
 
 }
 
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_MAP_HH

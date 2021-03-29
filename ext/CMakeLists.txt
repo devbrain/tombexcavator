@@ -9,6 +9,8 @@ macro(IMPORT_THIRDPARTY EXT NAME LIB)
     add_library(thirdparty::${NAME} ALIAS ${NAME})
     set_property(TARGET ${NAME} PROPERTY IMPORTED_LOCATION ${install_dir}/lib/${LIB})
     set_property(TARGET ${NAME} PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${install_dir}/include)
+    set_property(TARGET ${EXT} PROPERTY FOLDER "ThirdParty/${EXT}")
+    set_property(TARGET ${NAME} PROPERTY FOLDER "ThirdParty/${NAME}")
     add_dependencies(${NAME} ${EXT})
 endmacro()
 

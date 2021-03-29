@@ -18,4 +18,10 @@ ExternalProject_Add(
         BUILD_COMMAND  ${CMAKE_COMMAND} --build <BINARY_DIR>
 )
 
-IMPORT_THIRDPARTY(libopus-ext libopus libopus.a)
+if (MSVC)
+    set (LIBF opus.lib)
+else()
+    set (LIBF libopus.a)
+endif()
+
+IMPORT_THIRDPARTY(libopus-ext libopus ${LIBF})

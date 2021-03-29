@@ -8,7 +8,7 @@
 #include <tomb-excavator/export-games-common.h>
 #include <tomb-excavator/games/common/vfs/data_loader.hh>
 #include <tomb-excavator/provider/vfs/directory.hh>
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace games::common
 {
     class GAMES_COMMON_API root_directory : public provider::vfs::directory
@@ -43,6 +43,6 @@ namespace games::common
         std::shared_ptr<provider::physfs::directory> m_dir;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 
 #endif

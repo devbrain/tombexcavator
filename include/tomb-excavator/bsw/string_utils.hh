@@ -8,6 +8,7 @@
 #include <tomb-excavator/export-bsw.h>
 #include <tomb-excavator/bsw/ascii.hh>
 #include <cstring>
+#include <string>
 #include <algorithm>
 
 namespace bsw
@@ -611,7 +612,7 @@ namespace bsw
 
         static int compare(const charT* s1, const charT* s2, std::size_t n)
         {
-            for (int i = 0; i < n && s1 && s2; ++i, ++s1, ++s2)
+            for (std::size_t i = 0; i < n && s1 && s2; ++i, ++s1, ++s2)
             {
                 if (ascii::to_lower(*s1) == ascii::to_lower(*s2)) continue;
                 else if (ascii::to_lower(*s1) < ascii::to_lower(*s2)) return -1;

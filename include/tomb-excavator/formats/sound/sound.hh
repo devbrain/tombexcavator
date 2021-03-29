@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <vector>
 #include <variant>
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace formats::sound
 {
     struct FORMATS_API sound_data
@@ -33,5 +33,6 @@ namespace formats::sound
 
 
 }
+#include <tomb-excavator/msvc/c4251-end.h>
 
 #endif //TOMBEXCAVATOR_SOUND_HH

@@ -8,6 +8,8 @@
 #include <tomb-excavator/games/common/vfs/root_directory.hh>
 #include <tomb-excavator/provider/vfs/file_system.hh>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace games::common
 {
     class GAMES_COMMON_API virtual_fs : public provider::vfs::file_system
@@ -24,4 +26,5 @@ namespace games::common
     };
 }
 
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_VIRTUAL_FS_HH

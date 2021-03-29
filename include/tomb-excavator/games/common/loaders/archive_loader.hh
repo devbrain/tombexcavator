@@ -14,6 +14,8 @@
 #include <any>
 #include <functional>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace games::common
 {
     /**
@@ -22,7 +24,7 @@ namespace games::common
     class GAMES_COMMON_API archive_data_loader : public physical_data_loader
     {
     public:
-        class fat_entry
+        class GAMES_COMMON_API fat_entry
         {
         public:
             struct file_info
@@ -78,5 +80,7 @@ namespace games::common
         loaders_map_t m_loaders;
     };
 }
+
+#include <tomb-excavator/msvc/c4251-end.h>
 
 #endif //TOMBEXCAVATOR_ARCHIVE_LOADER_HH

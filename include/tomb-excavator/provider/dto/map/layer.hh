@@ -11,6 +11,8 @@
 #include <tomb-excavator/bsw/exceptions.hh>
 #include <vector>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace provider::dto
 {
     class PROVIDER_API layer
@@ -41,5 +43,5 @@ namespace provider::dto
         std::vector<tile> m_tiles;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_LAYER_HH

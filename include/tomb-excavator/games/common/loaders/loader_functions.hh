@@ -12,6 +12,8 @@
 #include <iosfwd>
 #include <functional>
 
+#include <tomb-excavator/msvc/c4251-begin.h>
+
 namespace games::common
 {
     struct GAMES_COMMON_API file_loader
@@ -34,5 +36,5 @@ namespace games::common
         file_loader& operator = (const file_loader&) = default;
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_LOADER_FUNCTIONS_HH

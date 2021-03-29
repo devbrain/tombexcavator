@@ -18,4 +18,10 @@ ExternalProject_Add(
         BUILD_COMMAND  ${CMAKE_COMMAND} --build <BINARY_DIR>
 )
 
-IMPORT_THIRDPARTY(libogg-ext libogg libogg.a)
+if (MSVC)
+    set (LIBF ogg.lib)
+else()
+    set (LIBF libogg.a)
+endif()
+
+IMPORT_THIRDPARTY(libogg-ext libogg ${LIBF})

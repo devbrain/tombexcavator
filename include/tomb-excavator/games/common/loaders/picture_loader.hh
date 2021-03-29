@@ -7,6 +7,7 @@
 
 #include <tomb-excavator/games/common/loaders/single_entry_loader.hh>
 #include <tomb-excavator/formats/image/picture.hh>
+#include <tomb-excavator/msvc/c4251-begin.h>
 
 namespace games::common
 {
@@ -18,5 +19,5 @@ namespace games::common
         static formats::image::picture load_content(std::istream& is);
     };
 }
-
+#include <tomb-excavator/msvc/c4251-end.h>
 #endif //TOMBEXCAVATOR_PICTURE_LOADER_HH

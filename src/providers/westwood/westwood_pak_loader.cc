@@ -90,12 +90,19 @@ namespace games::westwood
             else
             {
                 std::string name;
-                do
+                while (true)
                 {
                     reader >> ch;
-                    name += ch;
+                    if (ch != 0)
+                    {
+                        name += ch;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                while (ch != 0);
+                
                 if (!files.empty())
                 {
                     auto& prev = files.back();

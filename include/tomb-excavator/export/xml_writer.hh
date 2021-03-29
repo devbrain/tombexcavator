@@ -12,7 +12,7 @@
 #include <string>
 #include <stack>
 #include <sstream>
-
+#include <tomb-excavator/msvc/c4251-begin.h>
 namespace exporter
 {
     struct EXPORT_API xml_string_rep
@@ -97,6 +97,8 @@ namespace exporter
 
 }
 
+#include <tomb-excavator/msvc/c4251-end.h>
+
 #define CURRENT_XML_STREAM get_xml_stream
 
 #define START_XML(OSTREAM, ...) \
@@ -112,6 +114,10 @@ namespace exporter
 
 #if defined(__GNUC__) || defined(__GNUG__)
 #pragma GCC diagnostic ignored "-Wempty-body"
+#elif defined(_MSC_VER)
+#pragma warning( disable : 4390 )
+
 #endif
+
 
 #endif //TOMBEXCAVATOR_XML_WRITER_HH

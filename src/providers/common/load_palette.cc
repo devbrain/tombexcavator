@@ -30,7 +30,7 @@ namespace games::common
         is.seekg(0, std::ios::end);
         auto end = is.tellg();
         is.seekg(current, std::ios::beg);
-        std::size_t n = end - current;
+        std::size_t n = static_cast<std::size_t>(end - current);
         std::vector<char> raw(n);
         is.read(raw.data(), n);
         return load_palette(raw);

@@ -52,6 +52,7 @@ set_target_properties(tombexcavator-games-common PROPERTIES CXX_STANDARD 17)
 target_link_libraries(tombexcavator-games-common
         PUBLIC
         tombexcavator-formats
+        tombexcavator-provider
         tombexcavator-bsw
         thirdparty::mio
         )

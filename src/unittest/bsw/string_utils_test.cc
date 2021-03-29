@@ -6,6 +6,7 @@
 #include <tomb-excavator/bsw/string_utils.hh>
 #include <map>
 #include <set>
+#include <vector>
 
 using bsw::trim_left;
 using bsw::trim_left_in_place;
