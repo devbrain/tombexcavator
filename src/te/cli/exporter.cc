@@ -6,6 +6,7 @@
 #include "exporter.hh"
 #include <tomb-excavator/export/sprite_group_export.hh>
 #include <tomb-excavator/export/picture_export.hh>
+#include <tomb-excavator/export/palette_export.hh>
 #include <tomb-excavator/formats/image/picture.hh>
 
 data_exporter::data_exporter(const std::string& name, const std::filesystem::path& odir)
@@ -42,6 +43,12 @@ void data_exporter::operator () (const provider::dto::picture& pic) const
     exporter::to_png(pic, opath);
 }
 // ------------------------------------------------------------------------------------------------
+void data_exporter::operator () (const provider::dto::palette& pal) const
+{
+    auto opath = m_odir / (m_name + ".png");
+    exporter::to_png(pal, opath);
+}
+// ------------------------------------------------------------------------------------------------
 void data_exporter::operator () (const provider::dto::map& map) const
 {
     // TODO
@@ -58,4 +65,11 @@ void data_exporter::operator () (const std::string& txt) const
     auto opath = m_odir / (m_name + ".txt");
     std::ofstream ofs (opath, std::ios::binary | std::ios::out);
     ofs.write(txt.c_str(), txt.size());
+}
+// ------------------------------------------------------------------------------------------------
+void data_exporter::operator () (const std::vector<char>& txt) const
+{
+    auto opath = m_odir / m_name;
+    std::ofstream ofs (opath, std::ios::binary | std::ios::out);
+    ofs.write(txt.data(), txt.size());
 }

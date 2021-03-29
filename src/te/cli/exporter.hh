@@ -18,8 +18,10 @@ public:
     void operator () (const provider::dto::sprite_group& sg) const;
     void operator () (const provider::dto::map& map) const;
     void operator () (const provider::dto::picture& pic) const;
+    void operator () (const provider::dto::palette& pal) const;
     void operator () (const formats::image::picture& pic) const;
     void operator () (const std::string& txt) const;
+    void operator () (const std::vector<char>& txt) const;
 
 private:
     std::string m_name;

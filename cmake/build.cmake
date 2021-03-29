@@ -36,6 +36,7 @@ function (build_te_library TARGET)
 
     target_link_libraries(${LIBNAME} ${LINK_LIBS})
 
+
     target_compile_options(${LIBNAME} PRIVATE
             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>: -Wall -Wextra -pedantic -fvisibility=hidden
             $<$<COMPILE_LANGUAGE:CXX>:-fvisibility-inlines-hidden> >

@@ -1,10 +1,12 @@
 set (src
         ega_palette.cc
         vga_palette.cc
+        load_palette.cc
 
         loaders/archive_loader.cc
         loaders/picture_loader.cc
         loaders/sprite_loader.cc
+        loaders/palette_loader.cc
 
         vfs/root_directory.cc
         vfs/virtual_fs.cc
@@ -15,11 +17,14 @@ set (src
 set(hdr
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/ega_palette.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/vga_palette.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/load_palette.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/single_entry_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/picture_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/sprite_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/archive_loader.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/palette_loader.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/games/common/loaders/loader_functions.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/vfs/data_loader.hh
         ${PROJECT_INCLUDE}/tomb-excavator/games/common/vfs/root_directory.hh

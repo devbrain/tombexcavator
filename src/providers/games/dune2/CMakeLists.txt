@@ -1,21 +1,20 @@
 set (src
-        crystal_caves_provider.cc
-        ccmap.cc)
+        dune2.cc
+        dune_2_pak_reader.cc)
 set (hdr
-        ccmap.hh
-        )
+        dune_2_pak_reader.hh)
 
-add_library(crystal_caves SHARED ${src} ${hdr})
-set_target_properties(crystal_caves PROPERTIES CXX_STANDARD 17)
+add_library(dune2 SHARED ${src} ${hdr})
+set_target_properties(dune2 PROPERTIES CXX_STANDARD 17)
 
-target_link_libraries(crystal_caves
+target_link_libraries(dune2
         PRIVATE
         tombexcavator-provider
-        tombexcavator-games-apogee
+        tombexcavator-games-westwood
         tombexcavator-games-common
         )
 
-target_compile_options(crystal_caves PRIVATE
+target_compile_options(dune2 PRIVATE
         $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>: -Wall -Wextra -pedantic -fvisibility=hidden
         $<$<COMPILE_LANGUAGE:CXX>:-fvisibility-inlines-hidden> >
         $<$<CXX_COMPILER_ID:MSVC>: "/W4" >)

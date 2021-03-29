@@ -29,6 +29,14 @@ namespace
         {
             return "text";
         }
+        std::string operator () (const std::vector<char>*)
+        {
+            return "data";
+        }
+        std::string operator () (const provider::dto::palette*)
+        {
+            return "palette";
+        }
     };
 }
 

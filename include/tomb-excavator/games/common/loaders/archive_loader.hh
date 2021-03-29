@@ -62,7 +62,6 @@ namespace games::common
     public:
         explicit archive_data_loader(std::string phys_name, loaders_map_t loaders);
     protected:
-        // for the sake of simplicity, first entry should be root directory
         [[nodiscard]] virtual std::vector<fat_entry> load_fat(std::istream& is) = 0;
     private:
         virtual void open(std::shared_ptr<provider::physfs::directory> dir) override;

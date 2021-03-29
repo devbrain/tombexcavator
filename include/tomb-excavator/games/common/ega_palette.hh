@@ -5,7 +5,7 @@
 #ifndef TOMBEXCAVATOR_EGA_PALETTE_HH
 #define TOMBEXCAVATOR_EGA_PALETTE_HH
 
-#include <tomb-excavator/games-common_export.h>
+#include <tomb-excavator/export-games-common.h>
 #include <tomb-excavator/provider/dto/video//palette.hh>
 
 namespace games::common

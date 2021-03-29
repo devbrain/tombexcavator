@@ -5,6 +5,7 @@ set (src
         file_type_to_string.cc
         romfont.cc
         canvas_utils.cc
+        palette_export.cc
         )
 set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/export/transformer.hh
@@ -13,7 +14,7 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/export/xml_writer.hh
         ${PROJECT_INCLUDE}/tomb-excavator/export/file_type_to_string.hh
         ${PROJECT_INCLUDE}/tomb-excavator/export/romfont.hh
-
+        ${PROJECT_INCLUDE}/tomb-excavator/export/palette_export.hh
         canvas_utils.hh
         )
 

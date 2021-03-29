@@ -31,8 +31,10 @@ namespace provider
         using supported_types = types_holder<dto::sprite_group,
                 dto::picture,
                 formats::image::picture,
+                dto::palette,
                 dto::map,
-                std::string>;
+                std::string,
+                std::vector<char>>;
     }
 
 

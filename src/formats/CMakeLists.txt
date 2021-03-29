@@ -12,6 +12,8 @@ set (src
         image/stbi_wrapper.cc
         image/pcx.cc
         image/thirdparty/lodepng.cpp
+
+        sound/sound.cc
         )
 set (hdr
 
@@ -36,10 +38,11 @@ set (hdr
         explode/mz/unpklite.hh
 
         image/picture_loader.hh
-
         image/thirdparty/lodepng.h
         image/thirdparty/dr_pcx.h
         image/thirdparty/stb_image.h
+
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/sound/sound.hh
         )
 
 build_te_library(formats

@@ -148,7 +148,9 @@ void cmd_handler::do_export(std::unique_ptr<provider::vfs::directory>&& root, co
     {
         if (dir->is_directory(i))
         {
-            do_export(dir->open_directory(i), opath / dir->name(i));
+            auto new_path = opath / dir->name(i);
+            std::filesystem::create_directories(new_path);
+            do_export(dir->open_directory(i), new_path);
         }
         else
         {
