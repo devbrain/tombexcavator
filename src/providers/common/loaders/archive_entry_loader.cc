@@ -101,6 +101,7 @@ namespace games::common
       m_fallback (make_entry_loader(null_acceptor,load_as_vector_wrapper))
     {
         m_fallback_id = inits.size();
+        add(m_fallback);
     }
     // ---------------------------------------------------------------------------------------------------------------
     [[nodiscard]] std::optional<std::tuple<int, provider::file_type_t>>

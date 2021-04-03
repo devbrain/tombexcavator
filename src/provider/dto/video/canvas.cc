@@ -26,7 +26,7 @@ namespace provider::dto
     // ---------------------------------------------------------------------------
     void canvas::fill (unsigned char color)
     {
-        std::memset(m_pixels.data(), m_pixels.size(), color);
+        std::memset(m_pixels.data(),  color, m_pixels.size());
     }
     // ---------------------------------------------------------------------------
     void canvas::put(int x, int y, unsigned char pixel)

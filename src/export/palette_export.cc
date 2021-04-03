@@ -11,11 +11,12 @@ namespace exporter
     {
         provider::dto::sprite_group sg;
         sg.pal() = pal;
-        for (std::size_t color = 0; color < pal.size(); color++)
+        auto n = pal.size();
+        for (std::size_t color = 0; color < n; color++)
         {
-            provider::dto::sprite sp = sg.add(32, 32);
-            sp.set_id(color);
+            provider::dto::sprite& sp = sg.add(32, 32);
             sp.get_canvas().fill(static_cast<uint8_t>(color));
+            sp.set_id(color);
         }
         to_png_with_ids(sg, opath);
     }

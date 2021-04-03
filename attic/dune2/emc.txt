@@ -1,0 +1,278 @@
+Hello!
+
+I wish to present you the format of the EMC files.
+I've been working on Dune2 code for few months (trying to understand how
+strategy game works) and finally found the part which is responsible on
+executing EMC script. Yes - script because it looks like a tiny programming
+language.
+
+First of all let's say what's the purpose of this "script". It is used to
+control several things of object lifetime (object stand for unit, building
+or team). Each type of object has its own script so the harvester has its own
+script as do refinery, windtrap etc. What is to be done usually depends on
+objects state. The script can have condition codes, loops and even subroutines!
+It can execute some external routines.
+
+For example let's get refinery: after the initiation (which contains build-up
+animation) the script goes into infinite loop and checks from time to time if
+there's a harvester docken in. If so it gets money from it until it's empty.
+Then calls carry-all to the refinery or if there's no one left releases the
+harvester. That's all. See below for more details.
+
+Now let's describe the script.
+There is given to you a stack (upto 16 values) and 5 local variables (named 0-4)
+and about 18 commands. 
+Here's a brief list of commands:
+Number in brackets is the hex number of command.
+After the command name is the argument - if it's constant it must be set as
+argument for this command to work.
+
+(0) Go to line %arg - goes to specified line (can be subroutine)
+(1) Set return code %arg - sets return code of the subroutine
+(2) Push return code 0 - pushes return code on stack
+(2) Push record 1 - pushes stack pointer and frame pointer on stack (used to
+call subroutine)
+(3,4) Push %arg - pushes a number on stack
+(5) Push var %arg - pushes specified variable on stack
+(6) Push frame (-) %arg - pushes value taken from frame ptr - %arg frame
+pointer is the same as stack pointer on the begining of the routine and don't
+change within routine
+(7) Push frame (+) %arg - similiar to above but from frame ptr + %arg
+(8) Pop return code 0 - pops a number from the stack and saves as return code
+(8) Pop record 1 - returns from subroutine
+(9) Pop var %arg - pops a value and saves to variable %arg
+(A) Pop frame (-) %arg - pops value from the stack and saves to frame ptr - %arg
+(B) Pop frame (+) %arg - similiar to above but to frame ptr + %arg
+functions (+) are used to operate on routine arguments and functions (-) are
+used to operate on additional local variables.
+(C) Add to SP %arg - adds %arg to stack pointer
+(D) Sub from SP %arg - subtracts %arg from stack pointer
+(E) Execute %arg - executes external routine indexed with %arg
+(F) If not go to %arg - continues only if the value on stack is different from
+zero. else jumps to %arg
+it does pop value from stack!
+(10) Negate 0 - performs an action on value on the stack 
+this does something like "!expression" in C
+(10) Negate 1 - this does arithmetic negation
+(10) Negate 2 - this does bitwise negation
+(11) Evaluate %arg - performs arithmetic or boolean action on last two values
+on stack. result saves on stack.
+the operations are: &&, ||, ==, !=, >,
+>=, <, <=, +, -, *, /, >>, <<, &, |, %, XOR.
+(12) Return - this does return from subroutine but seems to be obsolete (is not
+used)
+
+The script is stored in DATA chunk. The ORDR chunk stores line numbers from
+which to begin executing script for appropriate object types. Note that the
+line number is the index in WORD array (not command array).
+
+One command is stored in one or two words. 3 last bits of the first byte are
+something like control bits. They are mutual exclusive so only one bit should
+be set (or none).
+
+7th bit - this performs Go to line %arg command, but the argument is stored in
+word (higher byte preceeding!)
+e.g.
+0x819B - jumps to line 0x19B
+
+6th bit - this is most used: the first byte is the command number and the
+second is argument.
+e.g.
+0x4404 - push 0x4 on stack
+
+5th bit - mostly used in "If not go to". the first byte is the command number,
+the second byte is unused, but the next WORD is used as argument (always
+positive!)
+e.g.
+0x2F00819B - if condition is false jumps to 0x19B
+
+If none bit is set the argument is set to zero.
+
+Besides normal commands you can execute external routines.
+At the moment I know only few BUILD.EMC routines.
+They are for example: Delay() which delays execution of the script for some
+time, CallCarryAll() which calls carryall to the structure, GetState(),
+SetState() related to the state of the structure, RefineSpice() which takes 1%
+of harvester's cargo.
+
+Here is the build-up animation of the initiation code:
+...
+10 Push 24
+11 Execute Delay() - delays some time
+12 Add SP 1
+13 Push -1
+14 Execute SetState() - draws "construction" frame
+15 Add SP 1
+16 Push 15
+17 Execute Delay() - delays some less time
+18 Add SP 1
+19 Push 0
+1A Execute SetState() - draws normal frame
+etc.
+...
+
+Here are the parts of the code for Refinery:
+
+111 Execute Reveal() - reveals fog of war around structure
+...
+115 Execute GetState() - returns state of the structure..
+116 Push return code - ..and pushes it on stack
+117 Push 2
+118 Evaluate (==) - checks if the state is equal to 2..
+119 Else go 12F - ..if so there's harvester in refinery
+11B Execute RafineSpice() - get 1% of spice
+11C Push return code - check if the harvester still has spice
+11D Else go 120 - if not exit loop
+11F Go to 11B - if so continue
+...
+121 Push var 4 - VAR 4 is nonzero if the carry-all is attached
+122 Negate 0
+123 Else go 12F - continue if there is NO carry-all attached
+...
+126 Execute CallCarryAll()- try to attach carry-all
+...
+128 Push return code
+129 Pop var 4 - save carryall (or zero) to VAR 4
+12A Push var 4
+12B Negate 0
+12C Else go C - continue if couldn't attach carryall
+12E Execute Deploy() - deploy harvester on the ground
+12F Push 60
+130 Execute Delay() - delay script for 60 frames
+131 Add SP 1 - restore stack space
+132 Go to 112
+
+If the refinery is surrounded CallCarryAll() will create new carry-all!
+
+Ok. I hope this will give some important info about the format. I know that it
+is has very limited use and is very hard to modify. Recently I patched one
+thing: you don't need to surround repair facility in order to get your units
+back on the battle-field - it works!
+
+If You wish some more explanation or 'decompiler' please feel free to write.
+
+These are absolutely all external routes for BUILD.EMC!
+
+As you can see the EMC controls VERY specific aspects of building's lifetime.
+For example you can modify the range of the turrets but you couldn't modify
+their firepower.
+
+But still it's the "Westwood compatible" way of modifying the game :)
+
+Here we go
+- functions marked with * aren't used in original script
+- missing numbers are just functions that "do nothing" (probably obsolete)
+- all numbers in hex
+
+BUILD.EMC External Routines:
+
+0 Delay(ticks) - delays the script for "ticks" frames
+(tick is 1/60 of second?)
+
+2 VerifyAttached() - if there's mutual connection between building and the unit
+(carryall) returns ID of that unit else disattaches both sides (please don't ask
+me what do this mean ;)
+
+3 Attach(type) - attaches unit (carryall) to the structure
+returns ID of attached unit
+used to pick up units from factory, repair pad or refinery
+store returned ID in variable #4!
+
+4 SetFrame(frame) - draws structure frame typically:
+-1 buildup frame
+0 normal frame
+1, 2 special frames
+
+5* Text(nr, [args]) - prints formatted text number nr in panel!
+can handle upto 3 arguments
+
+6 Disattach(ID) - disattaches unit (carryall) from the structure
+use ID returned by Attach()
+
+7 Deploy() - deploys unit from structure
+use in factory, repair pad and refinery
+
+8 GetTarget(range) - returns target for the turret
+you can customize the range!
+
+9 SetAngle(ID) - rotate turret so it aims the target
+use ID returned by GetTarget()
+
+A* GetAngle(ID) - gets angle between turret and target
+
+B ShootTarget(ID) - shoots at target
+use ID returned by GetTurret()
+
+D GetFrame() - returns current frame
+for example 2 means there's a harvester in refinery
+or there's an unit completed in factory
+
+E* PlaySfx(nr) - plays sound effect!! (0, E, F are special)
+
+F Reveal() - reveals terrain around structure
+
+15 RefineSpice() - use in refinery: gets 1% money from harvester
+
+16 Explode() - shows explode animation
+
+17 DestroyBuilding() - turns building into ashes and releases infantry
+
+
+The buildings types are:
+0 Concrete
+1 Concrete4
+2 Palace
+3 Light Factory
+4 Heavy Factory
+5 Hi-Tech
+6 House of IX
+7 WOR
+8 Constr. Yard
+9 Windtrap
+A Barracks
+B Starport
+C Refinery
+D Repair
+E Wall
+F Turret
+10 R-Turret
+11 Spice Silo
+12 Outpost
+
+The unit types are (bullets are also units!):
+0 Carryall
+1 'Thopter
+2 Infantry
+3 Troopers
+4 Soldier
+5 Trooper
+6 Saboteur
+7 Launcher
+8 Deviator
+9 Tank
+A Siege Tank
+B Devastator
+C Sonic Tank
+D Trike
+E Raider Trike
+F Quad
+10 Harvester
+11 MCV
+12 Death Hand
+13 Rocket
+14 ARocket
+15 GRocket
+16 MiniRocket
+17 Bullet
+18 Sonic Blast
+19 Sandworm
+1A Frigate
+
+That's all for now. I'm still working on decoder/encoder of the script so it
+would be easier to modify but still requires some basic knowledge of
+programming (stack and stuff). I want also to release a "mod" using the
+BUILD.EMC to show its features.
+
+BTW: UNIT.EMC has about 63 external functions... I don't plan to decode them
+now...
+
