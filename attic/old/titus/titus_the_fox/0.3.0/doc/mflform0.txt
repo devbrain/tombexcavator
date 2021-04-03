@@ -1,0 +1,105 @@
+MFL file format (version 0) by Jesses (smacdrek at hotmail dot com)
+Visit http://ttf.mine.nu for more TTF/Moktar stuff
+
+Here the format of MFL files is defined; an MFL file contains a level set for Titus the Fox / Moktar.
+The file consists of several chunks; the MAIN chunk is stored at offset 0, and contains the offsets of the other chunks.
+
+
+MAIN chunk (at offset 0)
+========================
+	Offset	Size	What
+	--------------------
+	0	3	'MFL'
+	3	1	VER = file format version (currently 0)
+	4	2	Flags:
+			Bit	Name	Meaning
+			-----------------------
+			0	flGame	0 for Moktar, 1 for TTF
+			1..15	flUndef	undefined
+	6	32	Name of the level author; zero-padded.
+	38	1	LVNum: number of levels in this MFL file
+	39	4	LDOff: offset of LEVELDATA chunk
+	43	1	Number of lives at the game's beginning (default = 2)
+	44	4	Offset of FILEREPLACE chunk for FONTS.SQZ
+	48	4	Offset of FILEREPLACE chunk for KEYB.SQZ
+	52	4	Offset of FILEREPLACE chunk for LEVELA.SQZ (TTF version, regardless of flGame)
+	56	4	Offset of FILEREPLACE chunk for MENU.SQZ
+	60	4	Offset of FILEREPLACE chunk for MENUEGA.SQZ
+	64	4	Offset of FILEREPLACE chunk for TITRE.SQZ
+	68	4	Offset of FILEREPLACE chunk for TITREEGA.SQZ
+	72	4	Offset of FILEREPLACE chunk for TITUS.SQZ
+	76	2	MenuX + 320*MenuY1, where (MenuX, MenuY1) is the upper left pixel of an 8*8 square in the MENU picture.
+			This square contains the selection bubble next to START.
+			Default values if flGame = 0:
+				MenuX = 130
+				MenuY1 = 167
+			Default values if flGame = 1:
+				MenuX = 120
+				MenuY1 = 160
+	78	1	MenuY2-MenuY1, where (MenuX, MenuY2) is the upper left pixel of an 8*8 square in the MENU picture.
+			This square contains the selection bubble next to PASSWORD.
+			Default value: MenuY2-MenuY1 = 13
+
+
+LEVELDATA chunk (at offset LDOff)
+=================================
+	Offset		Size		What
+	------------------------------------
+	0		LVNum*2		Level flags:
+					Bit	Name		Meaning
+					-------------------------------
+					0	ldFinal		1 if this level is the end sequence
+								(default: 1 for level 15(TTF)/16(MOK), 0 for the rest)
+					1..15	ldUndef	undefined
+	LVNum*2		LVNum*32	Names of the levels; each one is zero-padded
+	LVNum*34	LVNum*3		RGB values (0..63) for color 0
+	LVNum*37	LVNum*3		RGB values (0..63) for color 14
+	LVNum*40	LVNum*2		Object that needs to be carried to pass the level exit; FFFF if none.
+					In original levels: 0038h for level 11, FFFF for the rest
+	LVNum*42	LVNum*1		Level music, see below
+	LVNum*43	LVNum*4		Offset of compressed data chunk for each level; see FORMAT.TXT for its format after unpacking.
+					Note: each enemy record holds the enemy's health at offset 10.
+
+
+FILEREPLACE CHUNK
+=================
+	Offset	Size	What
+	--------------------
+	0	1	Flags:
+			Bit	Name	Meaning
+			-----------------------
+			0	frXOR	1 if XORed with original file data
+			1..7	frUndef	undefined
+	1	varies	SQZ'ed data.
+			If frXOR = 0:
+				The data is stored as: pack(unpacked_replacement_file_data)
+			If frXOR = 1:
+				The data is stored as: pack(unpacked_replacement_file_data XOR unpack(original_file)).
+				The flGame flag specifies which game's original files are used.
+				If the original unpacked data is larger, it is truncated.
+				If the replacement data is larger, the original data is zero-padded.
+
+
+Music
+=====
+Music is specified using a byte value. For values 0..15, the following table is used:
+
+	Value	Corresponding original music
+	------------------------------------
+	0	Beginning of level
+	1	Lose a life
+	2	Game over
+	3	Level song 1
+	4	Ending of level
+	5	Padlock bonus
+	6	Health bonus
+	7	Code lamp bonus
+	9	Credits screen
+	10	Level song 2
+	11	Level song 3
+	12	Level song 4
+	13	Level song 5
+	14	End of game
+	15	Title screen
+
+Value 8 and values > 15 are not allowed.

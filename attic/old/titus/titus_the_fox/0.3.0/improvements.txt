@@ -1,0 +1,23 @@
+This is just a "wish list" what improvements I would like to make in OpenTitus, to make really custom levels.
+
+Wish {
+  Custom sprite animations (haven't started with animating yet)
+  Custom tile count (would quadruple tilemap size if pointers is used, "only" double if short int is used in the same way as chars are used by now)
+  Custom tile animation (haven't started with animating yet)
+} Requires planning
+
+
+Wish {
+  Support for multiple scroll limits
+  Animated elevators (haven't started with animating yet)
+} Requires struct update
+
+
+Wish {
+  Support for width != 256
+  height > 256
+  colour depth > 16 colours
+  custom sprite count
+  custom sprite sizes
+  custom background tile sizes
+} struct okay, needs a custom file format and load function

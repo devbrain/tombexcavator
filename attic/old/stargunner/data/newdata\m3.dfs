@@ -1,0 +1,107 @@
+ [project]
+m3.flc,15
+//             ; run at 24 frames per second
+// intro.mod,100
+//             ; volume 50 (comment out to eliminate music)
+    
+ // Format:  sample_name,loop_start,loop_end
+ // Loop start and loop end are decimal - 0,0 implies no looping
+
+ [definitions]
+bigbang4,0,0;
+bigbang5,1,0;
+bigbang6,1,0;
+bigbang7,1,0;
+expl1a,0,0;
+expl1b8,0,0;
+expl38f,0,0;
+expl48f,0,0;
+expl5m8f,0,0;
+mexpl1a,0,0;
+mexpl1b,0,0;
+mexpl1c,0,0;
+rumble8,0,17090;
+sgcruis2,0,15861;
+sgflyby2,0,0;
+sweepu4,0,0;
+sweepd4,0,0;
+whoosh,0,0;
+
+ // No extensions, .WAV is assumed
+
+ // Playback script
+ // Format:  frame,soundfile,effect,volume (x),pan_position (y)
+ // Effect values:  0   Do volume/pan change to sound, no retrigger
+ //                 1   Trigger sound (volume and balance must be set)
+ //                 2   Discontinue sound
+ //                 3   Slide volume  to x by frame y
+ //                 4   Slide balance to x by frame y
+ //
+ // Volume values:  0 to 64 valid
+ //                 -1 indicates no change to current volume
+ //
+ // Pan values:     0 to 255 valid
+ //                 -1 indicates no change to current pan position
+ 
+ [playback]
+1,rumble8,1,2,128;
+2,rumble8,3,64,109;
+
+66,mexpl1a,1,64,150;
+73,mexpl1b,1,64,120;
+91,mexpl1c,1,64,116;
+94,mexpl1b,1,64,120;
+108,mexpl1a,1,64,128;
+
+109,sweepu4,1,0,128;
+110,sweepu4,3,32,145;
+
+112,mexpl1c,1,64,132;
+116,mexpl1a,1,64,150;
+118,mexpl1b,1,64,139;
+121,mexpl1a,1,64,132;
+121,mexpl1c,1,64,124;
+
+132,expl38f,1,64,128;
+
+138,sgcruis2,1,0,128;
+139,sgcruis2,3,48,212;
+
+142,expl48f,1,64,128;
+
+146,sweepu4,2,-1,-1;
+146,sweepd4,1,32,128;
+147,sweepd4,3,48,152;
+153,sweepd4,2,-1,-1;
+153,expl5m8f,1,64,128;
+153,bigbang4,1,64,128;
+153,whoosh,1,64,128;
+
+163,expl1b8,1,64,128;
+163,expl48f,1,64,128;
+163,bigbang4,1,64,0;
+163,bigbang5,1,64,255;
+163,bigbang6,1,64,128;
+
+173,expl5m8f,1,64,128;
+173,bigbang7,1,64,128;
+174,expl1a,1,64,128;
+174,bigbang4,3,0,249;
+174,bigbang5,3,0,249;
+174,bigbang6,3,0,249;
+174,bigbang7,3,0,249;
+175,whoosh,1,64,128;
+
+213,sgcruis2,4,12,300;
+213,sgcruis2,3,64,240;
+
+222,sgflyby2,1,0,80;
+223,sgflyby2,4,12,300;
+223,sgflyby2,3,54,240;
+
+241,sgcruis2,3,16,260;
+241,sgflyby2,3,16,260;
+241,rumble8,3,8,300;
+
+261,sgflyby2,3,0,288;
+261,sgcruis2,3,0,288;

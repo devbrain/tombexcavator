@@ -1,0 +1,207 @@
+[project]
+m1.flc,16
+//             ; run at 24 frames per second
+// intro.mod,100
+//             ; volume 50 (comment out to eliminate music)
+    
+// Format:  sample_name,loop_start,loop_end
+// Loop start and loop end are decimal - 0,0 implies no looping
+
+ [definitions]
+
+// No extensions, .WAV is assumed
+electric,0,13230;
+expl1a,0,0;
+expl1b8,0,0;
+expl2a8f,0,0;
+expl38f,0,0;
+expl48f,0,0;
+expl5m8,0,0;
+expl6g8f,0,0;
+sgcruis2,0,15861;
+sgflyby2,0,0;
+sgzoom,0,0;
+whoosh,0,0;
+bb3,0,0;
+
+// Playback script
+// Format:  frame,soundfile,effect,volume (x),pan_position (y)
+// Effect values:  0   Do volume/pan change to sound, no retrigger
+//                 1   Trigger sound (volume and balance must be set)
+//                 2   Discontinue sound
+//                 3   Slide volume  to x by frame y
+//                 4   Slide balance to x by frame y
+//
+// Volume values:  0 to 64 valid
+//                 -1 indicates no change to current volume
+//
+// Pan values:     0 to 255 valid
+//                 -1 indicates no change to current pan position
+ 
+[playback]
+
+
+// 1,rumble8,1, 0,0
+// Slides MUST be at least 1 frame after the sound is triggered
+// 2,rumble8,3,32,330;   slide volume  to 32 by frame 330
+// 2,rumble8,4,64,330;   slide balance to 64 by frame 330
+
+
+1,sgcruis2,1,0,255;
+2,sgcruis2,3,48,30;
+2,sgcruis2,4,196,9;
+//
+// EXPLOSION 1
+//
+10,expl1a,1,48,160;
+10,sgcruis2,4,128,30;
+14,expl1a,4,196,25;
+31,sgcruis2,3,56,37;
+//
+// EXPLOSION 2
+//
+35,expl1b8,1,56,56;
+36,expl1b8,4,196,49;
+38,sgcruis2,4,128,44;
+//
+// EXPLOSION 3
+//
+44,expl38f,1,48,160;
+45,expl38f,4,196,57;
+48,sgcruis2,4,110,54;
+55,sgcruis2,4,146,67;
+//
+// EXPLOSION 4
+//
+58,expl2a8f,1,60,80;
+//
+// EXPLOSION 5
+//
+60,expl1b8,1,60,132;
+62,expl2a8f,4,64,71;
+62,expl1b8,4,64,74;
+//
+// EXPLOSION 6
+//
+66,expl38f,1,56,56;
+67,expl38f,4,48,74;
+68,sgcruis2,4,130,74;
+//
+// EXPLOSION 7
+//
+74,expl48f,1,64,200;
+75,expl48f,4,64,87;
+75,sgcruis2,4,150,80;
+//
+// EXPLOSION 8
+//
+77,expl1b8,1,64,64;
+81,sgcruis2,3,40,87;
+81,sgcruis2,4,128,87;
+85,expl1b8,4,80,91;
+//
+// EXPLOSION 9
+//
+86,expl38f,1,64,64;
+88,electric,1,1,128;
+89,electric,3,64,103;
+93,sgcruis2,4,132,99;
+//
+// EXPLOSION 10
+//
+95,expl1a,1,56,160;
+96,expl1a,4,72,106;
+//
+// EXPLOSION 11
+//
+98,expl1b8,1,64,172;
+99,expl1b8,4,110,111;
+102,sgcruis2,4,110,110;
+103,electric,0,-1,-1;
+//
+// EXPLOSION 12
+//
+104,expl38f,1,64,200;
+105,expl38f,4,160,114;
+105,sgcruis2,3,20,113;
+//
+// EXPLOSION 13
+//
+106,expl1a,1,64,90;
+107,expl1a,4,96,114;
+107,sgflyby2,1,36,110;
+109,expl6g8f,1,64,132;
+111,sgcruis2,4,128,117;
+114,electric,3,4,137;
+123,sgcruis2,4,120,134;
+//
+// EXPLOSION 14
+//
+133,expl1b8,1,64,132;
+137,electric,2,-1,-1;
+//
+// EXPLOSION 15
+//
+205,expl1a,1,64,96;
+//
+// EXPLOSION 16
+//
+218,expl1b8,1,64,100;
+//
+// EXPLOSION 17
+//
+232,expl38f,1,56,110;
+//
+// EXPLOSION 18
+//
+242,expl48f,1,56,100;
+//
+// EXPLOSION 19
+//
+250,expl1a,1,48,98;
+//
+// EXPLOSION 20
+//
+259,expl6g8f,1,52,68;
+//
+// EXPLOSION 21
+//
+265,expl48f,1,56,56;
+266,expl48f,4,72,280;
+//
+// EXPLOSION 22
+//
+276,expl1b8,1,40,96;
+//
+// EXPLOSION 23
+//
+276,expl5m8,1,64,90;
+284,expl38f,1,48,80;
+285,expl38f,4,96,296;
+//
+// EXPLOSION 24
+//
+292,expl1a,1,52,112;
+//
+// EXPLOSION 25
+//
+297,expl1b8,1,56,96;
+//
+// EXPLOSION 26
+//
+303,bb3,1,64,90;
+303,expl48f,1,64,90;
+305,bb3,4,108,333;
+305,expl48f,4,108,333;
+305,expl5m8,4,108,333;
+345,bb3,3,1,388;
+345,expl48f,3,1,388;
+345,expl5m8,3,1,388;
+345,whoosh,1,64,128;
+366,sgcruis2,3,32,373;
+373,sgzoom,1,4,128;
+374,sgcruis2,4,1,399;
+374,sgzoom,3,64,388;
+375,sgzoom,4,1,399;
+388,sgcruis2,3,1,399;
+388,sgzoom,3,1,399;

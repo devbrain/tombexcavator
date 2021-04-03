@@ -10,7 +10,3 @@ dune2_pak_reader::dune2_pak_reader(std::string phys_name)
 
 }
 
-std::optional<dune2_pak_reader::file_data_t> dune2_pak_reader::get_file_data([[maybe_unused]] const std::string& name)
-{
-    return std::nullopt;
-}

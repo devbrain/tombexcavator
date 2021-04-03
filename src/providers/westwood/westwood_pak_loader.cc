@@ -2,167 +2,89 @@
 // Created by igor on 25/03/2021.
 //
 
+#include <utility>
 #include <tomb-excavator/games/westwood/westwood_pak_loader.hh>
-#include <tomb-excavator/games/common/load_palette.hh>
+#include <tomb-excavator/games/westwood/westwood_entry_loader.hh>
 #include <tomb-excavator/bsw/io/binary_reader.hh>
-#include <tomb-excavator/bsw/string_utils.hh>
 
 namespace games::westwood
 {
-    namespace detail
+    pak_loader::pak_loader(std::string phys_name, std::initializer_list<common::archive_entry_loader> loaders)
+            : common::archive_loader(std::move(phys_name), std::make_unique<westwood_entry_loader>()),
+            m_is_first(true),
+            m_is_last(false)
     {
-        enum internal_file_t
+        for (const auto& ldr : loaders)
         {
-            WESTWOOD_BINARY_FILE = 0,
-            WESTWOOD_PALETTE_FILE,
-            WESTWOOD_KNOWN_LAST
-        };
-
-        std::vector<char> load_as_vector(std::istream& is, const pak_loader::fat_entry::file_info& fi)
-        {
-            std::vector<char> out(fi.size);
-
-            const auto current = is.tellg();
-            is.seekg(fi.offset, std::ios::beg);
-            is.read(out.data(), out.size());
-            is.seekg(current, std::ios::beg);
-            return out;
+            this->loaders().add(ldr);
         }
-
-        provider::file_content_t binary_file_loader(std::istream& is, const pak_loader::fat_entry::file_info& fi,
-                                                    [[maybe_unused]] const pak_loader::fat_entry::props_map_t& props)
-        {
-            return load_as_vector(is, fi);
-        }
-
-        provider::file_content_t palette_file_loader(std::istream& is, const pak_loader::fat_entry::file_info& fi,
-                                                    [[maybe_unused]] const pak_loader::fat_entry::props_map_t& props)
-        {
-            return games::common::load_palette(load_as_vector(is, fi));
-        }
-    }
-    // ---------------------------------------------------------------------------------------------------------
-    pak_loader::loaders_map_t pak_loader::eval_loaders (const pak_loader::loaders_map_t& loaders)
-    {
-        pak_loader::loaders_map_t result;
-        result[detail::WESTWOOD_BINARY_FILE] = detail::binary_file_loader;
-        result[detail::WESTWOOD_PALETTE_FILE] = detail::palette_file_loader;
-
-        for (const auto& [idx, ldr] : loaders)
-        {
-            result[detail::WESTWOOD_KNOWN_LAST + idx] = ldr;
-        }
-
-        return result;
     }
     // ---------------------------------------------------------------------------------------
-    pak_loader::pak_loader(std::string phys_name, const loaders_map_t& loaders)
-    : games::common::archive_data_loader(std::move(phys_name), eval_loaders(loaders))
+    std::optional<pak_loader::fat_event_t> pak_loader::read_next_entry(std::istream& is)
     {
-
-    }
-    // ---------------------------------------------------------------------------------------
-    std::vector<pak_loader::fat_entry> pak_loader::load_fat(std::istream& is)
-    {
-        const auto current = is.tellg();
-        is.seekg(0, std::ios::end);
-        const auto end = is.tellg();
-        is.seekg(current, std::ios::beg);
-
+        if (m_is_last)
+        {
+            return std::nullopt;
+        }
         bsw::io::binary_reader reader(is, bsw::io::binary_reader::LITTLE_ENDIAN_BYTE_ORDER);
-        using name_offset_t = std::tuple<std::string, uint32_t, uint32_t>;
-        std::vector<name_offset_t> files;
 
-        for (bool quit = false; !quit;)
+        uint32_t offs;
+        reader >> offs;
+        char ch;
+        if (offs == 0 || static_cast<uint32_t>(m_current_offs) + offs > m_file_size)
         {
-            uint32_t offs;
-            reader >> offs;
-            char ch;
-            if (offs == 0 || static_cast<uint32_t>(current) + offs > end)
+            m_is_last = true;
+            if (!m_is_first)
             {
-                quit = true;
-                if (!files.empty())
-                {
-                    auto& prev = files.back();
-                    std::get<2>(prev) = static_cast<uint32_t>(end) - std::get<1>(prev);
-                }
+                m_prev_event.size = m_file_size - m_prev_event.offset;
+                return m_prev_event;
             }
             else
             {
-                std::string name;
-                while (true)
+                return std::nullopt;
+            }
+        } else
+        {
+            std::string name;
+            while (true)
+            {
+                reader >> ch;
+                if (ch != 0)
                 {
-                    reader >> ch;
-                    if (ch != 0)
-                    {
-                        name += ch;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                
-                if (!files.empty())
+                    name += ch;
+                } else
                 {
-                    auto& prev = files.back();
-                    uint32_t prev_size = offs - std::get<1>(prev);
-                    std::get<2>(prev) = prev_size;
+                    break;
                 }
-                files.emplace_back(name, offs, 0);
+            }
+
+            if (m_is_first)
+            {
+                m_prev_event.offset = offs;
+                m_prev_event.name = name;
+                m_is_first = false;
+                return std::nullopt; // for first read
+            }
+            else
+            {
+                fat_file_event to_fire;
+                to_fire.name = m_prev_event.name;
+                to_fire.offset = m_prev_event.offset;
+                to_fire.size = offs - m_prev_event.offset;
+
+                m_prev_event.name = name;
+                m_prev_event.offset = offs;
+                return to_fire;
             }
         }
-        std::vector<pak_loader::fat_entry> result;
-        for (std::size_t i=0; i<files.size(); i++)
-        {
-            common::archive_data_loader::fat_entry::props_map_t props;
-            int internal_type = -1;
-            const auto& [name, offs, size] = files[i];
-            auto type = deduce_file_data(name, props, internal_type);
-            common::archive_data_loader::fat_entry::file_info fi{size, offs, internal_type, type};
-            result.emplace_back(name, fi, props);
-        }
-
-        return result;
     }
-    // ---------------------------------------------------------------------------------------------------------
-
-    template<typename T>
-    std::pair<provider::file_type_t, int> make_ext(int interanl_type)
+    // ---------------------------------------------------------------------------------------
+    void pak_loader::read_header(std::istream& is)
     {
-        return {provider::make_file_type<T>(), interanl_type};
-    }
-    // ---------------------------------------------------------------------------------------------------------
-    provider::file_type_t pak_loader::deduce_file_data(const std::string& name,
-                                                       common::archive_data_loader::fat_entry::props_map_t& props,
-                                                       int& internal_type)
-    {
-        auto lower_name = bsw::to_lower(name);
-        auto dt = get_file_data(lower_name);
-        if (dt)
-        {
-            props = std::get<1>(*dt);
-            internal_type = std::get<2>(*dt);
-            return std::get<0>(*dt);
-        }
-
-        static const std::map<std::string, std::pair<provider::file_type_t, int>> mappings = {
-                {".pal", make_ext<provider::dto::palette>(detail::WESTWOOD_PALETTE_FILE)}
-        };
-
-        auto idx = lower_name.rfind('.');
-        if (idx != std::string::npos)
-        {
-            auto ext = lower_name.substr(idx);
-                auto itr = mappings.find(ext);
-                if (itr != mappings.end())
-                {
-                    internal_type = itr->second.second;
-                    return itr->second.first;
-                }
-        }
-
-        internal_type = detail::WESTWOOD_BINARY_FILE;
-        return provider::make_file_type<std::vector<char>>();
+        m_current_offs = is.tellg();
+        is.seekg(0, std::ios::end);
+        m_file_size = is.tellg();
+        is.seekg(m_current_offs, std::ios::beg);
+        read_next_entry(is);
     }
 }

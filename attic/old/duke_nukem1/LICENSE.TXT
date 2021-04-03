@@ -1,0 +1,20 @@
+DN1Mod (and its sources) are released under the GNU General Public
+License, version 2. The file COPYING.TXT contained within this
+zipfile explains the full terms of the license.  Briefly, it states
+that:
+
+- You are free to distribute this program in its unmodified form to
+  anyone you wish at any cost.
+- If you modify this program in any way, you may also distribute it
+  freely and at any cost providing that you state in the
+  documentation what modifications you made to the original copy and
+  that you make the source code to your modifications freely available.
+- You may not deny anyone access to this original unmodified copy or
+  its source code.
+
+Also, DN1Mod (and it's sources) come AS IS with ABSOLUTELY NO WARRANTY,
+expressed or implied. The author of DN1Mod cannot be held responsible
+for any consequential damages caused by the use of this program or
+the source code - you must use these at your own risk.
+
+Bryan Rodgers <rodgersb@ses.curtin.edu.au>

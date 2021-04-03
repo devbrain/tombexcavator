@@ -54,15 +54,16 @@ constexpr int PROPS_IO = 0;
 constexpr int PROPS_ROWS = 1;
 constexpr int LEVEL_TYPE = 0;
 
-static provider::file_content_t level_as_string ([[maybe_unused]] std::istream& is,
-                                                 const games::common::archive_data_loader::fat_entry::file_info& fi,
-                                                 const games::common::archive_data_loader::fat_entry::fat_entry::props_map_t& props)
+static std::string level_as_string ([[maybe_unused]] std::istream& is,
+                                                 uint64_t offset,
+                                                 [[maybe_unused]] std::size_t size,
+                                                 const games::common::base_archive_data_loader::fat_entry_t::fat_entry::props_map_t& props)
 {
 
-    auto exe_reader = std::any_cast<bsw::io::binary_reader*>(props.find(PROPS_IO)->second);
-    auto rows = std::any_cast<int>(props.find(PROPS_ROWS)->second);
+    auto exe_reader = props.get<bsw::io::binary_reader*>(PROPS_IO);
+    auto rows = props.get<int>(PROPS_ROWS);
 
-    exe_reader->stream().seekg(fi.offset, std::ios::beg);
+    exe_reader->stream().seekg(offset, std::ios::beg);
     std::ostringstream os;
     for (int i=0; i<rows; i++)
     {
@@ -74,36 +75,45 @@ static provider::file_content_t level_as_string ([[maybe_unused]] std::istream& 
     return os.str();
 }
 
-ccmap::loaders_map_t ccmap::loaders()
+
+using namespace games::common;
+
+class ccmap_entry_loaders : public archive_entry_loaders_registry
 {
-    return {{LEVEL_TYPE, level_as_string}};
-}
+public:
+    ccmap_entry_loaders()
+    : archive_entry_loaders_registry({make_entry_loader(
+            [](const std::string&) { return true; },
+            level_as_string)})
+    {
+
+    }
+};
 
 ccmap::ccmap(std::string phys_name)
-        : games::common::archive_data_loader(std::move(phys_name), loaders())
+        : base_archive_data_loader(std::move(phys_name),
+                                   std::make_unique<ccmap_entry_loaders>())
 {
 
 }
 // ------------------------------------------------------------------------------------------
-std::vector<ccmap::fat_entry> ccmap::load_fat(std::istream& is)
+void ccmap::load_fat(std::istream& is, games::common::fat_events& builder)
 {
     auto exe_reader = formats::explode::mz::explode_exe_file(is);
     m_exploded_exe = std::move(exe_reader);
     constexpr std::size_t MAPS_OFFSET = 0x8CE0;
 
-    std::vector<ccmap::fat_entry> result;
+
     uint64_t offset = MAPS_OFFSET;
     for (int i = 0; i < 19; i++)
     {
         int rows = get_num_rows(i);
-        fat_entry::props_map_t props { {PROPS_IO, m_exploded_exe.get()},
+        fat_entry_t::props_map_t props { {PROPS_IO, m_exploded_exe.get()},
                                        {PROPS_ROWS, rows}};
         std::size_t size = 41*rows;
-
-        fat_entry::file_info fi {41, offset, LEVEL_TYPE, provider::make_file_type<std::string>()};
-        result.emplace_back(level_name(i), fi, props);
+        fat_entry_t::file_info fi {41, offset, LEVEL_TYPE, provider::make_file_type<std::string>()};
+        builder.add_file(level_name(i), fi, props);
         offset += size;
     }
-    return result;
 }
 

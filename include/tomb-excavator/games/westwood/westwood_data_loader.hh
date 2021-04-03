@@ -7,7 +7,7 @@
 
 #include <tomb-excavator/export-games-westwood.h>
 #include <tomb-excavator/games/common/vfs/data_loader.hh>
-#include <tomb-excavator/games/common/loaders/archive_loader.hh>
+#include <tomb-excavator/games/common/loaders/base_archive_loader.hh>
 #include <string>
 #include <tuple>
 #include <vector>

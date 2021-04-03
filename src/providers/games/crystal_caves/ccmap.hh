@@ -7,16 +7,15 @@
 
 #include <vector>
 #include <string>
-#include <tomb-excavator/games/common/loaders/archive_loader.hh>
+#include <tomb-excavator/games/common/loaders/base_archive_loader.hh>
 #include <tomb-excavator/bsw/io/binary_reader.hh>
 
-class ccmap : public games::common::archive_data_loader
+class ccmap : public games::common::base_archive_data_loader
 {
 public:
     explicit ccmap(std::string phys_name);
 private:
-    [[nodiscard]] std::vector<fat_entry> load_fat(std::istream& is) override;
-    static loaders_map_t loaders();
+    void load_fat(std::istream& is, games::common::fat_events& builder) override;
 private:
     std::unique_ptr<bsw::io::binary_reader> m_exploded_exe;
 private:

@@ -1,0 +1,97 @@
+[project]
+m2.flc,22
+//             ; run at 24 frames per second
+// intro.mod,100
+//             ; volume 50 (comment out to eliminate music)
+    
+// Format:  sample_name,loop_start,loop_end
+// Loop start and loop end are decimal - 0,0 implies no looping
+
+ [definitions]
+
+// No extensions, .WAV is assumed
+bigbang,0,0;
+cscruise,0,17125;
+cscruis2,2,0;
+eweapon2,0,0;
+expl1a,0,0;
+expl1b8,0,0;
+expl2a8f,0,0;
+expl38f,0,0;
+expl48f,0,0;
+mlaunch2,0,0;
+sgblast2,0,0;
+sgcruis2,0,15861;
+sgflyby2,0,0;
+sgzoom,0,0;
+debris,0,0;
+
+// Playback script
+// Format:  frame,soundfile,effect,volume (x),pan_position (y)
+// Effect values:  0   Do volume/pan change to sound, no retrigger
+//                 1   Trigger sound (volume and balance must be set)
+//                 2   Discontinue sound
+//                 3   Slide volume  to x by frame y
+//                 4   Slide balance to x by frame y
+//
+// Volume values:  0 to 64 valid
+//                 -1 indicates no change to current volume
+//
+// Pan values:     0 to 255 valid
+//                 -1 indicates no change to current pan position
+// Slides MUST be at least 1 frame after the sound is triggered
+// 2,rumble8,3,32,330;   slide volume  to 32 by frame 330
+// 2,rumble8,4,64,330;   slide balance to 64 by frame 330
+ 
+[playback]
+1,sgcruis2,1,0,255;
+2,sgcruis2,3,64,15;
+2,sgcruis2,4,68,42;
+11,sgflyby2,1,0,255;
+12,sgflyby2,3,48,29;
+12,sgflyby2,4,68,42;
+16,sgcruis2,3,40,42;
+42,sgflyby2,3,1,48;
+45,sgcruis2,4,160,73;
+49,sgcruis2,3,30,80;
+71,cscruise,1,1,128;
+71,cscruis2,1,1,128;
+72,cscruise,3,16,146;
+72,cscruis2,3,16,177;
+72,cscruise,4,140,125;
+74,sgcruis2,4,128,101;
+99,sgcruis2,3,40,133;
+102,sgcruis2,4,96,,117;
+118,sgcruis2,4,128,146;
+121,eweapon2,1,64,128;
+125,cscruis2,4,94,166;
+126,cscruise,4,128,146;
+145,sgcruis2,3,30,185;
+147,cscruise,2,-1,-1;
+147,sgcruis2,4,155,151;
+147,expl48f,1,64,128;
+151,eweapon2,1,64,150;
+167,cscruis2,4,110,176;
+177,cscruis2,2,-1,-1;
+177,expl1a,1,56,110;
+196,sgcruis2,3,40,236;
+197,mlaunch2,1,64,118;
+225,expl1b8,1,56,128;
+225,mlaunch2,3,4,228;
+229,mlaunch2,2,-1,-1;
+230,expl38f,1,60,128;
+235,bigbang,1,64,128;
+235,expl2a8f,1,64,128;
+236,expl1a,1,64,128;
+240,debris,1,1,128;
+241,debris,3,12,260;
+250,sgcruis2,4,32,300;
+250,sgcruis2,3,4,300;
+274,sgblast2,1,2,118;
+275,sgblast2,4,32,300;
+275,sgblast2,3,25,279;
+280,sgblast2,3,0,300;
+280,bigbang,3,0,300;
+280,expl2a8f,3,0,300;
+280,expl38f,3,0,300;
+280,debris,3,0,300;

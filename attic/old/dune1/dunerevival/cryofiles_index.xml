@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<cryo_files>
+
+	<files_types>
+		<filetype ext="HSQ"/>
+	</files_types>
+
+
+	<games>
+		<game name="Dune"/>
+		<game name="KGB"/>
+	</games>
+
+
+	<files_names>
+		<file name="arrakis.hsq" game="dune" type="HSQ"/>
+		<file name="attack.hsq" game="dune" type="HSQ"/>
+		<file name="back.hsq" game="dune" type="HSQ"/>
+		<file name="bagdad.hsq" game="dune" type="HSQ"/>
+		<file name="balcon.hsq" game="dune" type="HSQ"/>
+		<file name="baro.hsq" game="dune" type="HSQ"/>
+		<file name="book.hsq" game="dune" type="HSQ"/>
+		<file name="bota.hsq" game="dune" type="HSQ"/>
+		<file name="bunk.hsq" game="dune" type="HSQ"/>
+		<file name="chan.hsq" game="dune" type="HSQ"/>
+		<file name="chankiss.hsq" game="dune" type="HSQ"/>
+		<file name="comm.hsq" game="dune" type="HSQ"/>
+		<file name="command1.hsq" game="dune" type="HSQ"/>
+		<file name="command2.hsq" game="dune" type="HSQ"/>
+		<file name="command3.hsq" game="dune" type="HSQ"/>
+		<file name="condit.hsq" game="dune" type="HSQ"/>
+		<file name="corr.hsq" game="dune" type="HSQ"/>
+		<file name="credits.hsq" game="dune" type="HSQ"/>
+		<file name="cryo.hsq" game="dune" type="HSQ"/>
+		<file name="death1.hsq" game="dune" type="HSQ"/>
+		<file name="death2.hsq" game="dune" type="HSQ"/>
+		<file name="death3.hsq" game="dune" type="HSQ"/>
+		<file name="dialogue.hsq" game="dune" type="HSQ"/>
+		<file name="dune386.hsq" game="dune" type="HSQ"/>
+		<file name="duneadl.hsq" game="dune" type="HSQ"/>
+		<file name="duneagd.hsq" game="dune" type="HSQ"/>
+		<file name="dunechar.hsq" game="dune" type="HSQ"/>
+		<file name="dunemid.hsq" game="dune" type="HSQ"/>
+		<file name="dunepcs.hsq" game="dune" type="HSQ"/>
+		<file name="dunes.hsq" game="dune" type="HSQ"/>
+		<file name="dunes2.hsq" game="dune" type="HSQ"/>
+		<file name="dunes3.hsq" game="dune" type="HSQ"/>
+		<file name="dunesdb.hsq" game="dune" type="HSQ"/>
+		<file name="dunevga.hsq" game="dune" type="HSQ"/>
+		<file name="empr.hsq" game="dune" type="HSQ"/>
+		<file name="equi.hsq" game="dune" type="HSQ"/>
+		<file name="feyd.hsq" game="dune" type="HSQ"/>
+		<file name="final.hsq" game="dune" type="HSQ"/>
+		<file name="fort.hsq" game="dune" type="HSQ"/>
+		<file name="frek.hsq" game="dune" type="HSQ"/>
+		<file name="frm1.hsq" game="dune" type="HSQ"/>
+		<file name="frm2.hsq" game="dune" type="HSQ"/>
+		<file name="frm3.hsq" game="dune" type="HSQ"/>
+		<file name="generic.hsq" game="dune" type="HSQ"/>
+		<file name="globdata.hsq" game="dune" type="HSQ"/>
+		<file name="gurn.hsq" game="dune" type="HSQ"/>
+		<file name="hara.hsq" game="dune" type="HSQ"/>
+		<file name="hark.hsq" game="dune" type="HSQ"/>
+		<file name="hawa.hsq" game="dune" type="HSQ"/>
+		<file name="icones.hsq" game="dune" type="HSQ"/>
+		<file name="idah.hsq" game="dune" type="HSQ"/>
+		<file name="intds.hsq" game="dune" type="HSQ"/>
+		<file name="jess.hsq" game="dune" type="HSQ"/>
+		<file name="kyne.hsq" game="dune" type="HSQ"/>
+		<file name="leto.hsq" game="dune" type="HSQ"/>
+		<file name="map2.hsq" game="dune" type="HSQ"/>
+		<file name="map.hsq" game="dune" type="HSQ"/>
+		<file name="mirror.hsq" game="dune" type="HSQ"/>
+		<file name="mois.hsq" game="dune" type="HSQ"/>
+		<file name="morning.hsq" game="dune" type="HSQ"/>
+		<file name="onmap.hsq" game="dune" type="HSQ"/>
+		<file name="orny.hsq" game="dune" type="HSQ"/>
+		<file name="ornycab.hsq" game="dune" type="HSQ"/>
+		<file name="ornypan.hsq" game="dune" type="HSQ"/>
+		<file name="ornytk.hsq" game="dune" type="HSQ"/>
+	</files_names>
+
+</cryo_files>

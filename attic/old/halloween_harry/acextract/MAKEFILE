@@ -1,0 +1,17 @@
+# Use acxtract to extract the data files out of the *.-0 files
+# Use 4md2mod to convert the *.4md files to playable *.mod files
+
+# The following *.mod files are still broken (would someone like to have
+# a try at fixing them?):
+
+# continue.mod
+# seb7.mod
+# zone-4a.mod
+
+all: acxtract 4md2mod
+
+acxtract: acxtract.c explode.c tables.c dclib.h types.h
+	gcc -o acxtract.exe acxtract.c explode.c tables.c
+
+4md2mod: 4md2mod.c
+	gcc -o 4md2mod.exe 4md2mod.c

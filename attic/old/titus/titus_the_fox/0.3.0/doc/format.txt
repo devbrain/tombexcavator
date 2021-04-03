@@ -1,0 +1,390 @@
+Titus the Fox / Moktar level file format by Jesses (smacdrek at hotmail dot com)
+Visit http://ttf.mine.nu for more TTF/Moktar stuff
+
+This describes the format of the LEVEL?.SQZ files, after uncompressing them.
+
+LEVELA.SQZ is not a level file but a picture. The format of the other files is as follows:
+
+(all numbers are decimal)
+
+Offset	Size in bytes	What it is
+--------------------------------------------------------------
+0	256*LevelSize	Level tile map
+x-32768	256*128		Tile bitmaps for each of the 256 tiles
+x	256		Horizontal flags for each tile
+x+256	256		Floor flags for each tile
+x+512	256		Ceiling flags for each tile
+x+768	40*6		Objects
+x+1008	2		Vertical scrolling limit - 12
+x+1010	2		X-coordinate of entrance
+x+1012	2		Y-coordinate of entrance
+x+1014	50*26		Enemies
+x+2314	100*4		Bonuses
+x+2714	2		Horizontal scrolling limit - 20
+x+2716	20*7		Gates
+x+2856	10*20		Elevators
+x+3056	2		X-coordinate of exit
+x+3058	2		Y-coordinate of exit
+
+where	LevelSize = (filesize - 35828) / 256
+and	x = 256*LevelSize + 32768
+
+
+Sprite number fields mentioned below contain several values:
+Bit	What it is
+------------------
+0..12	Sprite number
+13	Supporting
+14	Flash (internal use only)
+15	If set, sprite is horizontally flipped
+
+Sprites have their origin at the center pixel of the bottom line; to convert level-file coords to regular (0, 0) origin do:
+(SpriteX, SpriteY) = (FileX - SpriteWidth/2, FileY - SpriteHeight)
+This does not apply to Elevator sprites however, which have regular (0, 0) origin already.
+
+A detailed description of each item follows:
+
+Level tile map
+--------------
+Each byte specifies which tile should be at that position. All levels are 256 tiles wide, the height (LevelSize) varies.
+
+Tile bitmaps for each of the 256 tiles
+--------------------------------------
+Each bitmap is 16 colors, 16*16 pixels and stored in planar format.
+
+Horizontal/floor/ceiling flags for each tile
+--------------------------------------------
+These specify the behaviour of a tile, i.e. if you can stand on it, if it's a wall, if it kills you or even if it's a bonus.
+
+	Horizontal
+	----------
+	Valid values are:
+
+	0: no wall
+	1: wall
+	2: health bonus
+	4: level code
+	5: padlock bonus
+	6: level 14 code
+
+	Floor
+	-----
+	Valid values are:
+
+	0: no floor
+	1: floor
+	2: slightly slippery floor
+	3: slippery floor
+	4: very slippery floor
+	5: drop-through (duck and you'll fall through)
+	6: ladder
+	7: health bonus
+	8: deadly (eats most objects; allows objects to bounce, but only the ball remains in rest)
+	9: deadly (eats all objects)
+	10: deadly (supports all objects)
+	11: level code
+	12: padlock bonus
+	13: level 14 code
+
+	Ceiling
+	-------
+	If bit 7 is set, this tile and the two following it are cycled in-game.
+	Valid values for bit 0..6 are:
+
+	0: no ceiling
+	1: ceiling
+	2: ladder
+	3: padlock bonus
+	4: deadly
+
+Objects
+-------
+There are 40 object records, each of which has this format:
+
+	Offset	Size	What it is
+	-----------------------------
+	0	2	Sprite number
+	2	2	X coordinate
+	4	2	Y coordinate
+
+An object record is skipped if Sprite number = FFFF.
+
+Vertical scrolling limit
+------------------------
+The game will not scroll below this line unless the player actually is below it.
+As soon as the player is above the line again, the game scrolls up.
+
+Coordinates of entrance
+-----------------------
+Here the fun starts.
+
+Enemies
+-------
+There are 50 enemy records. Some fields have to be set to a particular value upon save; this is indicated by '=='.
+Each record has this format:
+
+	Offset	Size	What it is
+	-------------------------------------
+	0	2	NMI_X: X-coordinate
+	2	2	NMI_Y: Y-coordinate
+	4	2	Sprite number (add 101 to bits 0..12 to get the actual sprite)
+	6	2	Bit 0..12: enemy type (bits 13..15 used internally, should be 0 in the file)
+	8	2	NMI_Speed
+	10	1	Health: the enemy's health, defaults to 1 for non-boss enemies. Only valid
+			if inside an MFL file; else non-boss enemies always have health	1 and boss
+			enemy health depends on level number. Default boss health: 2 for level 1,
+			4 for level 5 and 10 for the rest. See MFLFORM.TXT.
+	12	2	NMI_Power: Enemies' power (determines speed at which you fly away after a hit)
+			If this is 0, the enemy doesn't do any harm.
+	14	1	== 0
+
+An enemy record is skipped if Sprite number = FFFF.
+
+Enemy type determines the meaning of the remaining bytes:
+	Type    Meaning
+	---------------
+	0,1:	Noclip walk	;NPPower, NPSpeed, NPRange
+		Walk from NMI_Center - NMI_Dist to NMI_Center + NMI_Dist
+		If NMI_X lies outside this range, first walk towards it
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	NMI_Center: midpoint of the walking range
+		17	2	NMI_Dist: range of the walker
+	2:	Shoot	;NPPower, NPZone, NPFreq
+		no moving, hit/shoot with NMI_Freq if player in NMI_Zone
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	1	== NMI_Freq
+		16	1	NMI_Freq: delay between shots (10..255)
+		17	2	NMI_Zone: bit 0..13 = range, bit 14..15 = direction (0 = both, 1 = left, 2 = right)
+	3,4:	Noclip walk, jump to player	;NPPower, NPSpeed, NPRange, NPVZone
+		like 0, but jump up to player if it is max NMI_VZone pixels above
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	NMI_Center: midpoint of the walking range
+		17	2	NMI_Dist: range of the walker
+		19	1	NMI_VZone: jump height
+		20	2	== 0
+	5,6:	Noclip walk, move to player	;NPPower, NPSpeed, NPRange, NPVZone, NPVZoneDown
+		like 0, but fly up/down to player if it is max NMI_VZone pixels above/below
+		Pause up/down moving when not on-screen!
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	NMI_Center: midpoint of the walking range
+		17	2	NMI_Dist: range of the walker
+		19	1	NMI_VZone: vertical range
+		20	2	== 0
+	7:	Gravity walk, hit when near	;NPPower, NPSpeed2, NPZone2
+		awake when player comes nearer than NMI_Zone2 horizontal, 200 vertical and is not above enemy
+		walk, bouncing off walls and falling in holes
+		when near player, move to hit
+		reset when player is more than 2 screens horizontal or vertical away
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	== NMI_X
+		17	2	== NMI_Y
+		19	1	NMI_Speed (overrides word at offset 8, which should equal this)
+		20	1	== 0
+		21	2	== 0
+		23	2	NMI_Zone2: range
+	8:	Gravity walk when off-screen	;NPPower, NPSpeed2
+		awake when player is more than 1 screen away horizontal or vertical
+		walk, bouncing off walls and falling in holes
+		reset when player is more than 2 screens horizontal away
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	== NMI_X
+		17	2	== NMI_Y
+		19	1	NMI_Speed (overrides word at offset 8, which should equal this)
+		20	1	== 0
+		21	2	== 0
+		23	2	== 0
+	9:	Walk and periodically pop-up	;NPPower, NPSpeed2, NPZone2
+		awake when player comes nearer than NMI_Zone2 horizontal, 60 vertical
+		walk, bouncing off walls
+		periodically, pop up and change direction towards player.
+		reset when player is more than 4 screens horizontal away
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	== NMI_X
+		17	2	== NMI_Y
+		19	1	NMI_Speed (overrides word at offset 8, which should equal this)
+		20	1	== 0
+		21	2	== 0
+		23	2	NMI_Zone2: range
+	10:	Alert when near, walk when nearer	;NPPower, NPSpeed2, NPZone2, NPZone2Min50
+		awake when player comes nearer than NMI_Zone2 horizontal, 26 vertical; don't move yet
+		start walking when player comes nearer than NMI_Zone2 - 50 horizontal, 60 vertical
+		walk, bouncing off walls
+		reset when player is more than 2 screens horizontal away
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	== NMI_X
+		17	2	== NMI_Y
+		19	1	NMI_Speed (overrides word at offset 8, which should equal this)
+		20	1	== 0
+		21	2	== 0
+		23	2	NMI_Zone2: range
+	11:	Walk and shoot	;NPPower, NPSpeed2, NPZone2
+		awake when player comes nearer than NMI_Zone2 horizontal, 26 vertical
+		walk, bouncing off walls
+		periodically, check if player is nearer than 64 hor and 20 ver; if so, change direction towards player and shoot
+		reset when player is more than 2 screens horizontal away
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	== NMI_X
+		17	2	== NMI_Y
+		19	1	NMI_Speed (overrides word at offset 8, which should equal this)
+		20	1	== 0
+		21	2	== 0
+		23	2	NMI_Zone2: range
+	12:	Jump (immortal)	;NPPower, NPPowerS, NPFreq2
+		jump up to .5*NMI_PowerS^2 + .5*NMI_PowerS
+		wait NMI_Freq2 between jumps
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	NMI_PowerS: jump power
+		19	1	NMI_Freq2: time between jumps
+	13:	Bounce	;NPPower, NPSpeed, NPZone2, NPCount2
+		awake when player is nearer than NMI_Zone2 horizontal, 40 vertical
+		jump towards player, with hor-speed NMI_Speed and ver-speed 10
+		wait NMI_Count2
+		sleep (don't reset position)
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		20	1	NMI_Count2
+		23	2	NMI_Zone2
+	14:	Gravity walk when off-screen (immortal)
+		like 8 but immortal
+	15:	Nothing (immortal)
+		do nothing, immortal
+	16:	Nothing
+		like 15 but not immortal
+	17:	Drop (immortal)	;NPZone3, NPFreq3
+		awake periodically (period NMI_Freq3)
+		fire if player is within NMI_Zone3 horizontal and NMI_ZoneY3 vertical
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		8	2	== 0 (NMI_SPEED) := -1
+		15	2	NMI_Zone3: horizontal range
+		17	2	NMI_Freq3: time between drops
+		21	2	NMI_ZoneY3: vertical range
+		19	2	== 0
+	18:	Guard	;NPPower, NPSpeed, NPZone4, NPYSpeed4
+		If player is within NMI_XZone4 horizontal and NMI_YZone4 vertical from (NMI_X,NMI_Y), move to player
+		Else, move back to (NMI_X,NMI_Y)
+		moving with speed (NMI_Speed, NMI_YSpeed4)
+		Extra fields:
+		Offset	Size	What it is
+		--------------------------
+		15	2	NMI_XZone4
+		17	2	NMI_YZone4
+		19	1	NMI_YSpeed4
+		20	2	== NMI_X
+		22	2	== NMI_Y
+
+Most enemy types have a list of eNemy Parameter names after a semicolon in the table above.
+These names define parameter groups used for that type; the following list shows
+for each parameter group its values, their valid range and a sensible default value.
+
+Unless otherwise indicated, words are signed and bytes unsigned
+
+NPCount2:	NMI_Count2 [B20], default 50
+
+NPPower:	NMI_Power [W12], default 50
+
+NPPowerS:	NMI_PowerS [W15] >= 1, default 15
+
+NPRange:	NMI_Center [W15], default NMI_X - 8
+		NMI_Dist [W17] >= 0, default 16
+
+NPSpeed:	NMI_Speed [W8], default 1
+
+NPSpeed2:	NMI_Speed [W8] < 256, default 1
+
+NPYSpeed4:	NMI_YSpeed4 [B19] >= 0 (signed), default 1
+
+NPVZone:	NMI_VZone [B19], default 100
+		NPVZoneDown indicates the zone is also below, besides above
+
+NPFreq:		NMI_Freq [B16] >= 10, default 50
+
+NPFreq2:	NMI_Freq2 [B19], default 50
+
+NPFreq3:	NMI_Freq3 [W17] >= 1, default 50
+
+NPZone:		NMI_Zone [W17] bit 14..15 != 3, default 0
+		NMI_Zone [W17] bit 0..13 >= 0, default 100
+
+NPZone2:	NMI_Zone2 [W23] >= 0, default 100
+		NPZone2Min50 indicates the activate zone lies 50 pixels within the alert zone
+
+NPZone3:	NMI_ZoneY3 [W21] >= 0, default 100
+		NMI_Zone3 [W15] >= 0, default 100
+
+NPZone4:	NMI_XZone4 [W15] >= 0, default 100
+		NMI_YZone4 [W17] >= 0, default 100
+
+
+Bonuses
+-------
+There are 100 bonus records, each of which has this format:
+
+	Offset	Size	What it is
+	-----------------------------
+	0	1	Bonus tile
+	1	1	Tile that replaces the bonus after it's picked up
+	2	2	X/Y coordinates
+
+A bonus record is skipped if X = FF and Y = FF.
+
+Only tiles 253-255 can be health bonuses, the other ones' type depends on the tile flags.
+
+Horizontal scrolling limit
+--------------------------
+The game will not scroll to the right of this line unless the player actually is to the right of it.
+When the player is on the left again, the game does not scroll back immediately.
+
+Gates
+-----
+There are 20 gate records, each of which has this format:
+
+	Offset	Size	What it is
+	-----------------------------
+	0	2	X/Y coordinates of entrance
+	2	2	X/Y coordinates of screen position after passing through a gate
+	4	2	X/Y coordinates of exit
+	6	1	Scrolling; if this is non-zero, scrolling is disabled after passing through
+
+A gate record is skipped if Y-coordinate of entrance >= LevelSize
+
+Elevators
+---------
+There are 10 elevator records, each of which has this format:
+
+	Offset	Size	What it is
+	-----------------------------
+	4	2	Sprite number - 30. Bit 13 (supporting) should be set (before doing -30).
+	7	1	Speed (0..7); number of pixels moved per frame
+	10	2	Range; every n (>0) frames, reverse the direction
+	12	2	X-coordinate
+	14	2	Y-coordinate
+	16	1	Direction: 0=up, 1=right, 2=down, 3=left
+
+An elevator record is skipped if either Sprite number = FFFF, Speed >= 8, X < -16 or Y < 0.
+
+Coordinates of exit
+-------------------
+Here the fun ends.

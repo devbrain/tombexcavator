@@ -1,0 +1,380 @@
+Prehistorik 2 level format
+By Jesses and Dorten
+http://pre2.mine.nu
+
+The games' files are compressed, so before you can do anything with them they must be unpacked. For prehistorik 2 you can use DIET to extract the majority of them.
+I've used version 1.45f which can be fetched here:
+http://translate.google.com/translate?u=http%3A%2F%2Fwww.vector.co.jp%2Fsoft%2Fdl%2Fdos%2Futil%2Fse000305.html&langpair=ja%7Cen&hl=en&c2coff=1&ie=UTF-8&oe=UTF-8&prev=%2Flanguage_tools
+The program is a bit crappy though, and for some reason it only works when you put the sqz file on a floppy, don't ask ;-).
+
+
+
+This is what the various files are (the ones having ZIV are not on DIET, the rest are).
+
+music (.MOD format):
+*.TRK
+
+320*200*4 pics:
+BACKn		- level backgrounds
+GAMEOVER
+MOTIF
+MENU2
+
+640*200*4 pics:
+MAP
+
+320*200*8 pics:
+MENU
+TITUS (ZIV)
+CASTLE (ZIV)
+THEEND (ZIV?)
+
+320*(200+98)*8 pics:
+PRESENT (ZIV)
+
+640*415*(2+2) pics:
+LEVELH+LEVELI
+
+tiles:
+FRONT (163)	- tile sprites for masked tiles
+UNION		- common tile sprites
+
+levels:
+LEVELn (except LEVELH and LEVELI)
+
+sprites:
+SPRITES
+
+misc:
+ALLFONTS
+KEYB (ZIV)
+SAMPLE
+
+
+
+The bitmap format used for the 4-bit pics is planar; so, you get 4 monochrome pictures one after the other, one per plane. 8-bit pics are just packed pixel format.
+One exception: the pic in LEVELH+LEVELI has 2 planes in one file and 2 planes in the other file.
+
+
+
+The bitmap format used for the tiles and sprites:
+
+The format of a tile (and a sprite too) is 4-bit planar. I.e. for a 16*16 image 
+(like a tile) it goes like this:
+  32 bytes of monochrome 16*16 bitmap for plane 0
+  32 bytes of monochrome 16*16 bitmap for plane 1
+  32 bytes of monochrome 16*16 bitmap for plane 2
+  32 bytes of monochrome 16*16 bitmap for plane 3
+
+Each monochrome image is as you'd expect a monochrome image to be: a simple w*h array with each byte holding 8 pixels.
+
+
+
+Sprites always have a multiple-of-8 width. They also have a transparent color, 0, which makes for easy ANDing/XORing them on screen. The file SPRITES.SQZ holds them, but only the images; the (variable) sprite sizes are stored in the exe. You'll need a table to display then, which is attached as SPRSIZE. It contains 2 bytes for every sprite: width and height. However, for sprite #156 (the game boy) the height actually is 19! The other values are right however.
+Tiles are always 16*16, luckily :-)
+
+
+
+Now the main thing, the format of LEVELn.SQZ.
+
+All levels are 256 tiles wide, but their height varies. Unfortunately, you need to know this height, but it's not stored in the file but in the executable. I'll just give you a table with the heights:
+1   2    3   4   5    6    7    8   9    A   B   C   D   E   F    G
+49, 104, 49, 45, 128, 128, 128, 86, 110, 12, 24, 51, 51, 38, 173, 84
+
+The level file starts with a tile map, sized 256*height bytes. Each byte is actually an index in a lookup table of 256 16-bit values. This table is placed directly after the tilemap. The table contains 3 types of numbers: <256, 256 and >256. Tile 256 is transparent and shows the background picture. You need to determine the maximum value among the numbers <256. For these small numbers, 16*16*4 tile bitmaps can be found directly after the lookup table (at offset 128*number), while for the larger numbers the tiles are in the (compressed) file UNION.SQZ at offset 128*(number-256).
+
+The remaining part of the level file is what I'm not too sure about. It starts at offset 256*levelheight + 256*2 + (maximum of <256 values)*128, or more conveniently put at filesize - 5029. I'll call this position offset 0 from now on to keep things simple.
+
+Here's a fancy table showing the remaining level structure, as far as i know it now:
+
+offset  size      what it is ("blabla: x" means that field blabla takes x bytes)
+
+0       256*3     tile properties
+768     2	  ????
+770     2         x start
+772     2         y start
+774     1         if tile with this x coord is the leftmost on screen, it won't scroll 
+                  right any further. (to get actual horizontal level size add 20)
+775     1         ???? in original levels always 0
+776     1	  scrolling behavior
+777     256*2	  For tile opacity: number of overlaying sprite for each tile.
+1289    20*7      gates: xin:1, yin:1, xscreen: 1, yscreen: 1, xout:1, yout:1, scroll:1
+1429    15*10     shifting tile blocks: x:1, y:1, width:1, height:1, xact:1, yact:1, FFFF:2, dist:1, 00:1
+1579    1024*2    enemy: length:1, type/bit7:1, sprite:2, Other1:5, x:2, y:2, other2:variable  (see later for complete format)
+3627    2	  substract from 53, then add the result, every time you need to get actual sprite number for item or platform
+3629    2	  substract from 312, then add the result, every time you need to get actual sprite number for enemy 
+                  (that works for 6-8 levels)  I think, these two don't need to be changed in any case.
+3631    80*5	  secrets: FromTile:1, ToTile:1, Bonus/health:1, x:1, y:1 
+4031    256       that's fourth byte of tile properties
+4287    70*7      items: posx:2, posy:2, sprite:2, ???:1
+4777    16*15     platform: posx:2, posy:2, sprite:2, behavior:1, speed: 1, ???: 1 (=FF), drop delay: 1, distance: 2, ???: 1 (=0), drop1?: 1, drop2?: 1
+5017    2         Left border of Kong movement
+5019    2         Right border of Kong movement
+5021    1         ????  2,3 or -1, when set to 1, Kong starts jumping on sight, when 5 => he awakes only after a couple of blows in the head. I'm NOT sure.
+5022    2         Kong health
+5024    1         ????  0 or -1 (if -1 => no Kong)
+5025    2         Kong x coord
+5027    2         Kong y coord
+
+
+
+
+Tile properties:
+	3 bytes per tile; the order is sequential, so first all 1st bytes etc.
+
+	First byte
+	1   - solid sides
+	2   - deadly from the sides
+
+	Second byte
+	1   - solid top, some of these tiles have different 'height', Prehistoric is forcing down through them a little (sample is bone rubbish at level E)
+	2   - slightly slippery
+	3   - slippery
+	4   - not used in original levels, AFAIK, but if set makes floor VERY slippery (like in ttf)
+	5   - when standing on it and pressing down, becomes non-solid (hatches on level 2)
+	6   - deadly from the top
+
+	Third byte
+	bit 0	- solid bottom
+	bit 1   - deadly from the bottom
+	bit 4	- seen only in combo with bit 6 (as 80) on level 3. flies are going out of it
+	bit 5	- when stepped on, switches to next tile
+	bit 6	- Player is partially hidden behind he tile, see offset 777.
+128 - tile is animated, using current and two next tiles (two next tiles are also animated,
+      despite the fact that their third byte is not 128)
+
+Fourth byte
+if it's 4-7 bits are 0, (00..0F) => horizontal floor
+bit 4=1 (10..1F)=> slope going downright
+bit 5=1 (20..2F)=> slope going upright
+bits 0..3 - reversed height of left corner. height of right corner depends on adjacent tile if not horizontal (IINM).
+
+	About Partially transparent tiles: it must be a mask, because you can find both transparent and not transparent pixels of the same color on one tile.
+	Also, some tiles, like slopes on level 7 have variable height, but their properties are not different from simple ice...
+
+start:
+	here you start the level
+
+Scrolling behavior:
+bit 0: works with vertical scrolling. when 0, game tries to keep minimal distance 
+       between player and up/bottom of screen at about 2 tiles, when 1, it's 4 tiles
+bit 1: when 1 - no horizontal scrolling. going to the right => death, more, than 
+       1 screen to left => also death
+bit 2: when 1 - screen scrolls down by itself, going up => death
+
+	So, in level6 you get 6, but this behavior is forgotten as soon as boss is
+        awaken... If set to 0 or 1, boss awakes at level start. This trickdoes not work
+        with level3 or level9 bosses (ie screen continues to descend)
+
+About opacity masks:  When player/enemy goes near "masked" tile, sprite from FRONT.SQZ with corresponding number pops out and closes him.
+
+
+gates:
+	in/out are the entrance/exit, screen is the screen's position after exiting the gate, scroll indicates whether the screen can scroll after going through.
+
+enemy:
+	it is a bit complicated: "length" is the number of bytes this enemy record contains; each enemy record is variable-length. sprite/x/y should be obvious.
+
+
+Secrets: 
+TileFrom - initial tile
+TileTo not used, tile changes to the tile on the map (in original levels tileTo=tile on the map, changing does no effect).
+Bonus/Health:
+00 to 3F: 1 to 64 small bonuses
+40 to 7F: 1 to 64 hits needed. stars, dirt bits etc go out, depending on level (maybe stored somewhere, maybe in exe, don't yet know)
+80 to FF: big bonus, hitpoints=(BH-127)*x (I think) x is something about 5 or 6
+If several such tiles are adjacent, they all change, if one of them change, if you hit several of them at one time, Bonus/Health of rightmost of the lowest row (from the ones you hit) is used (needs checking).
+
+items:
+	should also be clear. The level exit is also among the items.
+	The last byte in the items records is always zero, if set to anything else - nothing changes in game.
+
+platform:
+	behavior:	bit 7:	if set, then platform works by itself, else, starts when player is on and stops at end of the cycle when he steps off
+			bit 3:	dropdown
+			bits 0-2 - direction of moving
+				701
+				6x2
+				543
+	speed:		max speed of movement
+			if speed = zero and behavior = 08, then if stepped on platform drops down quickly till it hits solid ground (or into the abyss, if there is none) and waits, until player steps off
+	drop delay:	if not dropdown - then FF
+			if dropdown, it's delay before dropping.
+	distance:	time of moving on max speed if not dropdown, else - zero
+			distance of moving: speed*(time+speed-1). Additional speed^2-speed goes from accelerating and braking.
+	drop1?:		if not dropdown - zero, else = drop delay
+	drop2?:		if not dropdown - zero, else = FF
+
+
+Kong: Yeah, that's him: big dumb monkey. Tried to place him on 6-th level. that was strange, you should try it yourself  ;)
+
+
+About the palettes, they're... in the exe file. There are 10 palettes to choose from, which you can find in the attachment PRE2.PAL. Each palette contains 8-bit B, G, R, 0 values for every one of the 16 colors in a palette. Here's a string showing which level uses which palette (palette for level 2 is 1, for example):
+0134568899222298
+
+
+
+
+
+
+
+Enemy Format:
+
+Byte  0     - length of record
+Byte  1     - Type. If last bit is set to 1 then this enemy 
+              is present only in expert mode, else - in both modes
+Bytes 2,3   - sprite number (at level 6 add 1, at levels 7 and 8 add 3).
+Byte  4     - don't yet know, somehow affects behavior of type 9 (0 - ignores gravity, 8 - not)
+ (smth1[0])   type 2 spiders always have 1
+              Type 0 have 3
+	      all others have 0
+Byte  5     - enemy hitpoints (if I not mistaken, throwing stoneaxe does 
+ (smth1[1])   10 damage, club and hammer do damage, which depends on 
+              distance or even random)
+Byte  6	    - Pause before activating actions in tenths of second (or 
+ (smth1[2])   something like that), for example a pause between jumps 
+              of jumping dino, or between death and spawn of type 0 and 
+              10 enemies. Max value - 63. Anything more equals to eternity
+Byte  7 (smth1[3]) - ????? seen only 00 or FF, maybe internally used
+Byte  8 (smth1[4]) - score value: 0=>100, 1=>200 ... 11=>8000 (see sprite sequence)
+Bytes 9,10  - x coordinate in pixels (if not type 10,or type 0)
+Bytes 11,12 - y coordinate in pixels (coordinates,if not type 10,or type 0)
+
+Not sure about sprites. There may be hardcoded sprite sequences for 
+different enemy types. Setting sprite property to anything inappropriate 
+results in unpredictable behavior: when I set sprite of up-down movig 
+spider to 317 (spiderweb), I've got a WASP, instead. When I tried to 
+create a jumping spider, I've got jumping bears, transforming into 
+leopards in the air, and SEVERE graphical artifacts (?!?).
+Setting the sprite of spawning spiders to 318 gives funny results :)
+Setting the sprite to an item sprite makes level not loadable.
+
+There can be even more additional info, depending on Type.
+
+Types
+	0: Falls from the sky, after landing walks, affected by gravity and walls.
+	   Active, when player is in The Area
+		Length 13
+		Bytes 9,10  - x,y coordinates of upper left corner of The Area
+		Bytes 11,12 - width and height of The Area
+	1: Not moves, not attacks, not dies... Just a plain decoration (Spiderwebs)
+		Length 13
+	2: Moves up and down on a web (Spiders)
+		Length 15
+		Byte  13    - maximum web length
+		Byte  14    - speed	
+	3: It's for spawning spiders
+		Length 14
+		Byte  13    - Distance (in tiles?) at which it becames active.
+	4: Pendulum spiders
+		Length 17
+		Byte  13    - Radius
+		Byte  14    - Angle. Don't know in what units.
+		Bytes 15,16 - always FF?
+	5: Stands still, until player is on the line of sight, then
+	   moves diagonally down, when on the one horizontal with 
+           player - changes direction to horizontal (some bees at third and seventh levels)
+		Length 16
+		Byte  13    - width of rectangle, counted as line of sight (tiles)
+		Byte  14    - height of rectangle, counted as line of sight (tiles)
+		Byte  15    - Speed
+	6: That's clever flying enemy
+		Length 21
+		Byte  13    - distance of activating (horizontal) in tiles
+		Other       - always FF?
+	7: Stands still, until player is on the line of sight, then
+	   moves diagonally down
+		Length 15
+		Byte  13    - distance of activating (horizontal) in tiles
+		Byte  14    - Speed
+	8: Jumps (Dinos, leopards, little wormies...)
+		Length 17
+		Byte  13    - x  distance in tiles. When player is closer, 
+                              starts jumping (but waits some time at first, 
+                              depending on its byte 6 value)
+		Byte  14    - Vertical jump power. Height= VJP*(VJP+1)/2 pix
+		Byte  15    - Horizontal jump power.
+		Byte  16    - like byte 13, but for vertical distance
+9: Goes left-right, ignoring walls (ignoring walls depends on byte 4, in the case of penguins
+           at level 7, can go by the slopes... But in other cases, not
+           affected by gravity.)
+		Length 19
+		Bytes 13,14 - left border
+		Bytes 15,16 - right border
+		Byte  17    - always FF?
+		Byte  18    - speed? (not clear, like with the next type)
+	10: Spawns from the ground, walks some time, then goes underground again
+		Length 14
+		Bytes 9-12    are used like in type 0
+		Byte  13    - Didn't quite get it. Something like speed limit. (when 
+                              set to 1 enemy always stands still. setting to 2 gives
+                              sometimes_standing_but_sometimes_slowly_moving enemy, 
+                              setting to 10 gives always_slowly_moving enemy, setting
+                              to 150 produces very_fast enemy. Needs further 
+                              investigation)
+	11: That's flying squirrels. They can spawn at several different points, in a range 
+            of about 6 tiles (or maybe 100 pixels) up from x,y position
+   		Length 16
+		Byte  13    - Horizontal speed
+		Byte  14    - starting jump power (like in type 8)
+		Byte  15    - Vertical speed
+	12: That's fast running penguins and cavemans 
+	    Seems, that they are activating, when x,y is about 
+            one screen away. Then they spawn at the edge of a screen. Nasty...
+		Length 15
+		Byte  13    - speed
+		Byte  14    - always FF?
+
+
+	
+	
+
+
+
+Unknown Entries:
+
+Level    768(int) 755(byte) 
+---------------------------
+  1         38       0
+  2         93       0
+  3         93       0
+  4         38       0
+  5         38       0
+  6        113       0
+  7        124       0
+  8         38       0
+  9          3       0
+  A        180       0
+  B         93       0
+  C         93       0
+  D         93       0
+  E          8       0
+  F          0       0
+  G        124       0
+
+
+
+
+
+	That's all for now... several bytes are still not clear. If you can tell me something about them, please do.
+
+Enemies
+	Bear
+	Web
+	Spider
+	Wasp1	
+	Wasp2
+	Apple
+	Worm
+	Slime
+	Dino
+	Caveman
+	Squirrel
+	Caterpillar
+	Bird
+	Turtle
+	Leopard
+	Pterosaur
+	Penguin
+	Bat
+
