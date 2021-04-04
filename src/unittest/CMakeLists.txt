@@ -10,6 +10,7 @@ set(generic_hdr
 
 set(formats_src
         formats/explode/mz/explode_test.cc
+        formats/iff/fourcc_test.cc
         )
 
 set(bsw_src
@@ -18,6 +19,7 @@ set(bsw_src
         bsw/io/base_64_test.cc
         bsw/string_tokenizer_test.cc
         bsw/string_utils_test.cc
+        bsw/string_constant_test.cc
         )
 set (export_src
         export/xml_writer_test.cc

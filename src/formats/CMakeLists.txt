@@ -11,7 +11,12 @@ set (src
         image/picture_loader.cc
         image/stbi_wrapper.cc
         image/pcx.cc
+        image/lbm.cc
         image/thirdparty/lodepng.cpp
+
+        iff/fourcc.cc
+        iff/iff_events.cc
+        iff/ea/ea_events.cc
 
         sound/sound.cc
         )
@@ -24,6 +29,7 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/formats/image/bmp.hh
         ${PROJECT_INCLUDE}/tomb-excavator/formats/image/gif.hh
         ${PROJECT_INCLUDE}/tomb-excavator/formats/image/jpeg.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/image/lbm.hh
         ${PROJECT_INCLUDE}/tomb-excavator/formats/image/pcx.hh
         ${PROJECT_INCLUDE}/tomb-excavator/formats/image/png.hh
         ${PROJECT_INCLUDE}/tomb-excavator/formats/image/psd.hh
@@ -42,12 +48,21 @@ set (hdr
         image/thirdparty/dr_pcx.h
         image/thirdparty/stb_image.h
 
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/fourcc.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/iff_events.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/iff_parser.hh
+
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/ea/ea.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/ea/ea_events.hh
+
         ${PROJECT_INCLUDE}/tomb-excavator/formats/sound/sound.hh
+
+
         )
 
 build_te_library(formats
         SOURCES ${src}
-        HEADERS ${src}
+        HEADERS ${hdr}
         PUBLIC_LINK
             tombexcavator-bsw
             std::filesystem
