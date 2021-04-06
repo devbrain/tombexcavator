@@ -25,6 +25,61 @@
 
 namespace formats::image
 {
+    indexed_color_mapper::indexed_color_mapper(const rgb_palette& pal)
+    : m_pal{pal}
+    {
+
+    }
+    // -----------------------------------------------------------------------------------------------------
+    indexed_color_mapper::indexed_color_mapper(const rgba_palette& pal)
+    : m_pal{pal}
+    {
+
+    }
+    // -----------------------------------------------------------------------------------------------------
+    indexed_color_mapper::indexed_color_mapper(const rgb_palette& pal, uint8_t key_color)
+    : m_pal{pal}, m_key_color(key_color)
+    {
+
+    }
+    // -----------------------------------------------------------------------------------------------------
+    indexed_color_mapper::indexed_color_mapper(const rgba_palette& pal, uint8_t key_color)
+            : m_pal{pal}, m_key_color(key_color)
+    {
+
+    }
+    // -----------------------------------------------------------------------------------------------------
+    rgba indexed_color_mapper::operator[] (uint8_t color) const
+    {
+        rgba res;
+        if (const auto* pal = std::get_if<rgba_palette>(&m_pal))
+        {
+            if (color >= pal->size())
+            {
+                RAISE_EX("Color index out of range");
+            }
+            res = (*pal)[color];
+        }
+        else
+        {
+            const auto& pal_rgb = std::get<rgb_palette>(m_pal);
+            if (color >= pal_rgb.size())
+            {
+                RAISE_EX("Color index out of range");
+            }
+            const rgb& x = pal_rgb[color];
+            res.r = x.r;
+            res.g = x.g;
+            res.b = x.b;
+            res.a = 0xFF;
+        }
+        if (m_key_color && color == *m_key_color)
+        {
+            res.a = 0x00;
+        }
+        return res;
+    }
+    // ===========================================================================================
     picture::picture(unsigned w, unsigned h, bool is_rgba)
     : width(w),
     height(h),
@@ -48,6 +103,21 @@ namespace formats::image
         {
             pixels[idx+3] = a;
         }
+    }
+    // -------------------------------------------------------------------------------------------
+    void picture::put(unsigned x, unsigned y, uint8_t color, const indexed_color_mapper& mapper)
+    {
+        put(x, y, mapper[color]);
+    }
+    // -------------------------------------------------------------------------------------------
+    void picture::put(unsigned x, unsigned y, const rgb& color)
+    {
+        put (x, y, color.r, color.g, color.b, 0xFF);
+    }
+    // -------------------------------------------------------------------------------------------
+    void picture::put(unsigned x, unsigned y, const rgba& color)
+    {
+        put (x, y, color.r, color.g, color.b, color.a);
     }
     // =================================================================================================
     bool save_to_png(const picture& pic, const std::filesystem::path& path)

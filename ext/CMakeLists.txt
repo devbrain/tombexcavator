@@ -21,6 +21,7 @@ add_subdirectory(yasm)
 add_subdirectory(libogg)
 add_subdirectory(libvorbis)
 add_subdirectory(libopus)
+add_subdirectory(pfr)
 #add_subdirectory(libaom)
 
 if (WIN32)

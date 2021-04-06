@@ -45,9 +45,12 @@ namespace
     constexpr auto CMAP = formats::iff::fourcc("CMAP");
     constexpr auto BODY = formats::iff::fourcc("BODY");
     // ===========================================================================================================
+
     class lbm_parser : public formats::iff::ea_events
     {
     private:
+        void on_form_start(formats::iff::chunk_type name) {};
+        void on_form_end(formats::iff::chunk_type name) {};
         void on_chunk(std::istream& is, formats::iff::chunk_type type, [[maybe_unused]] uint64_t offset, std::size_t size) override
         {
             if (type == BMHD)
@@ -105,7 +108,11 @@ namespace formats::image
     bool is_lbm(const char* input, std::size_t input_length)
     {
         using namespace formats::iff;
-        ea_tester tester({fourcc("ILBM"), fourcc("PBM ")});
+        ea_tester tester({
+            fourcc("ILBM"),
+            fourcc("PBM "),
+            fourcc("ACBM")
+        });
         bsw::io::memory_input_stream istream(input, input_length);
         iff_parser<ea_iff>(istream, &tester);
         return tester.valid();

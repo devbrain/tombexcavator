@@ -12,7 +12,16 @@ set (src
         image/stbi_wrapper.cc
         image/pcx.cc
         image/lbm.cc
+
+        image/amiga/amiga_image.cc
+        image/amiga/amiga_utils.cc
+        image/amiga/amiga_palette.cc
+        image/amiga/amiga_viewport.cc
+
         image/thirdparty/lodepng.cpp
+        image/thirdparty/libamivideo/palette.c
+        image/thirdparty/libamivideo/screen.c
+        image/thirdparty/libamivideo/viewportmode.c
 
         iff/fourcc.cc
         iff/iff_events.cc
@@ -47,6 +56,16 @@ set (hdr
         image/thirdparty/lodepng.h
         image/thirdparty/dr_pcx.h
         image/thirdparty/stb_image.h
+
+        image/thirdparty/libamivideo/palette.h
+        image/thirdparty/libamivideo/screen.h
+        image/thirdparty/libamivideo/viewportmode.h
+        image/thirdparty/libamivideo/amivideotypes.h
+
+        image/amiga/amiga_utils.hh
+        image/amiga/amiga_image.hh
+        image/amiga/amiga_palette.hh
+        image/amiga/amiga_viewport.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/fourcc.hh
         ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/iff_events.hh

@@ -1,0 +1,254 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+local float size;
+local uint pos, line, i, z;
+
+typedef enum <char> {
+  PAL,
+  SURF,
+  DATA
+} IDENTIFIER;
+
+struct {
+  char Magic[4];
+  UINT Size <name="File size">;
+} FILE_HEADER;
+
+struct {
+  char Name[8];
+  UINT Size0;
+  UINT Unknown;
+  UINT Unknown;
+  UINT Unknown;
+  UINT Size;
+  UINT16 Type0;
+  UINT16 Unknown;
+  UINT16 SpriteCount; // 1 - texture atlas, >1 multiple sprites
+  UINT16 Width;
+  UINT16 Height;
+  if (Size0 == 38)
+  {
+    UINT Unknown;
+    UINT Unknown;
+    UINT Unknown; 
+  };   
+} VID_HEADER;
+
+typedef struct {
+  UBYTE R;
+  UBYTE G;
+  UBYTE B;
+} PALETTE24;
+
+typedef struct {
+  UBYTE R;
+  UBYTE G;
+  UBYTE B;
+  UBYTE A;
+} PALETTE32;
+
+typedef struct {
+  UBYTE A;
+  UBYTE B;
+  if (B > 10) fgjdfj(0);
+} RGB;
+
+BitfieldDisablePadding();
+typedef struct {
+  UBYTE R: 5;
+  UBYTE G: 6;
+  UBYTE B: 5;
+} RGB16;
+
+
+while (!FEof())
+{  
+  struct {
+    IDENTIFIER id[4];
+  } INDENTIFIER;
+  switch (INDENTIFIER.id)
+  {
+    case "PAL ":
+      struct {
+        UINT Size;
+        UINT Unknown;
+        UINT Unknown;
+        UINT Count;
+        UINT PaletteSize;
+      } PAL_HEADER;
+      if (PAL_HEADER.PaletteSize == 768)
+        PALETTE24 Palette[256];
+      else
+        PALETTE32 Palette[256];    
+    break;  
+  
+    case "SURF":
+      struct {
+        UINT Size;
+        UINT Unknown;
+        UINT Unknown;
+        UINT Count1;
+        UINT Size;
+        UINT16 Count2;
+      } SURF_HEADER;
+      typedef struct {
+        UINT16 Width;
+        UINT16 Height;
+        UINT Size;
+        size = 23*Width*Height/23;
+        RGB16 Data1[size];
+        if (VID_HEADER.SpriteCount == 1 && SURF_HEADER.Count2 > 1)
+        {
+          UINT Size;
+          RGB Data2[size];
+        };
+      } SURF_IMAGE_DATA <name="Image data">;
+      typedef struct (int arraySize) {
+        SURF_IMAGE_DATA array[arraySize] <optimize=false>;
+      } SURF_IMAGES; 
+      if (SURF_HEADER.Count2 > 1 && VID_HEADER.SpriteCount == 1)     
+        SURF_IMAGES SurfImages(SURF_HEADER.Count2/2);
+      else
+        SURF_IMAGES SurfImages(SURF_HEADER.Count2); 
+    break;
+
+    default: 
+      struct {
+        UINT Size;
+        UINT Unknown;
+        UINT Unknown;
+        UINT Count;
+      } DATA_HEADER;
+
+      typedef struct {
+        UINT Size0;
+        if ((VID_HEADER.SpriteCount == 1) || (exists(PAL_HEADER)))
+          UINT Size01;   
+
+        if (Size0 == 6)
+          UINT16 Empty;
+        else
+        if (exists(PAL_HEADER))
+        {
+          pos = 0;
+          line = 0;
+
+          UINT16 dcount;
+          if (dcount > 0)
+            struct {
+              UINT16 U[dcount*3];
+            } UNKNOWN_DATA; 
+
+          UINT16 YOffset;
+          UINT16 SpriteHeight;
+
+          struct {
+            while (line < SpriteHeight)
+            {
+              struct {
+                UBYTE XOffset;
+                UBYTE Count;
+
+                if (XOffset == 0 && Count == 0)
+                    break;
+
+                if (XOffset >= 0)
+                {
+                  do
+                  {
+                    if (Count > 0)
+                    {
+                      if (VID_HEADER.Type0 == 13 || VID_HEADER.Type0 == 29)
+                      struct {
+                        for (z = 0; z < Count ;++z)
+                          UINT16 Z;
+                      } ZBUFFER_DATA; 
+                      struct { 
+                        for (z = 0; z < Count ;++z)
+                          UBYTE Data;
+                      } RAW_DATA;
+                      pos += Count;
+                    }
+
+                    UBYTE XOffset;
+                    UBYTE Count;
+
+                  } while (XOffset > 0);
+                };
+              } LINE;
+              line += 1;
+            }              
+          } DATA;
+        } 
+        else
+        {  
+          if (VID_HEADER.SpriteCount > 1)
+          {
+            struct { 
+              //FSkip(-4);
+              struct {             
+                UINT16 Unknown;
+                UINT16 Unknown;
+                UINT Unknown;
+                UINT Unknown;
+                UINT Unknown;
+                UINT Unknown;
+                UINT Unknown;
+                UINT Unknown;
+                UINT Unknown;
+                UINT Unknown;
+              } SPRITE_PARAMS[VID_HEADER.SpriteCount];
+            } DATA;
+          }
+          else
+          {
+            line = 0;
+            pos = 0;
+            UINT16 Unknown;
+            UINT16 YOffset;
+            UINT16 LineCount;
+            struct {  
+              while (line < LineCount)
+              {
+                UBYTE Offset;
+                UBYTE Count;
+                pos += 2;
+
+                if (Count > 0)
+                { 
+                  struct {
+                    BYTE Data[Count*2];
+                  } RawData;
+                  pos += Count*2;
+                };
+ 
+                if (Offset == 0 && Count == 0)
+                {
+                    line += 1;
+                };                   
+              };
+            } DATA;
+
+          } 
+        };
+             
+      } IMAGE_DATA <name="Image data">;
+
+      typedef struct (int arraySize) {
+         IMAGE_DATA array[arraySize] <optimize=false>;
+      } IMAGES;    
+   
+      IMAGES Images(DATA_HEADER.Count);   
+  }
+}
