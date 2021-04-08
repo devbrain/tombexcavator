@@ -38,6 +38,7 @@ namespace formats::iff
         [[nodiscard]] bool valid() const;
     private:
         bool on_start_group(std::istream& is, chunk_type type, uint64_t offset, std::size_t size) override;
+        void on_end_group(chunk_type type) override;
         void on_chunk(std::istream& is, chunk_type type, uint64_t offset, std::size_t size) override;
     private:
         bool m_valid;

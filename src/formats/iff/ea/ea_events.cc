@@ -120,6 +120,11 @@ namespace formats::iff
         return false;
     }
     // -------------------------------------------------------------------------------------------------
+    void ea_tester::on_end_group([[maybe_unused]] chunk_type type)
+    {
+
+    }
+    // -------------------------------------------------------------------------------------------------
     void ea_tester::on_chunk([[maybe_unused]] std::istream& is, [[maybe_unused]] chunk_type type,
                              [[maybe_unused]] uint64_t offset, [[maybe_unused]] std::size_t size)
     {

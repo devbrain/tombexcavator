@@ -14,9 +14,7 @@ set (src
         image/lbm.cc
 
         image/amiga/amiga_image.cc
-        image/amiga/amiga_utils.cc
-        image/amiga/amiga_palette.cc
-        image/amiga/amiga_viewport.cc
+        image/amiga/amiga_chunks.cc
 
         image/thirdparty/lodepng.cpp
         image/thirdparty/libamivideo/palette.c
@@ -62,10 +60,8 @@ set (hdr
         image/thirdparty/libamivideo/viewportmode.h
         image/thirdparty/libamivideo/amivideotypes.h
 
-        image/amiga/amiga_utils.hh
         image/amiga/amiga_image.hh
-        image/amiga/amiga_palette.hh
-        image/amiga/amiga_viewport.hh
+        image/amiga/amiga_chunks.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/fourcc.hh
         ${PROJECT_INCLUDE}/tomb-excavator/formats/iff/iff_events.hh

@@ -3,37 +3,9 @@
 //
 
 #include <tomb-excavator/games/common/loaders/archive_loader.hh>
-
+#include <tomb-excavator/bsw/override.hh>
 namespace games::common
 {
-    namespace detail
-    {
-
-        template<class T>
-        struct override_helper { using type=T; };
-
-        template<class T>
-        using override_helper_t = typename override_helper<T>::type;
-
-        template<class R, class...Args>
-        struct override_helper<R(*)(Args...)> {
-            struct type {
-                R(*f)(Args...);
-                R operator()(Args...args)const { return f(std::forward<Args>(args)...); }
-                type(R(*in)(Args...)):f(in) {}
-            };
-        };
-        template<class R, class...Args>
-        struct override_helper<R(&)(Args...)>:override_helper<R(*)(Args...)> {
-            using override_helper<R(*)(Args...)>::override_helper;
-        };
-
-        template<class...Fs>
-        struct overload:override_helper_t<Fs>... {
-            using override_helper_t<Fs>::operator()...;
-            overload(Fs...fs):override_helper_t<Fs>(std::move(fs))... {}
-        };
-    } // ns detail
     // ======================================================================================================
     archive_loader::archive_loader(std::string physical_name, std::unique_ptr<archive_entry_loaders_registry> loaders)
     : base_archive_data_loader(std::move(physical_name), std::move(loaders))
@@ -51,7 +23,7 @@ namespace games::common
             {
                 break;
             }
-            std::visit(detail::overload(
+            std::visit(bsw::overload(
                     [&builder, this](const fat_file_event& e)
                     {
                         auto file_md = loaders().get_file_metadata(e.name);

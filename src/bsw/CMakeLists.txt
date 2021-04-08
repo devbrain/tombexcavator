@@ -20,6 +20,7 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/ascii.hh
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/string_utils.hh
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/string_constant.hh
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/override.hh
 
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/io/unbuffered_stream_buf.hh
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/io/buffered_stream_buf.hh
