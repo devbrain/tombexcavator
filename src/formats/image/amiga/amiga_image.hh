@@ -54,7 +54,7 @@ namespace formats::image::amiga
         std::vector<uint8_t> body;
 
         void update(formats::iff::chunk_type chunk_type, std::istream& is, std::size_t size);
-        void convert(formats::image::picture& out);
+        bool convert(formats::image::picture& out);
     };
 
 }

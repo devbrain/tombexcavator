@@ -74,8 +74,7 @@ namespace formats::image
         {
             return false;
         }
-        parser.m_images.front().convert(out);
-        return true;
+        return parser.m_images.front().convert(out);
     }
     // =====================================================================================================
     struct register_lbm

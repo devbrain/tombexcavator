@@ -19,10 +19,12 @@ namespace formats::image
     // ----------------------------------------------------------------------------------------
     bool picture_loader::load(const char* input, std::size_t input_length, picture& out) const
     {
+        int i=0;
         for (auto& [tester, loader] : registry)
         {
             if (tester(input, input_length))
             {
+                i++;
                 return loader(input, input_length, out);
             }
         }

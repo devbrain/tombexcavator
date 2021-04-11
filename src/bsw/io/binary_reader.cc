@@ -84,12 +84,7 @@ namespace bsw::io
         {
             if (m_flip_bytes)
             { value = (long)byte_order::flip_bytes((int64_t) value); }
-        } else
-        {
-            if (m_flip_bytes)
-            { value = (long)byte_order::flip_bytes((int32_t) value); }
         }
-
         return *this;
     }
 

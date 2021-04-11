@@ -34,14 +34,18 @@ namespace formats::amiga
     {
         bsw::io::binary_reader reader(is, bsw::io::binary_reader::BIG_ENDIAN_BYTE_ORDER);
         auto current = static_cast<std::size_t>(is.tellg());
-        auto start = current;
+
         cmap r;
-        while (current + 3 < start + size)
+        std::size_t has_bytes = 0;
+        while (has_bytes + 3 <= size)
         {
+
             cmap_entry e {0, 0, 0};
             reader >> e.Red >> e.Green >> e.Blue;
+            has_bytes += 3;
+
             r.colors.push_back(e);
-            current = static_cast<std::size_t>(is.tellg());
+
         }
         return r;
     }

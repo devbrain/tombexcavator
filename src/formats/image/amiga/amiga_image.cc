@@ -5,7 +5,6 @@
 #include "amiga_image.hh"
 #include <tomb-excavator/bsw/exceptions.hh>
 #include <tomb-excavator/bsw/override.hh>
-#include <tomb-excavator/tombexcavator_configure.h>
 #include "formats/image/amiga/amiga_chunks.hh"
 
 
@@ -18,6 +17,18 @@ extern "C"
 }
 
 #include <cstring>
+
+#include <stdio.h>
+static void dump(const char* fname, const char* data, int size)
+{
+    FILE* f = fopen(fname, "w");
+    for (int i=0; i<size; i++)
+    {
+        fprintf(f, "%d %d\n", i, ((int)data[i])&0xFF);
+    }
+    fclose(f);
+}
+
 
 using ILBM_Image = formats::image::amiga::image;
 bool ILBM_imageIsILBM(const ILBM_Image* image)
@@ -145,7 +156,7 @@ void ILBM_unpackByteRun(ILBM_Image* image)
 
         while (readBytes < body.size())
         {
-            int byte = (int8_t) body[readBytes];
+            int byte = (char) body[readBytes];
             readBytes++;
 
             if (byte >= 0 && byte <= 127) /* Take the next byte bytes + 1 literally */
@@ -174,7 +185,9 @@ void ILBM_unpackByteRun(ILBM_Image* image)
                         count++;
                     }
                 } else
-                    RAISE_EX("Unknown byte run encoding byte!");
+                {
+                   RAISE_EX("Unknown byte run encoding byte!");
+                }
             }
         }
 
@@ -182,7 +195,6 @@ void ILBM_unpackByteRun(ILBM_Image* image)
 
         std::swap(image->body, decompressedChunkData);
 
-        image->compression = formats::image::amiga::compression_type::NONE;
     }
 }
 
@@ -234,8 +246,9 @@ void ILBM_deinterleave(ILBM_Image* image)
     ILBM_deinterleaveToBitplaneMemory(image, bitplanePointers);
 
     /* Return result */
-
+    dump("body-r.txt", (char*)result.data(), result.size());
     std::swap(image->body, result);
+    dump("body-t.txt", (char*)image->body.data(), image->body.size());
 }
 
 void SDL_ILBM_attachImageToScreen(ILBM_Image* image, amiVideo_Screen* screen)
@@ -281,10 +294,10 @@ static constexpr uint32_t Gmask = 0x0000FF00;
 static constexpr uint32_t Bmask = 0x000000FF;
 static constexpr uint32_t Amask = 0xFF000000;
 
-int eval_mask(uint32_t xmask)
+int eval_mask(uint32_t xmask) noexcept
 {
     int shift = 0;
-    for (uint32_t mask = xmask; !(mask & 0x01); mask >>= 1)
+    for (uint32_t mask = xmask; !(mask & 0x01u); mask >>= 1u)
     {
         ++shift;
     }
@@ -307,10 +320,10 @@ struct Surface
     {
         if (depth == 8)
         {
-            pixels.resize(w * h);
+            pixels.resize(w * h, 0);
         } else
         {
-            pixels.resize(w * h * sizeof(uint32_t));
+            pixels.resize(w * h * sizeof(uint32_t), 0);
         }
     }
 
@@ -428,9 +441,6 @@ void SDL_ILBM_renderUncorrectedRGBImage(const ILBM_Image* image, amiVideo_Screen
 
 static Surface* createSurfaceFromScreen(amiVideo_Screen* screen, ILBM_Image* image)
 {
-    /* Attach the image to screen conversion pipeline */
-    SDL_ILBM_attachImageToScreen(image, screen);
-
     auto realFormat = amiVideo_autoSelectColorFormat(screen);
 
     /* Create and render the surface */
@@ -444,7 +454,6 @@ static Surface* createSurfaceFromScreen(amiVideo_Screen* screen, ILBM_Image* ima
         surface = SDL_ILBM_createUncorrectedRGBSurfaceFromScreen(screen, image);
         SDL_ILBM_renderUncorrectedRGBImage(image, screen);
     }
-
     return surface;
 }
 
@@ -455,14 +464,22 @@ namespace formats::image::amiga
 #define ILBM_MSK_HAS_TRANSPARENT_COLOR 2
 #define ILBM_MSK_LASSO  3
     // ============================================================================================================
-    void image::convert(formats::image::picture& out)
+    bool image::convert(formats::image::picture& out)
     {
+        bool rc = false;
         amiVideo_Screen screen;
-        SDL_ILBM_attachImageToScreen(this, &screen);
-        Surface* surface = createSurfaceFromScreen(&screen, this);
-        out = surface->convert();
-        delete surface;
+        try
+        {
+            SDL_ILBM_attachImageToScreen(this, &screen);
+            std::unique_ptr<Surface> surface(createSurfaceFromScreen(&screen, this));
+            out = surface->convert();
+            rc = true;
+        }
+        catch (std::exception&)
+        {
+        }
         amiVideo_cleanupScreen(&screen);
+        return rc;
     }
     // ============================================================================================================
     void image::update(formats::iff::chunk_type chunk_type, std::istream& is, std::size_t size)
@@ -508,7 +525,7 @@ namespace formats::image::amiga
                            // --------------------------------------------------------
                 [this](const cmap& e) {
                     colors.resize(e.colors.size());
-                    std::memcpy(colors.data(), e.colors.data(), e.colors.size());
+                    std::memcpy(colors.data(), e.colors.data(), e.colors.size()*sizeof(cmap::cmap_entry));
                 },
                            // --------------------------------------------------------
                 [this](const formats::amiga::body& e) {
