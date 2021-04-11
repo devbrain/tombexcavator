@@ -71,7 +71,7 @@ std::string emc::load(std::istream& is,
         auto [offset, size] = *order_inf;
         if (size % 2 == 1)
         {
-            RAISE_EX("Offsets count should be even");
+            RAISE_EX("Offsets size should be even");
         }
         size = size / 2;
         bsw::io::binary_reader rdr (is, bsw::io::binary_reader::BIG_ENDIAN_BYTE_ORDER);
