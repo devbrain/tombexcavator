@@ -16,6 +16,7 @@ namespace games::westwood
         westwood_entry_loader ();
 
         static common::archive_entry_loader::name_acceptor_t by_ext(const std::string& ext);
+        static common::archive_entry_loader::name_acceptor_t by_name(const std::string& name);
     };
 
 }

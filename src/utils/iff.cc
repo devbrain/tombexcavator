@@ -58,5 +58,9 @@ int main(int argc, char* argv[])
 {
     std::ifstream ifs("/home/igor/proj/ares/libiff/samples/TP_SEX.LBM", std::ios::in | std::ios::binary);
     formats::iff::tester ev;
-    formats::iff::iff_parser<formats::iff::ea_iff>(ifs, &ev);
+    auto current = ifs.tellg();
+    ifs.seekg(0, std::ios::end);
+    const uint64_t file_size = ifs.tellg();
+    ifs.seekg(current, std::ios::beg);
+    formats::iff::iff_parser<formats::iff::ea_iff>(ifs, &ev, file_size);
 }

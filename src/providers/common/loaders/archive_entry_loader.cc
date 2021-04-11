@@ -61,6 +61,23 @@ namespace games::common
         return std::nullopt;
     }
     // ----------------------------------------------------------------------------------------------------------------
+    struct offset_guard
+    {
+        explicit offset_guard(std::istream& is)
+        : m_is(is)
+        {
+            m_offset = is.tellg();
+        }
+
+        ~offset_guard()
+        {
+            m_is.seekg(m_offset, std::ios::beg);
+        }
+
+        std::istream& m_is;
+        uint64_t m_offset;
+    };
+    // ----------------------------------------------------------------------------------------------------------------
     provider::file_content_t archive_entry_loaders_registry::read(std::istream& is, const fat_entry::file_info& fi,
                                                                   const fat_entry::props_map_t& props) const
     {
@@ -68,6 +85,7 @@ namespace games::common
         {
             RAISE_EX("Invalid internal type");
         }
+        offset_guard guard(is);
         return m_loaders[fi.internal_type].read(is, fi.offset, fi.size, props);
     }
     // ===============================================================================================================
@@ -76,11 +94,8 @@ namespace games::common
                                      std::size_t size)
     {
         std::vector<char> out(size);
-
-        const auto current = is.tellg();
         is.seekg(offset, std::ios::beg);
         is.read(out.data(), out.size());
-        is.seekg(current, std::ios::beg);
         return out;
     }
     // --------------------------------------------------------------------------------------------------------------

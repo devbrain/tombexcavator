@@ -78,40 +78,7 @@ namespace formats::amiga
         std::vector<uint8_t> data;
     };
 
-    namespace detail
-    {
 
-        template<int I, typename ... Chunks>
-        std::variant<std::monostate, Chunks...> parse_chunk_helper ([[maybe_unused]] formats::iff::chunk_type type,
-                                                                    [[maybe_unused]] std::istream& is,
-                                                                    [[maybe_unused]] std::size_t size)
-        {
-            if constexpr (I == sizeof...(Chunks))
-            {
-                return std::monostate{};
-            }
-            else
-            {
-                using chunk_t = typename std::tuple_element<I, std::tuple<Chunks...>>::type;
-                if (chunk_t::CHUNK_ID == type)
-                {
-                    return chunk_t::read(is, size);
-                }
-                else
-                {
-                    return parse_chunk_helper<I+1, Chunks...>(type, is, size);
-                }
-            }
-        }
-    }
-
-    template<typename ... Chunks>
-    std::variant<std::monostate, Chunks...> parse_chunk (formats::iff::chunk_type type,
-                                                         std::istream& is,
-                                                         std::size_t size)
-    {
-        return detail::parse_chunk_helper<0, Chunks...>(type, is, size);
-    }
 }
 
 #endif //TOMBEXCAVATOR_AMIGA_CHUNKS_HH

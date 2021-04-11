@@ -22,7 +22,10 @@ namespace formats::iff
             static constexpr auto CAT  = fourcc("CAT ");
             return (type == FORM || type == LIST || type == CAT);
         }
-
+        static std::size_t correct_size(std::size_t chunk_size)
+        {
+            return chunk_size;
+        }
         static std::size_t size_with_padding(std::size_t chunk_size)
         {
             if (chunk_size % 2)

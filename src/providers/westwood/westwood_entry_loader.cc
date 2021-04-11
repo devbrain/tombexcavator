@@ -32,4 +32,12 @@ namespace games::westwood
             return (lname.substr(idx) == ext);
         };
     }
+    // ---------------------------------------------------------------------------------------------------
+    common::archive_entry_loader::name_acceptor_t westwood_entry_loader::by_name(const std::string& name)
+    {
+        return [name](const std::string& nm) {
+            auto lname = bsw::to_lower(nm);
+            return (lname == name);
+        };
+    }
 }

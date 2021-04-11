@@ -60,7 +60,7 @@ namespace formats::image
             ACBM
         });
         bsw::io::memory_input_stream istream(input, input_length);
-        iff_parser<ea_iff>(istream, &tester);
+        iff_parser<ea_iff>(istream, &tester, input_length);
         return tester.valid();
     }
     // ------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ namespace formats::image
         using namespace formats::iff;
         bsw::io::memory_input_stream istream(input, input_length);
         lbm_parser parser;
-        iff_parser<ea_iff>(istream, &parser);
+        iff_parser<ea_iff>(istream, &parser, input_length);
         if (parser.m_images.empty())
         {
             return false;

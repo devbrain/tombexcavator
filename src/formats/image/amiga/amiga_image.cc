@@ -3,9 +3,11 @@
 //
 
 #include "amiga_image.hh"
+#include <tomb-excavator/formats/iff/iff_events.hh>
 #include <tomb-excavator/bsw/exceptions.hh>
 #include <tomb-excavator/bsw/override.hh>
 #include "formats/image/amiga/amiga_chunks.hh"
+
 
 
 extern "C"
@@ -17,18 +19,6 @@ extern "C"
 }
 
 #include <cstring>
-
-#include <stdio.h>
-static void dump(const char* fname, const char* data, int size)
-{
-    FILE* f = fopen(fname, "w");
-    for (int i=0; i<size; i++)
-    {
-        fprintf(f, "%d %d\n", i, ((int)data[i])&0xFF);
-    }
-    fclose(f);
-}
-
 
 using ILBM_Image = formats::image::amiga::image;
 bool ILBM_imageIsILBM(const ILBM_Image* image)
@@ -246,9 +236,9 @@ void ILBM_deinterleave(ILBM_Image* image)
     ILBM_deinterleaveToBitplaneMemory(image, bitplanePointers);
 
     /* Return result */
-    dump("body-r.txt", (char*)result.data(), result.size());
+
     std::swap(image->body, result);
-    dump("body-t.txt", (char*)image->body.data(), image->body.size());
+
 }
 
 void SDL_ILBM_attachImageToScreen(ILBM_Image* image, amiVideo_Screen* screen)
@@ -537,7 +527,7 @@ namespace formats::image::amiga
                            // --------------------------------------------------------
                 [](const std::monostate&) {}
                    ),
-                   parse_chunk<bmhd, vport, cmap, formats::amiga::body, bitplanes>(chunk_type, is, size));
+                   formats::iff::parse_chunk<bmhd, vport, cmap, formats::amiga::body, bitplanes>(chunk_type, is, size));
     }
     // ========================================================================================================
     image::image(image_type t)
