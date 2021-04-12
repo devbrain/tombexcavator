@@ -57,9 +57,9 @@ constexpr int LEVEL_TYPE = 0;
 static std::string level_as_string ([[maybe_unused]] std::istream& is,
                                                  uint64_t offset,
                                                  [[maybe_unused]] std::size_t size,
-                                                 const games::common::base_archive_data_loader::fat_entry_t::fat_entry::props_map_t& props)
+                                                 const games::common::loader_context_t& ctx)
 {
-
+    const auto& [props, deps] = ctx;
     auto exe_reader = props.get<bsw::io::binary_reader*>(PROPS_IO);
     auto rows = props.get<int>(PROPS_ROWS);
 

@@ -12,7 +12,9 @@ class dune2_pak_reader : public games::westwood::pak_loader
 public:
     explicit dune2_pak_reader(std::string phys_name);
 private:
-
+    void setup_loader_context(const std::string& entry_name,
+                              fat_entry_t::props_map_t& props,
+                              fat_entry_t::dependencies_t& deps)  override;
 };
 
 

@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <map>
+#include <set>
 #include <any>
 #include <vector>
 #include <memory>
@@ -30,10 +31,11 @@ namespace games::common
             using key_t = Key;
             using props_map_t = std::map<Key, std::any>;
             using init_list = std::initializer_list<typename props_map_t::value_type>;
+            using map_keys_t = std::set<key_t>;
         public:
             props_map() = default;
 
-            explicit props_map(init_list ilist);
+            props_map(init_list ilist);
 
             template <typename T>
             void put(Key key, const T& value);
@@ -46,7 +48,6 @@ namespace games::common
             template<typename T>
             [[nodiscard]] bool has_type(Key key) const;
         private:
-
             props_map_t m_props;
         };
     } // ns detail
@@ -71,28 +72,37 @@ namespace games::common
         };
 
         using props_map_t = detail::props_map<int>;
+        using dependencies_t = props_map_t::map_keys_t;
     public:
         fat_entry(std::string  name, file_info fileinfo);
         fat_entry(std::string  name, dir_info dirinfo);
         fat_entry(std::string  name, file_info fileinfo, props_map_t props);
+        fat_entry(std::string  name, file_info fileinfo, props_map_t props, dependencies_t deps);
         fat_entry(std::string  name, dir_info dirinfo, props_map_t props);
 
         [[nodiscard]] std::string name() const noexcept;
         [[nodiscard]] bool is_directory() const noexcept;
         [[nodiscard]] dir_info get_dir_info() const;
         [[nodiscard]] file_info get_file_info() const;
-        [[nodiscard]] const props_map_t& get_props() const;
+        [[nodiscard]] const props_map_t& get_props() const noexcept;
+        [[nodiscard]] const dependencies_t& get_deps() const noexcept;
     private:
         std::string m_name;
         std::variant<dir_info, file_info> m_info;
         props_map_t m_props;
+        dependencies_t m_deps;
     };
+
+    using loaded_deps_t = std::map<fat_entry::props_map_t::key_t, std::shared_ptr<provider::file_content_t>>;
+    using loader_context_t = std::tuple<fat_entry::props_map_t, loaded_deps_t>;
 
     struct GAMES_COMMON_API fat_events
     {
         virtual ~fat_events();
 
         virtual void add_file(std::string name, fat_entry::file_info fi, fat_entry::props_map_t props) = 0;
+        virtual void add_file(std::string name, fat_entry::file_info fi,
+                              fat_entry::props_map_t props, fat_entry::dependencies_t deps) = 0;
         virtual void add_file(std::string name, fat_entry::file_info fi) = 0;
 
         virtual void start_dir(std::string name, fat_entry::props_map_t props) = 0;
@@ -110,6 +120,8 @@ namespace games::common
         fat_builder& operator = (const fat_builder&) = delete;
 
         void add_file(std::string name, fat_entry::file_info fi, fat_entry::props_map_t props) override;
+        void add_file(std::string name, fat_entry::file_info fi,
+                              fat_entry::props_map_t props, fat_entry::dependencies_t deps) override;
         void add_file(std::string name, fat_entry::file_info fi) override;
 
         void start_dir(std::string name, fat_entry::props_map_t props) override;
@@ -117,7 +129,7 @@ namespace games::common
         void end_dir() override;
 
         // fat array, size of root dir
-        std::tuple<std::vector<fat_entry>, std::size_t> build() const;
+        [[nodiscard]] std::tuple<std::vector<fat_entry>, std::size_t> build() const;
     private:
         struct impl;
         std::unique_ptr<impl> m_pimpl;

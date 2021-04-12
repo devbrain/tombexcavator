@@ -7,7 +7,6 @@
 
 #include <tomb-excavator/games/common/loaders/base_archive_loader.hh>
 #include <variant>
-#include <optional>
 #include <cstdint>
 #include <tuple>
 
@@ -24,13 +23,14 @@ namespace games::common
             std::string name;
             std::size_t size;
             uint64_t    offset; // absolute offset
-            std::optional<fat_entry_t::props_map_t> props;
+            fat_entry_t::props_map_t props;
+            fat_entry::dependencies_t deps;
         };
 
         struct fat_dir_start_event
         {
             std::string name;
-            std::optional<fat_entry_t::props_map_t> props;
+            fat_entry_t::props_map_t props;
         };
 
         struct fat_dir_end_event { };

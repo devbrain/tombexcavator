@@ -18,6 +18,8 @@ namespace games::westwood
     {
     public:
         pak_loader(std::string phys_name, std::initializer_list<common::archive_entry_loader> loaders);
+    protected:
+        virtual void setup_loader_context(const std::string& entry_name, fat_entry_t::props_map_t& props, fat_entry_t::dependencies_t& deps) = 0;
     private:
         [[nodiscard]] std::optional<fat_event_t> read_next_entry(std::istream& is) override;
         void read_header(std::istream& is) override;

@@ -31,6 +31,15 @@ namespace games::common
 
     }
     // ------------------------------------------------------------------------------------------------------------
+    fat_entry::fat_entry(std::string  name, file_info fileinfo, props_map_t props, dependencies_t deps)
+            : m_name(std::move(name)),
+              m_info(fileinfo),
+              m_props(std::move(props)),
+              m_deps(std::move(deps))
+    {
+
+    }
+    // ------------------------------------------------------------------------------------------------------------
     fat_entry::fat_entry(std::string  name, dir_info dirinfo, props_map_t props)
             : m_name(std::move(name)),
               m_info(dirinfo),
@@ -59,14 +68,19 @@ namespace games::common
         return std::get<file_info>(m_info);
     }
     // ------------------------------------------------------------------------------------------------------------
-    const fat_entry::props_map_t& fat_entry::get_props() const
+    const fat_entry::props_map_t& fat_entry::get_props() const noexcept
     {
         return m_props;
+    }
+    // ------------------------------------------------------------------------------------------------------------
+    const fat_entry::dependencies_t& fat_entry::get_deps() const noexcept
+    {
+        return m_deps;
     }
     // ============================================================================================================
     struct directory;
     using dirent_t = std::tuple<std::string, fat_entry::props_map_t, directory*>;
-    using file_t = std::tuple<std::string, fat_entry::props_map_t, fat_entry::file_info>;
+    using file_t = std::tuple<std::string, fat_entry::props_map_t, fat_entry::file_info, fat_entry::dependencies_t>;
     constexpr std::size_t BAD_INDEX = std::numeric_limits<std::size_t>::max();
     struct directory
     {
@@ -100,8 +114,8 @@ namespace games::common
                 }
                 else
                 {
-                    const auto&[name, props, fi] = *std::get_if<file_t>(&e);
-                    out.emplace_back(name, fi, props);
+                    const auto&[name, props, fi, deps] = *std::get_if<file_t>(&e);
+                    out.emplace_back(name, fi, props, deps);
                 }
             }
             return adj;
@@ -140,7 +154,14 @@ namespace games::common
     // ------------------------------------------------------------------------------------------------------------
     void fat_builder::add_file(std::string name, fat_entry::file_info fi, fat_entry::props_map_t props)
     {
-        m_pimpl->current->entries.emplace_back(std::make_tuple(std::move(name), std::move(props), fi));
+        fat_entry::dependencies_t deps;
+        m_pimpl->current->entries.emplace_back(std::make_tuple(std::move(name), std::move(props), fi, std::move(deps)));
+    }
+    // ------------------------------------------------------------------------------------------------------------
+    void fat_builder::add_file(std::string name, fat_entry::file_info fi,
+                               fat_entry::props_map_t props, fat_entry::dependencies_t deps)
+    {
+        m_pimpl->current->entries.emplace_back(std::make_tuple(std::move(name), std::move(props), fi, std::move(deps)));
     }
     // ------------------------------------------------------------------------------------------------------------
     void fat_builder::start_dir(std::string name, fat_entry::props_map_t props)

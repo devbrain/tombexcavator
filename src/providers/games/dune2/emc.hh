@@ -21,14 +21,13 @@ struct emc
     static games::common::archive_entry_loader::name_acceptor_t accept_unit();
 
     static std::string load_team(std::istream& is,
-                            uint64_t offs, std::size_t size,
-                            const games::common::fat_entry::props_map_t& props);
+                            uint64_t offs, std::size_t size);
+
     static std::string load_build(std::istream& is,
-                                 uint64_t offs, std::size_t size,
-                                 const games::common::fat_entry::props_map_t& props);
+                                 uint64_t offs, std::size_t size);
+
     static std::string load_unit(std::istream& is,
-                                 uint64_t offs, std::size_t size,
-                                 const games::common::fat_entry::props_map_t& props);
+                                 uint64_t offs, std::size_t size);
 private:
     static std::string load(std::istream& is, uint64_t offs, std::size_t size, type_t type);
 };

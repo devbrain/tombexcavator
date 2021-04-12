@@ -72,6 +72,8 @@ namespace games::westwood
                 to_fire.offset = m_prev_event.offset;
                 to_fire.size = offs - m_prev_event.offset;
 
+                setup_loader_context(to_fire.name, to_fire.props, to_fire.deps);
+
                 m_prev_event.name = name;
                 m_prev_event.offset = offs;
                 return to_fire;

@@ -27,13 +27,23 @@ namespace games::common
         using entry_reader_t = std::function<T (std::istream& is,
                                                 uint64_t offset,
                                                 std::size_t size,
-                                                const fat_entry::props_map_t& props)>;
+                                                const loader_context_t& props)>;
+
+        template <typename T>
+        using simple_entry_reader_t = std::function<T (std::istream& is,
+                                                uint64_t offset,
+                                                std::size_t size)>;
 
         template <typename T>
         using free_entry_reader_t = T (*) (std::istream& is,
                                            uint64_t offset,
                                            std::size_t size,
-                                           const fat_entry::props_map_t& props);
+                                           const loader_context_t& props);
+
+        template <typename T>
+        using simple_free_entry_reader_t = T (*) (std::istream& is,
+                                           uint64_t offset,
+                                           std::size_t size);
 
         archive_entry_loader(name_acceptor_t name_acceptor,
                              provider::file_type_t type,
@@ -43,7 +53,7 @@ namespace games::common
         [[nodiscard]] bool accept(const std::string& name) const;
         [[nodiscard]] provider::file_type_t get_file_type() const;
         [[nodiscard]] provider::file_content_t read(std::istream& is, uint64_t offset,
-                                                    std::size_t size, const fat_entry::props_map_t& props) const;
+                                                    std::size_t size, const loader_context_t& props) const;
     private:
         name_acceptor_t accept_fn;
         provider::file_type_t m_type;
@@ -54,7 +64,7 @@ namespace games::common
     archive_entry_loader make_entry_loader(archive_entry_loader::name_acceptor_t acceptor,
                                            archive_entry_loader::free_entry_reader_t<T> loader)
     {
-        auto f = [loader](std::istream& is, uint64_t offset, std::size_t size, const fat_entry::props_map_t& props)
+        auto f = [loader](std::istream& is, uint64_t offset, std::size_t size, const loader_context_t& props)
         {
             return provider::file_content_t{loader(is, offset, size, props)};
         };
@@ -63,11 +73,33 @@ namespace games::common
 
     template<typename T>
     archive_entry_loader make_entry_loader(archive_entry_loader::name_acceptor_t acceptor,
+                                           archive_entry_loader::simple_free_entry_reader_t<T> loader)
+    {
+        auto f = [loader](std::istream& is, uint64_t offset, std::size_t size, [[maybe_unused]] const loader_context_t& props)
+        {
+            return provider::file_content_t{loader(is, offset, size)};
+        };
+        return {std::move(acceptor), provider::make_file_type<T>(), f};
+    }
+
+    template<typename T>
+    archive_entry_loader make_entry_loader(archive_entry_loader::name_acceptor_t acceptor,
                                            archive_entry_loader::entry_reader_t<T> loader)
     {
-        auto f = [loader](std::istream& is, uint64_t offset, std::size_t size, const fat_entry::props_map_t& props)
+        auto f = [loader](std::istream& is, uint64_t offset, std::size_t size, const loader_context_t& props)
         {
             return provider::file_content_t{loader(is, offset, size, props)};
+        };
+        return {std::move(acceptor), provider::make_file_type<T>(), f};
+    }
+
+    template<typename T>
+    archive_entry_loader make_entry_loader(archive_entry_loader::name_acceptor_t acceptor,
+                                           archive_entry_loader::simple_entry_reader_t<T> loader)
+    {
+        auto f = [loader](std::istream& is, uint64_t offset, std::size_t size, [[maybe_unused]] const loader_context_t& props)
+        {
+            return provider::file_content_t{loader(is, offset, size)};
         };
         return {std::move(acceptor), provider::make_file_type<T>(), f};
     }
@@ -81,7 +113,7 @@ namespace games::common
         void add(archive_entry_loader loader);
         // internal id, type
         [[nodiscard]] virtual std::optional<std::tuple<int, provider::file_type_t>> get_file_metadata(const std::string& name) const;
-        [[nodiscard]] provider::file_content_t read(std::istream& is, const fat_entry::file_info& fi, const fat_entry::props_map_t& props) const;
+        [[nodiscard]] provider::file_content_t read(std::istream& is, const fat_entry::file_info& fi, const loader_context_t& props) const;
     private:
         std::vector<archive_entry_loader> m_loaders;
     };

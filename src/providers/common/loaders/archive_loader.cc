@@ -4,6 +4,7 @@
 
 #include <tomb-excavator/games/common/loaders/archive_loader.hh>
 #include <tomb-excavator/bsw/override.hh>
+
 namespace games::common
 {
     // ======================================================================================================
@@ -33,25 +34,11 @@ namespace games::common
                         }
                         auto [internal_type, dto_type] = *file_md;
                         fat_entry_t::file_info fi {e.size, e.offset, internal_type, dto_type};
-                        if (e.props)
-                        {
-                            builder.add_file(e.name, fi, *e.props);
-                        }
-                        else
-                        {
-                            builder.add_file(e.name, fi);
-                        }
+                        builder.add_file(e.name, fi, e.props, e.deps);
                     },
                     [&builder](const fat_dir_start_event& e)
                     {
-                        if (e.props)
-                        {
-                            builder.start_dir(e.name, *e.props);
-                        }
-                        else
-                        {
-                            builder.start_dir(e.name);
-                        }
+                        builder.start_dir(e.name, e.props);
                     },
                     [&builder](const fat_dir_end_event& )
                     {

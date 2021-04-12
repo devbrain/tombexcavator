@@ -30,7 +30,7 @@ namespace games::common
     }
     // -----------------------------------------------------------------------------------------------------------
     provider::file_content_t archive_entry_loader::read(std::istream& is, uint64_t offset,
-                                                        std::size_t size, const fat_entry::props_map_t& props) const
+                                                        std::size_t size, const loader_context_t& props) const
     {
         return reader_fn(is, offset, size, props);
     }
@@ -79,7 +79,7 @@ namespace games::common
     };
     // ----------------------------------------------------------------------------------------------------------------
     provider::file_content_t archive_entry_loaders_registry::read(std::istream& is, const fat_entry::file_info& fi,
-                                                                  const fat_entry::props_map_t& props) const
+                                                                  const loader_context_t& props) const
     {
         if (fi.internal_type >= m_loaders.size())
         {
@@ -104,12 +104,13 @@ namespace games::common
         return false;
     }
     // --------------------------------------------------------------------------------------------------------------
-    static std::vector<char> load_as_vector_wrapper(std::istream& is,uint64_t offset,
+    static std::vector<char> load_as_vector_wrapper(std::istream& is,
+                                                    uint64_t offset,
                                                     std::size_t size,
-                                                    const fat_entry::props_map_t& props)
+                                                    [[maybe_unused]] const loader_context_t& props)
     {
         return simple_loaders_registry::load_as_vector(is, offset, size);
-    };
+    }
     // --------------------------------------------------------------------------------------------------------------
     simple_loaders_registry::simple_loaders_registry(std::initializer_list<archive_entry_loader> inits)
     : archive_entry_loaders_registry(inits),

@@ -161,22 +161,19 @@ games::common::archive_entry_loader::name_acceptor_t emc::accept_unit()
 }
 // -----------------------------------------------------------------------------------------------------------
 std::string emc::load_team(std::istream& is,
-                           uint64_t offs, std::size_t size,
-                           [[maybe_unused]] const games::common::fat_entry::props_map_t& props)
+                           uint64_t offs, std::size_t size)
 {
     return load(is, offs, size, eTEAM);
 }
 // -------------------------------------------------------------------------------------------------------------------
 std::string emc::load_build(std::istream& is,
-                            uint64_t offs, std::size_t size,
-                            [[maybe_unused]] const games::common::fat_entry::props_map_t& props)
+                            uint64_t offs, std::size_t size)
 {
     return load(is, offs, size, eBUILD);
 }
 // -------------------------------------------------------------------------------------------------------------------
 std::string emc::load_unit(std::istream& is,
-                           uint64_t offs, std::size_t size,
-                           [[maybe_unused]] const games::common::fat_entry::props_map_t& props)
+                           uint64_t offs, std::size_t size)
 {
     return load(is, offs, size, eUNIT);
 }
