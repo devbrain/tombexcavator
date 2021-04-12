@@ -17,6 +17,7 @@
  *  
  */
 
+#include <string.h>
 #include "stdafx.h"
 #include "scriptHandler.h"
 #include "scriptHandlerCompiler.h"

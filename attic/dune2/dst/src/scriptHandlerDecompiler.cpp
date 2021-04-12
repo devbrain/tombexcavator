@@ -66,9 +66,8 @@ namespace script {
 
 		// Load file into _scriptBuffer
 		_scriptBuffer = new byte[ scriptSize ];
-		if( fileScript.read( (char*) _scriptBuffer, scriptSize ) == false)
-			return false;
-		
+		fileScript.read( (char*) _scriptBuffer, scriptSize );
+
 		fileScript.close();
 
 		return true;
