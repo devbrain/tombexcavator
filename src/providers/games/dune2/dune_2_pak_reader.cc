@@ -19,7 +19,8 @@ dune2_pak_reader::dune2_pak_reader(std::string phys_name)
 
 }
 
-
+inline constexpr int IBM_PAL = 1;
+inline constexpr int BENE_PAL = 2;
 
 void dune2_pak_reader::setup_loader_context(const std::string& entry_name,
                           fat_entry_t::props_map_t& props,
@@ -29,13 +30,29 @@ void dune2_pak_reader::setup_loader_context(const std::string& entry_name,
     {
         if (entry_name == "IBM.PAL")
         {
-            props = fat_entry_t::props_map_t({std::make_pair(games::westwood::GLOBAL_PALETTE, true)});
-        } else
+            props = fat_entry_t::props_map_t({std::make_pair(IBM_PAL, true)});
+        }
+        else
         {
+            if (entry_name == "BENE.PAL")
+            {
+                props = fat_entry_t::props_map_t({std::make_pair(BENE_PAL, true)});
+            }
+
             if (bsw::ends_with(entry_name, std::string(".CPS")))
             {
-                deps.insert(games::westwood::GLOBAL_PALETTE);
+                if (entry_name != "MENTATM.CPS")
+                {
+                    deps.insert(IBM_PAL);
+                    props = fat_entry_t::props_map_t({std::make_pair(games::westwood::CPS_PALETTE, IBM_PAL)});
+                }
+                else
+                {
+                    deps.insert(BENE_PAL);
+                    props = fat_entry_t::props_map_t({std::make_pair(games::westwood::CPS_PALETTE, BENE_PAL)});
+                }
             }
+
         }
     }
 }

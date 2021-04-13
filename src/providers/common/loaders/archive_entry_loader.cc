@@ -4,6 +4,7 @@
 
 #include <tomb-excavator/games/common/loaders/archive_entry_loader.hh>
 #include <tomb-excavator/bsw/exceptions.hh>
+#include <tomb-excavator/bsw/string_utils.hh>
 #include <istream>
 #include <utility>
 
@@ -87,6 +88,26 @@ namespace games::common
         }
         offset_guard guard(is);
         return m_loaders[fi.internal_type].read(is, fi.offset, fi.size, props);
+    }
+    // ---------------------------------------------------------------------------------------------------
+    archive_entry_loader::name_acceptor_t archive_entry_loaders_registry::by_ext(const std::string& ext)
+    {
+        return [ext](const std::string& name) {
+            auto lname = bsw::to_lower(name);
+            auto idx = lname.rfind('.');
+            if (idx == std::string::npos) {
+                return false;
+            }
+            return (lname.substr(idx) == ext);
+        };
+    }
+    // ---------------------------------------------------------------------------------------------------
+    archive_entry_loader::name_acceptor_t archive_entry_loaders_registry::by_name(const std::string& name)
+    {
+        return [name](const std::string& nm) {
+            auto lname = bsw::to_lower(nm);
+            return (lname == name);
+        };
     }
     // ===============================================================================================================
     std::vector<char> simple_loaders_registry::load_as_vector(std::istream& is,

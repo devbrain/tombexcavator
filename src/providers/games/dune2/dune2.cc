@@ -18,7 +18,7 @@ private:
 };
 
 dune2_data_loader::dune2_data_loader()
-: games::westwood::root_directory_loader({"dune.pak"})
+: games::westwood::root_directory_loader({"dune.pak", "intro.pak"})
 {
 
 }

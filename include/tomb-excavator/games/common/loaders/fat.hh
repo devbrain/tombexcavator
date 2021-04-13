@@ -185,7 +185,7 @@ namespace games::common
             {
                 RAISE_EX("Key ", key, " not found");
             }
-            const T* x = std::any_cast<T*>(&itr->second);
+            const T* x = std::any_cast<T>(&itr->second);
             return x != nullptr;
         }
     } // ns detail

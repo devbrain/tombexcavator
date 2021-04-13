@@ -6,7 +6,6 @@
 #include <tomb-excavator/games/westwood/westwood_cps.hh>
 #include <tomb-excavator/games/westwood/westwood_deps.hh>
 #include <tomb-excavator/games/common/load_palette.hh>
-#include <tomb-excavator/bsw/string_utils.hh>
 
 namespace games::westwood
 {
@@ -20,22 +19,34 @@ namespace games::westwood
                                                   uint64_t offs, std::size_t size, const common::loader_context_t& ctx)
     {
         is.seekg(offs, std::ios::beg);
-        common::loaded_deps_t deps;
-        std::tie(std::ignore, deps) = ctx;
-        auto itr = deps.find(GLOBAL_PALETTE);
-        if (itr == deps.end())
+
+        const auto& [props, deps] = ctx;
+
+        if (!props.exists(CPS_PALETTE))
         {
             return load_cps(is, size, std::nullopt);
         }
         else
         {
-            if (auto pal = std::get_if<provider::dto::palette>(itr->second.get()))
+            if (props.has_type<int>(CPS_PALETTE))
             {
-                return load_cps(is, size, *pal);
+                auto deps_key = props.get<int>(CPS_PALETTE);
+                auto itr = deps.find(deps_key);
+                if (itr == deps.end())
+                {
+                    RAISE_EX("Can not find dependency key CPS_PALETTE");
+                }
+                if (auto pal = std::get_if<provider::dto::palette>(itr->second.get()))
+                {
+                    return load_cps(is, size, *pal);
+                } else
+                {
+                    RAISE_EX("GLOBAL_PALETTE dependency expects provider::dto::palette type");
+                }
             }
             else
             {
-                RAISE_EX("GLOBAL_PALETTE dependency expects provider::dto::palette type");
+                RAISE_EX("CPS_PALETTE property key should be integer");
             }
         }
     }
@@ -47,25 +58,5 @@ namespace games::westwood
         })
     {
 
-    }
-    // ---------------------------------------------------------------------------------------------------
-    common::archive_entry_loader::name_acceptor_t westwood_entry_loader::by_ext(const std::string& ext)
-    {
-        return [ext](const std::string& name) {
-            auto lname = bsw::to_lower(name);
-            auto idx = lname.rfind('.');
-            if (idx == std::string::npos) {
-                return false;
-            }
-            return (lname.substr(idx) == ext);
-        };
-    }
-    // ---------------------------------------------------------------------------------------------------
-    common::archive_entry_loader::name_acceptor_t westwood_entry_loader::by_name(const std::string& name)
-    {
-        return [name](const std::string& nm) {
-            auto lname = bsw::to_lower(nm);
-            return (lname == name);
-        };
     }
 }

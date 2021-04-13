@@ -114,6 +114,9 @@ namespace games::common
         // internal id, type
         [[nodiscard]] virtual std::optional<std::tuple<int, provider::file_type_t>> get_file_metadata(const std::string& name) const;
         [[nodiscard]] provider::file_content_t read(std::istream& is, const fat_entry::file_info& fi, const loader_context_t& props) const;
+
+        static archive_entry_loader::name_acceptor_t by_ext(const std::string& ext);
+        static archive_entry_loader::name_acceptor_t by_name(const std::string& name);
     private:
         std::vector<archive_entry_loader> m_loaders;
     };
@@ -129,6 +132,7 @@ namespace games::common
         static std::vector<char> load_as_vector(std::istream& is,
                                          uint64_t offset,
                                          std::size_t size);
+
     private:
         archive_entry_loader m_fallback;
         int                  m_fallback_id;
