@@ -95,7 +95,7 @@ namespace games::common
                                     if (props.exists(map_key))
                                     {
                                         auto[itr, inserted] = m_deps_map.insert(std::make_pair(map_key, i));
-                                        if (!inserted)
+                                        if (!inserted && (i != itr->second))
                                         {
                                             RAISE_EX("Both fat entries ", i, " and ", itr->second,
                                                      " satisfies dependency ", map_key);

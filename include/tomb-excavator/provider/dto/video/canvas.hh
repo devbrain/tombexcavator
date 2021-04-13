@@ -28,6 +28,8 @@ namespace provider::dto
         void put(int x, int y, unsigned char pixel);
         [[nodiscard]] unsigned char get(int x, int y) const;
 
+        [[nodiscard]] std::vector<unsigned char>& pixels() noexcept;
+        [[nodiscard]] const std::vector<unsigned char>& pixels() const noexcept;
     private:
         dimension m_dim;
         std::vector<unsigned char> m_pixels;

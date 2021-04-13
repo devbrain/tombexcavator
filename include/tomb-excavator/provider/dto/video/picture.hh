@@ -26,6 +26,9 @@ namespace provider::dto
         [[nodiscard]] unsigned char get(int x, int y) const;
 
         [[nodiscard]] const palette& pal () const noexcept;
+
+        [[nodiscard]] canvas& get_canvas() noexcept;
+        [[nodiscard]] const canvas& get_canvas() const noexcept;
     private:
         canvas m_canvas;
         palette m_pal;

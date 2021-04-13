@@ -40,4 +40,14 @@ namespace provider::dto
         const auto dst_idx = m_dim.w()*y + x;
         return m_pixels[dst_idx];
     }
+    // ---------------------------------------------------------------------------
+    std::vector<unsigned char>& canvas::pixels() noexcept
+    {
+        return m_pixels;
+    }
+    // ---------------------------------------------------------------------------
+    const std::vector<unsigned char>& canvas::pixels() const noexcept
+    {
+        return m_pixels;
+    }
 }

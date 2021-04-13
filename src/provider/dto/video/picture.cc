@@ -44,4 +44,14 @@ namespace provider::dto
     {
         return m_pal;
     }
+    // -----------------------------------------------------------------------------------------------
+    canvas& picture::get_canvas() noexcept
+    {
+        return m_canvas;
+    }
+    // -----------------------------------------------------------------------------------------------
+    const canvas& picture::get_canvas() const noexcept
+    {
+        return m_canvas;
+    }
 }

@@ -27,6 +27,8 @@ namespace provider::dto
     {
     public:
         palette() = default;
+        palette& operator = (const palette&) = default;
+        palette (const palette&) = default;
         palette(const unsigned char* data, std::size_t size, bool do_correct = true);
         palette(const std::vector<unsigned char>& data, bool do_correct = true);
         [[nodiscard]] bool empty() const noexcept ;

@@ -4,6 +4,7 @@
 
 #include <tomb-excavator/games/westwood/westwood_entry_loader.hh>
 #include <tomb-excavator/games/westwood/westwood_cps.hh>
+#include <tomb-excavator/games/westwood/westwood_deps.hh>
 #include <tomb-excavator/games/common/load_palette.hh>
 #include <tomb-excavator/bsw/string_utils.hh>
 
@@ -19,7 +20,24 @@ namespace games::westwood
                                                   uint64_t offs, std::size_t size, const common::loader_context_t& ctx)
     {
         is.seekg(offs, std::ios::beg);
-        return load_cps(is, size);
+        common::loaded_deps_t deps;
+        std::tie(std::ignore, deps) = ctx;
+        auto itr = deps.find(GLOBAL_PALETTE);
+        if (itr == deps.end())
+        {
+            return load_cps(is, size, std::nullopt);
+        }
+        else
+        {
+            if (auto pal = std::get_if<provider::dto::palette>(itr->second.get()))
+            {
+                return load_cps(is, size, *pal);
+            }
+            else
+            {
+                RAISE_EX("GLOBAL_PALETTE dependency expects provider::dto::palette type");
+            }
+        }
     }
     // ==================================================================================================
     westwood_entry_loader::westwood_entry_loader()

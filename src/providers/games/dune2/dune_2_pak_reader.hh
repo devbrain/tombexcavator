@@ -15,6 +15,7 @@ private:
     void setup_loader_context(const std::string& entry_name,
                               fat_entry_t::props_map_t& props,
                               fat_entry_t::dependencies_t& deps)  override;
+    std::string m_file_name;
 };
 
 
