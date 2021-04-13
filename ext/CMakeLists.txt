@@ -22,6 +22,7 @@ add_subdirectory(libogg)
 add_subdirectory(libvorbis)
 add_subdirectory(libopus)
 add_subdirectory(pfr)
+add_subdirectory(zlib-ng)
 #add_subdirectory(libaom)
 
 if (WIN32)

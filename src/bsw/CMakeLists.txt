@@ -41,6 +41,7 @@ build_te_library(bsw
             std::filesystem
             Threads::Threads
             pfr
+            thirdparty::zlibng
         PRIVATE_LINK
             thirdparty::mio
         )
