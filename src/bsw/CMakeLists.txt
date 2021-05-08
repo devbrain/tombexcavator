@@ -30,6 +30,17 @@ set (hdr
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/io/binary_writer.hh
         ${PROJECT_INCLUDE}/tomb-excavator/bsw/io/base64.hh
 
+
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.clang.5.hpp
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.clang.hpp
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.gcc.7_3.hpp
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.gcc.8_1.hpp
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.gcc.hpp
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.hpp
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.msvc.19_21.hpp
+        ${PROJECT_INCLUDE}/tomb-excavator/bsw/type_name/type_name.msvc.hpp
+
+
         io/ios_init.hh
         thirdparty/whereami.h
 )

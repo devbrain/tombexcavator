@@ -4,11 +4,55 @@
 
 #include <tomb-excavator/games/westwood/westwood_entry_loader.hh>
 #include <tomb-excavator/games/westwood/westwood_cps.hh>
+#include <tomb-excavator/games/westwood/westwood_shp.hh>
 #include <tomb-excavator/games/westwood/westwood_deps.hh>
 #include <tomb-excavator/games/common/load_palette.hh>
+#include <tomb-excavator/bsw/type_name/type_name.hpp>
 
 namespace games::westwood
 {
+    template <typename T>
+    std::optional<T> get_dependency(const common::loader_context_t& ctx, int key, const char* key_name)
+    {
+        const auto& [props, deps] = ctx;
+
+        if (!props.exists(key))
+        {
+            return std::nullopt;
+        }
+        else
+        {
+            if (props.has_type<int>(key))
+            {
+                auto deps_key = props.get<int>(key);
+                auto itr = deps.find(deps_key);
+                if (itr == deps.end())
+                {
+                    RAISE_EX("Can not find dependency key ", key_name);
+                }
+                if (auto pal = std::get_if<provider::dto::palette>(itr->second.get()))
+                {
+                    return pal;
+                } else
+                {
+                    RAISE_EX(key_name, " dependency expects ", type_name_v<T>, " type");
+                }
+            }
+            else
+            {
+                RAISE_EX(key_name, " property key should be integer");
+            }
+        }
+    }
+    // ====================================================================================================
+    static provider::dto::sprite_group shp_file_loader(std::istream& is,
+                                                       uint64_t offs, std::size_t size)
+    {
+        is.seekg(offs, std::ios::beg);
+        provider::dto::palette pal;
+        return load_shp(is, size, pal);
+    }
+    // --------------------------------------------------------------------------------------------------
     static provider::dto::palette palette_file_loader(std::istream& is,
                                                  uint64_t offs, std::size_t size)
     {
@@ -41,7 +85,7 @@ namespace games::westwood
                     return load_cps(is, size, *pal);
                 } else
                 {
-                    RAISE_EX("GLOBAL_PALETTE dependency expects provider::dto::palette type");
+                    RAISE_EX("CPS_PALETTE dependency expects provider::dto::palette type");
                 }
             }
             else
@@ -55,6 +99,7 @@ namespace games::westwood
         : common::simple_loaders_registry({
             common::make_entry_loader(by_ext(".pal"), palette_file_loader),
             common::make_entry_loader(by_ext(".cps"), cps_file_loader),
+            common::make_entry_loader(by_ext(".shp"), shp_file_loader)
         })
     {
 

@@ -53,6 +53,12 @@ void dune2_pak_reader::setup_loader_context(const std::string& entry_name,
                 }
             }
 
+            if (bsw::ends_with(entry_name, std::string(".SHP")))
+            {
+                deps.insert(IBM_PAL);
+                props = fat_entry_t::props_map_t({std::make_pair(games::westwood::SHP_PALETTE, IBM_PAL)});
+            }
+
         }
     }
 }

@@ -8,6 +8,7 @@
 namespace games::westwood
 {
     inline constexpr int CPS_PALETTE = 10000;
+    inline constexpr int SHP_PALETTE = 10001;
 }
 
 #endif //TOMBEXCAVATOR_WESTWOOD_DEPS_HH
