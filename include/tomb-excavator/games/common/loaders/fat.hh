@@ -16,7 +16,7 @@
 #include <tomb-excavator/export-games-common.h>
 #include <tomb-excavator/provider/file_types.hh>
 #include <tomb-excavator/bsw/exceptions.hh>
-
+#include <tomb-excavator/bsw/macros.hh>
 #include <tomb-excavator/msvc/c4251-begin.h>
 
 namespace games::common
@@ -95,6 +95,36 @@ namespace games::common
 
     using loaded_deps_t = std::map<fat_entry::props_map_t::key_t, std::shared_ptr<provider::file_content_t>>;
     using loader_context_t = std::tuple<fat_entry::props_map_t, loaded_deps_t>;
+
+    namespace detail
+    {
+        template <typename T>
+        const T* get_dependency(const loader_context_t& ctx, int id, const char* name)
+        {
+            const auto& [props, deps] = ctx;
+            if (!props.has_type<int>(id))
+            {
+                RAISE_EX("No property", name, "is defined for this file");
+            }
+            auto deps_key = props.get<int>(id);
+            auto itr = deps.find(deps_key);
+            if (itr == deps.end())
+            {
+                RAISE_EX("Can not find dependency key", name);
+            }
+            if (auto obj = std::get_if<T>(itr->second.get()))
+            {
+
+                return obj;
+            }
+            else
+            {
+                RAISE_EX("Corrupted dependency", name);
+            }
+        }
+    }
+
+
 
     struct GAMES_COMMON_API fat_events
     {
@@ -190,6 +220,8 @@ namespace games::common
         }
     } // ns detail
 }
+
+#define GET_ENTRY_DEPENDENCY(ctx, type, id) ::games::common::detail::get_dependency<type>(ctx, id, STRINGIZE(id))
 
 #include <tomb-excavator/msvc/c4251-end.h>
 

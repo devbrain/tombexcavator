@@ -46,11 +46,13 @@ namespace games::westwood
     }
     // ====================================================================================================
     static provider::dto::sprite_group shp_file_loader(std::istream& is,
-                                                       uint64_t offs, std::size_t size)
+                                                       uint64_t offs,
+                                                       std::size_t size,
+                                                       const common::loader_context_t& ctx)
     {
+        auto pal = GET_ENTRY_DEPENDENCY(ctx, provider::dto::palette, SHP_PALETTE);
         is.seekg(offs, std::ios::beg);
-        provider::dto::palette pal;
-        return load_shp(is, size, pal);
+        return load_shp(is, size, *pal);
     }
     // --------------------------------------------------------------------------------------------------
     static provider::dto::palette palette_file_loader(std::istream& is,
